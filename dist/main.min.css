@@ -1,2 +1,17 @@
-:root{--bemke-accent:#1f6feb}html.bemke-vite-ready body{outline:0}
+:root {
+  --bemke-accent: #1f6feb;
+}
+html.bemke-vite-ready body {
+  outline: 0;
+}
 /*$vite$:1*/
+
+.font-f-season-mix {
+  font-family: "Season Mix", sans-serif;
+}
+
+.custom-font-style {
+  font-family: "Season Sans", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+}
