@@ -137,6 +137,10 @@
   object-fit: cover;
   display: block;
   filter: none !important;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
 }
 
 .slider-thinktank .slide-thinktank .slide-tittle {
@@ -156,6 +160,14 @@
   transition:
     opacity 420ms ease,
     transform 420ms ease;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.slider-thinktank .slider-wrapper.is-dragging,
+.slider-thinktank .slider-wrapper.is-dragging * {
+  user-select: none !important;
+  -webkit-user-select: none !important;
 }
 
 .slider-thinktank .slide-thinktank.is-center .slide-tittle {

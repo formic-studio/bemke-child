@@ -220,6 +220,8 @@ function createSlider(root) {
       return;
     }
 
+    event.preventDefault();
+
     pointerState = {
       id: event.pointerId,
       startX: event.clientX,
@@ -466,10 +468,14 @@ function spawnWrapGhost(
   range,
   duration
 ) {
+  const width = slide.offsetWidth || slide.clientWidth || 324;
+  const height = slide.offsetHeight || slide.clientHeight || 470;
   const ghost = slide.cloneNode(true);
   ghost.classList.add("is-ghost", "is-immediate");
   ghost.removeAttribute("id");
   ghost.style.pointerEvents = "none";
+  ghost.style.width = `${width}px`;
+  ghost.style.height = `${height}px`;
   ghost.setAttribute("aria-hidden", "true");
   ghost.removeAttribute("tabindex");
 
