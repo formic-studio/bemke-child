@@ -11,7 +11,7 @@ const SELECTORS = {
 
 const INIT_ATTR = "data-thinktank-ready";
 const BOOT_FLAG = "__bemkeThinktankBooted";
-const AUTOPLAY_MS = 1200;
+const AUTOPLAY_MS = 2200;
 const VISIBLE_RANGE = 3;
 
 const SLOT_PROFILE = {
@@ -287,7 +287,7 @@ function createSlider(root) {
     const duration =
       instant || window.matchMedia("(prefers-reduced-motion: reduce)").matches
         ? 0
-        : 760;
+        : 900;
 
     isAnimating = duration > 0;
 
