@@ -17,40 +17,40 @@ const VISIBLE_RANGE = 3;
 const SLOT_PROFILE = {
   left: {
     1: {
-      xFactor: 2.4,
-      clipPath: "polygon(0 0, 76% 13%, 76% 87%, 0 100%)",
+      xFactor: 2.2,
+      clipPath: "polygon(0 0, 74% 16%, 74% 84%, 0 100%)",
       overlayOpacity: 0.62,
       scale: 1,
     },
     2: {
-      xFactor: 3.96,
-      clipPath: "polygon(0 0, 80% 11%, 80% 89%, 0 100%)",
+      xFactor: 3.5,
+      clipPath: "polygon(0 0, 72% 17%, 72% 83%, 0 100%)",
       overlayOpacity: 0.66,
       scale: 0.995,
     },
     3: {
-      xFactor: 4,
-      clipPath: "polygon(0 0, 84% 9%, 84% 91%, 0 100%)",
+      xFactor: 3.78,
+      clipPath: "polygon(0 0, 70% 18%, 70% 82%, 0 100%)",
       overlayOpacity: 0.7,
       scale: 0.99,
     },
   },
   right: {
     1: {
-      xFactor: 2.4,
-      clipPath: "polygon(24% 13%, 100% 0, 100% 100%, 24% 87%)",
+      xFactor: 2.2,
+      clipPath: "polygon(26% 16%, 100% 0, 100% 100%, 26% 84%)",
       overlayOpacity: 0.62,
       scale: 1,
     },
     2: {
-      xFactor: 3.96,
-      clipPath: "polygon(20% 11%, 100% 0, 100% 100%, 20% 89%)",
+      xFactor: 3.5,
+      clipPath: "polygon(28% 17%, 100% 0, 100% 100%, 28% 83%)",
       overlayOpacity: 0.66,
       scale: 0.995,
     },
     3: {
-      xFactor: 4,
-      clipPath: "polygon(16% 9%, 100% 0, 100% 100%, 16% 91%)",
+      xFactor: 3.78,
+      clipPath: "polygon(30% 18%, 100% 0, 100% 100%, 30% 82%)",
       overlayOpacity: 0.7,
       scale: 0.99,
     },
