@@ -23,7 +23,7 @@ const SLOT_PROFILE = {
       scale: 0.93,
     },
     2: {
-      xFactor: 4.2,
+      xFactor: 4.3,
       clipPath: "polygon(0 0, 72% 17%, 72% 83%, 0 100%)",
       overlayOpacity: 0.66,
       scale: 0.9,
@@ -43,7 +43,7 @@ const SLOT_PROFILE = {
       scale: 0.93,
     },
     2: {
-      xFactor: 4.2,
+      xFactor: 4.3,
       clipPath: "polygon(28% 17%, 100% 0, 100% 100%, 28% 83%)",
       overlayOpacity: 0.66,
       scale: 0.9,
@@ -470,7 +470,7 @@ function setSlotClass(slide, distance, range) {
     "is-slot-right-2",
     "is-slot-right-3",
     "is-slot-hidden-left",
-    "is-slot-hidden-right"
+    "is-slot-hidden-right",
   );
 
   if (distance === 0) {
@@ -481,12 +481,14 @@ function setSlotClass(slide, distance, range) {
   const abs = Math.abs(distance);
 
   if (abs > range) {
-    slide.classList.add(distance < 0 ? "is-slot-hidden-left" : "is-slot-hidden-right");
+    slide.classList.add(
+      distance < 0 ? "is-slot-hidden-left" : "is-slot-hidden-right",
+    );
     return;
   }
 
   slide.classList.add(
-    distance < 0 ? `is-slot-left-${abs}` : `is-slot-right-${abs}`
+    distance < 0 ? `is-slot-left-${abs}` : `is-slot-right-${abs}`,
   );
 }
 
