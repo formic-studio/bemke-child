@@ -14,12 +14,12 @@
   --tt-clip-right-1: polygon(26% 16%, 100% 0, 100% 100%, 26% 84%);
   --tt-clip-right-2: polygon(28% 17%, 100% 0, 100% 100%, 28% 83%);
   --tt-clip-right-3: polygon(30% 18%, 100% 0, 100% 100%, 30% 82%);
-  --tt-ry-left-1: 12deg;
-  --tt-ry-left-2: 14deg;
-  --tt-ry-left-3: 16deg;
-  --tt-ry-right-1: -12deg;
-  --tt-ry-right-2: -14deg;
-  --tt-ry-right-3: -16deg;
+  --tt-ry-left-1: 16deg;
+  --tt-ry-left-2: 18deg;
+  --tt-ry-left-3: 20deg;
+  --tt-ry-right-1: -16deg;
+  --tt-ry-right-2: -18deg;
+  --tt-ry-right-3: -20deg;
   --tt-z-left-1: -20px;
   --tt-z-left-2: -30px;
   --tt-z-left-3: -40px;
