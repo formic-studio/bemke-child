@@ -17,7 +17,7 @@ const VISIBLE_RANGE = 3;
 const SLOT_PROFILE = {
   left: {
     1: {
-      xFactor: 2.3,
+      xFactor: 2.4,
       clipPath: "polygon(0 0, 74% 16%, 74% 84%, 0 100%)",
       overlayOpacity: 0.62,
       scale: 1,
@@ -37,7 +37,7 @@ const SLOT_PROFILE = {
   },
   right: {
     1: {
-      xFactor: 2.3,
+      xFactor: 2.4,
       clipPath: "polygon(26% 16%, 100% 0, 100% 100%, 26% 84%)",
       overlayOpacity: 0.62,
       scale: 1,
