@@ -146,6 +146,7 @@ function createSlider(root) {
   let isPlaying = false;
   let intervalId = null;
   let isAnimating = false;
+  let transitionTimerId = null;
   const queue = [];
 
   slides.forEach((slide, index) => {
@@ -289,6 +290,11 @@ function createSlider(root) {
         ? 0
         : 900;
 
+    if (transitionTimerId) {
+      window.clearTimeout(transitionTimerId);
+      transitionTimerId = null;
+    }
+
     isAnimating = duration > 0;
 
     slides.forEach((slide, index) => {
@@ -320,16 +326,17 @@ function createSlider(root) {
       slide.classList.toggle("is-visible", toState.opacity > 0.01);
       setSlotClass(slide, toDistance, range);
       slide.style.pointerEvents = toDistance === 0 ? "auto" : "none";
-
-      if (duration > 0) {
-        window.setTimeout(() => {
-          isAnimating = false;
-          processQueue();
-        }, duration + 34);
-      }
     });
 
     syncTextSlides(textSlides, nextIndex);
+
+    if (duration > 0) {
+      transitionTimerId = window.setTimeout(() => {
+        transitionTimerId = null;
+        isAnimating = false;
+        processQueue();
+      }, duration + 34);
+    }
 
     if (duration === 0) {
       isAnimating = false;
