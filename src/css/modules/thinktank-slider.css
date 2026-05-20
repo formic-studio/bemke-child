@@ -8,24 +8,24 @@
   gap: clamp(18px, 2.2vw, 34px);
   --tt-perspective: 1400px;
   --tt-clip-center: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-  --tt-clip-left-1: polygon(0 0, 74% 16%, 74% 84%, 0 100%);
-  --tt-clip-left-2: polygon(0 0, 72% 17%, 72% 83%, 0 100%);
-  --tt-clip-left-3: polygon(0 0, 70% 18%, 70% 82%, 0 100%);
-  --tt-clip-right-1: polygon(26% 16%, 100% 0, 100% 100%, 26% 84%);
-  --tt-clip-right-2: polygon(28% 17%, 100% 0, 100% 100%, 28% 83%);
-  --tt-clip-right-3: polygon(30% 18%, 100% 0, 100% 100%, 30% 82%);
-  --tt-ry-left-1: 16deg;
-  --tt-ry-left-2: 18deg;
-  --tt-ry-left-3: 20deg;
-  --tt-ry-right-1: -16deg;
-  --tt-ry-right-2: -18deg;
-  --tt-ry-right-3: -20deg;
-  --tt-z-left-1: -20px;
-  --tt-z-left-2: -30px;
-  --tt-z-left-3: -40px;
-  --tt-z-right-1: -20px;
-  --tt-z-right-2: -30px;
-  --tt-z-right-3: -40px;
+  --tt-clip-left-1: polygon(0 0, 84% 8%, 84% 92%, 0 100%);
+  --tt-clip-left-2: polygon(0 0, 82% 9%, 82% 91%, 0 100%);
+  --tt-clip-left-3: polygon(0 0, 80% 10%, 80% 90%, 0 100%);
+  --tt-clip-right-1: polygon(16% 8%, 100% 0, 100% 100%, 16% 92%);
+  --tt-clip-right-2: polygon(18% 9%, 100% 0, 100% 100%, 18% 91%);
+  --tt-clip-right-3: polygon(20% 10%, 100% 0, 100% 100%, 20% 90%);
+  --tt-ry-left-1: 56deg;
+  --tt-ry-left-2: 58deg;
+  --tt-ry-left-3: 60deg;
+  --tt-ry-right-1: -56deg;
+  --tt-ry-right-2: -58deg;
+  --tt-ry-right-3: -60deg;
+  --tt-z-left-1: -6px;
+  --tt-z-left-2: -12px;
+  --tt-z-left-3: -18px;
+  --tt-z-right-1: -6px;
+  --tt-z-right-2: -12px;
+  --tt-z-right-3: -18px;
 }
 
 .slider-thinktank .slider-wrapper {
