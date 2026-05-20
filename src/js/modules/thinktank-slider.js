@@ -16,9 +16,8 @@ const BOOT_FLAG = '__bemkeThinktankBooted';
 const GEOMETRY = {
   desktop: {
     visibleRange: 3,
-    stepFactor: 0.215,
-    minStep: 235,
-    maxStep: 340,
+    minStep: 120,
+    maxStep: 210,
     side: {
       left: {
         1: {
@@ -70,9 +69,8 @@ const GEOMETRY = {
   },
   tablet: {
     visibleRange: 2,
-    stepFactor: 0.24,
-    minStep: 165,
-    maxStep: 260,
+    minStep: 105,
+    maxStep: 180,
     side: {
       left: {
         1: {
@@ -110,7 +108,6 @@ const GEOMETRY = {
   },
   mobile: {
     visibleRange: 0,
-    stepFactor: 0,
     minStep: 0,
     maxStep: 0,
     side: {
@@ -204,16 +201,16 @@ function createSlider(root) {
   }
 
   let activeIndex = Math.floor(slides.length / 2);
-  let autoplay = true;
+  let autoplay = false;
   let timer = null;
   let isAnimating = false;
   const pendingDirections = [];
 
-  const controls = buildControls(pagination, slides.length, {
+  const controls = buildControls(pagination, {
     onPrev: () => queueMove(-1, 1, true),
     onNext: () => queueMove(1, 1, true),
-    onToggle: () => toggleAutoplay(),
-    onDot: (index) => goTo(index),
+    onPlay: () => enableAutoplay(),
+    onStop: () => disableAutoplay(),
   });
 
   slides.forEach((slide, index) => {
@@ -236,7 +233,7 @@ function createSlider(root) {
   });
 
   render(activeIndex, activeIndex, 0, true);
-  startAutoplay();
+  syncPlayStopButtons();
 
   root.addEventListener('mouseenter', stopAutoplay);
   root.addEventListener('mouseleave', startAutoplay);
@@ -297,18 +294,27 @@ function createSlider(root) {
     render(previousIndex, activeIndex, direction, false);
   }
 
-  function toggleAutoplay() {
-    autoplay = !autoplay;
+  function enableAutoplay() {
+    autoplay = true;
+    startAutoplay();
+    syncPlayStopButtons();
+  }
 
-    if (autoplay) {
-      startAutoplay();
-    } else {
-      stopAutoplay();
+  function disableAutoplay() {
+    autoplay = false;
+    stopAutoplay();
+    syncPlayStopButtons();
+  }
+
+  function syncPlayStopButtons() {
+    if (controls.playButton) {
+      controls.playButton.disabled = autoplay;
+      controls.playButton.setAttribute('aria-pressed', autoplay ? 'true' : 'false');
     }
 
-    if (controls.toggleButton) {
-      controls.toggleButton.textContent = autoplay ? 'II' : '▶';
-      controls.toggleButton.setAttribute('aria-label', autoplay ? 'Wstrzymaj autoplay' : 'Wznów autoplay');
+    if (controls.stopButton) {
+      controls.stopButton.disabled = !autoplay;
+      controls.stopButton.setAttribute('aria-pressed', autoplay ? 'false' : 'true');
     }
   }
 
@@ -333,7 +339,8 @@ function createSlider(root) {
   function render(previousIndex, nextIndex, direction, instant) {
     const mode = getMode();
     const geometry = GEOMETRY[mode];
-    const step = getStep(geometry);
+    const range = getEffectiveRange(geometry.visibleRange, slides.length);
+    const step = getStep(track, slides[0], range, geometry);
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const duration = instant || reducedMotion ? 0 : 0.58;
     const shouldAnimate = !instant && !reducedMotion;
@@ -344,7 +351,6 @@ function createSlider(root) {
     slides.forEach((slide, index) => {
       let fromDistance = circularDistance(index, previousIndex, slides.length);
       const toDistance = circularDistance(index, nextIndex, slides.length);
-      const range = geometry.visibleRange;
       const title = slide.querySelector(SELECTORS.title);
 
       // Zapobiega "teleportowi" przez środek: element zawijany przechodzi spoza krawędzi.
@@ -354,8 +360,8 @@ function createSlider(root) {
         fromDistance = -range - 1;
       }
 
-      const fromState = getSlideState(fromDistance, geometry, step);
-      const toState = getSlideState(toDistance, geometry, step);
+      const fromState = getSlideState(fromDistance, geometry, step, range);
+      const toState = getSlideState(toDistance, geometry, step, range);
 
       slide.classList.toggle('is-center', toDistance === 0);
       slide.classList.toggle('is-visible', toState.autoAlpha > 0.01);
@@ -403,12 +409,11 @@ function createSlider(root) {
       processQueue();
     }
 
-    updateDots(controls.dots, nextIndex);
   }
 }
 
-function buildControls(pagination, total, handlers) {
-  const empty = { dots: [], toggleButton: null };
+function buildControls(pagination, handlers) {
+  const empty = { playButton: null, stopButton: null };
 
   if (!pagination) {
     return empty;
@@ -419,12 +424,19 @@ function buildControls(pagination, total, handlers) {
   const controls = document.createElement('div');
   controls.className = 'thinktank-controls';
 
-  const pauseButton = document.createElement('button');
-  pauseButton.type = 'button';
-  pauseButton.className = 'thinktank-btn thinktank-btn--toggle';
-  pauseButton.textContent = 'II';
-  pauseButton.setAttribute('aria-label', 'Wstrzymaj autoplay');
-  pauseButton.addEventListener('click', handlers.onToggle);
+  const playButton = document.createElement('button');
+  playButton.type = 'button';
+  playButton.className = 'thinktank-btn thinktank-btn--play';
+  playButton.textContent = '▶';
+  playButton.setAttribute('aria-label', 'Włącz autoplay');
+  playButton.addEventListener('click', handlers.onPlay);
+
+  const stopButton = document.createElement('button');
+  stopButton.type = 'button';
+  stopButton.className = 'thinktank-btn thinktank-btn--stop';
+  stopButton.textContent = '■';
+  stopButton.setAttribute('aria-label', 'Zatrzymaj autoplay');
+  stopButton.addEventListener('click', handlers.onStop);
 
   const prevButton = document.createElement('button');
   prevButton.type = 'button';
@@ -440,38 +452,17 @@ function buildControls(pagination, total, handlers) {
   nextButton.setAttribute('aria-label', 'Następny slajd');
   nextButton.addEventListener('click', handlers.onNext);
 
-  const dotsWrap = document.createElement('div');
-  dotsWrap.className = 'thinktank-dots';
-
-  const dots = Array.from({ length: total }).map((_, index) => {
-    const dot = document.createElement('button');
-    dot.type = 'button';
-    dot.className = 'thinktank-dot';
-    dot.setAttribute('aria-label', `Przejdź do slajdu ${index + 1}`);
-    dot.addEventListener('click', () => handlers.onDot(index));
-    dotsWrap.appendChild(dot);
-    return dot;
-  });
-
-  controls.appendChild(pauseButton);
+  controls.appendChild(playButton);
+  controls.appendChild(stopButton);
   controls.appendChild(prevButton);
   controls.appendChild(nextButton);
 
   pagination.appendChild(controls);
-  pagination.appendChild(dotsWrap);
 
   return {
-    dots,
-    toggleButton: pauseButton,
+    playButton,
+    stopButton,
   };
-}
-
-function updateDots(dots, activeIndex) {
-  dots.forEach((dot, index) => {
-    const isActive = index === activeIndex;
-    dot.classList.toggle('is-active', isActive);
-    dot.setAttribute('aria-current', isActive ? 'true' : 'false');
-  });
 }
 
 function getMode() {
@@ -486,21 +477,30 @@ function getMode() {
   return 'mobile';
 }
 
-function getStep(geometry) {
-  if (!geometry.stepFactor) {
+function getStep(track, firstSlide, range, geometry) {
+  if (!range) {
     return 0;
   }
 
-  return clamp(window.innerWidth * geometry.stepFactor, geometry.minStep, geometry.maxStep);
+  const trackWidth = track.getBoundingClientRect().width || window.innerWidth;
+  const slideWidth = firstSlide ? firstSlide.getBoundingClientRect().width : 324;
+  const availableHalf = Math.max(0, (trackWidth - slideWidth) / 2 - 12);
+  const rawStep = availableHalf / range;
+
+  return clamp(rawStep, geometry.minStep, geometry.maxStep);
 }
 
-function getSlideState(distance, geometry, step) {
+function getEffectiveRange(preferredRange, totalSlides) {
+  return Math.min(preferredRange, Math.max(0, Math.floor((totalSlides - 1) / 2)));
+}
+
+function getSlideState(distance, geometry, step, visibleRange) {
   const abs = Math.abs(distance);
   const side = distance < 0 ? 'left' : 'right';
 
-  if (abs > geometry.visibleRange) {
+  if (abs > visibleRange) {
     return {
-      x: side === 'left' ? -step * (geometry.visibleRange + 1) : step * (geometry.visibleRange + 1),
+      x: side === 'left' ? -step * (visibleRange + 1) : step * (visibleRange + 1),
       y: 0,
       z: -80,
       scale: 0.95,
@@ -528,7 +528,15 @@ function getSlideState(distance, geometry, step) {
     };
   }
 
-  const profile = geometry.side[side][abs] || geometry.side[side][1];
+  const profile = geometry.side[side][abs] || geometry.side[side][Math.min(abs, 1)] || {
+    clipPath: side === 'left'
+      ? 'polygon(0 0, 90% 12%, 90% 88%, 0 100%)'
+      : 'polygon(0 12%, 100% 0, 100% 100%, 0 88%)',
+    overlayOpacity: 0.62,
+    rotateY: side === 'left' ? 10 : -10,
+    rotateZ: side === 'left' ? -1.6 : 1.6,
+    scale: 0.99,
+  };
 
   return {
     x: step * abs * (side === 'left' ? -1 : 1),

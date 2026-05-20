@@ -77,7 +77,7 @@
 .slider-thinktank .slider-paggination {
   display: grid;
   justify-items: center;
-  gap: 14px;
+  gap: 10px;
 }
 
 .slider-thinktank .thinktank-controls {
@@ -87,13 +87,13 @@
 }
 
 .slider-thinktank .thinktank-btn {
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   border: 1px solid var(--bemke-slider-control-border);
   border-radius: 50%;
   background: transparent;
   color: var(--bemke-slider-control-icon);
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1;
   display: grid;
   place-items: center;
@@ -108,33 +108,19 @@
   outline: none;
 }
 
-.slider-thinktank .thinktank-btn--toggle {
-  font-size: 15px;
-  font-weight: 600;
+.slider-thinktank .thinktank-btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+  transform: none;
 }
 
-.slider-thinktank .thinktank-dots {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  justify-content: center;
+.slider-thinktank .thinktank-btn--play {
+  font-size: 14px;
+  padding-left: 2px;
 }
 
-.slider-thinktank .thinktank-dot {
-  width: 8px;
-  height: 8px;
-  padding: 0;
-  border: 0;
-  border-radius: 999px;
-  background: var(--bemke-slider-dot);
-  cursor: pointer;
-  transition: transform 0.2s ease, background-color 0.2s ease;
-}
-
-.slider-thinktank .thinktank-dot.is-active {
-  background: var(--bemke-slider-dot-active);
-  transform: scale(1.2);
+.slider-thinktank .thinktank-btn--stop {
+  font-size: 11px;
 }
 
 @media (max-width: 1199px) {
@@ -154,8 +140,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .slider-thinktank .thinktank-btn,
-  .slider-thinktank .thinktank-dot {
+  .slider-thinktank .thinktank-btn {
     transition: none;
   }
 }
