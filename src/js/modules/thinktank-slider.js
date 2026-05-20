@@ -206,6 +206,10 @@ function initThinktankSliderRoots(scope = document) {
 
   roots.forEach((root) => {
     if (root.getAttribute(INIT_ATTR) === '1') {
+      if (typeof root.__bemkeThinktankRefresh === 'function') {
+        root.__bemkeThinktankRefresh();
+      }
+
       return;
     }
 
@@ -332,6 +336,11 @@ function createSlider(root) {
     pendingDirections.length = 0;
     render(activeIndex, activeIndex, 0, true);
   }, 120));
+
+  root.__bemkeThinktankRefresh = () => {
+    pendingDirections.length = 0;
+    render(activeIndex, activeIndex, 0, true);
+  };
 
   function goTo(rawIndex) {
     const targetIndex = wrapIndex(rawIndex, slides.length);
