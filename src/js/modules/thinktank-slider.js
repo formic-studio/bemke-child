@@ -16,80 +16,94 @@ const BOOT_FLAG = '__bemkeThinktankBooted';
 const GEOMETRY = {
   desktop: {
     visibleRange: 3,
-    stepFactor: 0.128,
-    minStep: 175,
-    maxStep: 255,
+    stepFactor: 0.215,
+    minStep: 235,
+    maxStep: 340,
     side: {
       left: {
         1: {
-          clipPath: 'polygon(0 0, 96% 9%, 96% 91%, 0 100%)',
+          clipPath: 'polygon(0 0, 92% 8%, 92% 92%, 0 100%)',
           overlayOpacity: 0.5,
-          rotateY: 10,
-          rotateZ: -1.3,
+          rotateY: 8,
+          rotateZ: -1.1,
           scale: 1,
         },
         2: {
-          clipPath: 'polygon(0 0, 90% 18%, 90% 82%, 0 100%)',
-          overlayOpacity: 0.64,
-          rotateY: 14,
-          rotateZ: -2.1,
+          clipPath: 'polygon(0 0, 84% 18%, 84% 82%, 0 100%)',
+          overlayOpacity: 0.63,
+          rotateY: 11,
+          rotateZ: -1.9,
           scale: 0.99,
         },
         3: {
-          clipPath: 'polygon(0 0, 84% 28%, 84% 72%, 0 100%)',
-          overlayOpacity: 0.76,
-          rotateY: 18,
-          rotateZ: -3,
+          clipPath: 'polygon(0 0, 76% 28%, 76% 72%, 0 100%)',
+          overlayOpacity: 0.74,
+          rotateY: 13,
+          rotateZ: -2.7,
           scale: 0.98,
         },
       },
       right: {
         1: {
-          clipPath: 'polygon(0 9%, 100% 0, 100% 100%, 0 91%)',
+          clipPath: 'polygon(0 8%, 100% 0, 100% 100%, 0 92%)',
           overlayOpacity: 0.5,
-          rotateY: -10,
-          rotateZ: 1.3,
+          rotateY: -8,
+          rotateZ: 1.1,
           scale: 1,
         },
         2: {
           clipPath: 'polygon(0 18%, 100% 0, 100% 100%, 0 82%)',
-          overlayOpacity: 0.64,
-          rotateY: -14,
-          rotateZ: 2.1,
+          overlayOpacity: 0.63,
+          rotateY: -11,
+          rotateZ: 1.9,
           scale: 0.99,
         },
         3: {
           clipPath: 'polygon(0 28%, 100% 0, 100% 100%, 0 72%)',
-          overlayOpacity: 0.76,
-          rotateY: -18,
-          rotateZ: 3,
+          overlayOpacity: 0.74,
+          rotateY: -13,
+          rotateZ: 2.7,
           scale: 0.98,
         },
       },
     },
   },
   tablet: {
-    visibleRange: 1,
-    stepFactor: 0.185,
-    minStep: 140,
-    maxStep: 220,
+    visibleRange: 2,
+    stepFactor: 0.24,
+    minStep: 165,
+    maxStep: 260,
     side: {
       left: {
         1: {
-          clipPath: 'polygon(0 0, 94% 13%, 94% 87%, 0 100%)',
-          overlayOpacity: 0.58,
-          rotateY: 9,
+          clipPath: 'polygon(0 0, 90% 12%, 90% 88%, 0 100%)',
+          overlayOpacity: 0.56,
+          rotateY: 8,
           rotateZ: -1,
-          scale: 0.99,
+          scale: 1,
+        },
+        2: {
+          clipPath: 'polygon(0 0, 80% 22%, 80% 78%, 0 100%)',
+          overlayOpacity: 0.68,
+          rotateY: 11,
+          rotateZ: -1.8,
+          scale: 0.98,
         },
       },
       right: {
         1: {
-          clipPath: 'polygon(0 13%, 100% 0, 100% 100%, 0 87%)',
-          overlayOpacity: 0.58,
-          rotateY: -9,
+          clipPath: 'polygon(0 12%, 100% 0, 100% 100%, 0 88%)',
+          overlayOpacity: 0.56,
+          rotateY: -8,
           rotateZ: 1,
-          scale: 0.99,
+          scale: 1,
+        },
+        2: {
+          clipPath: 'polygon(0 22%, 100% 0, 100% 100%, 0 78%)',
+          overlayOpacity: 0.68,
+          rotateY: -11,
+          rotateZ: 1.8,
+          scale: 0.98,
         },
       },
     },
@@ -192,11 +206,12 @@ function createSlider(root) {
   let activeIndex = Math.floor(slides.length / 2);
   let autoplay = true;
   let timer = null;
-  let animating = false;
+  let isAnimating = false;
+  const pendingDirections = [];
 
   const controls = buildControls(pagination, slides.length, {
-    onPrev: () => goTo(activeIndex - 1),
-    onNext: () => goTo(activeIndex + 1),
+    onPrev: () => queueMove(-1, 1, true),
+    onNext: () => queueMove(1, 1, true),
     onToggle: () => toggleAutoplay(),
     onDot: (index) => goTo(index),
   });
@@ -220,7 +235,7 @@ function createSlider(root) {
     });
   });
 
-  render(true);
+  render(activeIndex, activeIndex, 0, true);
   startAutoplay();
 
   root.addEventListener('mouseenter', stopAutoplay);
@@ -237,19 +252,49 @@ function createSlider(root) {
     startAutoplay();
   });
 
-  window.addEventListener('resize', debounce(() => render(true), 120));
+  window.addEventListener('resize', debounce(() => {
+    pendingDirections.length = 0;
+    render(activeIndex, activeIndex, 0, true);
+  }, 120));
 
   function goTo(rawIndex) {
-    if (animating) {
+    const targetIndex = wrapIndex(rawIndex, slides.length);
+
+    if (targetIndex === activeIndex) {
       return;
     }
 
-    activeIndex = wrapIndex(rawIndex, slides.length);
-    render(false);
+    const distance = signedCircularDistance(activeIndex, targetIndex, slides.length);
+    const direction = distance > 0 ? 1 : -1;
+    queueMove(direction, Math.abs(distance), true);
+  }
 
-    if (autoplay) {
+  function queueMove(direction, steps, resetAutoplay) {
+    for (let i = 0; i < steps; i += 1) {
+      pendingDirections.push(direction);
+    }
+
+    if (resetAutoplay && autoplay) {
       startAutoplay();
     }
+
+    processQueue();
+  }
+
+  function processQueue() {
+    if (isAnimating) {
+      return;
+    }
+
+    const direction = pendingDirections.shift();
+
+    if (!direction) {
+      return;
+    }
+
+    const previousIndex = activeIndex;
+    activeIndex = wrapIndex(activeIndex + direction, slides.length);
+    render(previousIndex, activeIndex, direction, false);
   }
 
   function toggleAutoplay() {
@@ -274,7 +319,7 @@ function createSlider(root) {
 
     stopAutoplay();
     timer = window.setInterval(() => {
-      goTo(activeIndex + 1);
+      queueMove(1, 1, false);
     }, AUTOPLAY_MS);
   }
 
@@ -285,44 +330,58 @@ function createSlider(root) {
     }
   }
 
-  function render(instant) {
+  function render(previousIndex, nextIndex, direction, instant) {
     const mode = getMode();
     const geometry = GEOMETRY[mode];
     const step = getStep(geometry);
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const duration = instant || reducedMotion ? 0 : 0.72;
+    const duration = instant || reducedMotion ? 0 : 0.58;
+    const shouldAnimate = !instant && !reducedMotion;
+    let pending = slides.length;
 
-    animating = !instant && !reducedMotion;
+    isAnimating = shouldAnimate;
 
     slides.forEach((slide, index) => {
-      const distance = circularDistance(index, activeIndex, slides.length);
-      const state = getSlideState(distance, geometry, step);
+      let fromDistance = circularDistance(index, previousIndex, slides.length);
+      const toDistance = circularDistance(index, nextIndex, slides.length);
+      const range = geometry.visibleRange;
       const title = slide.querySelector(SELECTORS.title);
 
-      slide.classList.toggle('is-center', distance === 0);
-      slide.classList.toggle('is-visible', state.autoAlpha > 0.01);
-      slide.style.pointerEvents = state.autoAlpha > 0.01 ? 'auto' : 'none';
+      // Zapobiega "teleportowi" przez środek: element zawijany przechodzi spoza krawędzi.
+      if (direction === 1 && fromDistance === -range && toDistance === range) {
+        fromDistance = range + 1;
+      } else if (direction === -1 && fromDistance === range && toDistance === -range) {
+        fromDistance = -range - 1;
+      }
+
+      const fromState = getSlideState(fromDistance, geometry, step);
+      const toState = getSlideState(toDistance, geometry, step);
+
+      slide.classList.toggle('is-center', toDistance === 0);
+      slide.classList.toggle('is-visible', toState.autoAlpha > 0.01);
+      slide.style.pointerEvents = toState.autoAlpha > 0.01 ? 'auto' : 'none';
+
+      if (shouldAnimate) {
+        gsap.set(slide, slideStateToGsap(fromState));
+      }
 
       gsap.to(slide, {
-        x: state.x,
-        y: state.y,
-        z: state.z,
-        scale: state.scale,
-        rotationY: state.rotationY,
-        rotation: state.rotationZ,
-        zIndex: state.zIndex,
-        autoAlpha: state.autoAlpha,
-        clipPath: state.clipPath,
+        ...slideStateToGsap(toState),
         duration,
-        ease: 'power3.inOut',
+        ease: 'power3.out',
         overwrite: true,
         onComplete: () => {
-          animating = false;
+          pending -= 1;
+
+          if (pending === 0) {
+            isAnimating = false;
+            processQueue();
+          }
         },
       });
 
       gsap.to(slide, {
-        '--overlay-opacity': state.overlayOpacity,
+        '--overlay-opacity': toState.overlayOpacity,
         duration,
         ease: 'power2.out',
         overwrite: true,
@@ -330,8 +389,8 @@ function createSlider(root) {
 
       if (title) {
         gsap.to(title, {
-          autoAlpha: distance === 0 ? 1 : 0,
-          y: distance === 0 ? 0 : 18,
+          autoAlpha: toDistance === 0 ? 1 : 0,
+          y: toDistance === 0 ? 0 : 18,
           duration,
           ease: 'power2.out',
           overwrite: true,
@@ -339,7 +398,12 @@ function createSlider(root) {
       }
     });
 
-    updateDots(controls.dots, activeIndex);
+    if (!shouldAnimate) {
+      isAnimating = false;
+      processQueue();
+    }
+
+    updateDots(controls.dots, nextIndex);
   }
 }
 
@@ -436,15 +500,15 @@ function getSlideState(distance, geometry, step) {
 
   if (abs > geometry.visibleRange) {
     return {
-      x: side === 'left' ? -step * 4 : step * 4,
+      x: side === 'left' ? -step * (geometry.visibleRange + 1) : step * (geometry.visibleRange + 1),
       y: 0,
-      z: -120,
-      scale: 0.9,
-      rotationY: side === 'left' ? 20 : -20,
-      rotationZ: side === 'left' ? -3 : 3,
+      z: -80,
+      scale: 0.95,
+      rotationY: side === 'left' ? 10 : -10,
+      rotationZ: side === 'left' ? -2 : 2,
       zIndex: 1,
       autoAlpha: 0,
-      overlayOpacity: 0.72,
+      overlayOpacity: 0.8,
       clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
     };
   }
@@ -469,7 +533,7 @@ function getSlideState(distance, geometry, step) {
   return {
     x: step * abs * (side === 'left' ? -1 : 1),
     y: 0,
-    z: -24 * abs,
+    z: -18 * abs,
     scale: profile.scale,
     rotationY: profile.rotateY,
     rotationZ: profile.rotateZ,
@@ -493,6 +557,35 @@ function circularDistance(index, activeIndex, total) {
   }
 
   return distance;
+}
+
+function signedCircularDistance(from, to, total) {
+  let distance = to - from;
+  const half = total / 2;
+
+  if (distance > half) {
+    distance -= total;
+  }
+
+  if (distance < -half) {
+    distance += total;
+  }
+
+  return distance;
+}
+
+function slideStateToGsap(state) {
+  return {
+    x: state.x,
+    y: state.y,
+    z: state.z,
+    scale: state.scale,
+    rotationY: state.rotationY,
+    rotation: state.rotationZ,
+    zIndex: state.zIndex,
+    autoAlpha: state.autoAlpha,
+    clipPath: state.clipPath,
+  };
 }
 
 function wrapIndex(index, total) {
