@@ -9,6 +9,11 @@ Docelowy flow:
 3. Pushujesz do GitHub.
 4. WordPress pobiera aktualizację theme z repo (WP Pusher / Deployer for Git).
 
+## Wymagania projektu
+
+- Cały projekt musi spełniać WCAG 2.2 na poziomie AA.
+- Każdy nowy komponent, animacja i interakcja musi być wdrażana i testowana pod dostępność (klawiatura, focus, kontrast, reduced motion, semantyka).
+
 ## Struktura
 
 ```txt

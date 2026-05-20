@@ -18,6 +18,8 @@
   width: 100%;
   height: clamp(360px, 47vw, 560px);
   overflow: hidden;
+  perspective: 1400px;
+  perspective-origin: center;
 }
 
 .slider-thinktank .slide-thinktank {
@@ -31,6 +33,7 @@
   --overlay-opacity: 0;
   cursor: pointer;
   backface-visibility: hidden;
+  transform-style: preserve-3d;
 }
 
 .slider-thinktank .slide-thinktank::after {

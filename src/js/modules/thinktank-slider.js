@@ -10,6 +10,100 @@ const SELECTORS = {
 
 const AUTOPLAY_MS = 4200;
 
+// Tuning: tutaj najszybciej dopasujesz "kąty" paneli do makiety.
+const GEOMETRY = {
+  desktop: {
+    visibleRange: 3,
+    stepFactor: 0.128,
+    minStep: 175,
+    maxStep: 255,
+    side: {
+      left: {
+        1: {
+          clipPath: 'polygon(0 0, 96% 9%, 96% 91%, 0 100%)',
+          overlayOpacity: 0.5,
+          rotateY: 10,
+          rotateZ: -1.3,
+          scale: 1,
+        },
+        2: {
+          clipPath: 'polygon(0 0, 90% 18%, 90% 82%, 0 100%)',
+          overlayOpacity: 0.64,
+          rotateY: 14,
+          rotateZ: -2.1,
+          scale: 0.99,
+        },
+        3: {
+          clipPath: 'polygon(0 0, 84% 28%, 84% 72%, 0 100%)',
+          overlayOpacity: 0.76,
+          rotateY: 18,
+          rotateZ: -3,
+          scale: 0.98,
+        },
+      },
+      right: {
+        1: {
+          clipPath: 'polygon(0 9%, 100% 0, 100% 100%, 0 91%)',
+          overlayOpacity: 0.5,
+          rotateY: -10,
+          rotateZ: 1.3,
+          scale: 1,
+        },
+        2: {
+          clipPath: 'polygon(0 18%, 100% 0, 100% 100%, 0 82%)',
+          overlayOpacity: 0.64,
+          rotateY: -14,
+          rotateZ: 2.1,
+          scale: 0.99,
+        },
+        3: {
+          clipPath: 'polygon(0 28%, 100% 0, 100% 100%, 0 72%)',
+          overlayOpacity: 0.76,
+          rotateY: -18,
+          rotateZ: 3,
+          scale: 0.98,
+        },
+      },
+    },
+  },
+  tablet: {
+    visibleRange: 1,
+    stepFactor: 0.185,
+    minStep: 140,
+    maxStep: 220,
+    side: {
+      left: {
+        1: {
+          clipPath: 'polygon(0 0, 94% 13%, 94% 87%, 0 100%)',
+          overlayOpacity: 0.58,
+          rotateY: 9,
+          rotateZ: -1,
+          scale: 0.99,
+        },
+      },
+      right: {
+        1: {
+          clipPath: 'polygon(0 13%, 100% 0, 100% 100%, 0 87%)',
+          overlayOpacity: 0.58,
+          rotateY: -9,
+          rotateZ: 1,
+          scale: 0.99,
+        },
+      },
+    },
+  },
+  mobile: {
+    visibleRange: 0,
+    stepFactor: 0,
+    minStep: 0,
+    maxStep: 0,
+    side: {
+      left: {},
+      right: {},
+    },
+  },
+};
+
 export function initThinktankSlider() {
   const roots = document.querySelectorAll(SELECTORS.root);
 
@@ -47,6 +141,7 @@ function createSlider(root) {
       xPercent: -50,
       yPercent: -50,
       transformOrigin: 'center center',
+      force3D: true,
       willChange: 'transform, opacity, clip-path',
     });
 
@@ -124,8 +219,8 @@ function createSlider(root) {
 
   function render(instant) {
     const mode = getMode();
-    const step = getStep(mode);
-    const visibleRange = mode === 'desktop' ? 3 : mode === 'tablet' ? 1 : 0;
+    const geometry = GEOMETRY[mode];
+    const step = getStep(geometry);
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const duration = instant || reducedMotion ? 0 : 0.72;
 
@@ -133,7 +228,7 @@ function createSlider(root) {
 
     slides.forEach((slide, index) => {
       const distance = circularDistance(index, activeIndex, slides.length);
-      const state = getSlideState(distance, visibleRange, step);
+      const state = getSlideState(distance, geometry, step);
       const title = slide.querySelector(SELECTORS.title);
 
       slide.classList.toggle('is-center', distance === 0);
@@ -142,7 +237,11 @@ function createSlider(root) {
 
       gsap.to(slide, {
         x: state.x,
+        y: state.y,
+        z: state.z,
         scale: state.scale,
+        rotationY: state.rotationY,
+        rotation: state.rotationZ,
         zIndex: state.zIndex,
         autoAlpha: state.autoAlpha,
         clipPath: state.clipPath,
@@ -255,29 +354,29 @@ function getMode() {
   return 'mobile';
 }
 
-function getStep(mode) {
-  if (mode === 'desktop') {
-    return clamp(window.innerWidth * 0.13, 170, 260);
+function getStep(geometry) {
+  if (!geometry.stepFactor) {
+    return 0;
   }
 
-  if (mode === 'tablet') {
-    return clamp(window.innerWidth * 0.18, 140, 230);
-  }
-
-  return 0;
+  return clamp(window.innerWidth * geometry.stepFactor, geometry.minStep, geometry.maxStep);
 }
 
-function getSlideState(distance, visibleRange, step) {
+function getSlideState(distance, geometry, step) {
   const abs = Math.abs(distance);
   const side = distance < 0 ? 'left' : 'right';
 
-  if (abs > visibleRange) {
+  if (abs > geometry.visibleRange) {
     return {
       x: side === 'left' ? -step * 4 : step * 4,
-      scale: 0.86,
+      y: 0,
+      z: -120,
+      scale: 0.9,
+      rotationY: side === 'left' ? 20 : -20,
+      rotationZ: side === 'left' ? -3 : 3,
       zIndex: 1,
       autoAlpha: 0,
-      overlayOpacity: 0.62,
+      overlayOpacity: 0.72,
       clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
     };
   }
@@ -285,7 +384,11 @@ function getSlideState(distance, visibleRange, step) {
   if (distance === 0) {
     return {
       x: 0,
+      y: 0,
+      z: 0,
       scale: 1,
+      rotationY: 0,
+      rotationZ: 0,
       zIndex: 50,
       autoAlpha: 1,
       overlayOpacity: 0,
@@ -293,28 +396,19 @@ function getSlideState(distance, visibleRange, step) {
     };
   }
 
-  const x = step * abs * (side === 'left' ? -1 : 1);
-  const zIndex = 40 - abs;
-  const opacityMap = { 1: 1, 2: 0.95, 3: 0.88 };
-  const overlayMap = { 1: 0.54, 2: 0.67, 3: 0.78 };
-  const clipMapLeft = {
-    1: 'polygon(0 0, 100% 14%, 100% 86%, 0 100%)',
-    2: 'polygon(0 0, 100% 22%, 100% 78%, 0 100%)',
-    3: 'polygon(0 0, 100% 30%, 100% 70%, 0 100%)',
-  };
-  const clipMapRight = {
-    1: 'polygon(0 14%, 100% 0, 100% 100%, 0 86%)',
-    2: 'polygon(0 22%, 100% 0, 100% 100%, 0 78%)',
-    3: 'polygon(0 30%, 100% 0, 100% 100%, 0 70%)',
-  };
+  const profile = geometry.side[side][abs] || geometry.side[side][1];
 
   return {
-    x,
-    scale: 1,
-    zIndex,
-    autoAlpha: opacityMap[abs] ?? 0.82,
-    overlayOpacity: overlayMap[abs] ?? 0.8,
-    clipPath: side === 'left' ? clipMapLeft[abs] : clipMapRight[abs],
+    x: step * abs * (side === 'left' ? -1 : 1),
+    y: 0,
+    z: -24 * abs,
+    scale: profile.scale,
+    rotationY: profile.rotateY,
+    rotationZ: profile.rotateZ,
+    zIndex: 40 - abs,
+    autoAlpha: 1,
+    overlayOpacity: profile.overlayOpacity,
+    clipPath: profile.clipPath,
   };
 }
 
