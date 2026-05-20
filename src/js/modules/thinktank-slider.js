@@ -11,7 +11,7 @@ const SELECTORS = {
 
 const INIT_ATTR = "data-thinktank-ready";
 const BOOT_FLAG = "__bemkeThinktankBooted";
-const AUTOPLAY_MS = 2400;
+const AUTOPLAY_MS = 1200;
 const VISIBLE_RANGE = 3;
 
 const SLOT_PROFILE = {
