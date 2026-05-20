@@ -1,23 +1,13 @@
 # bemke-child
 
-Child theme for Bricks with local Vite build, direct upload to WordPress, and GitHub as code backup.
+Child theme for Bricks with Vite build.
 
-## Workflow docelowy
+Docelowy flow:
 
-1. Pracujesz lokalnie w `src/`.
-2. `npm run dev` robi watch build do `dist/`.
-3. VS Code SFTP automatycznie uploaduje `dist/` (i inne zmienione pliki motywu) na serwer WordPress.
-4. Równolegle robisz `git push` do GitHub jako backup historii zmian.
-
-## Szybki start
-
-```bash
-npm install
-npm run dev
-```
-
-`npm run dev` = watch mode (rebuild po każdym save).  
-`npm run build` = jednorazowy build produkcyjny.
+1. Lokalnie edytujesz kod.
+2. Budujesz `dist/`.
+3. Pushujesz do GitHub.
+4. WordPress pobiera aktualizację theme z repo (WP Pusher / Deployer for Git).
 
 ## Struktura
 
@@ -28,87 +18,70 @@ bemke-child/
 ├── src/
 │   ├── js/main.js
 │   └── css/main.css
-├── dist/                 # output Vite: main.min.js + main.min.css
+├── dist/
+│   ├── main.min.js
+│   └── main.min.css
 ├── package.json
-├── vite.config.js
-└── .vscode/
-    ├── settings.json
-    └── extensions.json
+└── vite.config.js
 ```
 
-## Jak działa enqueue w WordPress
+## Build
 
-`functions.php` ładuje:
-
-- `dist/main.min.css`
-- `dist/main.min.js` (z `defer`)
-
-Wersja plików jest brana z `filemtime`, więc po uploadzie cache busting dzieje się automatycznie.
-
-## Konfiguracja VS Code SFTP
-
-1. Zainstaluj rozszerzenie `SFTP` (`liximomo.sftp`).
-2. Masz już gotowy plik `.vscode/sftp.json` w projekcie.
-3. Uzupełnij tylko pola z `UZUPELNIJ_...`.
-4. Zapisz plik i w VS Code zrób `SFTP: List` (Command Palette), żeby sprawdzić połączenie.
-5. Włącz watcher komendą `SFTP: Watcher On` (raz na sesję VS Code).
-
-Uwaga: `.vscode/sftp.json` jest ignorowany przez Git (hasło nie poleci do repo).
-
-Uzupełniasz:
-
-- `host`:
-  skąd wziąć: panel hostingu -> FTP/SFTP details (serwer FTP/SFTP)
-- `port`:
-  skąd wziąć: sekcja SSH Access w Hostinger (na Hostingerze często `65002`)
-- `username`:
-  skąd wziąć: login konta FTP/SFTP z panelu hostingu
-- `password`:
-  skąd wziąć: hasło do konta FTP/SFTP
-- `remotePath`:
-  skąd wziąć: pełna ścieżka serwerowa do aktywnego motywu, np. `/public_html/wp-content/themes/bemke-child`
-
-Jeśli nie znasz `remotePath`, najszybciej:
-
-1. W WordPress: `Narzędzia -> Stan witryny -> Informacje -> Katalogi i rozmiary` sprawdź ścieżki (`ABSPATH`/`wp-content`).
-2. Albo zapytaj support hostingu o dokładną ścieżkę katalogu motywu.
-
-Uploadujemy na serwer tylko:
-
-- `style.css`
-- `functions.php`
-- `dist/*`
-
-## GitHub backup
-
-Repo jest backupem kodu źródłowego i historii zmian.
+Instalacja:
 
 ```bash
-git add .
-git commit -m "opis zmian"
-git push origin main
+npm install
 ```
 
-## Codzienny workflow (dokładnie)
-
-1. Uruchom raz terminal:
+Watch:
 
 ```bash
 npm run dev
 ```
 
-2. Edytujesz pliki w `src/` i zapisujesz (`Cmd+S`).
-3. Vite przebudowuje `dist/main.min.js` i `dist/main.min.css`.
-4. SFTP (`uploadOnSave`) wysyła zmienione pliki na WordPress.
-5. Co jakiś czas robisz backup do GitHub:
+Production build:
+
+```bash
+npm run build
+```
+
+`functions.php` ładuje:
+
+- `dist/main.min.css`
+- `dist/main.min.js` (`defer`)
+
+## WordPress (GitHub -> WP)
+
+### Opcja A: WP Pusher
+
+1. W panelu WordPress zainstaluj WP Pusher.
+2. `WP Pusher -> Install Theme`.
+3. Repo: `formic-studio/bemke-child`, branch: `main`.
+4. Zainstaluj i aktywuj theme.
+5. Włącz `Push-to-Deploy` (webhook), jeśli chcesz auto update po pushu.
+
+### Opcja B: Deployer for Git
+
+1. Zainstaluj plugin `Deployer for Git` z WordPress.org.
+2. Dodaj repo `formic-studio/bemke-child` jako theme.
+3. Ustaw branch `main`.
+4. Włącz auto deploy/webhook.
+
+## Codzienny workflow
+
+1. Pracujesz w `src/`.
+2. Uruchamiasz `npm run dev` (watch) lub ręcznie `npm run build`.
+3. Commit + push do GitHub:
 
 ```bash
 git add .
-git commit -m "opis zmian"
+git commit -m "Opis zmian"
 git push origin main
 ```
 
+4. WordPress aktualizuje theme z repo.
+
 ## Ważne
 
-- `Template: bricks` w `style.css` musi pasować do nazwy folderu parent theme.
-- `dist/` jest lokalnym artefaktem deployowym (generowanym automatycznie).
+- `dist/` musi być commitowany do repo (to pliki produkcyjne pobierane przez WordPress).
+- `Template: bricks` w `style.css` musi odpowiadać nazwie folderu parent theme.
