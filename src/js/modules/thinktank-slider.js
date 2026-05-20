@@ -18,19 +18,19 @@ const SLOT_PROFILE = {
   left: {
     1: {
       xFactor: 1.56,
-      clipPath: "polygon(0 0, 72% 16%, 72% 84%, 0 100%)",
+      clipPath: "polygon(0 0, 64% 16%, 64% 84%, 0 100%)",
       overlayOpacity: 0.58,
       scale: 1,
     },
     2: {
       xFactor: 3.0,
-      clipPath: "polygon(0 0, 84% 14%, 84% 86%, 0 100%)",
+      clipPath: "polygon(0 0, 76% 13%, 76% 87%, 0 100%)",
       overlayOpacity: 0.68,
       scale: 0.995,
     },
     3: {
       xFactor: 4.3,
-      clipPath: "polygon(0 0, 93% 10%, 93% 90%, 0 100%)",
+      clipPath: "polygon(0 0, 86% 8%, 86% 92%, 0 100%)",
       overlayOpacity: 0.76,
       scale: 0.99,
     },
@@ -38,19 +38,19 @@ const SLOT_PROFILE = {
   right: {
     1: {
       xFactor: 1.56,
-      clipPath: "polygon(28% 16%, 100% 0, 100% 100%, 28% 84%)",
+      clipPath: "polygon(36% 16%, 100% 0, 100% 100%, 36% 84%)",
       overlayOpacity: 0.58,
       scale: 1,
     },
     2: {
       xFactor: 3.0,
-      clipPath: "polygon(16% 14%, 100% 0, 100% 100%, 16% 86%)",
+      clipPath: "polygon(24% 13%, 100% 0, 100% 100%, 24% 87%)",
       overlayOpacity: 0.68,
       scale: 0.995,
     },
     3: {
       xFactor: 4.3,
-      clipPath: "polygon(7% 10%, 100% 0, 100% 100%, 7% 90%)",
+      clipPath: "polygon(14% 8%, 100% 0, 100% 100%, 14% 92%)",
       overlayOpacity: 0.76,
       scale: 0.99,
     },
