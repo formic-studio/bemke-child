@@ -333,6 +333,7 @@ function createSlider(root) {
 
       slide.classList.toggle("is-center", toDistance === 0);
       slide.classList.toggle("is-visible", toState.opacity > 0.01);
+      setSlotClass(slide, toDistance, range);
       slide.style.pointerEvents = toDistance === 0 ? "auto" : "none";
 
       if (duration > 0) {
@@ -433,7 +434,6 @@ function applyState(slide, state, immediate) {
   slide.style.setProperty("--tx", `${state.x}px`);
   slide.style.setProperty("--scale", `${state.scale}`);
   slide.style.setProperty("--overlay-opacity", `${state.overlayOpacity}`);
-  slide.style.clipPath = state.clipPath;
   slide.style.opacity = String(state.opacity);
   slide.style.zIndex = String(state.zIndex);
 }
@@ -447,7 +447,6 @@ function getStateForDistance(distance, range, step) {
       x: 0,
       scale: 1,
       overlayOpacity: 0,
-      clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
       opacity: 1,
       zIndex: 50,
     };
@@ -460,7 +459,6 @@ function getStateForDistance(distance, range, step) {
       x: (side === "left" ? -1 : 1) * step * (edgeProfile.xFactor + 0.84),
       scale: edgeProfile.scale,
       overlayOpacity: edgeProfile.overlayOpacity,
-      clipPath: edgeProfile.clipPath,
       opacity: 0,
       zIndex: 1,
     };
@@ -472,10 +470,39 @@ function getStateForDistance(distance, range, step) {
     x: (side === "left" ? -1 : 1) * step * profile.xFactor,
     scale: profile.scale,
     overlayOpacity: profile.overlayOpacity,
-    clipPath: profile.clipPath,
     opacity: 1,
     zIndex: 40 - abs,
   };
+}
+
+function setSlotClass(slide, distance, range) {
+  slide.classList.remove(
+    "is-slot-center",
+    "is-slot-left-1",
+    "is-slot-left-2",
+    "is-slot-left-3",
+    "is-slot-right-1",
+    "is-slot-right-2",
+    "is-slot-right-3",
+    "is-slot-hidden-left",
+    "is-slot-hidden-right"
+  );
+
+  if (distance === 0) {
+    slide.classList.add("is-slot-center");
+    return;
+  }
+
+  const abs = Math.abs(distance);
+
+  if (abs > range) {
+    slide.classList.add(distance < 0 ? "is-slot-hidden-left" : "is-slot-hidden-right");
+    return;
+  }
+
+  slide.classList.add(
+    distance < 0 ? `is-slot-left-${abs}` : `is-slot-right-${abs}`
+  );
 }
 
 function getStep(firstSlide) {
