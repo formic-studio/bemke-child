@@ -120,25 +120,10 @@ function setupThinktankLifecycle() {
           }
         }
       }
-
-      if (
-        mutation.type === "attributes" &&
-        mutation.target instanceof Element
-      ) {
-        if (
-          mutation.target.matches(SELECTORS.root) ||
-          mutation.target.closest(SELECTORS.root)
-        ) {
-          rerunInit();
-          return;
-        }
-      }
     }
   });
 
   observer.observe(document.body, {
-    attributes: true,
-    attributeFilter: ["class"],
     childList: true,
     subtree: true,
   });
