@@ -3,7 +3,6 @@
 }
 
 .slider-thinktank {
-  width: min(1540px, 100%);
   margin-inline: auto;
   display: grid;
   gap: clamp(18px, 2.2vw, 34px);
