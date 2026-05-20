@@ -17,41 +17,41 @@ const VISIBLE_RANGE = 3;
 const SLOT_PROFILE = {
   left: {
     1: {
-      xFactor: 2.2,
-      clipPath: "polygon(0 0, 62% 17%, 62% 83%, 0 100%)",
-      overlayOpacity: 0.58,
+      xFactor: 1.92,
+      clipPath: "polygon(0 0, 76% 13%, 76% 87%, 0 100%)",
+      overlayOpacity: 0.62,
       scale: 1,
     },
     2: {
-      xFactor: 4.3,
-      clipPath: "polygon(0 0, 74% 13%, 74% 87%, 0 100%)",
-      overlayOpacity: 0.68,
+      xFactor: 2.96,
+      clipPath: "polygon(0 0, 80% 11%, 80% 89%, 0 100%)",
+      overlayOpacity: 0.66,
       scale: 0.995,
     },
     3: {
-      xFactor: 6.8,
-      clipPath: "polygon(0 0, 84% 8%, 84% 92%, 0 100%)",
-      overlayOpacity: 0.76,
+      xFactor: 4,
+      clipPath: "polygon(0 0, 84% 9%, 84% 91%, 0 100%)",
+      overlayOpacity: 0.7,
       scale: 0.99,
     },
   },
   right: {
     1: {
-      xFactor: 2.2,
-      clipPath: "polygon(38% 17%, 100% 0, 100% 100%, 38% 83%)",
-      overlayOpacity: 0.58,
+      xFactor: 1.92,
+      clipPath: "polygon(24% 13%, 100% 0, 100% 100%, 24% 87%)",
+      overlayOpacity: 0.62,
       scale: 1,
     },
     2: {
-      xFactor: 4.3,
-      clipPath: "polygon(26% 13%, 100% 0, 100% 100%, 26% 87%)",
-      overlayOpacity: 0.68,
+      xFactor: 2.96,
+      clipPath: "polygon(20% 11%, 100% 0, 100% 100%, 20% 89%)",
+      overlayOpacity: 0.66,
       scale: 0.995,
     },
     3: {
-      xFactor: 6.8,
-      clipPath: "polygon(16% 8%, 100% 0, 100% 100%, 16% 92%)",
-      overlayOpacity: 0.76,
+      xFactor: 4,
+      clipPath: "polygon(16% 9%, 100% 0, 100% 100%, 16% 91%)",
+      overlayOpacity: 0.7,
       scale: 0.99,
     },
   },
@@ -482,7 +482,7 @@ function getStep(firstSlide) {
   const slideWidth = firstSlide
     ? firstSlide.getBoundingClientRect().width
     : 324;
-  return clamp(slideWidth * 0.44, 54, 120);
+  return clamp(slideWidth * 0.41, 50, 110);
 }
 
 function circularDistance(index, activeIndex, total) {
