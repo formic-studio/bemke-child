@@ -1,6 +1,6 @@
 # bemke-child
 
-Child theme for Bricks with a Vite pipeline and GitHub Actions deployment.
+Child theme for Bricks with a Vite pipeline and WordPress panel deployment from GitHub.
 
 ## 1. Local setup
 
@@ -65,34 +65,44 @@ git commit -m "Initial child theme + Vite + deploy pipeline"
 git push -u origin main
 ```
 
-## 4. GitHub Actions deploy
+## 4. Deploy from WordPress panel (no server access)
 
-Workflow file:
+### Recommended route: WP Pusher
 
-- `.github/workflows/deploy.yml`
+This route gives you automatic theme update after every push to GitHub.
 
-It does:
+1. In WordPress admin, install and activate WP Pusher.
+2. Open `WP Pusher -> Install Theme`.
+3. Set:
+   - `Repository host`: GitHub
+   - `Theme repository`: `formic-studio/bemke-child`
+   - `Repository branch`: `main`
+   - `Repository is private`: enable only if repo is private
+   - `Push-to-Deploy`: enabled
+4. Install theme and activate `Bemke Child`.
+5. Push new commit to GitHub. WP Pusher webhook triggers update automatically.
 
-1. `npm ci`
-2. `npm run build`
-3. `rsync` to your server over SSH
+Important:
 
-Required repository/environment secrets:
+- If your repo is private, WP Pusher requires a paid license.
+- If your repo is public, WP Pusher free tier is enough.
 
-- `SSH_PRIVATE_KEY` - private key used for deploy
-- `SSH_KNOWN_HOSTS` - output of `ssh-keyscan -H your-host`
-- `SSH_HOST` - server host
-- `SSH_PORT` - SSH port (usually `22`)
-- `SSH_USER` - deploy user
-- `SSH_TARGET_DIR` - full server path to active child theme, e.g. `/var/www/example.com/public_html/wp-content/themes/bemke-child`
+### Alternative route: Deployer for Git (WordPress.org plugin)
 
-Generate known hosts value:
+You can also use `Deployer for Git` from the WordPress plugin directory. It supports GitHub and automatic deploy from commits. For private repositories, the PRO version is required.
+
+## 5. Build before every push
+
+Because production WordPress runs built files from `assets/dist`, always do:
 
 ```bash
-ssh-keyscan -H your-host.example.com
+npm run build
+git add .
+git commit -m "Your change"
+git push
 ```
 
-## 5. Important note about Bricks parent template
+## 6. Important note about Bricks parent template
 
 In `style.css` we set:
 
