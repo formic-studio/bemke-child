@@ -21,7 +21,7 @@ function bemke_child_enqueue_assets() {
 			'bemke-child-main',
 			get_stylesheet_directory_uri() . $css_rel_path,
 			array(),
-			(string) filemtime( $css_abs_path )
+			filemtime( $css_abs_path )
 		);
 	}
 
@@ -30,11 +30,12 @@ function bemke_child_enqueue_assets() {
 			'bemke-child-main',
 			get_stylesheet_directory_uri() . $js_rel_path,
 			array(),
-			(string) filemtime( $js_abs_path ),
-			array(
-				'in_footer' => true,
-				'strategy'  => 'defer',
-			)
+			filemtime( $js_abs_path ),
+			true
 		);
+
+		if ( function_exists( 'wp_script_add_data' ) ) {
+			wp_script_add_data( 'bemke-child-main', 'defer', true );
+		}
 	}
 }
