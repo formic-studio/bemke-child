@@ -9,6 +9,8 @@ const SELECTORS = {
 };
 
 const AUTOPLAY_MS = 4200;
+const INIT_ATTR = 'data-thinktank-ready';
+const BOOT_FLAG = '__bemkeThinktankBooted';
 
 // Tuning: tutaj najszybciej dopasujesz "kąty" paneli do makiety.
 const GEOMETRY = {
@@ -105,10 +107,76 @@ const GEOMETRY = {
 };
 
 export function initThinktankSlider() {
-  const roots = document.querySelectorAll(SELECTORS.root);
+  initThinktankSliderRoots();
+  setupThinktankLifecycle();
+}
+
+function initThinktankSliderRoots(scope = document) {
+  const roots = scope.querySelectorAll(SELECTORS.root);
 
   roots.forEach((root) => {
+    if (root.getAttribute(INIT_ATTR) === '1') {
+      return;
+    }
+
+    root.setAttribute(INIT_ATTR, '1');
     createSlider(root);
+  });
+}
+
+function setupThinktankLifecycle() {
+  if (window[BOOT_FLAG]) {
+    return;
+  }
+
+  window[BOOT_FLAG] = true;
+
+  const rerunInit = debounce(() => {
+    initThinktankSliderRoots();
+  }, 90);
+
+  window.addEventListener('load', rerunInit);
+  document.addEventListener('bricks/ajax/end', rerunInit);
+  document.addEventListener('bricks/popup/open', rerunInit);
+  document.addEventListener('bricks/popup/close', rerunInit);
+
+  window.setTimeout(rerunInit, 150);
+  window.setTimeout(rerunInit, 700);
+  window.setTimeout(rerunInit, 1600);
+
+  if (!window.MutationObserver || !document.body) {
+    return;
+  }
+
+  const observer = new MutationObserver((mutations) => {
+    for (const mutation of mutations) {
+      if (mutation.type === 'attributes' && mutation.target instanceof Element) {
+        if (mutation.target.matches(SELECTORS.root) || mutation.target.closest(SELECTORS.root)) {
+          rerunInit();
+          return;
+        }
+      }
+
+      if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+        for (const node of mutation.addedNodes) {
+          if (!(node instanceof Element)) {
+            continue;
+          }
+
+          if (node.matches(SELECTORS.root) || node.querySelector(SELECTORS.root)) {
+            rerunInit();
+            return;
+          }
+        }
+      }
+    }
+  });
+
+  observer.observe(document.body, {
+    attributes: true,
+    attributeFilter: ['class'],
+    childList: true,
+    subtree: true,
   });
 }
 

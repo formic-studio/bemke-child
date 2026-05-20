@@ -18,6 +18,7 @@
   width: 100%;
   height: clamp(360px, 47vw, 560px);
   overflow: hidden;
+  display: block;
   perspective: 1400px;
   perspective-origin: center;
 }
@@ -26,6 +27,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
+  display: block;
   width: clamp(180px, 17vw, 324px);
   aspect-ratio: 324 / 470;
   overflow: hidden;
