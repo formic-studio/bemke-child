@@ -18,7 +18,7 @@ const SLOT_PROFILE = {
   left: {
     1: {
       xFactor: 2.4,
-      clipPath: "polygon(0% 10%, 100% 22%, 100% 78%, 0% 90%",
+      clipPath: "polygon(0 0, 74% 16%, 74% 84%, 0 100%)",
       overlayOpacity: 0.62,
       scale: 1,
     },
