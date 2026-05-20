@@ -16,103 +16,182 @@ const BOOT_FLAG = '__bemkeThinktankBooted';
 const GEOMETRY = {
   desktop: {
     visibleRange: 3,
-    minStep: 120,
-    maxStep: 210,
+    minStep: 105,
+    maxStep: 185,
+    entryFactor: 4.25,
     side: {
       left: {
         1: {
-          clipPath: 'polygon(0 0, 92% 8%, 92% 92%, 0 100%)',
-          overlayOpacity: 0.5,
-          rotateY: 8,
-          rotateZ: -1.1,
+          clipPath: 'polygon(0 0, 100% 12%, 100% 88%, 0 100%)',
+          overlayOpacity: 0.48,
+          rotateY: 0,
+          rotateZ: 0,
+          offsetFactor: 1.34,
           scale: 1,
         },
         2: {
-          clipPath: 'polygon(0 0, 84% 18%, 84% 82%, 0 100%)',
-          overlayOpacity: 0.63,
-          rotateY: 11,
-          rotateZ: -1.9,
+          clipPath: 'polygon(0 0, 86% 15%, 86% 85%, 0 100%)',
+          overlayOpacity: 0.6,
+          rotateY: 0,
+          rotateZ: 0,
+          offsetFactor: 2.38,
           scale: 0.99,
         },
         3: {
-          clipPath: 'polygon(0 0, 76% 28%, 76% 72%, 0 100%)',
-          overlayOpacity: 0.74,
-          rotateY: 13,
-          rotateZ: -2.7,
-          scale: 0.98,
+          clipPath: 'polygon(0 0, 72% 17%, 72% 83%, 0 100%)',
+          overlayOpacity: 0.7,
+          rotateY: 0,
+          rotateZ: 0,
+          offsetFactor: 3.28,
+          scale: 0.975,
         },
       },
       right: {
         1: {
-          clipPath: 'polygon(0 8%, 100% 0, 100% 100%, 0 92%)',
-          overlayOpacity: 0.5,
-          rotateY: -8,
-          rotateZ: 1.1,
+          clipPath: 'polygon(0 12%, 100% 0, 100% 100%, 0 88%)',
+          overlayOpacity: 0.48,
+          rotateY: 0,
+          rotateZ: 0,
+          offsetFactor: 1.34,
           scale: 1,
         },
         2: {
-          clipPath: 'polygon(0 18%, 100% 0, 100% 100%, 0 82%)',
-          overlayOpacity: 0.63,
-          rotateY: -11,
-          rotateZ: 1.9,
+          clipPath: 'polygon(0 15%, 100% 0, 100% 100%, 0 85%)',
+          overlayOpacity: 0.6,
+          rotateY: 0,
+          rotateZ: 0,
+          offsetFactor: 2.38,
           scale: 0.99,
         },
         3: {
-          clipPath: 'polygon(0 28%, 100% 0, 100% 100%, 0 72%)',
-          overlayOpacity: 0.74,
-          rotateY: -13,
-          rotateZ: 2.7,
-          scale: 0.98,
+          clipPath: 'polygon(0 17%, 100% 0, 100% 100%, 0 83%)',
+          overlayOpacity: 0.7,
+          rotateY: 0,
+          rotateZ: 0,
+          offsetFactor: 3.28,
+          scale: 0.975,
         },
       },
     },
   },
   tablet: {
-    visibleRange: 2,
-    minStep: 105,
-    maxStep: 180,
+    visibleRange: 3,
+    minStep: 72,
+    maxStep: 132,
+    entryFactor: 4.3,
     side: {
       left: {
         1: {
-          clipPath: 'polygon(0 0, 90% 12%, 90% 88%, 0 100%)',
-          overlayOpacity: 0.56,
-          rotateY: 8,
-          rotateZ: -1,
-          scale: 1,
+          clipPath: 'polygon(0 0, 98% 12%, 98% 88%, 0 100%)',
+          overlayOpacity: 0.5,
+          rotateY: 0,
+          rotateZ: 0,
+          offsetFactor: 1.26,
+          scale: 0.995,
         },
         2: {
-          clipPath: 'polygon(0 0, 80% 22%, 80% 78%, 0 100%)',
-          overlayOpacity: 0.68,
-          rotateY: 11,
-          rotateZ: -1.8,
-          scale: 0.98,
+          clipPath: 'polygon(0 0, 86% 15%, 86% 85%, 0 100%)',
+          overlayOpacity: 0.64,
+          rotateY: 0,
+          rotateZ: 0,
+          offsetFactor: 2.24,
+          scale: 0.985,
+        },
+        3: {
+          clipPath: 'polygon(0 0, 74% 18%, 74% 82%, 0 100%)',
+          overlayOpacity: 0.74,
+          rotateY: 0,
+          rotateZ: 0,
+          offsetFactor: 3.14,
+          scale: 0.97,
+        },
+      },
+      right: {
+        1: {
+          clipPath: 'polygon(0 12%, 100% 0, 100% 100%, 0 88%)',
+          overlayOpacity: 0.5,
+          rotateY: 0,
+          rotateZ: 0,
+          offsetFactor: 1.26,
+          scale: 0.995,
+        },
+        2: {
+          clipPath: 'polygon(0 15%, 100% 0, 100% 100%, 0 85%)',
+          overlayOpacity: 0.64,
+          rotateY: 0,
+          rotateZ: 0,
+          offsetFactor: 2.24,
+          scale: 0.985,
+        },
+        3: {
+          clipPath: 'polygon(0 18%, 100% 0, 100% 100%, 0 82%)',
+          overlayOpacity: 0.74,
+          rotateY: 0,
+          rotateZ: 0,
+          offsetFactor: 3.14,
+          scale: 0.97,
+        },
+      },
+    },
+  },
+  mobile: {
+    visibleRange: 3,
+    minStep: 45,
+    maxStep: 95,
+    entryFactor: 4.4,
+    side: {
+      left: {
+        1: {
+          clipPath: 'polygon(0 0, 100% 12%, 100% 88%, 0 100%)',
+          overlayOpacity: 0.56,
+          rotateY: 0,
+          rotateZ: 0,
+          offsetFactor: 1.18,
+          scale: 0.985,
+        },
+        2: {
+          clipPath: 'polygon(0 0, 90% 15%, 90% 85%, 0 100%)',
+          overlayOpacity: 0.72,
+          rotateY: 0,
+          rotateZ: 0,
+          offsetFactor: 2.04,
+          scale: 0.965,
+        },
+        3: {
+          clipPath: 'polygon(0 0, 78% 18%, 78% 82%, 0 100%)',
+          overlayOpacity: 0.8,
+          rotateY: 0,
+          rotateZ: 0,
+          offsetFactor: 2.86,
+          scale: 0.95,
         },
       },
       right: {
         1: {
           clipPath: 'polygon(0 12%, 100% 0, 100% 100%, 0 88%)',
           overlayOpacity: 0.56,
-          rotateY: -8,
-          rotateZ: 1,
-          scale: 1,
+          rotateY: 0,
+          rotateZ: 0,
+          offsetFactor: 1.18,
+          scale: 0.985,
         },
         2: {
-          clipPath: 'polygon(0 22%, 100% 0, 100% 100%, 0 78%)',
-          overlayOpacity: 0.68,
-          rotateY: -11,
-          rotateZ: 1.8,
-          scale: 0.98,
+          clipPath: 'polygon(0 15%, 100% 0, 100% 100%, 0 85%)',
+          overlayOpacity: 0.72,
+          rotateY: 0,
+          rotateZ: 0,
+          offsetFactor: 2.04,
+          scale: 0.965,
+        },
+        3: {
+          clipPath: 'polygon(0 18%, 100% 0, 100% 100%, 0 82%)',
+          overlayOpacity: 0.8,
+          rotateY: 0,
+          rotateZ: 0,
+          offsetFactor: 2.86,
+          scale: 0.95,
         },
       },
-    },
-  },
-  mobile: {
-    visibleRange: 0,
-    minStep: 0,
-    maxStep: 0,
-    side: {
-      left: {},
-      right: {},
     },
   },
 };
@@ -339,10 +418,11 @@ function createSlider(root) {
   function render(previousIndex, nextIndex, direction, instant) {
     const mode = getMode();
     const geometry = GEOMETRY[mode];
-    const range = getEffectiveRange(geometry.visibleRange, slides.length);
+    const preferredRange = slides.length >= 7 ? 3 : geometry.visibleRange;
+    const range = getEffectiveRange(preferredRange, slides.length);
     const step = getStep(track, slides[0], range, geometry);
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const duration = instant || reducedMotion ? 0 : 0.58;
+    const duration = instant || reducedMotion ? 0 : 0.82;
     const shouldAnimate = !instant && !reducedMotion;
     let pending = slides.length;
 
@@ -375,7 +455,7 @@ function createSlider(root) {
         ...slideStateToGsap(toState),
         '--overlay-opacity': toState.overlayOpacity,
         duration,
-        ease: 'power3.out',
+        ease: 'power2.inOut',
         overwrite: true,
         onComplete: () => {
           pending -= 1;
@@ -478,8 +558,8 @@ function getStep(track, firstSlide, range, geometry) {
 
   const trackWidth = track.getBoundingClientRect().width || window.innerWidth;
   const slideWidth = firstSlide ? firstSlide.getBoundingClientRect().width : 324;
-  const availableHalf = Math.max(0, (trackWidth - slideWidth) / 2 - 12);
-  const rawStep = availableHalf / range;
+  const availableHalf = Math.max(0, (trackWidth - slideWidth) / 2 - 8);
+  const rawStep = availableHalf / (range + 0.45);
 
   return clamp(rawStep, geometry.minStep, geometry.maxStep);
 }
@@ -491,19 +571,20 @@ function getEffectiveRange(preferredRange, totalSlides) {
 function getSlideState(distance, geometry, step, visibleRange) {
   const abs = Math.abs(distance);
   const side = distance < 0 ? 'left' : 'right';
+  const outerProfile = geometry.side[side][visibleRange] || geometry.side[side][1];
 
   if (abs > visibleRange) {
     return {
-      x: side === 'left' ? -step * (visibleRange + 1) : step * (visibleRange + 1),
+      x: side === 'left' ? -step * (geometry.entryFactor || (visibleRange + 1.2)) : step * (geometry.entryFactor || (visibleRange + 1.2)),
       y: 0,
       z: -80,
-      scale: 0.95,
-      rotationY: side === 'left' ? 10 : -10,
-      rotationZ: side === 'left' ? -2 : 2,
+      scale: outerProfile?.scale ?? 0.95,
+      rotationY: outerProfile?.rotateY ?? 0,
+      rotationZ: outerProfile?.rotateZ ?? 0,
       zIndex: 1,
       autoAlpha: 0,
-      overlayOpacity: 0.8,
-      clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
+      overlayOpacity: outerProfile?.overlayOpacity ?? 0.8,
+      clipPath: outerProfile?.clipPath ?? 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
     };
   }
 
@@ -527,15 +608,16 @@ function getSlideState(distance, geometry, step, visibleRange) {
       ? 'polygon(0 0, 90% 12%, 90% 88%, 0 100%)'
       : 'polygon(0 12%, 100% 0, 100% 100%, 0 88%)',
     overlayOpacity: 0.62,
-    rotateY: side === 'left' ? 10 : -10,
-    rotateZ: side === 'left' ? -1.6 : 1.6,
+    rotateY: 0,
+    rotateZ: 0,
+    offsetFactor: abs,
     scale: 0.99,
   };
 
   return {
-    x: step * abs * (side === 'left' ? -1 : 1),
+    x: step * (profile.offsetFactor || abs) * (side === 'left' ? -1 : 1),
     y: 0,
-    z: -18 * abs,
+    z: -14 * abs,
     scale: profile.scale,
     rotationY: profile.rotateY,
     rotationZ: profile.rotateZ,
