@@ -482,7 +482,7 @@ function getStep(firstSlide) {
   const slideWidth = firstSlide
     ? firstSlide.getBoundingClientRect().width
     : 324;
-  return clamp(slideWidth * 1.68, 64, 180);
+  return clamp(slideWidth * 0.18, 64, 180);
 }
 
 function circularDistance(index, activeIndex, total) {
