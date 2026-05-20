@@ -7,6 +7,7 @@
   margin-inline: auto;
   display: grid;
   gap: clamp(18px, 2.2vw, 34px);
+  --tt-perspective: 1400px;
   --tt-clip-center: polygon(0 0, 100% 0, 100% 100%, 0 100%);
   --tt-clip-left-1: polygon(0 0, 74% 16%, 74% 84%, 0 100%);
   --tt-clip-left-2: polygon(0 0, 72% 17%, 72% 83%, 0 100%);
@@ -14,6 +15,18 @@
   --tt-clip-right-1: polygon(26% 16%, 100% 0, 100% 100%, 26% 84%);
   --tt-clip-right-2: polygon(28% 17%, 100% 0, 100% 100%, 28% 83%);
   --tt-clip-right-3: polygon(30% 18%, 100% 0, 100% 100%, 30% 82%);
+  --tt-ry-left-1: 12deg;
+  --tt-ry-left-2: 14deg;
+  --tt-ry-left-3: 16deg;
+  --tt-ry-right-1: -12deg;
+  --tt-ry-right-2: -14deg;
+  --tt-ry-right-3: -16deg;
+  --tt-z-left-1: -20px;
+  --tt-z-left-2: -30px;
+  --tt-z-left-3: -40px;
+  --tt-z-right-1: -20px;
+  --tt-z-right-2: -30px;
+  --tt-z-right-3: -40px;
 }
 
 .slider-thinktank .slider-wrapper {
@@ -21,6 +34,8 @@
   width: 100%;
   height: clamp(360px, 42vw, 560px);
   overflow: hidden;
+  perspective: var(--tt-perspective);
+  perspective-origin: center center;
 }
 
 .slider-thinktank .slide-thinktank {
@@ -31,8 +46,12 @@
   --tx: 0px;
   --scale: 1;
   --overlay-opacity: 0;
-  transform: translate(-50%, -50%) translateX(var(--tx)) scale(var(--scale));
+  --ry: 0deg;
+  --tz: 0px;
+  transform: translate(-50%, -50%) translateX(var(--tx)) translateZ(var(--tz))
+    rotateY(var(--ry)) scale(var(--scale));
   transform-origin: center center;
+  transform-style: preserve-3d;
   clip-path: var(--tt-clip-center);
   opacity: 0;
   transition:
@@ -44,32 +63,46 @@
 
 .slider-thinktank .slide-thinktank.is-slot-center {
   clip-path: var(--tt-clip-center);
+  --ry: 0deg;
+  --tz: 0px;
 }
 
 .slider-thinktank .slide-thinktank.is-slot-left-1 {
   clip-path: var(--tt-clip-left-1);
+  --ry: var(--tt-ry-left-1);
+  --tz: var(--tt-z-left-1);
 }
 
 .slider-thinktank .slide-thinktank.is-slot-left-2 {
   clip-path: var(--tt-clip-left-2);
+  --ry: var(--tt-ry-left-2);
+  --tz: var(--tt-z-left-2);
 }
 
 .slider-thinktank .slide-thinktank.is-slot-left-3,
 .slider-thinktank .slide-thinktank.is-slot-hidden-left {
   clip-path: var(--tt-clip-left-3);
+  --ry: var(--tt-ry-left-3);
+  --tz: var(--tt-z-left-3);
 }
 
 .slider-thinktank .slide-thinktank.is-slot-right-1 {
   clip-path: var(--tt-clip-right-1);
+  --ry: var(--tt-ry-right-1);
+  --tz: var(--tt-z-right-1);
 }
 
 .slider-thinktank .slide-thinktank.is-slot-right-2 {
   clip-path: var(--tt-clip-right-2);
+  --ry: var(--tt-ry-right-2);
+  --tz: var(--tt-z-right-2);
 }
 
 .slider-thinktank .slide-thinktank.is-slot-right-3,
 .slider-thinktank .slide-thinktank.is-slot-hidden-right {
   clip-path: var(--tt-clip-right-3);
+  --ry: var(--tt-ry-right-3);
+  --tz: var(--tt-z-right-3);
 }
 
 .slider-thinktank .slide-thinktank.is-immediate {
