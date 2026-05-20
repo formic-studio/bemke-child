@@ -37,6 +37,16 @@
   perspective-origin: center center;
 }
 
+@media (hover: hover) and (pointer: fine) {
+  .slider-thinktank .slider-wrapper {
+    cursor: grab;
+  }
+
+  .slider-thinktank .slider-wrapper.is-dragging {
+    cursor: grabbing;
+  }
+}
+
 .slider-thinktank .slide-thinktank {
   position: absolute;
   top: 50%;
@@ -106,6 +116,10 @@
 
 .slider-thinktank .slide-thinktank.is-immediate {
   transition: none !important;
+}
+
+.slider-thinktank .slide-thinktank.is-ghost {
+  pointer-events: none !important;
 }
 
 .slider-thinktank .slide-thinktank .slide-overlay {

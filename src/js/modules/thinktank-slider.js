@@ -227,6 +227,7 @@ function createSlider(root) {
       moved: false,
     };
 
+    track.classList.add("is-dragging");
     track.setPointerCapture(event.pointerId);
   });
 
@@ -262,10 +263,12 @@ function createSlider(root) {
     }
 
     pointerState = null;
+    track.classList.remove("is-dragging");
   });
 
   track.addEventListener("pointercancel", () => {
     pointerState = null;
+    track.classList.remove("is-dragging");
   });
 
   render(activeIndex, activeIndex, 0, true);
@@ -374,23 +377,49 @@ function createSlider(root) {
     isAnimating = duration > 0;
 
     slides.forEach((slide, index) => {
-      let fromDistance = circularDistance(index, previousIndex, slides.length);
+      const rawFromDistance = circularDistance(index, previousIndex, slides.length);
+      let fromDistance = rawFromDistance;
       const toDistance = circularDistance(index, nextIndex, slides.length);
+      const wrapsLeftToRight =
+        direction === 1 && rawFromDistance === -range && toDistance === range;
+      const wrapsRightToLeft =
+        direction === -1 && rawFromDistance === range && toDistance === -range;
 
-      if (direction === 1 && fromDistance === -range && toDistance === range) {
+      if (wrapsLeftToRight) {
         fromDistance = range + 1;
-      } else if (
-        direction === -1 &&
-        fromDistance === range &&
-        toDistance === -range
-      ) {
+      } else if (wrapsRightToLeft) {
         fromDistance = -range - 1;
       }
 
       const fromState = getStateForDistance(fromDistance, range, step);
       const toState = getStateForDistance(toDistance, range, step);
+      const rawFromState = getStateForDistance(rawFromDistance, range, step);
 
       if (duration > 0) {
+        if (wrapsLeftToRight) {
+          spawnWrapGhost(
+            track,
+            slide,
+            rawFromState,
+            getStateForDistance(-range - 1, range, step),
+            rawFromDistance,
+            -range - 1,
+            range,
+            duration,
+          );
+        } else if (wrapsRightToLeft) {
+          spawnWrapGhost(
+            track,
+            slide,
+            rawFromState,
+            getStateForDistance(range + 1, range, step),
+            rawFromDistance,
+            range + 1,
+            range,
+            duration,
+          );
+        }
+
         applyState(slide, fromState, true);
         setSlotClass(slide, fromDistance, range);
 
@@ -425,6 +454,45 @@ function createSlider(root) {
       processQueue();
     }
   }
+}
+
+function spawnWrapGhost(
+  track,
+  slide,
+  fromState,
+  toState,
+  fromDistance,
+  toDistance,
+  range,
+  duration
+) {
+  const ghost = slide.cloneNode(true);
+  ghost.classList.add("is-ghost", "is-immediate");
+  ghost.removeAttribute("id");
+  ghost.style.pointerEvents = "none";
+  ghost.setAttribute("aria-hidden", "true");
+  ghost.removeAttribute("tabindex");
+
+  ghost.querySelectorAll("[id]").forEach((node) => {
+    node.removeAttribute("id");
+  });
+
+  track.appendChild(ghost);
+
+  applyState(ghost, fromState, true);
+  setSlotClass(ghost, fromDistance, range);
+  ghost.classList.remove("is-center");
+  ghost.classList.add("is-visible");
+
+  window.requestAnimationFrame(() => {
+    ghost.classList.remove("is-immediate");
+    setSlotClass(ghost, toDistance, range);
+    applyState(ghost, toState, false);
+  });
+
+  window.setTimeout(() => {
+    ghost.remove();
+  }, duration + 120);
 }
 
 function getControls(root) {
