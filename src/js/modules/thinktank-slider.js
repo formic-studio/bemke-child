@@ -23,13 +23,13 @@ const SLOT_PROFILE = {
       scale: 1,
     },
     2: {
-      xFactor: 3.2,
+      xFactor: 2.05,
       clipPath: "polygon(0 0, 74% 13%, 74% 87%, 0 100%)",
       overlayOpacity: 0.68,
       scale: 0.995,
     },
     3: {
-      xFactor: 4.3,
+      xFactor: 2.8,
       clipPath: "polygon(0 0, 84% 8%, 84% 92%, 0 100%)",
       overlayOpacity: 0.76,
       scale: 0.99,
@@ -43,13 +43,13 @@ const SLOT_PROFILE = {
       scale: 1,
     },
     2: {
-      xFactor: 3.2,
+      xFactor: 2.05,
       clipPath: "polygon(26% 13%, 100% 0, 100% 100%, 26% 87%)",
       overlayOpacity: 0.68,
       scale: 0.995,
     },
     3: {
-      xFactor: 4.3,
+      xFactor: 2.8,
       clipPath: "polygon(16% 8%, 100% 0, 100% 100%, 16% 92%)",
       overlayOpacity: 0.76,
       scale: 0.99,
@@ -482,7 +482,7 @@ function getStep(firstSlide) {
   const slideWidth = firstSlide
     ? firstSlide.getBoundingClientRect().width
     : 324;
-  return clamp(slideWidth * 0.68, 64, 180);
+  return clamp(slideWidth * 0.44, 54, 120);
 }
 
 function circularDistance(index, activeIndex, total) {
