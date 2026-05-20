@@ -24,13 +24,13 @@ const SLOT_PROFILE = {
     },
     2: {
       xFactor: 4.3,
-      clipPath: "polygon(0 0, 62% 17%, 62% 83%, 0 100%)",
+      clipPath: "polygon(0 0, 74% 13%, 74% 87%, 0 100%)",
       overlayOpacity: 0.68,
       scale: 0.995,
     },
     3: {
       xFactor: 6.8,
-      clipPath: "polygon(0 0, 62% 17%, 62% 83%, 0 100%)",
+      clipPath: "polygon(0 0, 84% 8%, 84% 92%, 0 100%)",
       overlayOpacity: 0.76,
       scale: 0.99,
     },
