@@ -85,3 +85,4 @@ git push origin main
 
 - `dist/` musi być commitowany do repo (to pliki produkcyjne pobierane przez WordPress).
 - `Template: bricks` w `style.css` musi odpowiadać nazwie folderu parent theme.
+ 
