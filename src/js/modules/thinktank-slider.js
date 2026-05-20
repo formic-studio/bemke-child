@@ -500,9 +500,11 @@ function setSlotClass(slide, distance, range) {
 }
 
 function getStep(firstSlide) {
-  const slideWidth = firstSlide
-    ? firstSlide.getBoundingClientRect().width
+  // Use layout width (transform-independent) to keep spacing stable.
+  const rawWidth = firstSlide
+    ? firstSlide.offsetWidth || firstSlide.clientWidth || 324
     : 324;
+  const slideWidth = rawWidth > 40 ? rawWidth : 324;
   return clamp(slideWidth * 0.41, 50, 110);
 }
 
