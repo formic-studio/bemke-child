@@ -60,7 +60,7 @@ Uzupełniasz:
 - `host`:
   skąd wziąć: panel hostingu -> FTP/SFTP details (serwer FTP/SFTP)
 - `port`:
-  skąd wziąć: panel hostingu (najczęściej `22` dla SFTP)
+  skąd wziąć: sekcja SSH Access w Hostinger (na Hostingerze często `65002`)
 - `username`:
   skąd wziąć: login konta FTP/SFTP z panelu hostingu
 - `password`:
