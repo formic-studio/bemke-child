@@ -147,6 +147,8 @@ function createSlider(root) {
   let intervalId = null;
   let isAnimating = false;
   let transitionTimerId = null;
+  let pointerState = null;
+  let ignoreClickUntil = 0;
   const queue = [];
 
   slides.forEach((slide, index) => {
@@ -167,6 +169,10 @@ function createSlider(root) {
     }
 
     slide.addEventListener("click", () => {
+      if (Date.now() < ignoreClickUntil) {
+        return;
+      }
+
       const distance = signedCircularDistance(
         activeIndex,
         index,
@@ -190,6 +196,76 @@ function createSlider(root) {
     onPlay: () => enableAutoplay(),
     onPrev: () => queueMove(-1, 1, true),
     onNext: () => queueMove(1, 1, true),
+  });
+
+  if (!root.hasAttribute("tabindex")) {
+    root.setAttribute("tabindex", "0");
+  }
+
+  root.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      queueMove(-1, 1, true);
+      return;
+    }
+
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      queueMove(1, 1, true);
+    }
+  });
+
+  track.addEventListener("pointerdown", (event) => {
+    if (event.pointerType !== "mouse" || event.button !== 0) {
+      return;
+    }
+
+    pointerState = {
+      id: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      moved: false,
+    };
+
+    track.setPointerCapture(event.pointerId);
+  });
+
+  track.addEventListener("pointermove", (event) => {
+    if (!pointerState || pointerState.id !== event.pointerId) {
+      return;
+    }
+
+    const dx = event.clientX - pointerState.startX;
+    const dy = event.clientY - pointerState.startY;
+
+    if (Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy)) {
+      pointerState.moved = true;
+    }
+  });
+
+  track.addEventListener("pointerup", (event) => {
+    if (!pointerState || pointerState.id !== event.pointerId) {
+      return;
+    }
+
+    const dx = event.clientX - pointerState.startX;
+    const dy = event.clientY - pointerState.startY;
+
+    if (
+      pointerState.moved &&
+      Math.abs(dx) > 46 &&
+      Math.abs(dx) > Math.abs(dy)
+    ) {
+      // Drag left -> next slide, drag right -> previous slide.
+      queueMove(dx < 0 ? 1 : -1, 1, true);
+      ignoreClickUntil = Date.now() + 260;
+    }
+
+    pointerState = null;
+  });
+
+  track.addEventListener("pointercancel", () => {
+    pointerState = null;
   });
 
   render(activeIndex, activeIndex, 0, true);
@@ -316,16 +392,22 @@ function createSlider(root) {
 
       if (duration > 0) {
         applyState(slide, fromState, true);
-      }
+        setSlotClass(slide, fromDistance, range);
 
-      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => {
+          setSlotClass(slide, toDistance, range);
+          applyState(slide, toState, false);
+          slide.classList.toggle("is-center", toDistance === 0);
+          slide.classList.toggle("is-visible", toState.opacity > 0.01);
+          slide.style.pointerEvents = toDistance === 0 ? "auto" : "none";
+        });
+      } else {
+        setSlotClass(slide, toDistance, range);
         applyState(slide, toState, false);
-      });
-
-      slide.classList.toggle("is-center", toDistance === 0);
-      slide.classList.toggle("is-visible", toState.opacity > 0.01);
-      setSlotClass(slide, toDistance, range);
-      slide.style.pointerEvents = toDistance === 0 ? "auto" : "none";
+        slide.classList.toggle("is-center", toDistance === 0);
+        slide.classList.toggle("is-visible", toState.opacity > 0.01);
+        slide.style.pointerEvents = toDistance === 0 ? "auto" : "none";
+      }
     });
 
     syncTextSlides(textSlides, nextIndex);
