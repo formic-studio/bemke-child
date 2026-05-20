@@ -373,6 +373,7 @@ function createSlider(root) {
 
       gsap.to(slide, {
         ...slideStateToGsap(toState),
+        '--overlay-opacity': toState.overlayOpacity,
         duration,
         ease: 'power3.out',
         overwrite: true,
@@ -384,13 +385,6 @@ function createSlider(root) {
             processQueue();
           }
         },
-      });
-
-      gsap.to(slide, {
-        '--overlay-opacity': toState.overlayOpacity,
-        duration,
-        ease: 'power2.out',
-        overwrite: true,
       });
 
       if (title) {
