@@ -3,3 +3,7 @@
 .font-f-season-mix {
   font-family: "Season Mix";
 }
+
+.font-size-body-m {
+  font-size: var(--size-body-m);
+}
