@@ -8,7 +8,7 @@
   font-size: var(--size-body-m);
 }
 
-@media (min-width: 768px) {
+@media (min-width: 992px) {
   #brx-header #brxe-spklen {
     align-items: center;
     display: grid;
