@@ -7,3 +7,33 @@
 .font-size-body-m {
   font-size: var(--size-body-m);
 }
+
+@media (min-width: 768px) {
+  #brx-header .brxe-nav-menu .bricks-nav-menu {
+    align-items: center;
+  }
+
+  #brx-header .brxe-nav-menu .bricks-nav-menu > li {
+    align-items: center;
+    display: flex;
+    margin: 0;
+  }
+
+  #brx-header .brxe-nav-menu .bricks-nav-menu > li::before {
+    content: "";
+    display: block;
+    height: 3.2rem;
+    margin: 0 1.8rem;
+    opacity: 0.45;
+    width: 1px;
+    background-color: var(--brown);
+  }
+
+  #brx-header .brxe-nav-menu .bricks-nav-menu > li > a {
+    white-space: nowrap;
+  }
+
+  #brx-header .arrow-nav {
+    margin-left: 1.8rem;
+  }
+}
