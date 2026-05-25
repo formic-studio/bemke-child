@@ -28,7 +28,7 @@ html {
 
 @media screen and (max-width: 1440px) {
   :root {
-    --font-from: 8;
+    --font-from: 7;
     --font-to: 9;
     --vw-from: calc(992 / 100);
     --vw-to: calc(1440 / 100);
