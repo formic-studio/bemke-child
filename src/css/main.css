@@ -1,5 +1,85 @@
 @import "./modules/thinktank-slider.css";
 
+:root {
+  --font-from: 10;
+  --font-to: 10;
+  --vw-from: calc(1920 / 100);
+  --vw-to: calc(2400 / 100);
+  --coefficient: calc(
+    (var(--font-to) - var(--font-from)) / (var(--vw-to) - var(--vw-from))
+  );
+  --base: calc(
+    (var(--font-from) - var(--vw-from) * var(--coefficient)) / 16
+  );
+}
+
+html {
+  font-size: calc(var(--base) * 1rem + var(--coefficient) * 1vw);
+}
+
+@media screen and (max-width: 1920px) {
+  :root {
+    --font-from: 9;
+    --font-to: 10;
+    --vw-from: calc(1440 / 100);
+    --vw-to: calc(1920 / 100);
+  }
+}
+
+@media screen and (max-width: 1440px) {
+  :root {
+    --font-from: 8;
+    --font-to: 9;
+    --vw-from: calc(992 / 100);
+    --vw-to: calc(1440 / 100);
+  }
+}
+
+@media screen and (max-width: 992px) {
+  :root {
+    --font-from: 10;
+    --font-to: 10;
+    --vw-from: calc(960 / 100);
+    --vw-to: calc(992 / 100);
+  }
+}
+
+@media screen and (max-width: 960px) {
+  :root {
+    --font-from: 10;
+    --font-to: 10;
+    --vw-from: calc(479 / 100);
+    --vw-to: calc(960 / 100);
+  }
+}
+
+@media screen and (max-width: 479px) {
+  :root {
+    --font-from: 10;
+    --font-to: 10;
+    --vw-from: calc(360 / 100);
+    --vw-to: calc(479 / 100);
+  }
+}
+
+@media screen and (max-width: 360px) {
+  :root {
+    --font-from: 9;
+    --font-to: 10;
+    --vw-from: calc(320 / 100);
+    --vw-to: calc(360 / 100);
+  }
+}
+
+@media screen and (max-width: 320px) {
+  :root {
+    --font-from: 6;
+    --font-to: 9;
+    --vw-from: calc(1 / 100);
+    --vw-to: calc(320 / 100);
+  }
+}
+
 .font-f-season-mix {
   font-family: "Season Mix";
 }
