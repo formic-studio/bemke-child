@@ -1,4 +1,4 @@
-@import './modules/thinktank-slider.css';
+@import "./modules/thinktank-slider.css";
 
 .font-f-season-mix {
   font-family: "Season Mix";
@@ -42,7 +42,7 @@
     background-repeat: no-repeat;
     background-size: 7px 4px;
     border-radius: 999px;
-    background-color: rgba(224, 165, 69, 0.55);
+    background-color: rgba(224, 165, 69, 1);
     display: block;
     flex-shrink: 0;
     height: 24px;
