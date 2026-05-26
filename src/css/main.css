@@ -102,6 +102,11 @@ html {
   font-size: var(--size-body-m);
 }
 
+.cta-link {
+  font-weight: 700;
+  text-decoration: underline;
+}
+
 #brxe-kecesp a:focus-visible,
 #brxe-qcwgax [data-contrast]:focus-visible {
   outline: 2px solid var(--brown);
