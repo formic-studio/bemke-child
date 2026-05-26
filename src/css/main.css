@@ -2,6 +2,94 @@
 
 :root {
   --a11y-font-scale: 1;
+  --size-display-base: 8.4rem;
+  --size-h1-base: 4.2rem;
+  --size-h2-base: 3.4rem;
+  --size-h3-base: 2.4rem;
+  --size-h4-base: 2rem;
+  --size-body-xl-base: 2.4rem;
+  --size-body-l-base: 2rem;
+  --size-body-m-base: 1.7rem;
+  --size-body-base: 1.45rem;
+  --size-body-xs-base: 1.3rem;
+  --size-caption-big-base: 1.8rem;
+  --size-caption-base: 1.5rem;
+  --size-caption-small-base: 1.4rem;
+  --size-btn-base: 1.6rem;
+  --size-btn-small-base: 1.4rem;
+  --size-link-base: 1.4rem;
+  --size-h1-mobile-base: 3rem;
+  --size-h2-mobile-base: 2.6rem;
+  --size-h3-mobile-base: 2.2rem;
+  --size-h4-mobile-base: 2rem;
+  --size-body-xl-mobile-base: 2rem;
+  --size-body-l-mobile-base: 1.8rem;
+  --size-body-m-mobile-base: 1.6rem;
+  --size-body-mobile-base: 1.4rem;
+  --size-body-xs-mobile-base: 1.3rem;
+  --size-display-mobile-base: 6.2rem;
+  --size-caption-big-mobile-base: 1.6rem;
+  --size-caption-mobile-base: 1.4rem;
+  --size-caption-small-mobile-base: 1.3rem;
+  --size-display: calc(var(--size-display-base) * var(--a11y-font-scale));
+  --size-h1: calc(var(--size-h1-base) * var(--a11y-font-scale));
+  --size-h2: calc(var(--size-h2-base) * var(--a11y-font-scale));
+  --size-h3: calc(var(--size-h3-base) * var(--a11y-font-scale));
+  --size-h4: calc(var(--size-h4-base) * var(--a11y-font-scale));
+  --size-body-xl: calc(var(--size-body-xl-base) * var(--a11y-font-scale));
+  --size-body-l: calc(var(--size-body-l-base) * var(--a11y-font-scale));
+  --size-body-m: calc(var(--size-body-m-base) * var(--a11y-font-scale));
+  --size-body: calc(var(--size-body-base) * var(--a11y-font-scale));
+  --size-body-xs: calc(var(--size-body-xs-base) * var(--a11y-font-scale));
+  --size-caption-big: calc(
+    var(--size-caption-big-base) * var(--a11y-font-scale)
+  );
+  --size-caption: calc(var(--size-caption-base) * var(--a11y-font-scale));
+  --size-caption-small: calc(
+    var(--size-caption-small-base) * var(--a11y-font-scale)
+  );
+  --size-btn: calc(var(--size-btn-base) * var(--a11y-font-scale));
+  --size-btn-small: calc(var(--size-btn-small-base) * var(--a11y-font-scale));
+  --size-link: calc(var(--size-link-base) * var(--a11y-font-scale));
+  --size-h1-mobile: calc(
+    var(--size-h1-mobile-base) * var(--a11y-font-scale)
+  );
+  --size-h2-mobile: calc(
+    var(--size-h2-mobile-base) * var(--a11y-font-scale)
+  );
+  --size-h3-mobile: calc(
+    var(--size-h3-mobile-base) * var(--a11y-font-scale)
+  );
+  --size-h4-mobile: calc(
+    var(--size-h4-mobile-base) * var(--a11y-font-scale)
+  );
+  --size-body-xl-mobile: calc(
+    var(--size-body-xl-mobile-base) * var(--a11y-font-scale)
+  );
+  --size-body-l-mobile: calc(
+    var(--size-body-l-mobile-base) * var(--a11y-font-scale)
+  );
+  --size-body-m-mobile: calc(
+    var(--size-body-m-mobile-base) * var(--a11y-font-scale)
+  );
+  --size-body-mobile: calc(
+    var(--size-body-mobile-base) * var(--a11y-font-scale)
+  );
+  --size-body-xs-mobile: calc(
+    var(--size-body-xs-mobile-base) * var(--a11y-font-scale)
+  );
+  --size-display-mobile: calc(
+    var(--size-display-mobile-base) * var(--a11y-font-scale)
+  );
+  --size-caption-big-mobile: calc(
+    var(--size-caption-big-mobile-base) * var(--a11y-font-scale)
+  );
+  --size-caption-mobile: calc(
+    var(--size-caption-mobile-base) * var(--a11y-font-scale)
+  );
+  --size-caption-small-mobile: calc(
+    var(--size-caption-small-mobile-base) * var(--a11y-font-scale)
+  );
   --font-from: 10;
   --font-to: 10;
   --vw-from: calc(1920 / 100);
@@ -15,9 +103,7 @@
 }
 
 html {
-  font-size: calc(
-    (var(--base) * 1rem + var(--coefficient) * 1vw) * var(--a11y-font-scale)
-  );
+  font-size: calc(var(--base) * 1rem + var(--coefficient) * 1vw);
 }
 
 @media screen and (max-width: 1920px) {
