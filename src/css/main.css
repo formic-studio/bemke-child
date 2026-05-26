@@ -91,29 +91,89 @@ html {
   font-size: var(--size-body-m);
 }
 
-#brxe-qmbqwm:focus-visible,
-#brxe-cqxcbv:focus-visible,
-#brxe-toalqu:focus-visible,
-#brxe-tqrvyq:focus-visible,
-#brxe-ldfqid:focus-visible,
-#brxe-vthfyi:focus-visible,
-#brxe-mhhnol:focus-visible {
+#brxe-kecesp a:focus-visible,
+#brxe-qcwgax [data-contrast]:focus-visible {
   outline: 2px solid var(--brown);
   outline-offset: 2px;
+  border-radius: 999px;
 }
 
-#brxe-qmbqwm[aria-pressed="true"],
-#brxe-cqxcbv[aria-pressed="true"],
-#brxe-toalqu[aria-pressed="true"] {
+#brxe-kecesp a[aria-pressed="true"] {
   text-decoration: underline;
   text-underline-offset: 0.2em;
 }
 
-#brxe-tqrvyq:focus-visible,
-#brxe-ldfqid:focus-visible,
-#brxe-vthfyi:focus-visible,
-#brxe-mhhnol:focus-visible {
-  border-radius: 999px;
+#brxe-qcwgax [data-contrast][aria-pressed="true"] {
+  box-shadow: inset 0 0 0 2px currentColor;
+}
+
+html[data-contrast="white-black"] {
+  --a11y-bg: #000000;
+  --a11y-surface: #000000;
+  --a11y-text: #ffffff;
+  --a11y-border: #ffffff;
+}
+
+html[data-contrast="black-yellow"] {
+  --a11y-bg: #ffeb3b;
+  --a11y-surface: #ffeb3b;
+  --a11y-text: #000000;
+  --a11y-border: #000000;
+}
+
+html[data-contrast="yellow-black"] {
+  --a11y-bg: #000000;
+  --a11y-surface: #000000;
+  --a11y-text: #ffeb3b;
+  --a11y-border: #ffeb3b;
+}
+
+html[data-contrast]:not([data-contrast="default"]) {
+  --white: var(--a11y-surface);
+  --cream: var(--a11y-surface);
+  --darkcream: var(--a11y-surface);
+  --eggshell: var(--a11y-surface);
+  --lightyellow: var(--a11y-surface);
+  --yellow: var(--a11y-surface);
+  --mustard: var(--a11y-text);
+  --red: var(--a11y-surface);
+  --wine: var(--a11y-surface);
+  --brown: var(--a11y-text);
+  --lightmustard: var(--a11y-border);
+}
+
+html[data-contrast]:not([data-contrast="default"]) body,
+html[data-contrast]:not([data-contrast="default"]) .brx-body {
+  background-color: var(--a11y-bg);
+  color: var(--a11y-text);
+}
+
+html[data-contrast]:not([data-contrast="default"]) .brxe-heading,
+html[data-contrast]:not([data-contrast="default"]) .brxe-text-basic,
+html[data-contrast]:not([data-contrast="default"]) .brxe-text-link,
+html[data-contrast]:not([data-contrast="default"]) .font-color-DarkCream,
+html[data-contrast]:not([data-contrast="default"]) .font-color-Cream-dark,
+html[data-contrast]:not([data-contrast="default"]) .page-info {
+  color: var(--a11y-text) !important;
+}
+
+html[data-contrast]:not([data-contrast="default"]) a {
+  color: var(--a11y-text);
+}
+
+html[data-contrast]:not([data-contrast="default"]) .brxe-button,
+html[data-contrast]:not([data-contrast="default"]) .btn,
+html[data-contrast]:not([data-contrast="default"]) .card,
+html[data-contrast]:not([data-contrast="default"]) .arrow,
+html[data-contrast]:not([data-contrast="default"]) input,
+html[data-contrast]:not([data-contrast="default"]) select,
+html[data-contrast]:not([data-contrast="default"]) textarea {
+  border-color: var(--a11y-border) !important;
+}
+
+html[data-contrast]:not([data-contrast="default"]) .a11y-decorative-bg,
+html[data-contrast]:not([data-contrast="default"]) [data-a11y-decorative-bg="true"] {
+  background-image: none !important;
 }
 
 @media (min-width: 992px) {
