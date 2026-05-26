@@ -52,6 +52,7 @@ function decorateControls() {
 
     element.setAttribute('role', 'button');
     element.setAttribute('aria-label', CONTRAST_MODES.get(mode) ?? 'Tryb kontrastu');
+    element.setAttribute('data-a11y-contrast-fixed', 'true');
 
     if (!element.hasAttribute('tabindex')) {
       element.setAttribute('tabindex', '0');

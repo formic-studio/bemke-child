@@ -2,6 +2,17 @@
 
 :root {
   --a11y-font-scale: 1;
+  --theme-white: rgba(255, 253, 251, 1);
+  --theme-cream: rgba(255, 249, 244, 1);
+  --theme-darkcream: rgba(255, 243, 224, 1);
+  --theme-eggshell: rgba(255, 233, 198, 1);
+  --theme-lightyellow: rgba(246, 204, 138, 1);
+  --theme-lightmustard: rgba(224, 165, 69, 1);
+  --theme-yellow: rgba(249, 187, 89, 1);
+  --theme-mustard: rgba(174, 107, 0, 1);
+  --theme-red: rgba(116, 22, 24, 1);
+  --theme-wine: rgba(80, 24, 25, 1);
+  --theme-brown: rgba(27, 5, 8, 1);
   --font-from: 10;
   --font-to: 10;
   --vw-from: calc(1920 / 100);
@@ -107,6 +118,30 @@ html {
   box-shadow: inset 0 0 0 2px currentColor;
 }
 
+#brxe-qcwgax [data-contrast="default"] {
+  background-color: var(--theme-white);
+  border-color: var(--theme-lightmustard) !important;
+  color: var(--theme-brown) !important;
+}
+
+#brxe-qcwgax [data-contrast="white-black"] {
+  background-color: #000000;
+  border-color: #ffffff !important;
+  color: #ffffff !important;
+}
+
+#brxe-qcwgax [data-contrast="black-yellow"] {
+  background-color: #ffeb3b;
+  border-color: #000000 !important;
+  color: #000000 !important;
+}
+
+#brxe-qcwgax [data-contrast="yellow-black"] {
+  background-color: #000000;
+  border-color: #ffeb3b !important;
+  color: #ffeb3b !important;
+}
+
 html[data-contrast="white-black"] {
   --a11y-bg: #000000;
   --a11y-surface: #000000;
@@ -174,6 +209,39 @@ html[data-contrast]:not([data-contrast="default"]) textarea {
 html[data-contrast]:not([data-contrast="default"]) .a11y-decorative-bg,
 html[data-contrast]:not([data-contrast="default"]) [data-a11y-decorative-bg="true"] {
   background-image: none !important;
+}
+
+html[data-contrast]:not([data-contrast="default"]) .a11y-contrast-fixed,
+html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="true"] {
+  --white: var(--theme-white);
+  --cream: var(--theme-cream);
+  --darkcream: var(--theme-darkcream);
+  --eggshell: var(--theme-eggshell);
+  --lightyellow: var(--theme-lightyellow);
+  --yellow: var(--theme-yellow);
+  --mustard: var(--theme-mustard);
+  --red: var(--theme-red);
+  --wine: var(--theme-wine);
+  --brown: var(--theme-brown);
+  --lightmustard: var(--theme-lightmustard);
+}
+
+html[data-contrast]:not([data-contrast="default"]) .a11y-contrast-fixed .brxe-heading,
+html[data-contrast]:not([data-contrast="default"]) .a11y-contrast-fixed .brxe-text-basic,
+html[data-contrast]:not([data-contrast="default"]) .a11y-contrast-fixed .brxe-text-link,
+html[data-contrast]:not([data-contrast="default"]) .a11y-contrast-fixed a,
+html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="true"] .brxe-heading,
+html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="true"] .brxe-text-basic,
+html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="true"] .brxe-text-link,
+html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="true"] a {
+  color: inherit !important;
+}
+
+html[data-contrast]:not([data-contrast="default"]) .a11y-contrast-fixed .brxe-button,
+html[data-contrast]:not([data-contrast="default"]) .a11y-contrast-fixed .btn,
+html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="true"] .brxe-button,
+html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="true"] .btn {
+  border-color: currentColor !important;
 }
 
 @media (min-width: 992px) {
