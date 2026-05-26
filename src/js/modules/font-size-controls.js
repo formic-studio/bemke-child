@@ -1,4 +1,5 @@
 const STORAGE_KEY = 'bemke_a11y_font_scale';
+let currentScale = 1;
 
 const SCALE_CONTROLS = [
   {
@@ -19,7 +20,29 @@ const SCALE_CONTROLS = [
 ];
 
 function applyFontScale(scale) {
-  document.documentElement.style.setProperty('--a11y-font-scale', String(scale));
+  const root = document.documentElement;
+  currentScale = scale;
+  root.style.setProperty('--a11y-font-scale', String(scale));
+
+  // Fallback: enforce a scaled root font-size in px for browsers that
+  // don't reliably re-evaluate the CSS calc() chain with custom properties.
+  const previousInlineFontSize = root.style.fontSize;
+  const previousInlineScale = root.style.getPropertyValue('--a11y-font-scale');
+
+  root.style.removeProperty('font-size');
+  root.style.setProperty('--a11y-font-scale', '1');
+
+  const baseFontSizePx = Number.parseFloat(
+    window.getComputedStyle(root).fontSize
+  );
+  const safeBaseFontSizePx = Number.isFinite(baseFontSizePx) ? baseFontSizePx : 16;
+
+  root.style.fontSize = `${(safeBaseFontSizePx * scale).toFixed(3)}px`;
+  root.style.setProperty('--a11y-font-scale', previousInlineScale || String(scale));
+
+  if (!previousInlineFontSize && scale === 1) {
+    root.style.removeProperty('font-size');
+  }
 }
 
 function getSavedScale() {
@@ -115,4 +138,12 @@ export function initFontSizeControls() {
 
   applyFontScale(initialScale);
   setPressedState(activeId);
+
+  window.addEventListener(
+    'resize',
+    () => {
+      applyFontScale(currentScale);
+    },
+    { passive: true }
+  );
 }
