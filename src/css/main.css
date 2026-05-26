@@ -1,6 +1,7 @@
 @import "./modules/thinktank-slider.css";
 
 :root {
+  --a11y-font-scale: 1;
   --font-from: 10;
   --font-to: 10;
   --vw-from: calc(1920 / 100);
@@ -14,7 +15,9 @@
 }
 
 html {
-  font-size: calc(var(--base) * 1rem + var(--coefficient) * 1vw);
+  font-size: calc(
+    (var(--base) * 1rem + var(--coefficient) * 1vw) * var(--a11y-font-scale)
+  );
 }
 
 @media screen and (max-width: 1920px) {
@@ -97,6 +100,13 @@ html {
 #brxe-mhhnol:focus-visible {
   outline: 2px solid var(--brown);
   outline-offset: 2px;
+}
+
+#brxe-qmbqwm[aria-pressed="true"],
+#brxe-cqxcbv[aria-pressed="true"],
+#brxe-toalqu[aria-pressed="true"] {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
 }
 
 #brxe-tqrvyq:focus-visible,
