@@ -88,6 +88,24 @@ html {
   font-size: var(--size-body-m);
 }
 
+#brxe-qmbqwm:focus-visible,
+#brxe-cqxcbv:focus-visible,
+#brxe-toalqu:focus-visible,
+#brxe-tqrvyq:focus-visible,
+#brxe-ldfqid:focus-visible,
+#brxe-vthfyi:focus-visible,
+#brxe-mhhnol:focus-visible {
+  outline: 2px solid var(--brown);
+  outline-offset: 2px;
+}
+
+#brxe-tqrvyq:focus-visible,
+#brxe-ldfqid:focus-visible,
+#brxe-vthfyi:focus-visible,
+#brxe-mhhnol:focus-visible {
+  border-radius: 999px;
+}
+
 @media (min-width: 992px) {
   #brx-header #brxe-spklen {
     align-items: center;
