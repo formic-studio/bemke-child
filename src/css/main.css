@@ -265,11 +265,9 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
   scroll-snap-align: start;
 }
 
-.accordin-item:not(.is-open) {
-  cursor: pointer;
-}
-
-.accordin-heading {
+.accordin-item:not(.is-open),
+.accordin-item:not(.is-open) .accordin-heading,
+.accordin-item:not(.is-open) .accordin-btn {
   cursor: pointer;
 }
 
