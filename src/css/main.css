@@ -252,6 +252,12 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
 .button-scroll-row {
   overflow-x: auto;
   scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.button-scroll-row::-webkit-scrollbar {
+  display: none;
 }
 
 .button-scroll-item {
