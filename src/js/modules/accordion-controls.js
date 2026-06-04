@@ -69,6 +69,7 @@ function setExpandedState(item, expanded) {
 
   if (heading) {
     heading.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+    heading.setAttribute('aria-disabled', expanded ? 'true' : 'false');
   }
 }
 
@@ -198,6 +199,10 @@ function decorateHeading(item, index) {
     return;
   }
 
+  if (!heading.id) {
+    heading.id = `bemke-accordion-trigger-${index + 1}`;
+  }
+
   if (!panel.id) {
     panel.id = `bemke-accordion-panel-${index + 1}`;
   }
@@ -205,6 +210,8 @@ function decorateHeading(item, index) {
   heading.setAttribute('role', 'button');
   heading.setAttribute('tabindex', '0');
   heading.setAttribute('aria-controls', panel.id);
+  panel.setAttribute('role', 'region');
+  panel.setAttribute('aria-labelledby', heading.id);
 }
 
 function activateItem(root, nextItem) {
