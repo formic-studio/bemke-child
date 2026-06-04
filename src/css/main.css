@@ -251,10 +251,13 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
 
 @media screen and (max-width: 767px) {
   .button-scroll-row {
-    display: flex;
+    align-self: stretch;
+    display: flex !important;
     flex-wrap: nowrap;
     gap: 1rem;
-    justify-content: flex-start;
+    justify-content: flex-start !important;
+    max-width: 100%;
+    min-width: 0;
     overflow-x: auto;
     overflow-y: hidden;
     padding: 0 1rem 0.25rem;
@@ -265,22 +268,31 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
     overscroll-behavior-x: contain;
     scrollbar-width: none;
     touch-action: pan-x;
+    width: 100%;
   }
 
   .button-scroll-row::-webkit-scrollbar {
     display: none;
   }
 
+  .button-scroll-row > * ,
   .button-scroll-item {
     flex: 0 0 auto;
     min-width: max-content;
     scroll-snap-align: start;
     scroll-snap-stop: always;
+    white-space: nowrap;
   }
 
+  .button-scroll-row > .btn,
+  .button-scroll-row > .brxe-button,
+  .button-scroll-row > a,
   .button-scroll-item .brxe-button,
   .button-scroll-item .btn,
   .button-scroll-item a {
+    flex: 0 0 auto;
+    max-width: none;
+    min-width: max-content;
     white-space: nowrap;
   }
 }
