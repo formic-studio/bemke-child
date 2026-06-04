@@ -3,6 +3,9 @@ const ITEM_SELECTOR = '.accordin-item';
 const HEADING_SELECTOR = '.accordin-heading';
 const PANEL_SELECTOR = '.accordin-text';
 const BUTTON_SELECTOR = '.accordin-btn';
+const TITLE_SELECTOR = '.accordin-tittle';
+const NUMBER_SELECTOR = '.accordin-number';
+const DECORATIVE_SELECTOR = '.dot';
 const OPEN_ITEM_CLASS = 'is-open';
 const OPEN_PANEL_CLASS = 'accordin-text-open';
 const OPEN_BUTTON_CLASS = 'accordin-btn-oppen';
@@ -26,6 +29,10 @@ function getPanel(item) {
 
 function getButton(item) {
   return item.querySelector(BUTTON_SELECTOR);
+}
+
+function getTitle(item) {
+  return item.querySelector(TITLE_SELECTOR);
 }
 
 function getPreferredDisplay(panel) {
@@ -194,6 +201,7 @@ function getInitialOpenItem(items) {
 function decorateHeading(item, index) {
   const heading = getHeading(item);
   const panel = getPanel(item);
+  const title = getTitle(item);
 
   if (!heading || !panel) {
     return;
@@ -210,8 +218,28 @@ function decorateHeading(item, index) {
   heading.setAttribute('role', 'button');
   heading.setAttribute('tabindex', '0');
   heading.setAttribute('aria-controls', panel.id);
+  heading.setAttribute('aria-disabled', 'false');
   panel.setAttribute('role', 'region');
   panel.setAttribute('aria-labelledby', heading.id);
+
+  const titleText = title?.textContent?.trim();
+  if (titleText) {
+    heading.setAttribute('aria-label', titleText);
+  }
+}
+
+function decorateDecorativeElements(item) {
+  item.querySelectorAll(`${NUMBER_SELECTOR}, ${NUMBER_SELECTOR} *, ${DECORATIVE_SELECTOR}`).forEach((element) => {
+    element.setAttribute('aria-hidden', 'true');
+  });
+
+  item.querySelectorAll(`${BUTTON_SELECTOR}, ${BUTTON_SELECTOR} *`).forEach((element) => {
+    element.setAttribute('aria-hidden', 'true');
+  });
+
+  item.querySelectorAll(`${BUTTON_SELECTOR} svg`).forEach((element) => {
+    element.setAttribute('focusable', 'false');
+  });
 }
 
 function activateItem(root, nextItem) {
@@ -290,6 +318,7 @@ function setupAccordion(root) {
 
   items.forEach((item, index) => {
     decorateHeading(item, index);
+    decorateDecorativeElements(item);
   });
 
   const openItem = getInitialOpenItem(items);
