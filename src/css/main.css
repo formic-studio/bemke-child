@@ -265,6 +265,50 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
   scroll-snap-align: start;
 }
 
+.accordin-item:not(.is-open) {
+  cursor: pointer;
+}
+
+.accordin-heading {
+  cursor: pointer;
+}
+
+.accordin-heading:focus-visible {
+  outline: 2px solid var(--brown);
+  outline-offset: 4px;
+}
+
+.accordin-btn {
+  transition: transform 0.32s ease;
+  transform-origin: center;
+}
+
+.accordin-btn.accordin-btn-oppen,
+.accordin-item.is-open .accordin-btn {
+  transform: rotate(180deg);
+}
+
+.accordin-text {
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: height 0.32s ease, opacity 0.24s ease;
+  visibility: hidden;
+}
+
+.accordin-text.accordin-text-open,
+.accordin-item.is-open .accordin-text {
+  opacity: 1;
+  visibility: visible;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .accordin-btn,
+  .accordin-text {
+    transition: none;
+  }
+}
+
 @media (min-width: 992px) {
   #brx-header #brxe-spklen {
     align-items: center;
