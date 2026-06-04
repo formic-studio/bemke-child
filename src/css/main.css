@@ -249,6 +249,42 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
   border-color: currentColor !important;
 }
 
+@media screen and (max-width: 767px) {
+  .button-scroll-row {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 1rem;
+    justify-content: flex-start;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0 1rem 0.25rem;
+    scroll-behavior: smooth;
+    scroll-padding-inline: 1rem;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    touch-action: pan-x;
+  }
+
+  .button-scroll-row::-webkit-scrollbar {
+    display: none;
+  }
+
+  .button-scroll-item {
+    flex: 0 0 auto;
+    min-width: max-content;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  .button-scroll-item .brxe-button,
+  .button-scroll-item .btn,
+  .button-scroll-item a {
+    white-space: nowrap;
+  }
+}
+
 @media (min-width: 992px) {
   #brx-header #brxe-spklen {
     align-items: center;
