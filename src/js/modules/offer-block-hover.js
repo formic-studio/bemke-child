@@ -28,7 +28,7 @@ function handlePointerOut(event) {
   const link = event.target?.closest?.(LINK_SELECTOR);
   const block = getOfferBlock(link);
 
-  if (!block || block.contains(event.relatedTarget) || hasFocusedOfferLink(block)) {
+  if (!block || link.contains(event.relatedTarget) || hasFocusedOfferLink(block)) {
     return;
   }
 
