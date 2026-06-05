@@ -265,6 +265,14 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
   scroll-snap-align: start;
 }
 
+.offer-block {
+  transition: background-color 0.28s ease;
+}
+
+.offer-block.bg-eggShell {
+  background-color: var(--eggshell, var(--theme-eggshell));
+}
+
 .accordin-item:not(.is-open),
 .accordin-item:not(.is-open) .accordin-heading,
 .accordin-item:not(.is-open) .accordin-btn {

@@ -4,6 +4,7 @@ import { initDecorativeVideoControls } from './modules/decorative-video-controls
 import { initThinktankSlider } from './modules/thinktank-slider.js';
 import { initContrastControls } from './modules/contrast-controls.js';
 import { initFontSizeControls } from './modules/font-size-controls.js';
+import { initOfferBlockHover } from './modules/offer-block-hover.js';
 
 function initApp() {
   initAccordionControls();
@@ -11,6 +12,7 @@ function initApp() {
   initThinktankSlider();
   initContrastControls();
   initFontSizeControls();
+  initOfferBlockHover();
 }
 
 if (document.readyState === 'loading') {
