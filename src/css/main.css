@@ -324,11 +324,11 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
 
 .slider:not(.slider-thinktank)[data-bemke-slider-ready="1"] .arrow:focus-visible {
   border-radius: 999px;
-  box-shadow: inset 0 0 0 2px var(--brown);
+  box-shadow: inset 0 0 0 2px var(--brown, var(--theme-brown));
 }
 
 .slider:not(.slider-thinktank)[data-bemke-slider-ready="1"]:focus-visible {
-  outline: 2px solid var(--brown);
+  outline: 2px solid var(--brown, var(--theme-brown));
   outline-offset: 4px;
 }
 
