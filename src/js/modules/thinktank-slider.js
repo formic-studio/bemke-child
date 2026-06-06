@@ -61,19 +61,22 @@ const SLOT_PROFILE = {
 const MOBILE_SLOT_PROFILE = {
   left: {
     1: {
-      xFactor: 2.4,
-      overlayOpacity: 0.62,
+      xFactor: 3.2,
+      overlayOpacity: 0,
       scale: 1,
     },
   },
   right: {
     1: {
-      xFactor: 2.4,
-      overlayOpacity: 0.62,
+      xFactor: 3.2,
+      overlayOpacity: 0,
       scale: 1,
     },
   },
 };
+
+const TEXT_ANIMATION_MS = 520;
+const TEXT_SHIFT_PX = 28;
 
 export function initThinktankSlider() {
   initThinktankSliderRoots();
@@ -209,6 +212,12 @@ function createSlider(root) {
     textSlide.classList.remove("bricks-lazy-hidden");
   });
 
+  updateTextHeight(textWrap, textSlides);
+
+  if (document.fonts?.ready) {
+    document.fonts.ready.then(() => updateTextHeight(textWrap, textSlides));
+  }
+
   bindControls(controls, {
     onPause: () => disableAutoplay(),
     onPlay: () => enableAutoplay(),
@@ -320,12 +329,14 @@ function createSlider(root) {
     "resize",
     debounce(() => {
       queue.length = 0;
+      updateTextHeight(textWrap, textSlides);
       render(activeIndex, activeIndex, 0, true);
     }, 120),
   );
 
   root.__bemkeThinktankRefresh = () => {
     queue.length = 0;
+    updateTextHeight(textWrap, textSlides);
     render(activeIndex, activeIndex, 0, true);
   };
 
@@ -478,7 +489,7 @@ function createSlider(root) {
       }
     });
 
-    syncTextSlides(textSlides, nextIndex);
+    syncTextSlides(textSlides, nextIndex, direction, duration === 0);
 
     if (duration > 0) {
       transitionTimerId = window.setTimeout(() => {
@@ -595,18 +606,114 @@ function updateControlsState(controls, isPlaying) {
   }
 }
 
-function syncTextSlides(textSlides, activeIndex) {
+function syncTextSlides(textSlides, activeIndex, direction = 1, instant = false) {
   if (!textSlides.length) {
     return;
   }
 
   const normalized = activeIndex % textSlides.length;
+  const previousIndex = textSlides.findIndex((textSlide) =>
+    textSlide.classList.contains("is-active"),
+  );
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+
+  if (
+    instant ||
+    prefersReducedMotion ||
+    previousIndex < 0 ||
+    previousIndex === normalized
+  ) {
+    textSlides.forEach((textSlide, index) => {
+      const isActive = index === normalized;
+      resetTextAnimationState(textSlide);
+      textSlide.classList.toggle("is-active", isActive);
+      textSlide.hidden = !isActive;
+      textSlide.setAttribute("aria-hidden", isActive ? "false" : "true");
+    });
+
+    return;
+  }
+
+  const previousSlide = textSlides[previousIndex];
+  const nextSlide = textSlides[normalized];
+  const directionFactor = direction < 0 ? -1 : 1;
+  const enterOffset = `${directionFactor * TEXT_SHIFT_PX}px`;
+  const exitOffset = `${directionFactor * -TEXT_SHIFT_PX}px`;
 
   textSlides.forEach((textSlide, index) => {
-    const isActive = index === normalized;
-    textSlide.classList.toggle("is-active", isActive);
-    textSlide.hidden = !isActive;
+    const isAnimatedSlide = index === previousIndex || index === normalized;
+
+    resetTextAnimationState(textSlide);
+    textSlide.hidden = !isAnimatedSlide;
+    textSlide.setAttribute("aria-hidden", index === normalized ? "false" : "true");
   });
+
+  previousSlide.style.setProperty("--tt-text-exit", exitOffset);
+  previousSlide.classList.add("is-leaving");
+
+  nextSlide.style.setProperty("--tt-text-enter", enterOffset);
+  nextSlide.classList.add("is-preparing");
+
+  window.requestAnimationFrame(() => {
+    previousSlide.classList.remove("is-active");
+    previousSlide.classList.add("is-exiting");
+
+    nextSlide.classList.remove("is-preparing");
+    nextSlide.classList.add("is-active");
+  });
+
+  window.setTimeout(() => {
+    textSlides.forEach((textSlide, index) => {
+      const isActive = index === normalized;
+      resetTextAnimationState(textSlide);
+      textSlide.classList.toggle("is-active", isActive);
+      textSlide.hidden = !isActive;
+      textSlide.setAttribute("aria-hidden", isActive ? "false" : "true");
+    });
+  }, TEXT_ANIMATION_MS + 80);
+}
+
+function resetTextAnimationState(textSlide) {
+  textSlide.classList.remove("is-preparing", "is-leaving", "is-exiting");
+  textSlide.style.removeProperty("--tt-text-enter");
+  textSlide.style.removeProperty("--tt-text-exit");
+}
+
+function updateTextHeight(textWrap, textSlides) {
+  if (!textWrap || !textSlides.length) {
+    return;
+  }
+
+  let maxHeight = 0;
+
+  textSlides.forEach((textSlide) => {
+    const wasHidden = textSlide.hidden;
+    const previousPosition = textSlide.style.position;
+    const previousVisibility = textSlide.style.visibility;
+    const previousDisplay = textSlide.style.display;
+
+    textSlide.hidden = false;
+    textSlide.style.position = "relative";
+    textSlide.style.visibility = "hidden";
+    textSlide.style.display = "flex";
+
+    maxHeight = Math.max(
+      maxHeight,
+      textSlide.scrollHeight,
+      textSlide.getBoundingClientRect().height,
+    );
+
+    textSlide.style.position = previousPosition;
+    textSlide.style.visibility = previousVisibility;
+    textSlide.style.display = previousDisplay;
+    textSlide.hidden = wasHidden;
+  });
+
+  if (maxHeight > 0) {
+    textWrap.style.setProperty("--tt-text-height", `${Math.ceil(maxHeight)}px`);
+  }
 }
 
 function applyState(slide, state, immediate) {
