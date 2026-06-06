@@ -187,6 +187,14 @@
   min-height: var(--tt-text-height, auto);
   overflow: hidden;
   touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.slider-thinktank .slider-text-wrapper * {
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .slider-thinktank:not([data-thinktank-ready="1"]) .slider-text-wrapper .slide-text:not(:first-child) {
