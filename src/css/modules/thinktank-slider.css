@@ -35,6 +35,7 @@
   overflow: hidden;
   perspective: var(--tt-perspective);
   perspective-origin: center center;
+  touch-action: pan-y;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -212,8 +213,38 @@
 }
 
 @media (max-width: 767px) {
+  .slider-thinktank {
+    --tt-perspective: none;
+    --tt-clip-left-1: var(--tt-clip-center);
+    --tt-clip-left-2: var(--tt-clip-center);
+    --tt-clip-left-3: var(--tt-clip-center);
+    --tt-clip-right-1: var(--tt-clip-center);
+    --tt-clip-right-2: var(--tt-clip-center);
+    --tt-clip-right-3: var(--tt-clip-center);
+    --tt-ry-left-1: 0deg;
+    --tt-ry-left-2: 0deg;
+    --tt-ry-left-3: 0deg;
+    --tt-ry-right-1: 0deg;
+    --tt-ry-right-2: 0deg;
+    --tt-ry-right-3: 0deg;
+    --tt-z-left-1: 0px;
+    --tt-z-left-2: 0px;
+    --tt-z-left-3: 0px;
+    --tt-z-right-1: 0px;
+    --tt-z-right-2: 0px;
+    --tt-z-right-3: 0px;
+  }
+
   .slider-thinktank .slider-wrapper {
-    height: clamp(300px, 66vw, 470px);
+    height: clamp(300px, 72vw, 470px);
+    perspective: none;
+  }
+
+  .slider-thinktank .slide-thinktank {
+    width: min(72vw, 360px) !important;
+    max-width: min(72vw, 360px) !important;
+    height: 100% !important;
+    transform-style: flat;
   }
 }
 

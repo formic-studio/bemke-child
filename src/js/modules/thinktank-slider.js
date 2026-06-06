@@ -13,6 +13,7 @@ const INIT_ATTR = "data-thinktank-ready";
 const BOOT_FLAG = "__bemkeThinktankBooted";
 const AUTOPLAY_MS = 2200;
 const VISIBLE_RANGE = 3;
+const MOBILE_MEDIA_QUERY = "(max-width: 767px)";
 
 const SLOT_PROFILE = {
   left: {
@@ -53,6 +54,23 @@ const SLOT_PROFILE = {
       clipPath: "polygon(30% 18%, 100% 0, 100% 100%, 30% 82%)",
       overlayOpacity: 0.7,
       scale: 0.87,
+    },
+  },
+};
+
+const MOBILE_SLOT_PROFILE = {
+  left: {
+    1: {
+      xFactor: 2.4,
+      overlayOpacity: 0.62,
+      scale: 1,
+    },
+  },
+  right: {
+    1: {
+      xFactor: 2.4,
+      overlayOpacity: 0.62,
+      scale: 1,
     },
   },
 };
@@ -216,11 +234,13 @@ function createSlider(root) {
   });
 
   track.addEventListener("pointerdown", (event) => {
-    if (event.pointerType !== "mouse" || event.button !== 0) {
+    if (event.pointerType === "mouse" && event.button !== 0) {
       return;
     }
 
-    event.preventDefault();
+    if (event.pointerType === "mouse") {
+      event.preventDefault();
+    }
 
     pointerState = {
       id: event.pointerId,
@@ -230,7 +250,12 @@ function createSlider(root) {
     };
 
     track.classList.add("is-dragging");
-    track.setPointerCapture(event.pointerId);
+
+    try {
+      track.setPointerCapture(event.pointerId);
+    } catch {
+      // setPointerCapture can fail when the pointer is already released.
+    }
   });
 
   track.addEventListener("pointermove", (event) => {
@@ -242,6 +267,7 @@ function createSlider(root) {
     const dy = event.clientY - pointerState.startY;
 
     if (Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy)) {
+      event.preventDefault();
       pointerState.moved = true;
     }
   });
@@ -364,8 +390,9 @@ function createSlider(root) {
   }
 
   function render(previousIndex, nextIndex, direction, instant) {
-    const range = Math.min(VISIBLE_RANGE, Math.floor((slides.length - 1) / 2));
-    const step = getStep(slides[0]);
+    const isMobileLayout = window.matchMedia(MOBILE_MEDIA_QUERY).matches;
+    const range = getVisibleRange(slides.length, isMobileLayout);
+    const step = getStep(slides[0], isMobileLayout);
     const duration =
       instant || window.matchMedia("(prefers-reduced-motion: reduce)").matches
         ? 0
@@ -393,9 +420,19 @@ function createSlider(root) {
         fromDistance = -range - 1;
       }
 
-      const fromState = getStateForDistance(fromDistance, range, step);
-      const toState = getStateForDistance(toDistance, range, step);
-      const rawFromState = getStateForDistance(rawFromDistance, range, step);
+      const fromState = getStateForDistance(
+        fromDistance,
+        range,
+        step,
+        isMobileLayout,
+      );
+      const toState = getStateForDistance(toDistance, range, step, isMobileLayout);
+      const rawFromState = getStateForDistance(
+        rawFromDistance,
+        range,
+        step,
+        isMobileLayout,
+      );
 
       if (duration > 0) {
         if (wrapsLeftToRight) {
@@ -403,7 +440,7 @@ function createSlider(root) {
             track,
             slide,
             rawFromState,
-            getStateForDistance(-range - 1, range, step),
+            getStateForDistance(-range - 1, range, step, isMobileLayout),
             rawFromDistance,
             -range - 1,
             range,
@@ -414,7 +451,7 @@ function createSlider(root) {
             track,
             slide,
             rawFromState,
-            getStateForDistance(range + 1, range, step),
+            getStateForDistance(range + 1, range, step, isMobileLayout),
             rawFromDistance,
             range + 1,
             range,
@@ -586,7 +623,7 @@ function applyState(slide, state, immediate) {
   slide.style.zIndex = String(state.zIndex);
 }
 
-function getStateForDistance(distance, range, step) {
+function getStateForDistance(distance, range, step, isMobileLayout = false) {
   const abs = Math.abs(distance);
   const side = distance < 0 ? "left" : "right";
 
@@ -601,7 +638,7 @@ function getStateForDistance(distance, range, step) {
   }
 
   if (abs > range) {
-    const edgeProfile = SLOT_PROFILE[side][range] || SLOT_PROFILE[side][3];
+    const edgeProfile = getSlotProfile(side, range, isMobileLayout);
 
     return {
       x: (side === "left" ? -1 : 1) * step * (edgeProfile.xFactor + 0.84),
@@ -612,7 +649,7 @@ function getStateForDistance(distance, range, step) {
     };
   }
 
-  const profile = SLOT_PROFILE[side][abs];
+  const profile = getSlotProfile(side, abs, isMobileLayout);
 
   return {
     x: (side === "left" ? -1 : 1) * step * profile.xFactor,
@@ -621,6 +658,23 @@ function getStateForDistance(distance, range, step) {
     opacity: 1,
     zIndex: 40 - abs,
   };
+}
+
+function getSlotProfile(side, distance, isMobileLayout) {
+  const profiles = isMobileLayout ? MOBILE_SLOT_PROFILE : SLOT_PROFILE;
+  const fallbackProfiles = SLOT_PROFILE[side];
+
+  return (
+    profiles[side]?.[distance] ||
+    profiles[side]?.[1] ||
+    fallbackProfiles[distance] ||
+    fallbackProfiles[1]
+  );
+}
+
+function getVisibleRange(total, isMobileLayout) {
+  const maxRange = isMobileLayout ? 1 : VISIBLE_RANGE;
+  return Math.min(maxRange, Math.floor((total - 1) / 2));
 }
 
 function setSlotClass(slide, distance, range) {
@@ -655,12 +709,17 @@ function setSlotClass(slide, distance, range) {
   );
 }
 
-function getStep(firstSlide) {
+function getStep(firstSlide, isMobileLayout = false) {
   // Use layout width (transform-independent) to keep spacing stable.
   const rawWidth = firstSlide
     ? firstSlide.offsetWidth || firstSlide.clientWidth || 324
     : 324;
   const slideWidth = rawWidth > 40 ? rawWidth : 324;
+
+  if (isMobileLayout) {
+    return clamp(slideWidth * 0.42, 76, 124);
+  }
+
   return clamp(slideWidth * 0.41, 50, 110);
 }
 
