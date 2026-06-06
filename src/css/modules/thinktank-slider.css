@@ -181,51 +181,33 @@
   max-width: min(860px, 100%);
   margin-inline: auto;
   min-height: var(--tt-text-height, auto);
+  overflow: hidden;
 }
 
 .slider-thinktank:not([data-thinktank-ready="1"]) .slider-text-wrapper .slide-text:not(:first-child) {
   display: none;
 }
 
-.slider-thinktank[data-thinktank-ready="1"] .slider-text-wrapper .slide-text {
-  position: absolute;
-  inset: 0;
+.slider-thinktank[data-thinktank-ready="1"] .slider-text-wrapper .slider-text-track {
+  display: flex;
   width: 100%;
-  opacity: 0;
-  visibility: hidden;
+  transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.slider-thinktank[data-thinktank-ready="1"] .slider-text-wrapper .slider-text-track.is-immediate {
+  transition: none !important;
+}
+
+.slider-thinktank[data-thinktank-ready="1"] .slider-text-wrapper .slide-text {
+  flex: 0 0 100%;
+  width: 100%;
+  max-width: 100%;
+}
+
+.slider-thinktank[data-thinktank-ready="1"] .slider-text-wrapper .slide-text[aria-hidden="true"],
+.slider-thinktank[data-thinktank-ready="1"] .slider-text-wrapper .slide-text.is-text-ghost {
   pointer-events: none;
-  transform: translate3d(var(--tt-text-enter, 0), 0, 0);
-  transition:
-    opacity 360ms ease,
-    transform 520ms cubic-bezier(0.22, 1, 0.36, 1),
-    visibility 0s linear 520ms;
-}
-
-.slider-thinktank[data-thinktank-ready="1"] .slider-text-wrapper .slide-text.is-active {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-  transform: translate3d(0, 0, 0);
-  transition-delay: 0s;
-}
-
-.slider-thinktank[data-thinktank-ready="1"] .slider-text-wrapper .slide-text.is-preparing {
-  opacity: 0;
-  visibility: visible;
-  transform: translate3d(var(--tt-text-enter, 0), 0, 0);
-  transition: none;
-}
-
-.slider-thinktank[data-thinktank-ready="1"] .slider-text-wrapper .slide-text.is-leaving {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: none;
-  transform: translate3d(0, 0, 0);
-}
-
-.slider-thinktank[data-thinktank-ready="1"] .slider-text-wrapper .slide-text.is-leaving.is-exiting {
-  opacity: 0;
-  transform: translate3d(var(--tt-text-exit, 0), 0, 0);
 }
 
 .slider-thinktank .slider-paggination {

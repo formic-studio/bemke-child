@@ -76,7 +76,8 @@ const MOBILE_SLOT_PROFILE = {
 };
 
 const TEXT_ANIMATION_MS = 520;
-const TEXT_SHIFT_PX = 28;
+const TEXT_TRACK_CLASS = "slider-text-track";
+const TEXT_GHOST_CLASS = "is-text-ghost";
 
 export function initThinktankSlider() {
   initThinktankSliderRoots();
@@ -212,6 +213,7 @@ function createSlider(root) {
     textSlide.classList.remove("bricks-lazy-hidden");
   });
 
+  const textTrack = setupTextTrack(textWrap, textSlides);
   updateTextHeight(textWrap, textSlides);
 
   if (document.fonts?.ready) {
@@ -489,7 +491,7 @@ function createSlider(root) {
       }
     });
 
-    syncTextSlides(textSlides, nextIndex, direction, duration === 0);
+    syncTextSlides(textTrack, textSlides, nextIndex, direction, duration === 0);
 
     if (duration > 0) {
       transitionTimerId = window.setTimeout(() => {
@@ -606,7 +608,7 @@ function updateControlsState(controls, isPlaying) {
   }
 }
 
-function syncTextSlides(textSlides, activeIndex, direction = 1, instant = false) {
+function syncTextSlides(textTrack, textSlides, activeIndex, direction = 1, instant = false) {
   if (!textSlides.length) {
     return;
   }
@@ -618,67 +620,126 @@ function syncTextSlides(textSlides, activeIndex, direction = 1, instant = false)
   const prefersReducedMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)",
   ).matches;
-
-  if (
+  const targetPosition = getTextTrackPosition(
+    previousIndex,
+    normalized,
+    direction,
+    textSlides.length,
+  );
+  const shouldMoveInstantly =
     instant ||
     prefersReducedMotion ||
     previousIndex < 0 ||
-    previousIndex === normalized
-  ) {
-    textSlides.forEach((textSlide, index) => {
-      const isActive = index === normalized;
-      resetTextAnimationState(textSlide);
-      textSlide.classList.toggle("is-active", isActive);
-      textSlide.hidden = !isActive;
-      textSlide.setAttribute("aria-hidden", isActive ? "false" : "true");
-    });
+    previousIndex === normalized;
 
+  textSlides.forEach((textSlide, index) => {
+    const isActive = index === normalized;
+    textSlide.hidden = false;
+    textSlide.classList.toggle("is-active", isActive);
+    textSlide.setAttribute("aria-hidden", isActive ? "false" : "true");
+  });
+
+  setTextTrackPosition(textTrack, targetPosition, shouldMoveInstantly);
+
+  if (
+    shouldMoveInstantly ||
+    !isTextWraparound(previousIndex, normalized, direction, textSlides.length)
+  ) {
     return;
   }
 
-  const previousSlide = textSlides[previousIndex];
-  const nextSlide = textSlides[normalized];
-  const directionFactor = direction < 0 ? -1 : 1;
-  const enterOffset = `${directionFactor * TEXT_SHIFT_PX}px`;
-  const exitOffset = `${directionFactor * -TEXT_SHIFT_PX}px`;
-
-  textSlides.forEach((textSlide, index) => {
-    const isAnimatedSlide = index === previousIndex || index === normalized;
-
-    resetTextAnimationState(textSlide);
-    textSlide.hidden = !isAnimatedSlide;
-    textSlide.setAttribute("aria-hidden", index === normalized ? "false" : "true");
-  });
-
-  previousSlide.style.setProperty("--tt-text-exit", exitOffset);
-  previousSlide.classList.add("is-leaving");
-
-  nextSlide.style.setProperty("--tt-text-enter", enterOffset);
-  nextSlide.classList.add("is-preparing");
-
-  window.requestAnimationFrame(() => {
-    previousSlide.classList.remove("is-active");
-    previousSlide.classList.add("is-exiting");
-
-    nextSlide.classList.remove("is-preparing");
-    nextSlide.classList.add("is-active");
-  });
-
   window.setTimeout(() => {
-    textSlides.forEach((textSlide, index) => {
-      const isActive = index === normalized;
-      resetTextAnimationState(textSlide);
-      textSlide.classList.toggle("is-active", isActive);
-      textSlide.hidden = !isActive;
-      textSlide.setAttribute("aria-hidden", isActive ? "false" : "true");
-    });
-  }, TEXT_ANIMATION_MS + 80);
+    setTextTrackPosition(textTrack, normalized + 1, true);
+  }, TEXT_ANIMATION_MS + 40);
 }
 
-function resetTextAnimationState(textSlide) {
-  textSlide.classList.remove("is-preparing", "is-leaving", "is-exiting");
-  textSlide.style.removeProperty("--tt-text-enter");
-  textSlide.style.removeProperty("--tt-text-exit");
+function setupTextTrack(textWrap, textSlides) {
+  if (!textWrap || !textSlides.length) {
+    return null;
+  }
+
+  const existingTrack = textWrap.querySelector(`:scope > .${TEXT_TRACK_CLASS}`);
+
+  if (existingTrack) {
+    return existingTrack;
+  }
+
+  const textTrack = document.createElement("div");
+  textTrack.className = TEXT_TRACK_CLASS;
+  textTrack.setAttribute("aria-live", "polite");
+  textTrack.setAttribute("aria-atomic", "true");
+
+  textWrap.insertBefore(textTrack, textSlides[0]);
+  textTrack.appendChild(createTextGhost(textSlides[textSlides.length - 1]));
+
+  textSlides.forEach((textSlide) => {
+    textSlide.hidden = false;
+    textTrack.appendChild(textSlide);
+  });
+
+  textTrack.appendChild(createTextGhost(textSlides[0]));
+  setTextTrackPosition(textTrack, 1, true);
+
+  return textTrack;
+}
+
+function createTextGhost(sourceSlide) {
+  const ghost = sourceSlide.cloneNode(true);
+
+  ghost.classList.add(TEXT_GHOST_CLASS);
+  ghost.classList.remove("is-active");
+  ghost.hidden = false;
+  ghost.setAttribute("aria-hidden", "true");
+  ghost.removeAttribute("id");
+
+  ghost.querySelectorAll("[id]").forEach((node) => {
+    node.removeAttribute("id");
+  });
+
+  return ghost;
+}
+
+function getTextTrackPosition(previousIndex, nextIndex, direction, total) {
+  if (previousIndex === total - 1 && nextIndex === 0 && direction > 0) {
+    return total + 1;
+  }
+
+  if (previousIndex === 0 && nextIndex === total - 1 && direction < 0) {
+    return 0;
+  }
+
+  return nextIndex + 1;
+}
+
+function isTextWraparound(previousIndex, nextIndex, direction, total) {
+  return (
+    (previousIndex === total - 1 && nextIndex === 0 && direction > 0) ||
+    (previousIndex === 0 && nextIndex === total - 1 && direction < 0)
+  );
+}
+
+function setTextTrackPosition(textTrack, position, instant = false) {
+  if (!textTrack) {
+    return;
+  }
+
+  if (instant) {
+    textTrack.classList.add("is-immediate");
+  } else {
+    textTrack.classList.remove("is-immediate");
+  }
+
+  textTrack.style.transform = `translate3d(${-position * 100}%, 0, 0)`;
+
+  if (!instant) {
+    return;
+  }
+
+  textTrack.offsetHeight;
+
+  window.requestAnimationFrame(() => {
+    textTrack.classList.remove("is-immediate");
+  });
 }
 
 function updateTextHeight(textWrap, textSlides) {
