@@ -9,11 +9,13 @@ const ACTIVE_ATTR = 'slide-active';
 const BOOT_FLAG = '__bemkeHomeSliderBooted';
 const RESETTING_CLASS = 'is-resetting';
 const DRAGGING_CLASS = 'is-dragging';
+const GHOST_CLASS = 'is-ghost';
 
 const ANIMATION_MS = 640;
 const SWIPE_THRESHOLD = 46;
 
 let sliderId = 0;
+const imagePreloads = new Set();
 
 export function initHomeSlider() {
   initHomeSliderRoots();
@@ -84,6 +86,7 @@ function createHomeSlider(root) {
   let pointerState = null;
 
   root.setAttribute(READY_ATTR, '1');
+  prepareSlideMedia(slides);
   decorateSlider(root, track, slides);
   bindControls(controls, track, {
     onPrev: () => queueMove(-1),
@@ -330,15 +333,21 @@ function getInitialActiveIndex(slides) {
 }
 
 function arrangeSlides(track, slides, activeIndex) {
+  removeGhostSlides(track);
+
   const orderedSlides = [];
 
   for (let offset = -1; offset < slides.length - 1; offset += 1) {
     orderedSlides.push(slides[wrapIndex(activeIndex + offset, slides.length)]);
   }
 
+  track.appendChild(createGhostSlide(slides[wrapIndex(activeIndex - 2, slides.length)]));
+
   orderedSlides.forEach((slide) => {
     track.appendChild(slide);
   });
+
+  track.appendChild(createGhostSlide(slides[wrapIndex(activeIndex - 1, slides.length)]));
 }
 
 function syncSlides(slides, activeIndex) {
@@ -348,6 +357,90 @@ function syncSlides(slides, activeIndex) {
     slide.setAttribute('aria-hidden', isActive ? 'false' : 'true');
     slide.setAttribute('aria-current', isActive ? 'true' : 'false');
   });
+}
+
+function createGhostSlide(sourceSlide) {
+  const ghost = sourceSlide.cloneNode(true);
+
+  ghost.classList.add(GHOST_CLASS);
+  ghost.setAttribute(ACTIVE_ATTR, '0');
+  ghost.setAttribute('aria-hidden', 'true');
+  ghost.removeAttribute('aria-current');
+  ghost.removeAttribute('id');
+  ghost.setAttribute('tabindex', '-1');
+
+  if ('inert' in ghost) {
+    ghost.inert = true;
+  }
+
+  ghost.querySelectorAll('[id]').forEach((node) => {
+    node.removeAttribute('id');
+  });
+
+  ghost
+    .querySelectorAll('a, button, input, select, textarea, [tabindex]')
+    .forEach((node) => {
+      node.setAttribute('tabindex', '-1');
+    });
+
+  prepareSlideImages(ghost, false);
+
+  return ghost;
+}
+
+function removeGhostSlides(track) {
+  track.querySelectorAll(`:scope > ${SLIDE_SELECTOR}.${GHOST_CLASS}`).forEach((slide) => {
+    slide.remove();
+  });
+}
+
+function prepareSlideMedia(slides) {
+  slides.forEach((slide) => {
+    prepareSlideImages(slide, true);
+  });
+}
+
+function prepareSlideImages(scope, shouldPreload) {
+  scope.querySelectorAll('img').forEach((image) => {
+    image.setAttribute('draggable', 'false');
+    image.setAttribute('loading', 'eager');
+    image.setAttribute('decoding', 'async');
+    image.draggable = false;
+
+    if (shouldPreload) {
+      preloadImage(image);
+    }
+  });
+}
+
+function preloadImage(image) {
+  const src = image.currentSrc || image.getAttribute('src') || image.src;
+
+  if (!src || (image.complete && image.naturalWidth > 0)) {
+    return;
+  }
+
+  if (typeof image.decode === 'function') {
+    image.decode().catch(() => {});
+  }
+
+  const preload = new Image();
+  const srcset = image.getAttribute('srcset');
+  const sizes = image.getAttribute('sizes');
+
+  if (srcset) {
+    preload.srcset = srcset;
+  }
+
+  if (sizes) {
+    preload.sizes = sizes;
+  }
+
+  preload.decoding = 'async';
+  preload.onload = () => imagePreloads.delete(preload);
+  preload.onerror = () => imagePreloads.delete(preload);
+  imagePreloads.add(preload);
+  preload.src = src;
 }
 
 function recenterActive(root, track, activeSlide, currentOffset) {
