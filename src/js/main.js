@@ -6,6 +6,7 @@ import { initContrastControls } from './modules/contrast-controls.js';
 import { initFontSizeControls } from './modules/font-size-controls.js';
 import { initOfferBlockHover } from './modules/offer-block-hover.js';
 import { initHomeSlider } from './modules/home-slider.js';
+import { initProjectSlider } from './modules/project-slider.js';
 
 function initApp() {
   initAccordionControls();
@@ -15,6 +16,7 @@ function initApp() {
   initFontSizeControls();
   initOfferBlockHover();
   initHomeSlider();
+  initProjectSlider();
 }
 
 if (document.readyState === 'loading') {
