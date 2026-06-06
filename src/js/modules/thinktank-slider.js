@@ -75,7 +75,7 @@ const MOBILE_SLOT_PROFILE = {
   },
 };
 
-const TEXT_ANIMATION_MS = 520;
+const TEXT_ANIMATION_MS = 720;
 const TEXT_TRACK_CLASS = "slider-text-track";
 const TEXT_GHOST_CLASS = "is-text-ghost";
 
