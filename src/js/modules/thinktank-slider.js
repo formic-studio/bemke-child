@@ -244,71 +244,8 @@ function createSlider(root) {
     }
   });
 
-  track.addEventListener("pointerdown", (event) => {
-    if (event.pointerType === "mouse" && event.button !== 0) {
-      return;
-    }
-
-    if (event.pointerType === "mouse") {
-      event.preventDefault();
-    }
-
-    pointerState = {
-      id: event.pointerId,
-      startX: event.clientX,
-      startY: event.clientY,
-      moved: false,
-    };
-
-    track.classList.add("is-dragging");
-
-    try {
-      track.setPointerCapture(event.pointerId);
-    } catch {
-      // setPointerCapture can fail when the pointer is already released.
-    }
-  });
-
-  track.addEventListener("pointermove", (event) => {
-    if (!pointerState || pointerState.id !== event.pointerId) {
-      return;
-    }
-
-    const dx = event.clientX - pointerState.startX;
-    const dy = event.clientY - pointerState.startY;
-
-    if (Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy)) {
-      event.preventDefault();
-      pointerState.moved = true;
-    }
-  });
-
-  track.addEventListener("pointerup", (event) => {
-    if (!pointerState || pointerState.id !== event.pointerId) {
-      return;
-    }
-
-    const dx = event.clientX - pointerState.startX;
-    const dy = event.clientY - pointerState.startY;
-
-    if (
-      pointerState.moved &&
-      Math.abs(dx) > 46 &&
-      Math.abs(dx) > Math.abs(dy)
-    ) {
-      // Drag left -> next slide, drag right -> previous slide.
-      queueMove(dx < 0 ? 1 : -1, 1, true);
-      ignoreClickUntil = Date.now() + 260;
-    }
-
-    pointerState = null;
-    track.classList.remove("is-dragging");
-  });
-
-  track.addEventListener("pointercancel", () => {
-    pointerState = null;
-    track.classList.remove("is-dragging");
-  });
+  bindSwipeSurface(track);
+  bindSwipeSurface(textWrap);
 
   render(activeIndex, activeIndex, 0, true);
   updateControlsState(controls, isPlaying);
@@ -341,6 +278,100 @@ function createSlider(root) {
     updateTextHeight(textWrap, textSlides);
     render(activeIndex, activeIndex, 0, true);
   };
+
+  function bindSwipeSurface(surface) {
+    if (!surface) {
+      return;
+    }
+
+    surface.addEventListener("pointerdown", (event) => {
+      if (event.pointerType === "mouse" && event.button !== 0) {
+        return;
+      }
+
+      pointerState = {
+        id: event.pointerId,
+        startX: event.clientX,
+        startY: event.clientY,
+        moved: false,
+        lockedAxis: null,
+        surface,
+      };
+
+      try {
+        surface.setPointerCapture(event.pointerId);
+      } catch {
+        // setPointerCapture can fail when the pointer is already released.
+      }
+    });
+
+    surface.addEventListener("pointermove", (event) => {
+      if (!pointerState || pointerState.id !== event.pointerId) {
+        return;
+      }
+
+      const dx = event.clientX - pointerState.startX;
+      const dy = event.clientY - pointerState.startY;
+      const absX = Math.abs(dx);
+      const absY = Math.abs(dy);
+
+      if (!pointerState.lockedAxis && (absX > 8 || absY > 8)) {
+        pointerState.lockedAxis = absX > absY ? "x" : "y";
+      }
+
+      if (pointerState.lockedAxis !== "x") {
+        return;
+      }
+
+      event.preventDefault();
+      pointerState.moved = true;
+      pointerState.surface.classList.add("is-dragging");
+    });
+
+    surface.addEventListener("pointerup", (event) => {
+      if (!pointerState || pointerState.id !== event.pointerId) {
+        return;
+      }
+
+      const dx = event.clientX - pointerState.startX;
+      const dy = event.clientY - pointerState.startY;
+      const shouldMove =
+        pointerState.moved && Math.abs(dx) > 46 && Math.abs(dx) > Math.abs(dy);
+      const activeSurface = pointerState.surface;
+
+      pointerState = null;
+      activeSurface.classList.remove("is-dragging");
+
+      if (!shouldMove) {
+        return;
+      }
+
+      // Drag left -> next slide, drag right -> previous slide.
+      queueMove(dx < 0 ? 1 : -1, 1, true);
+      ignoreClickUntil = Date.now() + 260;
+    });
+
+    surface.addEventListener("pointercancel", () => {
+      if (pointerState?.surface) {
+        pointerState.surface.classList.remove("is-dragging");
+      }
+
+      pointerState = null;
+    });
+
+    surface.addEventListener(
+      "click",
+      (event) => {
+        if (Date.now() >= ignoreClickUntil) {
+          return;
+        }
+
+        event.preventDefault();
+        event.stopPropagation();
+      },
+      true,
+    );
+  }
 
   function queueMove(direction, steps = 1, restartTimer = false) {
     for (let i = 0; i < steps; i += 1) {
