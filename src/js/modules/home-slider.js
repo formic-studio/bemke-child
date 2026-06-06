@@ -100,12 +100,14 @@ function createHomeSlider(root) {
 
     if (event.key === 'ArrowLeft') {
       event.preventDefault();
+      focusControl(controls.prev);
       queueMove(-1);
       return;
     }
 
     if (event.key === 'ArrowRight') {
       event.preventDefault();
+      focusControl(controls.next);
       queueMove(1);
     }
   });
@@ -315,6 +317,14 @@ function bindControl(control, label, controlsId, handler) {
     event.preventDefault();
     handler();
   });
+}
+
+function focusControl(control) {
+  if (!control || document.activeElement === control) {
+    return;
+  }
+
+  control.focus({ preventScroll: true });
 }
 
 function getControls(root) {
