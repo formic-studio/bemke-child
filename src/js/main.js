@@ -5,6 +5,7 @@ import { initThinktankSlider } from './modules/thinktank-slider.js';
 import { initContrastControls } from './modules/contrast-controls.js';
 import { initFontSizeControls } from './modules/font-size-controls.js';
 import { initOfferBlockHover } from './modules/offer-block-hover.js';
+import { initHomeSlider } from './modules/home-slider.js';
 
 function initApp() {
   initAccordionControls();
@@ -13,6 +14,7 @@ function initApp() {
   initContrastControls();
   initFontSizeControls();
   initOfferBlockHover();
+  initHomeSlider();
 }
 
 if (document.readyState === 'loading') {
