@@ -8,6 +8,7 @@ import { initOfferBlockHover } from './modules/offer-block-hover.js';
 import { initHomeSlider } from './modules/home-slider.js';
 import { initProjectSlider } from './modules/project-slider.js';
 import { initHistoryTabs } from './modules/history-tabs.js';
+import { initMegaMenu } from './modules/mega-menu.js';
 
 function initApp() {
   initAccordionControls();
@@ -19,6 +20,7 @@ function initApp() {
   initHomeSlider();
   initProjectSlider();
   initHistoryTabs();
+  initMegaMenu();
 }
 
 if (document.readyState === 'loading') {
