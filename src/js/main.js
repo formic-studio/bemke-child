@@ -9,6 +9,7 @@ import { initHomeSlider } from './modules/home-slider.js';
 import { initProjectSlider } from './modules/project-slider.js';
 import { initHistoryTabs } from './modules/history-tabs.js';
 import { initMegaMenu } from './modules/mega-menu.js';
+import { initFormAriaReferences } from './modules/form-aria-references.js';
 
 function initApp() {
   initAccordionControls();
@@ -21,6 +22,7 @@ function initApp() {
   initProjectSlider();
   initHistoryTabs();
   initMegaMenu();
+  initFormAriaReferences();
 }
 
 if (document.readyState === 'loading') {
