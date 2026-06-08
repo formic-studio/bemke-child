@@ -580,31 +580,29 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
 
   #brx-header .mega-menu {
     --mega-menu-height: clamp(36rem, 29vw, 47.5rem);
-    background-color: var(--yellow, var(--theme-yellow));
     box-sizing: border-box;
     display: block;
-    height: var(--mega-menu-height);
-    max-height: 0;
+    height: 0;
     opacity: 0;
     overflow: hidden;
     pointer-events: none;
     position: relative;
     transition:
-      max-height 0.36s cubic-bezier(0.22, 1, 0.36, 1),
-      opacity 0.2s ease,
-      visibility 0s linear 0.36s;
+      height 0.62s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.34s ease,
+      visibility 0s linear 0.62s;
     visibility: hidden;
     width: 100%;
     z-index: 40;
   }
 
   #brx-header.is-mega-menu-open .mega-menu {
-    max-height: var(--mega-menu-height);
+    height: var(--mega-menu-height);
     opacity: 1;
     pointer-events: auto;
     transition:
-      max-height 0.36s cubic-bezier(0.22, 1, 0.36, 1),
-      opacity 0.2s ease,
+      height 0.62s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.34s ease 0.08s,
       visibility 0s;
     visibility: visible;
   }
