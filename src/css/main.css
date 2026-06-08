@@ -578,33 +578,37 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
     white-space: nowrap;
   }
 
-  #brx-header .mega-menu {
-    --mega-menu-height: clamp(36rem, 29vw, 47.5rem);
+  #brx-header .mega-menu-clip {
     box-sizing: border-box;
-    display: block;
     height: 0;
     opacity: 0;
     overflow: hidden;
     pointer-events: none;
-    position: relative;
     transition:
-      height 0.62s cubic-bezier(0.22, 1, 0.36, 1),
+      height 0.72s cubic-bezier(0.22, 1, 0.36, 1),
       opacity 0.34s ease,
-      visibility 0s linear 0.62s;
+      visibility 0s linear 0.72s;
     visibility: hidden;
     width: 100%;
     z-index: 40;
   }
 
-  #brx-header.is-mega-menu-open .mega-menu {
-    height: var(--mega-menu-height);
+  #brx-header.is-mega-menu-open .mega-menu-clip {
+    height: var(--mega-menu-height, 0px);
     opacity: 1;
     pointer-events: auto;
     transition:
-      height 0.62s cubic-bezier(0.22, 1, 0.36, 1),
+      height 0.72s cubic-bezier(0.22, 1, 0.36, 1),
       opacity 0.34s ease 0.08s,
       visibility 0s;
     visibility: visible;
+  }
+
+  #brx-header[data-bemke-mega-menu-ready="1"] .mega-menu {
+    box-sizing: border-box;
+    display: block;
+    position: relative;
+    width: 100%;
   }
 
   #brx-header .mega-menu-link-wrapper {
@@ -663,7 +667,7 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
 }
 
 @media (prefers-reduced-motion: reduce) {
-  #brx-header .mega-menu {
+  #brx-header .mega-menu-clip {
     transition: none !important;
   }
 }
