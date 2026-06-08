@@ -7,6 +7,7 @@ import { initFontSizeControls } from './modules/font-size-controls.js';
 import { initOfferBlockHover } from './modules/offer-block-hover.js';
 import { initHomeSlider } from './modules/home-slider.js';
 import { initProjectSlider } from './modules/project-slider.js';
+import { initHistoryTabs } from './modules/history-tabs.js';
 
 function initApp() {
   initAccordionControls();
@@ -17,6 +18,7 @@ function initApp() {
   initOfferBlockHover();
   initHomeSlider();
   initProjectSlider();
+  initHistoryTabs();
 }
 
 if (document.readyState === 'loading') {
