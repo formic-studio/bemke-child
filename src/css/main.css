@@ -416,9 +416,7 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
   pointer-events: none;
   position: absolute;
   transform: translate3d(0, 0, 0);
-  transition:
-    transform 0.64s cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 0.28s ease;
+  transition: transform 0.86s cubic-bezier(0.22, 1, 0.36, 1);
   width: 100%;
   will-change: transform, opacity;
 }
@@ -454,7 +452,7 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
 
 [data-bemke-history-tabs-ready="1"] .history-img.is-leaving,
 [data-bemke-history-tabs-ready="1"] .history-slide.is-leaving {
-  opacity: 0;
+  opacity: 1;
   transform: translate3d(var(--history-exit-x, -100%), 0, 0);
 }
 

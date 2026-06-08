@@ -13,7 +13,7 @@ const ENTERING_CLASS = 'is-entering';
 const LEAVING_CLASS = 'is-leaving';
 const IMMEDIATE_CLASS = 'is-immediate';
 
-const ANIMATION_MS = 640;
+const ANIMATION_MS = 860;
 
 let instanceId = 0;
 const imagePreloads = new Set();
@@ -293,7 +293,7 @@ function animateItems(items, activeNumber, direction, instant) {
     previousItems.forEach((item) => {
       item.classList.add(LEAVING_CLASS);
       item.style.transform = `translate3d(${exitX}, 0, 0)`;
-      item.style.opacity = '0';
+      item.style.opacity = '1';
     });
 
     nextItems.forEach((item) => {
