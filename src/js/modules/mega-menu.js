@@ -167,18 +167,47 @@ function setupA11y(header, megaMenu, topLinks) {
 }
 
 function updateMegaMenuHeight(megaMenuClip, megaMenu, isDesktop) {
+  megaMenu.style.removeProperty('min-height');
+
   if (!isDesktop) {
     megaMenuClip.style.removeProperty('--mega-menu-height');
     return;
   }
 
-  const height = Math.ceil(
-    Math.max(megaMenu.scrollHeight, megaMenu.getBoundingClientRect().height),
-  );
+  const height = measureMegaMenuHeight(megaMenu);
 
   if (height > 0) {
     megaMenuClip.style.setProperty('--mega-menu-height', `${height}px`);
+    megaMenu.style.setProperty('min-height', `${height}px`);
   }
+}
+
+function measureMegaMenuHeight(megaMenu) {
+  const menuRect = megaMenu.getBoundingClientRect();
+  const menuStyle = window.getComputedStyle?.(megaMenu);
+  const paddingBottom = getPixelValue(menuStyle?.paddingBottom);
+  const borderBottom = getPixelValue(menuStyle?.borderBottomWidth);
+  let height = Math.max(megaMenu.scrollHeight, menuRect.height);
+
+  megaMenu.querySelectorAll(MEGA_COLUMN_SELECTOR).forEach((column) => {
+    const columnRect = column.getBoundingClientRect();
+    const columnStyle = window.getComputedStyle?.(column);
+    const renderedColumnBottom = columnRect.height > 0
+      ? columnRect.bottom - menuRect.top
+      : (column.offsetTop || 0) + Math.max(column.scrollHeight || 0, columnRect.height || 0);
+
+    height = Math.max(
+      height,
+      renderedColumnBottom + getPixelValue(columnStyle?.marginBottom) + paddingBottom + borderBottom,
+    );
+  });
+
+  return Math.ceil(height);
+}
+
+function getPixelValue(value) {
+  const number = Number.parseFloat(value);
+  return Number.isFinite(number) ? number : 0;
 }
 
 function setMegaMenuOpen(header, megaMenu, topLinks, isOpen) {
