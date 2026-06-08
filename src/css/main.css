@@ -535,6 +535,29 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
   display: none;
 }
 
+:where(
+  #brx-header #brxe-vhhhdt > .bricks-nav-menu-wrapper > .bricks-nav-menu > li > a,
+  #brx-header .mega-menu :is(a[href], .mega-menu-link, .post-category-link),
+  #brx-footer a[href]:not(:has(img, svg)),
+  footer a[href]:not(:has(img, svg))
+):not(.brxe-button):not(.btn):not([data-contrast]) {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0 0.08em;
+  text-decoration: none;
+  transition: background-size 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:where(
+  #brx-header #brxe-vhhhdt > .bricks-nav-menu-wrapper > .bricks-nav-menu > li > a,
+  #brx-header .mega-menu :is(a[href], .mega-menu-link, .post-category-link),
+  #brx-footer a[href]:not(:has(img, svg)),
+  footer a[href]:not(:has(img, svg))
+):not(.brxe-button):not(.btn):not([data-contrast]):is(:hover, :focus-visible) {
+  background-size: 100% 0.08em;
+}
+
 @media (min-width: 992px) {
   #brx-header #brxe-spklen {
     align-items: center;
@@ -668,6 +691,15 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
 
 @media (prefers-reduced-motion: reduce) {
   #brx-header .mega-menu-clip {
+    transition: none !important;
+  }
+
+  :where(
+    #brx-header #brxe-vhhhdt > .bricks-nav-menu-wrapper > .bricks-nav-menu > li > a,
+    #brx-header .mega-menu :is(a[href], .mega-menu-link, .post-category-link),
+    #brx-footer a[href]:not(:has(img, svg)),
+    footer a[href]:not(:has(img, svg))
+  ):not(.brxe-button):not(.btn):not([data-contrast]) {
     transition: none !important;
   }
 }
