@@ -7,13 +7,12 @@ const IMAGE_WRAPPER_SELECTOR = '.history-img-wrapper';
 
 const READY_ATTR = 'data-bemke-history-tabs-ready';
 const BOOT_FLAG = '__bemkeHistoryTabsBooted';
-const ACTIVE_CLASS = 'tab-active';
-const ACTIVE_PANEL_CLASS = 'is-active';
-const ENTERING_CLASS = 'is-entering';
-const LEAVING_CLASS = 'is-leaving';
-const IMMEDIATE_CLASS = 'is-immediate';
+const ACTIVE_TAB_CLASS = 'tab-active';
+const ACTIVE_ITEM_CLASS = 'is-active';
+const TRACK_CLASS = 'history-tabs-track';
+const TRACK_IMMEDIATE_CLASS = 'is-immediate';
 
-const ANIMATION_MS = 860;
+const ANIMATION_MS = 980;
 
 let instanceId = 0;
 const imagePreloads = new Set();
@@ -27,8 +26,12 @@ function initHistoryTabRoots(scope = document) {
   scope.querySelectorAll(ROOT_SELECTOR).forEach((tabsBlock) => {
     const root = getRoot(tabsBlock);
 
-    if (!root || root.getAttribute(READY_ATTR) === '1') {
-      root?.__bemkeHistoryTabsRefresh?.();
+    if (!root) {
+      return;
+    }
+
+    if (root.getAttribute(READY_ATTR) === '1') {
+      root.__bemkeHistoryTabsRefresh?.();
       return;
     }
 
@@ -102,10 +105,15 @@ function createHistoryTabs(root, tabsBlock) {
 
   instanceId += 1;
 
+  const slideTrack = setupTrack(slideWrapper, slides, 'slides');
+  const imageTrack = setupTrack(imageWrapper, images, 'images');
+
   let activeNumber = getInitialActiveNumber(tabs, numbers);
   let transitionTimerId = null;
 
   prepareImages(images);
+  resetAnimatedItems(slides);
+  resetAnimatedItems(images);
   decorateTabs(tabsBlock, tabs, tabsByNumber, slidesByNumber, numbers, instanceId);
   decoratePanels(slides, images, instanceId);
   updateHeights(slideWrapper, slides, imageWrapper, images);
@@ -164,18 +172,125 @@ function createHistoryTabs(root, tabsBlock) {
   function sync(nextNumber, direction, instant) {
     window.clearTimeout(transitionTimerId);
     syncTabs(tabs, nextNumber);
-    animateItems(slides, nextNumber, direction, instant);
-    animateItems(images, nextNumber, direction, instant);
+    syncTrack(slideTrack, slides, nextNumber, direction, instant);
+    syncTrack(imageTrack, images, nextNumber, direction, instant);
 
     if (instant || prefersReducedMotion()) {
       return;
     }
 
     transitionTimerId = window.setTimeout(() => {
-      cleanupItems(slides, nextNumber);
-      cleanupItems(images, nextNumber);
+      arrangeActiveItems(slideTrack, slides, nextNumber, true);
+      arrangeActiveItems(imageTrack, images, nextNumber, true);
     }, ANIMATION_MS + 80);
   }
+}
+
+function setupTrack(wrapper, items, modifier) {
+  if (!wrapper || !items.length) {
+    return null;
+  }
+
+  const existingTrack = wrapper.querySelector(`:scope > .${TRACK_CLASS}`);
+
+  if (existingTrack) {
+    items.forEach((item) => existingTrack.appendChild(item));
+    return existingTrack;
+  }
+
+  const track = document.createElement('div');
+  track.className = `${TRACK_CLASS} ${TRACK_CLASS}--${modifier}`;
+  wrapper.insertBefore(track, items[0]);
+  items.forEach((item) => track.appendChild(item));
+
+  return track;
+}
+
+function syncTrack(track, items, activeNumber, direction, instant) {
+  if (!track || !items.length) {
+    return;
+  }
+
+  const previousItems = items.filter((item) => item.classList.contains(ACTIVE_ITEM_CLASS));
+  const nextItems = items.filter((item) => getTabNumber(item) === activeNumber);
+  const reducedMotion = prefersReducedMotion();
+
+  if (instant || reducedMotion || !previousItems.length) {
+    arrangeActiveItems(track, items, activeNumber, true);
+    return;
+  }
+
+  const isForward = direction > 0;
+  const transitionItems = uniqueItems(isForward
+    ? [...previousItems, ...nextItems]
+    : [...nextItems, ...previousItems]);
+
+  items.forEach((item) => {
+    const isNext = nextItems.includes(item);
+    const isVisibleDuringTransition = transitionItems.includes(item);
+
+    item.hidden = !isVisibleDuringTransition;
+    item.classList.toggle(ACTIVE_ITEM_CLASS, isNext);
+    item.setAttribute('aria-hidden', isNext ? 'false' : 'true');
+  });
+
+  transitionItems.forEach((item) => track.appendChild(item));
+
+  setTrackOffset(track, isForward ? 0 : 1, true);
+  track.offsetHeight;
+
+  window.requestAnimationFrame(() => {
+    setTrackOffset(track, isForward ? 1 : 0, false);
+  });
+}
+
+function arrangeActiveItems(track, items, activeNumber, immediate) {
+  if (!track || !items.length) {
+    return;
+  }
+
+  const activeItems = items.filter((item) => getTabNumber(item) === activeNumber);
+  const inactiveItems = items.filter((item) => getTabNumber(item) !== activeNumber);
+
+  [...activeItems, ...inactiveItems].forEach((item) => track.appendChild(item));
+
+  items.forEach((item) => {
+    const isActive = activeItems.includes(item);
+
+    item.hidden = !isActive;
+    item.classList.toggle(ACTIVE_ITEM_CLASS, isActive);
+    item.setAttribute('aria-hidden', isActive ? 'false' : 'true');
+  });
+
+  setTrackOffset(track, 0, immediate);
+
+  if (immediate) {
+    track.offsetHeight;
+    window.requestAnimationFrame(() => {
+      track.classList.remove(TRACK_IMMEDIATE_CLASS);
+    });
+  }
+}
+
+function setTrackOffset(track, offset, immediate) {
+  track.classList.toggle(TRACK_IMMEDIATE_CLASS, immediate);
+  track.style.transform = `translate3d(${-100 * offset}%, 0, 0)`;
+}
+
+function resetAnimatedItems(items) {
+  items.forEach((item) => {
+    item.hidden = false;
+    item.classList.remove('is-entering', 'is-leaving', 'is-immediate', ACTIVE_ITEM_CLASS);
+    item.style.removeProperty('inset');
+    item.style.removeProperty('opacity');
+    item.style.removeProperty('pointer-events');
+    item.style.removeProperty('position');
+    item.style.removeProperty('transform');
+    item.style.removeProperty('transition');
+    item.style.removeProperty('width');
+    item.style.removeProperty('--history-enter-x');
+    item.style.removeProperty('--history-exit-x');
+  });
 }
 
 function getRoot(tabsBlock) {
@@ -239,92 +354,9 @@ function syncTabs(tabs, activeNumber) {
   tabs.forEach((tab) => {
     const isActive = getTabNumber(tab) === activeNumber;
 
-    tab.classList.toggle(ACTIVE_CLASS, isActive);
+    tab.classList.toggle(ACTIVE_TAB_CLASS, isActive);
     tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
     tab.setAttribute('tabindex', isActive ? '0' : '-1');
-  });
-}
-
-function animateItems(items, activeNumber, direction, instant) {
-  const previousItems = items.filter((item) =>
-    item.classList.contains(ACTIVE_PANEL_CLASS),
-  );
-  const nextItems = items.filter((item) => getTabNumber(item) === activeNumber);
-  const reducedMotion = prefersReducedMotion();
-
-  if (instant || reducedMotion || !previousItems.length) {
-    items.forEach((item) => {
-      const isActive = getTabNumber(item) === activeNumber;
-      setItemImmediate(item, isActive);
-    });
-    return;
-  }
-
-  const enterX = direction > 0 ? '100%' : '-100%';
-  const exitX = direction > 0 ? '-100%' : '100%';
-
-  items.forEach((item) => {
-    if (!previousItems.includes(item) && !nextItems.includes(item)) {
-      setItemImmediate(item, false);
-    }
-  });
-
-  previousItems.forEach((item) => {
-    item.classList.remove(ENTERING_CLASS, LEAVING_CLASS, IMMEDIATE_CLASS);
-    item.classList.add(ACTIVE_PANEL_CLASS);
-    item.style.setProperty('--history-exit-x', exitX);
-    item.style.transform = 'translate3d(0, 0, 0)';
-    item.style.opacity = '1';
-    item.setAttribute('aria-hidden', 'true');
-  });
-
-  nextItems.forEach((item) => {
-    item.classList.remove(ACTIVE_PANEL_CLASS, LEAVING_CLASS, IMMEDIATE_CLASS);
-    item.classList.add(ENTERING_CLASS);
-    item.style.setProperty('--history-enter-x', enterX);
-    item.style.transform = `translate3d(${enterX}, 0, 0)`;
-    item.style.opacity = '1';
-    item.setAttribute('aria-hidden', 'false');
-  });
-
-  nextItems[0]?.offsetHeight;
-
-  window.requestAnimationFrame(() => {
-    previousItems.forEach((item) => {
-      item.classList.add(LEAVING_CLASS);
-      item.style.transform = `translate3d(${exitX}, 0, 0)`;
-      item.style.opacity = '1';
-    });
-
-    nextItems.forEach((item) => {
-      item.classList.remove(ENTERING_CLASS);
-      item.classList.add(ACTIVE_PANEL_CLASS);
-      item.style.transform = 'translate3d(0, 0, 0)';
-      item.style.opacity = '1';
-    });
-  });
-}
-
-function cleanupItems(items, activeNumber) {
-  items.forEach((item) => {
-    const isActive = getTabNumber(item) === activeNumber;
-    setItemImmediate(item, isActive);
-  });
-}
-
-function setItemImmediate(item, isActive) {
-  item.classList.add(IMMEDIATE_CLASS);
-  item.classList.toggle(ACTIVE_PANEL_CLASS, isActive);
-  item.classList.remove(ENTERING_CLASS, LEAVING_CLASS);
-  item.setAttribute('aria-hidden', isActive ? 'false' : 'true');
-  item.style.transform = 'translate3d(0, 0, 0)';
-  item.style.opacity = isActive ? '1' : '0';
-  item.style.removeProperty('--history-enter-x');
-  item.style.removeProperty('--history-exit-x');
-  item.offsetHeight;
-
-  window.requestAnimationFrame(() => {
-    item.classList.remove(IMMEDIATE_CLASS);
   });
 }
 
@@ -341,23 +373,29 @@ function updateWrapperHeight(wrapper, items, variableName) {
   let maxHeight = 0;
 
   items.forEach((item) => {
+    const previousHidden = item.hidden;
     const previousPosition = item.style.position;
     const previousVisibility = item.style.visibility;
     const previousOpacity = item.style.opacity;
     const previousTransform = item.style.transform;
+    const previousWidth = item.style.width;
 
+    item.hidden = false;
     item.style.position = 'relative';
     item.style.visibility = 'hidden';
     item.style.opacity = '1';
     item.style.transform = 'none';
+    item.style.width = `${wrapper.getBoundingClientRect().width}px`;
 
     const rect = item.getBoundingClientRect();
     maxHeight = Math.max(maxHeight, rect.height, item.scrollHeight, getIntrinsicHeight(item, wrapper));
 
+    item.hidden = previousHidden;
     item.style.position = previousPosition;
     item.style.visibility = previousVisibility;
     item.style.opacity = previousOpacity;
     item.style.transform = previousTransform;
+    item.style.width = previousWidth;
   });
 
   if (maxHeight > 0) {
@@ -422,7 +460,7 @@ function preloadImage(image) {
 }
 
 function getInitialActiveNumber(tabs, numbers) {
-  const activeTab = tabs.find((tab) => tab.classList.contains(ACTIVE_CLASS));
+  const activeTab = tabs.find((tab) => tab.classList.contains(ACTIVE_TAB_CLASS));
   const activeNumber = getTabNumber(activeTab);
 
   return activeNumber && numbers.includes(activeNumber) ? activeNumber : numbers[0];
@@ -487,6 +525,10 @@ function groupByNumber(items) {
 
     return map;
   }, new Map());
+}
+
+function uniqueItems(items) {
+  return items.filter((item, index, all) => all.indexOf(item) === index);
 }
 
 function getTabNumber(element) {
