@@ -162,6 +162,9 @@ html[data-contrast="white-black"] {
   --a11y-surface: #000000;
   --a11y-text: #ffffff;
   --a11y-border: #ffffff;
+  --a11y-control-bg: #ffffff;
+  --a11y-control-text: #000000;
+  --a11y-control-border: #ffffff;
 }
 
 html[data-contrast="black-yellow"] {
@@ -169,6 +172,9 @@ html[data-contrast="black-yellow"] {
   --a11y-surface: #ffeb3b;
   --a11y-text: #000000;
   --a11y-border: #000000;
+  --a11y-control-bg: #000000;
+  --a11y-control-text: #ffeb3b;
+  --a11y-control-border: #000000;
 }
 
 html[data-contrast="yellow-black"] {
@@ -176,6 +182,9 @@ html[data-contrast="yellow-black"] {
   --a11y-surface: #000000;
   --a11y-text: #ffeb3b;
   --a11y-border: #ffeb3b;
+  --a11y-control-bg: #ffeb3b;
+  --a11y-control-text: #000000;
+  --a11y-control-border: #ffeb3b;
 }
 
 html[data-contrast]:not([data-contrast="default"]) {
@@ -198,27 +207,181 @@ html[data-contrast]:not([data-contrast="default"]) .brx-body {
   color: var(--a11y-text);
 }
 
+html[data-contrast]:not([data-contrast="default"]) .brxe-section {
+  background-color: var(--a11y-bg) !important;
+  background-image: none !important;
+  color: var(--a11y-text) !important;
+}
+
 html[data-contrast]:not([data-contrast="default"]) .brxe-heading,
 html[data-contrast]:not([data-contrast="default"]) .brxe-text-basic,
 html[data-contrast]:not([data-contrast="default"]) .brxe-text-link,
 html[data-contrast]:not([data-contrast="default"]) .font-color-DarkCream,
 html[data-contrast]:not([data-contrast="default"]) .font-color-Cream-dark,
-html[data-contrast]:not([data-contrast="default"]) .page-info {
+html[data-contrast]:not([data-contrast="default"]) .page-info,
+html[data-contrast]:not([data-contrast="default"]) .history-slide,
+html[data-contrast]:not([data-contrast="default"]) .history-slide *,
+html[data-contrast]:not([data-contrast="default"]) .slider-thinktank .slide-text,
+html[data-contrast]:not([data-contrast="default"]) .slider-thinktank .slide-text *,
+html[data-contrast]:not([data-contrast="default"]) .slider-thinktank .slide-tittle {
   color: var(--a11y-text) !important;
 }
 
 html[data-contrast]:not([data-contrast="default"]) a {
-  color: var(--a11y-text);
+  color: var(--a11y-text) !important;
 }
 
-html[data-contrast]:not([data-contrast="default"]) .brxe-button,
-html[data-contrast]:not([data-contrast="default"]) .btn,
+html[data-contrast]:not([data-contrast="default"]) :is(
+  .brxe-button,
+  .btn,
+  button,
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"],
+  .arrow,
+  .yellow-arrow,
+  .accordin-btn,
+  .lang-switcher,
+  .tab.brxe-block,
+  .brxe-block.tab,
+  .bricks-button
+):not([data-contrast]):not([data-a11y-contrast-fixed]) {
+  background-color: var(--a11y-control-bg) !important;
+  border-color: var(--a11y-control-border) !important;
+  border-style: solid !important;
+  border-width: 1px !important;
+  color: var(--a11y-control-text) !important;
+}
+
 html[data-contrast]:not([data-contrast="default"]) .card,
-html[data-contrast]:not([data-contrast="default"]) .arrow,
 html[data-contrast]:not([data-contrast="default"]) input,
 html[data-contrast]:not([data-contrast="default"]) select,
 html[data-contrast]:not([data-contrast="default"]) textarea {
   border-color: var(--a11y-border) !important;
+}
+
+html[data-contrast]:not([data-contrast="default"]) :is(
+  #brx-header,
+  #brx-header .brxe-section,
+  #brx-header .mega-menu,
+  #brx-header .mega-menu-clip,
+  #brx-footer,
+  #brx-footer .brxe-section,
+  footer,
+  footer .brxe-section,
+  .section_wcag,
+  .page-info,
+  .history-slide-wrapper,
+  .history-slide,
+  .slider-text-wrapper,
+  .slide-text,
+  .accordin-item,
+  .card
+):not([data-a11y-contrast-fixed]) {
+  background-color: var(--a11y-bg) !important;
+  color: var(--a11y-text) !important;
+}
+
+html[data-contrast]:not([data-contrast="default"]) :is(
+  #brx-header,
+  #brx-footer,
+  footer,
+  .section_wcag,
+  .mega-menu,
+  .history-slide-wrapper,
+  .slider-text-wrapper
+) :is(.brxe-heading, .brxe-text-basic, .brxe-text-link, a):not([data-contrast]) {
+  color: var(--a11y-text) !important;
+}
+
+html[data-contrast]:not([data-contrast="default"]) :is(
+  .brxe-button,
+  .btn,
+  button,
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"],
+  .arrow,
+  .yellow-arrow,
+  .accordin-btn,
+  .lang-switcher,
+  .tab.brxe-block,
+  .brxe-block.tab,
+  .bricks-button
+):not([data-contrast]):not([data-a11y-contrast-fixed]) :is(
+  .brxe-heading,
+  .brxe-text-basic,
+  .brxe-text-link,
+  span,
+  div
+) {
+  color: var(--a11y-control-text) !important;
+}
+
+html[data-contrast]:not([data-contrast="default"]) :is(
+  .arrow,
+  .yellow-arrow,
+  .accordin-btn,
+  .brxe-button,
+  .btn,
+  #brx-header,
+  #brx-footer,
+  footer
+) svg {
+  color: currentColor !important;
+}
+
+html[data-contrast]:not([data-contrast="default"]) :is(
+  .arrow,
+  .yellow-arrow,
+  .accordin-btn
+) svg * {
+  stroke: currentColor !important;
+}
+
+html[data-contrast]:not([data-contrast="default"]) :is(
+  .brxe-button,
+  .btn,
+  #brx-header,
+  #brx-footer,
+  footer
+) svg [fill]:not([fill="none"]) {
+  fill: currentColor !important;
+}
+
+html[data-contrast]:not([data-contrast="default"]) :is(
+  .brxe-button,
+  .btn,
+  #brx-header,
+  #brx-footer,
+  footer
+) svg [stroke]:not([stroke="none"]) {
+  stroke: currentColor !important;
+}
+
+html[data-contrast]:not([data-contrast="default"]) .brxe-divider .line {
+  border-color: var(--a11y-border) !important;
+}
+
+html[data-contrast]:not([data-contrast="default"]) .switch-block {
+  background-color: var(--a11y-control-text) !important;
+  border: 1px solid var(--a11y-control-bg) !important;
+}
+
+html[data-contrast]:not([data-contrast="default"]) .tab-active.brxe-block,
+html[data-contrast]:not([data-contrast="default"]) .tab.brxe-block[aria-selected="true"] {
+  box-shadow:
+    inset 0 0 0 2px var(--a11y-control-text),
+    0 0 0 2px var(--a11y-control-border);
+}
+
+html[data-contrast]:not([data-contrast="default"]) .slider-thinktank .slide-thinktank .slide-tittle {
+  background-color: var(--a11y-bg) !important;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  color: var(--a11y-text) !important;
+  padding: 0.08em 0.22em;
+  text-shadow: none !important;
 }
 
 html[data-contrast]:not([data-contrast="default"]) .a11y-decorative-bg,
