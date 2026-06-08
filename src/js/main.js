@@ -10,6 +10,7 @@ import { initProjectSlider } from './modules/project-slider.js';
 import { initHistoryTabs } from './modules/history-tabs.js';
 import { initMegaMenu } from './modules/mega-menu.js';
 import { initFormAriaReferences } from './modules/form-aria-references.js';
+import { initPdfLinkLabels } from './modules/pdf-link-labels.js';
 
 function initApp() {
   initAccordionControls();
@@ -23,6 +24,7 @@ function initApp() {
   initHistoryTabs();
   initMegaMenu();
   initFormAriaReferences();
+  initPdfLinkLabels();
 }
 
 if (document.readyState === 'loading') {
