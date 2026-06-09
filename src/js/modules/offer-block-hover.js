@@ -1,4 +1,4 @@
-const BLOCK_SELECTOR = '.offer-block';
+const BLOCK_SELECTOR = '.offer-block, .linkedin-block, #brxe-ejpmtj .brxe-aepfcc';
 const LINK_SELECTOR = '.offer-link';
 const ACTIVE_CLASS = 'bg-eggShell';
 const BOOT_FLAG = '__bemkeOfferBlockHoverBooted';
