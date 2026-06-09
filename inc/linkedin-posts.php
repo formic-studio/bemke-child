@@ -245,16 +245,26 @@ function bemke_handle_linkedin_post_webhook( WP_REST_Request $request ) {
 	$body = $request->get_json_params();
 
 	if ( ! is_array( $body ) ) {
+		$body = $request->get_body_params();
+	}
+
+	if ( ! is_array( $body ) || empty( $body ) ) {
+		$body = $request->get_params();
+	}
+
+	if ( ! is_array( $body ) || empty( $body ) ) {
 		return new WP_Error(
 			'bemke_linkedin_invalid_payload',
-			'Invalid JSON payload.',
+			'Invalid request payload.',
 			array( 'status' => 400 )
 		);
 	}
 
 	$post_id_raw = bemke_get_linkedin_payload_value( $body, array( 'post_id', 'id' ) );
 	$post_id     = sanitize_text_field( (string) $post_id_raw );
-	$post_text   = sanitize_textarea_field( (string) bemke_get_linkedin_payload_value( $body, array( 'post_text', 'commentary', 'text' ) ) );
+	$post_text   = bemke_get_linkedin_first_line(
+		sanitize_textarea_field( (string) bemke_get_linkedin_payload_value( $body, array( 'post_text', 'commentary', 'text' ) ) )
+	);
 
 	if ( '' === $post_id ) {
 		return new WP_Error(
@@ -326,6 +336,22 @@ function bemke_get_linkedin_payload_value( array $body, array $keys ) {
 	}
 
 	return '';
+}
+
+function bemke_get_linkedin_first_line( $text ) {
+	$text = trim( (string) $text );
+
+	if ( '' === $text ) {
+		return '';
+	}
+
+	$lines = preg_split( '/\R/', $text );
+
+	if ( ! is_array( $lines ) || empty( $lines ) ) {
+		return $text;
+	}
+
+	return trim( (string) $lines[0] );
 }
 
 function bemke_get_linkedin_post_id_by_remote_id( $remote_post_id ) {
