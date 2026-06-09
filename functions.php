@@ -3,6 +3,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+require_once get_stylesheet_directory() . '/inc/linkedin-posts.php';
+
 add_action( 'wp_enqueue_scripts', 'bemke_child_enqueue_assets', 20 );
 
 function bemke_child_enqueue_assets() {
