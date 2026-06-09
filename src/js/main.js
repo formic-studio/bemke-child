@@ -11,6 +11,7 @@ import { initHistoryTabs } from './modules/history-tabs.js';
 import { initMegaMenu } from './modules/mega-menu.js';
 import { initFormAriaReferences } from './modules/form-aria-references.js';
 import { initPdfLinkLabels } from './modules/pdf-link-labels.js';
+import { initLinkedinPostNumbers } from './modules/linkedin-post-numbers.js';
 
 function initApp() {
   initAccordionControls();
@@ -25,6 +26,7 @@ function initApp() {
   initMegaMenu();
   initFormAriaReferences();
   initPdfLinkLabels();
+  initLinkedinPostNumbers();
 }
 
 if (document.readyState === 'loading') {
