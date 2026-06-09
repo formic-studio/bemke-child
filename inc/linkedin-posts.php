@@ -8,6 +8,9 @@ add_action( 'init', 'bemke_register_linkedin_post_meta' );
 add_action( 'rest_api_init', 'bemke_register_linkedin_webhook_endpoint' );
 add_action( 'admin_menu', 'bemke_register_linkedin_settings_page' );
 add_action( 'admin_init', 'bemke_handle_linkedin_settings_save' );
+add_action( 'add_meta_boxes', 'bemke_add_linkedin_post_details_meta_box' );
+add_filter( 'manage_linkedin_post_posts_columns', 'bemke_filter_linkedin_post_admin_columns' );
+add_action( 'manage_linkedin_post_posts_custom_column', 'bemke_render_linkedin_post_admin_column', 10, 2 );
 
 const BEMKE_LINKEDIN_WEBHOOK_TOKEN_HASH_OPTION = 'bemke_linkedin_webhook_token_hash';
 
@@ -249,9 +252,9 @@ function bemke_handle_linkedin_post_webhook( WP_REST_Request $request ) {
 		);
 	}
 
-	$post_id_raw = isset( $body['post_id'] ) ? $body['post_id'] : '';
+	$post_id_raw = bemke_get_linkedin_payload_value( $body, array( 'post_id', 'id' ) );
 	$post_id     = sanitize_text_field( (string) $post_id_raw );
-	$post_text   = isset( $body['post_text'] ) ? sanitize_textarea_field( (string) $body['post_text'] ) : '';
+	$post_text   = sanitize_textarea_field( (string) bemke_get_linkedin_payload_value( $body, array( 'post_text', 'commentary', 'text' ) ) );
 
 	if ( '' === $post_id ) {
 		return new WP_Error(
@@ -261,10 +264,10 @@ function bemke_handle_linkedin_post_webhook( WP_REST_Request $request ) {
 		);
 	}
 
-	$published_at = isset( $body['published_at'] ) ? sanitize_text_field( (string) $body['published_at'] ) : '';
-	$post_url     = isset( $body['post_url'] ) ? esc_url_raw( (string) $body['post_url'] ) : '';
-	$image_url    = isset( $body['image_url'] ) ? esc_url_raw( (string) $body['image_url'] ) : '';
-	$author       = isset( $body['author'] ) ? sanitize_text_field( (string) $body['author'] ) : '';
+	$published_at = sanitize_text_field( (string) bemke_get_linkedin_payload_value( $body, array( 'published_at', 'publishedAt' ) ) );
+	$post_url     = esc_url_raw( (string) bemke_get_linkedin_payload_value( $body, array( 'post_url', 'url', 'content_landing_page' ) ) );
+	$image_url    = esc_url_raw( (string) bemke_get_linkedin_payload_value( $body, array( 'image_url', 'imageUrl' ) ) );
+	$author       = sanitize_text_field( (string) bemke_get_linkedin_payload_value( $body, array( 'author', 'author_id', 'authorId' ) ) );
 	$post_dates   = bemke_parse_linkedin_post_dates( $published_at );
 	$title        = bemke_get_linkedin_post_title( $post_text, $published_at );
 	$existing_id  = bemke_get_linkedin_post_id_by_remote_id( $post_id );
@@ -305,11 +308,24 @@ function bemke_handle_linkedin_post_webhook( WP_REST_Request $request ) {
 
 	return new WP_REST_Response(
 		array(
-			'status' => $status,
-			'id'     => $wp_post_id,
+			'status'         => $status,
+			'id'             => $wp_post_id,
+			'li_post_id'     => $post_id,
+			'li_post_url'    => $post_url,
+			'li_published_at' => $published_at,
 		),
 		$response_code
 	);
+}
+
+function bemke_get_linkedin_payload_value( array $body, array $keys ) {
+	foreach ( $keys as $key ) {
+		if ( isset( $body[ $key ] ) ) {
+			return $body[ $key ];
+		}
+	}
+
+	return '';
 }
 
 function bemke_get_linkedin_post_id_by_remote_id( $remote_post_id ) {
@@ -367,4 +383,80 @@ function bemke_get_linkedin_post_title( $post_text, $published_at ) {
 	}
 
 	return 'Post LinkedIn';
+}
+
+function bemke_add_linkedin_post_details_meta_box() {
+	add_meta_box(
+		'bemke_linkedin_post_details',
+		'Dane LinkedIn',
+		'bemke_render_linkedin_post_details_meta_box',
+		'linkedin_post',
+		'side',
+		'default'
+	);
+}
+
+function bemke_render_linkedin_post_details_meta_box( WP_Post $post ) {
+	$fields = array(
+		'ID posta'          => get_post_meta( $post->ID, 'li_post_id', true ),
+		'URL posta'         => get_post_meta( $post->ID, 'li_post_url', true ),
+		'Data z LinkedIn'   => get_post_meta( $post->ID, 'li_published_at', true ),
+		'Autor'             => get_post_meta( $post->ID, 'li_author', true ),
+		'URL obrazka'       => get_post_meta( $post->ID, 'li_image_url', true ),
+	);
+	?>
+	<div class="bemke-linkedin-post-details">
+		<?php foreach ( $fields as $label => $value ) : ?>
+			<p>
+				<strong><?php echo esc_html( $label ); ?>:</strong><br>
+				<?php if ( '' === (string) $value ) : ?>
+					<span aria-hidden="true">-</span>
+				<?php elseif ( 0 === strpos( (string) $value, 'http' ) ) : ?>
+					<a href="<?php echo esc_url( $value ); ?>" target="_blank" rel="noopener noreferrer">
+						<?php echo esc_html( $value ); ?>
+					</a>
+				<?php else : ?>
+					<code><?php echo esc_html( $value ); ?></code>
+				<?php endif; ?>
+			</p>
+		<?php endforeach; ?>
+	</div>
+	<?php
+}
+
+function bemke_filter_linkedin_post_admin_columns( $columns ) {
+	$new_columns = array();
+
+	foreach ( $columns as $key => $label ) {
+		$new_columns[ $key ] = $label;
+
+		if ( 'title' === $key ) {
+			$new_columns['bemke_linkedin_post_url'] = 'Link LinkedIn';
+			$new_columns['bemke_linkedin_post_id']  = 'ID LinkedIn';
+		}
+	}
+
+	return $new_columns;
+}
+
+function bemke_render_linkedin_post_admin_column( $column, $post_id ) {
+	if ( 'bemke_linkedin_post_url' === $column ) {
+		$post_url = get_post_meta( $post_id, 'li_post_url', true );
+
+		if ( '' === $post_url ) {
+			echo '<span aria-hidden="true">-</span>';
+			return;
+		}
+
+		printf(
+			'<a href="%s" target="_blank" rel="noopener noreferrer">Otwórz</a>',
+			esc_url( $post_url )
+		);
+		return;
+	}
+
+	if ( 'bemke_linkedin_post_id' === $column ) {
+		$remote_id = get_post_meta( $post_id, 'li_post_id', true );
+		echo '' === $remote_id ? '<span aria-hidden="true">-</span>' : '<code>' . esc_html( $remote_id ) . '</code>';
+	}
 }
