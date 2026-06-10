@@ -12,6 +12,7 @@ import { initMegaMenu } from './modules/mega-menu.js';
 import { initFormAriaReferences } from './modules/form-aria-references.js';
 import { initPdfLinkLabels } from './modules/pdf-link-labels.js';
 import { initLinkedinPostNumbers } from './modules/linkedin-post-numbers.js';
+import { initTeamPopups } from './modules/team-popup.js';
 
 function initApp() {
   initAccordionControls();
@@ -27,6 +28,7 @@ function initApp() {
   initFormAriaReferences();
   initPdfLinkLabels();
   initLinkedinPostNumbers();
+  initTeamPopups();
 }
 
 if (document.readyState === 'loading') {

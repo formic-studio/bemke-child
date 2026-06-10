@@ -100,6 +100,20 @@ Aby podpiąć zdjęcia z Instagrama:
    
 Uwaga: Jeśli w pliku `wp-config.php` ustawisz stałe `BEMKE_INSTAGRAM_USER_ID` i `BEMKE_INSTAGRAM_ACCESS_TOKEN`, to one mają pierwszeństwo przed ustawieniami z panelu.
 
+## Popup zespołu (o-nas)
+
+Mechanika popupów członków zespołu działa teraz na atrybutach:
+
+- link / przycisk otwierający: `data-number="01"` (lub `01`, `1` itd.)
+- popup: `.popup-team[data-number="01"]`
+
+Na starcie popupy są ukryte, a po kliknięciu pokazuje się odpowiedni popup na środku wraz z ciemnym overlay.
+
+Zamykanie:
+- kliknięcie w `X` (`.exit-button`) wewnątrz popupu,
+- kliknięcie w tło overlay,
+- klawisz `Esc`.
+
 ## Ważne
 
 - `dist/` musi być commitowany do repo (to pliki produkcyjne pobierane przez WordPress).

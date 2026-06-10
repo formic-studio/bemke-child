@@ -942,3 +942,59 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
     transition: none !important;
   }
 }
+
+.popup-team[data-number] {
+  display: none;
+}
+
+.popup-team[data-number].bemke-team-popup {
+  display: block;
+}
+
+.bemke-team-popup-overlay {
+  background: rgba(0, 0, 0, 0.68);
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: fixed;
+  transition: opacity 0.2s ease;
+  visibility: hidden;
+  z-index: 990;
+}
+
+.bemke-team-popup-overlay.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+}
+
+.bemke-team-popup {
+  background: var(--theme-white, #fff9f4);
+  border: 1px solid rgba(30, 17, 12, 0.15);
+  left: 50%;
+  opacity: 0;
+  overflow: auto;
+  pointer-events: none;
+  position: fixed;
+  width: min(100vw - 2rem, 1080px);
+  max-height: min(92vh, 100vh - 2rem);
+  top: 50%;
+  z-index: 991;
+  transform: translate(-50%, -52%) scale(0.98);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  visibility: hidden;
+  box-sizing: border-box;
+  padding: 1rem;
+}
+
+.bemke-team-popup.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+  visibility: visible;
+}
+
+html.is-team-popup-open,
+body.is-team-popup-open {
+  overflow: hidden;
+}
