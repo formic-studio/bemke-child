@@ -7,14 +7,11 @@ const OVERLAY_CLASS = 'bemke-team-popup-overlay';
 const OVERLAY_VISIBLE_CLASS = 'is-visible';
 const POPUP_CLASS = 'bemke-team-popup';
 const POPUP_VISIBLE_CLASS = 'is-visible';
-const POPUP_PORTAL_CLASS = 'bemke-team-popup-portal';
 
 let popupMap = new Map();
 let activePopup = null;
 let activeTrigger = null;
 let popupOverlay = null;
-let popupPortal = null;
-const popupOriginalPlacement = new Map();
 
 export function initTeamPopups() {
   setupTeamPopupElements();
@@ -31,7 +28,6 @@ function setupTeamPopupElements(scope = document) {
   }
 
   ensurePopupOverlay();
-  ensurePopupPortal();
 
   popups.forEach((popup) => {
     const number = normalizeNumber(popup.dataset.number);
@@ -170,14 +166,6 @@ function openTeamPopup(popup, trigger) {
   popup.hidden = false;
   popup.setAttribute('aria-hidden', 'false');
   popup.classList.add(POPUP_VISIBLE_CLASS);
-  movePopupToPortal(popup);
-  popup.style.display = 'block';
-  popup.style.position = 'fixed';
-  popup.style.top = '50%';
-  popup.style.left = '50%';
-  popup.style.right = 'auto';
-  popup.style.bottom = 'auto';
-  popup.style.transform = 'translate(-50%, -50%)';
   popupOverlay.classList.add(OVERLAY_VISIBLE_CLASS);
   document.documentElement.classList.add('is-team-popup-open');
   document.body.classList.add('is-team-popup-open');
@@ -203,14 +191,6 @@ function closeTeamPopup() {
   activePopup.classList.remove(POPUP_VISIBLE_CLASS);
   activePopup.setAttribute('aria-hidden', 'true');
   activePopup.setAttribute('hidden', '');
-  restorePopup(activePopup);
-  activePopup.style.display = '';
-  activePopup.style.position = '';
-  activePopup.style.top = '';
-  activePopup.style.left = '';
-  activePopup.style.right = '';
-  activePopup.style.bottom = '';
-  activePopup.style.transform = '';
   document.documentElement.classList.remove('is-team-popup-open');
   document.body.classList.remove('is-team-popup-open');
 
@@ -233,44 +213,6 @@ function ensurePopupOverlay() {
   popupOverlay.tabIndex = -1;
   popupOverlay.style.zIndex = '2147483000';
   document.body.appendChild(popupOverlay);
-}
-
-function ensurePopupPortal() {
-  if (popupPortal) {
-    return;
-  }
-
-  popupPortal = document.createElement('div');
-  popupPortal.className = POPUP_PORTAL_CLASS;
-  popupPortal.setAttribute('aria-hidden', 'true');
-  document.body.appendChild(popupPortal);
-}
-
-function movePopupToPortal(popup) {
-  if (!popupPortal || popup.parentElement === popupPortal) {
-    return;
-  }
-
-  const parent = popup.parentElement;
-  const nextSibling = popup.nextSibling;
-  popupOriginalPlacement.set(popup, { parent, nextSibling });
-  popupPortal.appendChild(popup);
-}
-
-function restorePopup(popup) {
-  const placement = popupOriginalPlacement.get(popup);
-  if (!placement) {
-    return;
-  }
-
-  const { parent, nextSibling } = placement;
-  if (popup.parentElement !== parent) {
-    if (parent && parent.isConnected) {
-      parent.insertBefore(popup, nextSibling);
-    }
-  }
-
-  popupOriginalPlacement.delete(popup);
 }
 
 function addPopupByNumber(number, popup) {
