@@ -227,6 +227,16 @@ html[data-contrast]:not([data-contrast="default"]) .slider-thinktank .slide-titt
   color: var(--a11y-text) !important;
 }
 
+.slide-tittle {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+
+html[data-contrast]:not([data-contrast="default"]) .slide-tittle {
+  color: var(--a11y-text) !important;
+  -webkit-text-fill-color: var(--a11y-text) !important;
+}
+
 html[data-contrast]:not([data-contrast="default"]) a {
   color: var(--a11y-text) !important;
 }
