@@ -4,6 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 require_once get_stylesheet_directory() . '/inc/linkedin-posts.php';
+require_once get_stylesheet_directory() . '/inc/instagram-feed.php';
 
 add_action( 'wp_enqueue_scripts', 'bemke_child_enqueue_assets', 20 );
 

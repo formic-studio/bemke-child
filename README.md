@@ -86,6 +86,20 @@ git push origin main
 
 4. WordPress aktualizuje theme z repo.
 
+## Instagram feed (new)
+
+Aby podpiąć zdjęcia z Instagrama:
+
+1. W `wp-config.php` dodaj stałe:
+   - `define( 'BEMKE_INSTAGRAM_USER_ID', 'TWOJE_IG_USER_ID' );`
+   - `define( 'BEMKE_INSTAGRAM_ACCESS_TOKEN', 'TWOJ_LONG_LIVED_TOKEN' );`
+2. Na stronie `falcons-wadowice` feed pojawi się automatycznie na końcu treści.
+3. Jeśli chcesz sterować miejscem ręcznie, wstaw shortcode:
+   - `[bemke_instagram_feed limit="8" columns="4"]`
+4. Możesz też przekazać `user_id` i `access_token` bezpośrednio w shortcode, jeśli chcesz testować inne konto.
+
+Uwaga: Instagram API działa tylko po poprawnej autoryzacji i tokenie; bez tego endpoint zwróci błąd.
+
 ## Ważne
 
 - `dist/` musi być commitowany do repo (to pliki produkcyjne pobierane przez WordPress).
