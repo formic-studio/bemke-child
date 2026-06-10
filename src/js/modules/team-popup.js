@@ -177,10 +177,7 @@ function openTeamPopup(popup, trigger) {
   popup.style.left = '50%';
   popup.style.right = 'auto';
   popup.style.bottom = 'auto';
-  popup.style.transform = 'translate(-50%, -52%) scale(0.98)';
-  popup.style.opacity = '1';
-  popup.style.visibility = 'visible';
-  popup.style.zIndex = '2147483001';
+  popup.style.transform = 'translate(-50%, -50%)';
   popupOverlay.classList.add(OVERLAY_VISIBLE_CLASS);
   document.documentElement.classList.add('is-team-popup-open');
   document.body.classList.add('is-team-popup-open');
@@ -214,9 +211,6 @@ function closeTeamPopup() {
   activePopup.style.right = '';
   activePopup.style.bottom = '';
   activePopup.style.transform = '';
-  activePopup.style.opacity = '';
-  activePopup.style.visibility = '';
-  activePopup.style.zIndex = '';
   document.documentElement.classList.remove('is-team-popup-open');
   document.body.classList.remove('is-team-popup-open');
 
