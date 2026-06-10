@@ -90,15 +90,15 @@ git push origin main
 
 Aby podpiąć zdjęcia z Instagrama:
 
-1. Wejdź w WordPress → Ustawienia → **Bemke Instagram** i wpisz:
-   - `Instagram User ID`
-   - `Instagram Access Token`
-2. Na stronie `falcons-wadowice` feed pojawi się automatycznie na końcu treści.
-3. Jeśli chcesz sterować miejscem ręcznie, wstaw shortcode:
+1. Wejdź w WordPress → Ustawienia → **Bemke Instagram** i ustaw:
+   - `token webhooka` (`X-Secret-Token`), który będzie wysyłał Make.
+2. W Make ustaw zadanie, które raz dziennie pobiera max. 12 ostatnich postów i wywołuje endpoint:
+   - `POST /wp-json/bemke/v1/instagram-post`
+3. W payloadzie Make wysyłaj albo:
+   - pojedynczy obiekt posta
+   - albo tablicę `items` / `posts` z ostatnimi postami.
+4. Na stronie `falcons-wadowice` feed pojawi się automatycznie na końcu treści. Jeśli chcesz sterować miejscem ręcznie, wstaw shortcode:
    - `[bemke_instagram_feed limit="8" columns="4"]`
-4. Możesz też przekazać `user_id` i `access_token` bezpośrednio w shortcode, jeśli chcesz testować inne konto.
-   
-Uwaga: Jeśli w pliku `wp-config.php` ustawisz stałe `BEMKE_INSTAGRAM_USER_ID` i `BEMKE_INSTAGRAM_ACCESS_TOKEN`, to one mają pierwszeństwo przed ustawieniami z panelu.
 
 ## Popup zespołu (o-nas)
 
