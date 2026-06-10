@@ -5,9 +5,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 const BEMKE_INSTAGRAM_FEED_CACHE_TIMEOUT = 15 * MINUTE_IN_SECONDS;
 const BEMKE_INSTAGRAM_FEED_LIMIT_MAX   = 12;
+const BEMKE_INSTAGRAM_USER_ID_OPTION     = 'bemke_instagram_user_id';
+const BEMKE_INSTAGRAM_ACCESS_TOKEN_OPTION = 'bemke_instagram_access_token';
 
 add_action( 'init', 'bemke_register_instagram_feed_shortcode' );
 add_filter( 'the_content', 'bemke_append_instagram_feed_to_falcons_page', 20 );
+add_action( 'admin_menu', 'bemke_register_instagram_settings_page' );
+add_action( 'admin_init', 'bemke_handle_instagram_settings_save' );
 
 function bemke_register_instagram_feed_shortcode() {
 	add_shortcode( 'bemke_instagram_feed', 'bemke_render_instagram_feed_shortcode' );
@@ -94,7 +98,7 @@ function bemke_append_instagram_feed_to_falcons_page( $content ) {
 
 	if ( ! $settings['user_id'] || ! $settings['access_token'] ) {
 		if ( current_user_can( 'manage_options' ) ) {
-			$content .= '<p class="bemke-instagram-feed__error">Brakuje ustawień Instagrama (BEMKE_INSTAGRAM_USER_ID / BEMKE_INSTAGRAM_ACCESS_TOKEN).</p>';
+			$content .= '<p class="bemke-instagram-feed__error">Brakuje ustawień Instagrama (User ID lub Access Token).</p>';
 		}
 
 		return $content;
@@ -205,14 +209,197 @@ function bemke_get_instagram_feed_settings( $user_id = '', $access_token = '' ) 
 
 	if ( '' === $user_id && defined( 'BEMKE_INSTAGRAM_USER_ID' ) ) {
 		$user_id = trim( (string) BEMKE_INSTAGRAM_USER_ID );
+	} elseif ( '' === $user_id ) {
+		$user_id = (string) get_option( BEMKE_INSTAGRAM_USER_ID_OPTION, '' );
 	}
 
 	if ( '' === $token && defined( 'BEMKE_INSTAGRAM_ACCESS_TOKEN' ) ) {
 		$token = trim( (string) BEMKE_INSTAGRAM_ACCESS_TOKEN );
+	} elseif ( '' === $token ) {
+		$token = (string) get_option( BEMKE_INSTAGRAM_ACCESS_TOKEN_OPTION, '' );
 	}
 
 	return array(
 		'user_id'      => $user_id,
 		'access_token' => $token,
 	);
+}
+
+function bemke_register_instagram_settings_page() {
+	add_options_page(
+		'Bemke Instagram',
+		'Bemke Instagram',
+		'manage_options',
+		'bemke-instagram',
+		'bemke_render_instagram_settings_page'
+	);
+}
+
+function bemke_handle_instagram_settings_save() {
+	if ( ! is_admin() || ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
+	if ( ! isset( $_POST['bemke_instagram_settings_nonce'] ) ) {
+		return;
+	}
+
+	check_admin_referer( 'bemke_save_instagram_settings', 'bemke_instagram_settings_nonce' );
+
+	$redirect_url = add_query_arg(
+		array(
+			'page'                   => 'bemke-instagram',
+			'bemke_instagram_saved'   => '1',
+		),
+		admin_url( 'options-general.php' )
+	);
+
+	if ( isset( $_POST['bemke_clear_instagram_token'] ) ) {
+		delete_option( BEMKE_INSTAGRAM_ACCESS_TOKEN_OPTION );
+		delete_option( BEMKE_INSTAGRAM_USER_ID_OPTION );
+		wp_safe_redirect( $redirect_url );
+		exit;
+	}
+
+	if ( defined( 'BEMKE_INSTAGRAM_USER_ID' ) || defined( 'BEMKE_INSTAGRAM_ACCESS_TOKEN' ) ) {
+		wp_safe_redirect(
+			add_query_arg(
+				array(
+					'page'                  => 'bemke-instagram',
+					'bemke_instagram_info'  => '1',
+				),
+				admin_url( 'options-general.php' )
+			)
+		);
+		exit;
+	}
+
+	$settings = bemke_parse_instagram_settings_post();
+	update_option( BEMKE_INSTAGRAM_USER_ID_OPTION, $settings['user_id'], false );
+	update_option( BEMKE_INSTAGRAM_ACCESS_TOKEN_OPTION, $settings['access_token'], false );
+	bemke_clear_instagram_feed_cache();
+	wp_safe_redirect( $redirect_url );
+	exit;
+}
+
+function bemke_parse_instagram_settings_post() {
+	$user_id     = isset( $_POST['bemke_instagram_user_id'] ) ? (string) wp_unslash( $_POST['bemke_instagram_user_id'] ) : '';
+	$access_token = isset( $_POST['bemke_instagram_access_token'] ) ? (string) wp_unslash( $_POST['bemke_instagram_access_token'] ) : '';
+	$stored_token = (string) get_option( BEMKE_INSTAGRAM_ACCESS_TOKEN_OPTION, '' );
+	$parsed_token = sanitize_text_field( trim( $access_token ) );
+
+	if ( '' === $parsed_token ) {
+		$parsed_token = $stored_token;
+	}
+
+	return array(
+		'user_id'     => sanitize_text_field( trim( $user_id ) ),
+		'access_token' => $parsed_token,
+	);
+}
+
+function bemke_render_instagram_settings_page() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
+	$stored_user_id = (string) get_option( BEMKE_INSTAGRAM_USER_ID_OPTION, '' );
+	$stored_token   = (string) get_option( BEMKE_INSTAGRAM_ACCESS_TOKEN_OPTION, '' );
+	$has_constant_user_id = defined( 'BEMKE_INSTAGRAM_USER_ID' ) && '' !== (string) BEMKE_INSTAGRAM_USER_ID;
+	$has_constant_token   = defined( 'BEMKE_INSTAGRAM_ACCESS_TOKEN' ) && '' !== (string) BEMKE_INSTAGRAM_ACCESS_TOKEN;
+	$user_id             = $has_constant_user_id ? (string) BEMKE_INSTAGRAM_USER_ID : $stored_user_id;
+	$token_masked        = $has_constant_token || '' !== $stored_token ? str_repeat( '*', 24 ) : '';
+	$token_label         = $has_constant_token ? 'Token ustawiony w wp-config.php' : $token_masked;
+	?>
+	<div class="wrap">
+		<h1>Bemke Instagram</h1>
+
+		<?php if ( isset( $_GET['bemke_instagram_saved'] ) ) : ?>
+			<div class="notice notice-success is-dismissible">
+				<p>Ustawienia Instagrama zostały zapisane.</p>
+			</div>
+		<?php endif; ?>
+
+		<?php if ( isset( $_GET['bemke_instagram_info'] ) ) : ?>
+			<div class="notice notice-info is-dismissible">
+				<p>Instagram jest również ustawiony stałymi w <code>wp-config.php</code>. Wyłącz je tam, aby edytować tutaj.</p>
+			</div>
+		<?php endif; ?>
+
+		<p>Tu możesz dodać dane konta Instagram dla feedu na stronie <strong>falcons-wadowice</strong>.</p>
+
+		<?php if ( $has_constant_user_id || $has_constant_token ) : ?>
+			<div class="notice notice-warning is-dismissible">
+				<p>Część ustawień jest nadpisywana przez <code>wp-config.php</code>.</p>
+			</div>
+		<?php endif; ?>
+
+		<form method="post" action="">
+			<?php wp_nonce_field( 'bemke_save_instagram_settings', 'bemke_instagram_settings_nonce' ); ?>
+
+			<table class="form-table" role="presentation">
+				<tr>
+					<th scope="row">
+						<label for="bemke_instagram_user_id">Instagram User ID</label>
+					</th>
+					<td>
+						<input
+							type="text"
+							id="bemke_instagram_user_id"
+							name="bemke_instagram_user_id"
+							class="regular-text"
+							value="<?php echo esc_attr( '' === (string) $user_id ? '' : $user_id ); ?>"
+							<?php disabled( $has_constant_user_id ); ?>
+						>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">
+						<label for="bemke_instagram_access_token">Instagram Access Token</label>
+					</th>
+					<td>
+						<input
+							type="password"
+							id="bemke_instagram_access_token"
+							name="bemke_instagram_access_token"
+							class="regular-text"
+							value=""
+							placeholder="<?php echo esc_attr( $token_label ); ?>"
+							autocomplete="new-password"
+							<?php disabled( $has_constant_token ); ?>
+						>
+						<p class="description">
+							Jeśli zostawisz pole puste, bieżący token w bazie nie zostanie skasowany.
+						</p>
+					</td>
+				</tr>
+			</table>
+
+			<?php if ( ! $has_constant_user_id && ! $has_constant_token ) : ?>
+				<?php submit_button( 'Zapisz ustawienia' ); ?>
+				<button type="submit" name="bemke_clear_instagram_token" value="1" class="button button-secondary">
+					Wyczyść ustawienia
+				</button>
+			<?php else : ?>
+				<button type="submit" name="bemke_clear_instagram_token" value="1" class="button button-secondary">
+					Wyłącz ustawienia z panelu i użyj wp-config
+				</button>
+			<?php endif; ?>
+		</form>
+	</div>
+	<?php
+}
+
+function bemke_clear_instagram_feed_cache() {
+	$raw_user_id = get_option( BEMKE_INSTAGRAM_USER_ID_OPTION, '' );
+
+	if ( '' === trim( (string) $raw_user_id ) ) {
+		return;
+	}
+
+	$user_id_hash = md5( $raw_user_id );
+
+	for ( $limit = 1; $limit <= BEMKE_INSTAGRAM_FEED_LIMIT_MAX; $limit++ ) {
+		delete_transient( sprintf( 'bemke_instagram_feed_%1$s_%2$d', $user_id_hash, $limit ) );
+	}
 }
