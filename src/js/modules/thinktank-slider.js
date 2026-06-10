@@ -569,7 +569,7 @@ function createSlider(root) {
     const duration =
       instant || window.matchMedia("(prefers-reduced-motion: reduce)").matches
         ? 0
-        : 900;
+        : 1100;
 
     if (transitionTimerId) {
       window.clearTimeout(transitionTimerId);

@@ -67,9 +67,9 @@
   clip-path: var(--tt-clip-center);
   opacity: 0;
   transition:
-    transform 900ms cubic-bezier(0.22, 1, 0.36, 1),
-    clip-path 900ms cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 900ms cubic-bezier(0.22, 1, 0.36, 1);
+    transform 1100ms cubic-bezier(0.22, 1, 0.36, 1),
+    clip-path 1100ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 1100ms cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform, clip-path, opacity;
 }
 
