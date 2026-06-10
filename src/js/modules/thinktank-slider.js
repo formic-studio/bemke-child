@@ -14,6 +14,14 @@ const BOOT_FLAG = "__bemkeThinktankBooted";
 const AUTOPLAY_MS = 2200;
 const VISIBLE_RANGE = 3;
 const MOBILE_MEDIA_QUERY = "(max-width: 767px)";
+const SCROLL_TRIGGER_MEDIA_QUERY = "(min-width: 768px)";
+const SCROLL_TRIGGER_OPTIONS = {
+  rootMargin: "0px 0px -18% 0px",
+  threshold: 0.18,
+};
+
+let hasDesktopScrollOccurred = false;
+let viewportObserver = null;
 
 const SLOT_PROFILE = {
   left: {
@@ -96,6 +104,11 @@ function initThinktankSliderRoots(scope = document) {
       return;
     }
 
+    if (shouldDeferThinktankInitUntilVisible()) {
+      observeThinktankRoot(root);
+      return;
+    }
+
     root.setAttribute(INIT_ATTR, "1");
     createSlider(root);
   });
@@ -120,6 +133,30 @@ function setupThinktankLifecycle() {
   window.setTimeout(rerunInit, 200);
   window.setTimeout(rerunInit, 800);
   window.setTimeout(rerunInit, 1800);
+
+  if (window.matchMedia) {
+    window.addEventListener(
+      "resize",
+      debounce(() => {
+        initThinktankSliderRoots();
+      }, 120),
+    );
+  }
+
+  if (window.matchMedia?.(SCROLL_TRIGGER_MEDIA_QUERY).matches) {
+    window.addEventListener(
+      "scroll",
+      debounce(() => {
+        if (hasDesktopScrollOccurred) {
+          return;
+        }
+
+        hasDesktopScrollOccurred = true;
+        activateVisibleObservedThinktankRoots();
+      }, 60),
+      { passive: true },
+    );
+  }
 
   if (!window.MutationObserver || !document.body) {
     return;
@@ -148,6 +185,98 @@ function setupThinktankLifecycle() {
   observer.observe(document.body, {
     childList: true,
     subtree: true,
+  });
+}
+
+function shouldDeferThinktankInitUntilVisible() {
+  if (!window.matchMedia || !window.IntersectionObserver) {
+    return false;
+  }
+
+  if (!window.matchMedia(SCROLL_TRIGGER_MEDIA_QUERY).matches) {
+    return false;
+  }
+
+  return true;
+}
+
+function isElementInViewport(element) {
+  const rect = element.getBoundingClientRect();
+
+  return rect.top < window.innerHeight && rect.bottom > 0;
+}
+
+function observeThinktankRoot(root) {
+  if (!window.IntersectionObserver) {
+    createSlider(root);
+    return;
+  }
+
+  if (root.__bemkeThinktankObserved) {
+    return;
+  }
+
+  const observer = getThinktankViewportObserver();
+
+  if (!observer) {
+    createSlider(root);
+    return;
+  }
+
+  root.__bemkeThinktankObserved = true;
+  observer.observe(root);
+}
+
+function getThinktankViewportObserver() {
+  if (viewportObserver) {
+    return viewportObserver;
+  }
+
+  viewportObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) {
+        return;
+      }
+
+      const root = entry.target;
+      if (!hasDesktopScrollOccurred) {
+        return;
+      }
+
+      root.__bemkeThinktankObserved = false;
+
+      if (root.getAttribute(INIT_ATTR) === "1") {
+        viewportObserver?.unobserve(root);
+        return;
+      }
+
+      viewportObserver?.unobserve(root);
+      root.setAttribute(INIT_ATTR, "1");
+      createSlider(root);
+    });
+  }, SCROLL_TRIGGER_OPTIONS);
+
+  return viewportObserver;
+}
+
+function activateVisibleObservedThinktankRoots() {
+  if (!window.IntersectionObserver) {
+    return;
+  }
+
+  const roots = document.querySelectorAll(SELECTORS.root);
+
+  roots.forEach((root) => {
+    if (
+      root.__bemkeThinktankObserved &&
+      root.getAttribute(INIT_ATTR) !== "1" &&
+      isElementInViewport(root)
+    ) {
+      root.__bemkeThinktankObserved = false;
+      viewportObserver?.unobserve(root);
+      root.setAttribute(INIT_ATTR, "1");
+      createSlider(root);
+    }
   });
 }
 
