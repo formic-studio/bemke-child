@@ -13,6 +13,7 @@ import { initFormAriaReferences } from './modules/form-aria-references.js';
 import { initPdfLinkLabels } from './modules/pdf-link-labels.js';
 import { initLinkedinPostNumbers } from './modules/linkedin-post-numbers.js';
 import { initTeamPopups } from './modules/team-popup.js';
+import { initSlideTittleContrastFix } from './modules/slide-tittle-contrast-fix.js';
 
 function initApp() {
   initAccordionControls();
@@ -29,6 +30,7 @@ function initApp() {
   initPdfLinkLabels();
   initLinkedinPostNumbers();
   initTeamPopups();
+  initSlideTittleContrastFix();
 }
 
 if (document.readyState === 'loading') {
