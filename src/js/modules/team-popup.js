@@ -166,6 +166,13 @@ function openTeamPopup(popup, trigger) {
   popup.hidden = false;
   popup.setAttribute('aria-hidden', 'false');
   popup.classList.add(POPUP_VISIBLE_CLASS);
+  popup.style.display = 'block';
+  popup.style.position = 'fixed';
+  popup.style.top = '50%';
+  popup.style.left = '50%';
+  popup.style.right = 'auto';
+  popup.style.bottom = 'auto';
+  popup.style.transform = 'translate(-50%, -52%) scale(0.98)';
   popupOverlay.classList.add(OVERLAY_VISIBLE_CLASS);
   document.documentElement.classList.add('is-team-popup-open');
   document.body.classList.add('is-team-popup-open');
@@ -176,6 +183,13 @@ function openTeamPopup(popup, trigger) {
 }
 
 function closeTeamPopup() {
+  if (!activePopup && popupOverlay) {
+    popupOverlay.classList.remove(OVERLAY_VISIBLE_CLASS);
+    document.documentElement.classList.remove('is-team-popup-open');
+    document.body.classList.remove('is-team-popup-open');
+    return;
+  }
+
   if (!activePopup) {
     return;
   }
@@ -184,6 +198,13 @@ function closeTeamPopup() {
   activePopup.classList.remove(POPUP_VISIBLE_CLASS);
   activePopup.setAttribute('aria-hidden', 'true');
   activePopup.setAttribute('hidden', '');
+  activePopup.style.display = '';
+  activePopup.style.position = '';
+  activePopup.style.top = '';
+  activePopup.style.left = '';
+  activePopup.style.right = '';
+  activePopup.style.bottom = '';
+  activePopup.style.transform = '';
   document.documentElement.classList.remove('is-team-popup-open');
   document.body.classList.remove('is-team-popup-open');
 

@@ -944,11 +944,15 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
 }
 
 .popup-team[data-number] {
-  display: none;
+  display: none !important;
+  position: static;
+  width: auto;
+  max-width: none;
+  max-height: none;
 }
 
 .popup-team[data-number].bemke-team-popup {
-  display: block;
+  display: none;
 }
 
 .bemke-team-popup-overlay {
@@ -959,10 +963,11 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
   position: fixed;
   transition: opacity 0.2s ease;
   visibility: hidden;
-  z-index: 990;
+  z-index: 2147483000;
 }
 
 .bemke-team-popup-overlay.is-visible {
+  display: block !important;
   opacity: 1;
   pointer-events: auto;
   visibility: visible;
@@ -971,26 +976,32 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
 .bemke-team-popup {
   background: var(--theme-white, #fff9f4);
   border: 1px solid rgba(30, 17, 12, 0.15);
-  left: 50%;
+  inset: auto auto auto auto;
+  left: 50% !important;
   opacity: 0;
   overflow: auto;
   pointer-events: none;
-  position: fixed;
-  width: min(100vw - 2rem, 1080px);
-  max-height: min(92vh, 100vh - 2rem);
-  top: 50%;
-  z-index: 991;
-  transform: translate(-50%, -52%) scale(0.98);
+  position: fixed !important;
+  width: min(100vw - 2rem, 1080px) !important;
+  max-height: min(92vh, 100vh - 2rem) !important;
+  top: 50% !important;
+  z-index: 2147483001 !important;
+  transform: translate(-50%, -52%) scale(0.98) !important;
+  border-radius: 0 !important;
   transition: opacity 0.2s ease, transform 0.2s ease;
   visibility: hidden;
   box-sizing: border-box;
   padding: 1rem;
 }
 
+.popup-team[data-number].bemke-team-popup.is-visible {
+  display: block !important;
+}
+
 .bemke-team-popup.is-visible {
   opacity: 1;
   pointer-events: auto;
-  transform: translate(-50%, -50%) scale(1);
+  transform: translate(-50%, -50%) scale(1) !important;
   visibility: visible;
 }
 
