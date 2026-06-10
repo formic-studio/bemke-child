@@ -952,10 +952,7 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
 }
 
 .popup-team[data-number].bemke-team-popup.is-visible {
-  display: block !important;
-  width: max-content;
-  max-width: min(calc(100vw - 2rem), 100%);
-  max-height: calc(100vh - 2rem);
+  display: flex !important;
 }
 
 .bemke-team-popup-overlay {
