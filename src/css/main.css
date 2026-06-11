@@ -998,7 +998,7 @@ body.is-team-popup-open {
 
 .btn-yellow-hover {
   --btn-yellow-bg: var(--yellow, var(--theme-yellow, #f9bb59));
-  --btn-yellow-bg-hover: var(--theme-wine, #501819);
+  --btn-yellow-bg-hover: var(--theme-red, #741618);
   --btn-yellow-text: var(--brown, var(--theme-brown, #1b0508));
   --btn-yellow-text-hover: var(--theme-cream, #fff9f4);
   --btn-yellow-text-steps: 12;
