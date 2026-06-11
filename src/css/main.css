@@ -1003,11 +1003,18 @@ body.is-team-popup-open {
   --btn-yellow-text-hover: var(--darkcream, var(--theme-darkcream));
   --btn-yellow-text-steps: 12;
 
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  background-color: var(--btn-yellow-bg);
-  transition: color 0.25s ease;
+  background-color: var(--btn-yellow-bg) !important;
+  border-color: var(--btn-yellow-bg-hover) !important;
+  color: var(--btn-yellow-text) !important;
+  transition:
+    color 0.25s ease,
+    background-color 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .btn-yellow-hover::before {
@@ -1020,6 +1027,12 @@ body.is-team-popup-open {
   transform-origin: left center;
   transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
   pointer-events: none;
+}
+
+.btn-yellow-hover .brxe-text,
+.btn-yellow-hover > span,
+.btn-yellow-hover:not(:has(.brxe-text)):not(:has(> span)) {
+  color: var(--btn-yellow-text);
 }
 
 .btn-yellow-hover .brxe-text,
