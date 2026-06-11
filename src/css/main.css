@@ -997,10 +997,10 @@ body.is-team-popup-open {
 }
 
 .btn-yellow-hover {
-  --btn-yellow-bg: var(--yellow, var(--theme-yellow));
-  --btn-yellow-bg-hover: var(--brown, var(--theme-brown));
-  --btn-yellow-text: var(--brown, var(--theme-brown));
-  --btn-yellow-text-hover: var(--darkcream, var(--theme-darkcream));
+  --btn-yellow-bg: var(--yellow, var(--theme-yellow, #f9bb59));
+  --btn-yellow-bg-hover: var(--brown, var(--theme-brown, #1b0508));
+  --btn-yellow-text: var(--brown, var(--theme-brown, #1b0508));
+  --btn-yellow-text-hover: var(--darkcream, var(--theme-darkcream, #fff3e0));
   --btn-yellow-text-steps: 12;
   --btn-yellow-padding-x: 1.1em;
   --btn-yellow-padding-y: 0.62em;
@@ -1010,10 +1010,15 @@ body.is-team-popup-open {
   isolation: isolate;
   overflow: hidden;
   padding: var(--btn-yellow-padding-y) var(--btn-yellow-padding-x);
-  background-color: var(--btn-yellow-bg) !important;
+  background: var(--btn-yellow-bg) !important;
+  background-image: none !important;
   border-color: var(--btn-yellow-bg-hover) !important;
   text-decoration: none;
-  transition: background-color 0.35s cubic-bezier(0.22, 1, 0.36, 1), color 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  color: var(--btn-yellow-text) !important;
+  transition:
+    background-color 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    background-position 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    color 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .btn-yellow-hover::before {
@@ -1051,7 +1056,9 @@ body.is-team-popup-open {
 
 .btn-yellow-hover:hover,
 .btn-yellow-hover:focus-visible {
+  background: var(--btn-yellow-bg-hover) !important;
   background-color: var(--btn-yellow-bg-hover) !important;
+  color: var(--btn-yellow-text-hover) !important;
 }
 
 .btn-yellow-hover:hover::before,
