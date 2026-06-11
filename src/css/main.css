@@ -1002,23 +1002,13 @@ body.is-team-popup-open {
   --btn-yellow-text: var(--brown, var(--theme-brown, #1b0508));
   --btn-yellow-text-hover: var(--darkcream, var(--theme-darkcream, #fff3e0));
   --btn-yellow-text-steps: 12;
-  --btn-yellow-padding-x: 1.1em;
-  --btn-yellow-padding-y: 0.62em;
 
-  display: inline-block !important;
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  padding: var(--btn-yellow-padding-y) var(--btn-yellow-padding-x);
   background: var(--btn-yellow-bg) !important;
-  background-image: none !important;
-  border-color: var(--btn-yellow-bg-hover) !important;
-  text-decoration: none;
   color: var(--btn-yellow-text) !important;
-  transition:
-    background-color 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-    background-position 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-    color 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: background-color 0.35s cubic-bezier(0.22, 1, 0.36, 1), color 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .btn-yellow-hover::before {
@@ -1037,9 +1027,6 @@ body.is-team-popup-open {
 .btn-yellow-hover .brxe-text,
 .btn-yellow-hover > span,
 .btn-yellow-hover > div {
-  display: inline-block;
-  color: transparent !important;
-  -webkit-text-fill-color: transparent;
   background-image: linear-gradient(
     to right,
     var(--btn-yellow-text-hover) 50%,
@@ -1052,13 +1039,14 @@ body.is-team-popup-open {
   -webkit-background-clip: text;
   transition: background-position 0.35s cubic-bezier(0.22, 1, 0.36, 1);
   transition-timing-function: steps(var(--btn-yellow-text-steps), end);
+  color: var(--btn-yellow-text) !important;
+  -webkit-text-fill-color: currentColor;
 }
 
 .btn-yellow-hover:hover,
 .btn-yellow-hover:focus-visible {
   background: var(--btn-yellow-bg-hover) !important;
   background-color: var(--btn-yellow-bg-hover) !important;
-  color: var(--btn-yellow-text-hover) !important;
 }
 
 .btn-yellow-hover:hover::before,
@@ -1075,6 +1063,8 @@ body.is-team-popup-open {
 .btn-yellow-hover:focus-visible > span,
 .btn-yellow-hover:focus-visible > div {
   background-position: 0 0;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent;
 }
 
 @media (prefers-reduced-motion: reduce) {
