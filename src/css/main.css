@@ -995,3 +995,74 @@ html.is-team-popup-open,
 body.is-team-popup-open {
   overflow: hidden;
 }
+
+.btn-yellow-hover {
+  --btn-yellow-bg: var(--yellow, var(--theme-yellow));
+  --btn-yellow-bg-hover: var(--brown, var(--theme-brown));
+  --btn-yellow-text: var(--brown, var(--theme-brown));
+  --btn-yellow-text-hover: var(--darkcream, var(--theme-darkcream));
+  --btn-yellow-text-steps: 12;
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background-color: var(--btn-yellow-bg);
+  transition: color 0.25s ease;
+}
+
+.btn-yellow-hover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--btn-yellow-bg-hover);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.btn-yellow-hover .brxe-text,
+.btn-yellow-hover > span {
+  display: inline-block;
+  color: transparent;
+  background-image: linear-gradient(
+    to right,
+    var(--btn-yellow-text-hover) 50%,
+    var(--btn-yellow-text) 50%
+  );
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  background-repeat: no-repeat;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: background-position 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-timing-function: steps(var(--btn-yellow-text-steps), end);
+}
+
+.btn-yellow-hover:hover,
+.btn-yellow-hover:focus-visible {
+  color: var(--btn-yellow-text-hover);
+}
+
+.btn-yellow-hover:hover::before,
+.btn-yellow-hover:focus-visible::before {
+  transform: scaleX(1);
+}
+
+.btn-yellow-hover:hover .brxe-text,
+.btn-yellow-hover:hover > span,
+.btn-yellow-hover:focus-visible .brxe-text,
+.btn-yellow-hover:focus-visible > span {
+  background-position: 0 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-yellow-hover,
+  .btn-yellow-hover::before,
+  .btn-yellow-hover .brxe-text,
+  .btn-yellow-hover > span {
+    transition: none;
+  }
+}
