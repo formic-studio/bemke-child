@@ -1008,6 +1008,10 @@ body.is-team-popup-open {
   z-index: 0;
   overflow: hidden;
   background: var(--btn-yellow-bg) !important;
+  color: var(--btn-yellow-text) !important;
+  transition:
+    background-color 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    color 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .btn-yellow-hover::before {
@@ -1022,7 +1026,6 @@ body.is-team-popup-open {
   pointer-events: none;
 }
 
-.btn-yellow-hover,
 .btn-yellow-hover .brxe-text,
 .btn-yellow-hover > span,
 .btn-yellow-hover > div {
@@ -1053,6 +1056,7 @@ body.is-team-popup-open {
 .btn-yellow-hover:focus-visible {
   background: var(--btn-yellow-bg) !important;
   background-color: var(--btn-yellow-bg) !important;
+  color: var(--btn-yellow-text-hover) !important;
 }
 
 .btn-yellow-hover:hover,
