@@ -37,7 +37,7 @@ function bemke_register_instagram_posts_cpt() {
 			'show_ui'             => true,
 			'show_in_menu'        => true,
 			'menu_icon'           => 'dashicons-instagram',
-			'supports'            => array( 'title', 'editor', 'excerpt', 'custom-fields' ),
+			'supports'            => array( 'title', 'editor', 'excerpt', 'thumbnail', 'custom-fields' ),
 		)
 	);
 }
@@ -51,6 +51,8 @@ function bemke_register_instagram_post_meta() {
 		'ig_caption'      => 'wp_kses_post',
 		'ig_published_at' => 'sanitize_text_field',
 		'ig_media_type'   => 'sanitize_text_field',
+		'ig_attachment_id' => 'absint',
+		'ig_image_download_error' => 'sanitize_text_field',
 	);
 
 	foreach ( $meta_fields as $meta_key => $sanitize_callback ) {
@@ -58,7 +60,7 @@ function bemke_register_instagram_post_meta() {
 			BEMKE_INSTAGRAM_POST_TYPE,
 			$meta_key,
 			array(
-				'type'              => 'string',
+				'type'              => 'ig_attachment_id' === $meta_key ? 'integer' : 'string',
 				'single'            => true,
 				'show_in_rest'      => true,
 				'sanitize_callback' => $sanitize_callback,
@@ -353,6 +355,7 @@ function bemke_normalize_instagram_payload_item( array $item ) {
 	$media_url = (string) bemke_get_array_value( $item, array( 'media_url', 'mediaUrl', 'image_url', 'imageUrl', 'image' ) );
 	$permalink = (string) bemke_get_array_value( $item, array( 'permalink', 'url', 'post_url', 'content_landing_page' ) );
 	$media_type = (string) bemke_get_array_value( $item, array( 'media_type', 'mediaType', 'type' ) );
+	$thumbnail_url = (string) bemke_get_array_value( $item, array( 'thumbnail_url', 'thumbnailUrl', 'thumbnail' ) );
 	$published_at = (string) bemke_get_array_value(
 		$item,
 		array(
@@ -364,9 +367,17 @@ function bemke_normalize_instagram_payload_item( array $item ) {
 			'publishedTime',
 		)
 	);
+	$media_url_is_image = '' !== $media_url && (bool) preg_match( '/\.(jpe?g|png|gif|webp)(?:\?|$)/i', $media_url );
 
-	if ( '' === $media_url && 'CAROUSEL_ALBUM' === strtoupper( $media_type ) ) {
-		$media_url = (string) bemke_get_array_value( $item, array( 'thumbnail_url', 'thumbnailUrl' ) );
+	if (
+		'' !== $thumbnail_url
+		&& (
+			'' === $media_url
+			|| ! $media_url_is_image
+			|| in_array( strtoupper( $media_type ), array( 'VIDEO', 'CAROUSEL_ALBUM' ), true )
+		)
+	) {
+		$media_url = $thumbnail_url;
 	}
 
 	if ( '' === $media_url && isset( $item['children'] ) && is_array( $item['children'] ) ) {
@@ -443,10 +454,59 @@ function bemke_upsert_instagram_post( array $data ) {
 	update_post_meta( $wp_post_id, 'ig_published_at', $data['published_at'] );
 	update_post_meta( $wp_post_id, 'ig_media_type', $data['media_type'] );
 
+	$attachment_id = bemke_maybe_sideload_instagram_image( $wp_post_id, $data );
+
+	if ( $attachment_id ) {
+		update_post_meta( $wp_post_id, 'ig_attachment_id', $attachment_id );
+	}
+
 	return array(
 		'status'     => $status,
 		'wp_post_id' => (int) $wp_post_id,
 	);
+}
+
+function bemke_maybe_sideload_instagram_image( $wp_post_id, array $data ) {
+	$media_url = isset( $data['media_url'] ) ? esc_url_raw( $data['media_url'] ) : '';
+
+	if ( '' === $media_url ) {
+		return 0;
+	}
+
+	$existing_attachment_id = absint( get_post_meta( $wp_post_id, 'ig_attachment_id', true ) );
+
+	if ( ! $existing_attachment_id ) {
+		$existing_attachment_id = absint( get_post_thumbnail_id( $wp_post_id ) );
+	}
+
+	if ( $existing_attachment_id && 'attachment' === get_post_type( $existing_attachment_id ) ) {
+		set_post_thumbnail( $wp_post_id, $existing_attachment_id );
+		return $existing_attachment_id;
+	}
+
+	if ( ! function_exists( 'media_sideload_image' ) ) {
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+		require_once ABSPATH . 'wp-admin/includes/media.php';
+		require_once ABSPATH . 'wp-admin/includes/image.php';
+	}
+
+	$description = wp_strip_all_tags( $data['caption'] );
+
+	if ( '' === $description ) {
+		$description = get_the_title( $wp_post_id );
+	}
+
+	$attachment_id = media_sideload_image( $media_url, $wp_post_id, $description, 'id' );
+
+	if ( is_wp_error( $attachment_id ) ) {
+		update_post_meta( $wp_post_id, 'ig_image_download_error', $attachment_id->get_error_message() );
+		return 0;
+	}
+
+	delete_post_meta( $wp_post_id, 'ig_image_download_error' );
+	set_post_thumbnail( $wp_post_id, $attachment_id );
+
+	return absint( $attachment_id );
 }
 
 function bemke_get_array_value( array $data, array $keys, $default = '' ) {
@@ -556,7 +616,12 @@ function bemke_get_instagram_feed_posts( $limit = 8 ) {
 	while ( $query->have_posts() ) {
 		$query->the_post();
 
-		$media_url = (string) get_post_meta( get_the_ID(), 'ig_image_url', true );
+		$attachment_id = absint( get_post_meta( get_the_ID(), 'ig_attachment_id', true ) );
+		$media_url     = $attachment_id ? (string) wp_get_attachment_image_url( $attachment_id, 'large' ) : '';
+
+		if ( '' === $media_url ) {
+			$media_url = (string) get_post_meta( get_the_ID(), 'ig_image_url', true );
+		}
 
 		if ( '' === $media_url ) {
 			continue;
@@ -649,21 +714,39 @@ function bemke_add_instagram_post_details_meta_box() {
 }
 
 function bemke_render_instagram_post_details_meta_box( WP_Post $post ) {
+	$attachment_id = absint( get_post_meta( $post->ID, 'ig_attachment_id', true ) );
 	$fields = array(
-		'ID posta'       => get_post_meta( $post->ID, 'ig_post_id', true ),
-		'URL posta'      => get_post_meta( $post->ID, 'ig_permalink', true ),
-		'URL media'      => get_post_meta( $post->ID, 'ig_image_url', true ),
-		'Data z IG'      => get_post_meta( $post->ID, 'ig_published_at', true ),
-		'Typ media'      => get_post_meta( $post->ID, 'ig_media_type', true ),
-		'Link do posta'  => get_post_meta( $post->ID, 'ig_post_url', true ),
+		'ID posta'        => get_post_meta( $post->ID, 'ig_post_id', true ),
+		'URL posta'       => get_post_meta( $post->ID, 'ig_permalink', true ),
+		'URL media'       => get_post_meta( $post->ID, 'ig_image_url', true ),
+		'ID załącznika'   => $attachment_id,
+		'Błąd pobierania' => get_post_meta( $post->ID, 'ig_image_download_error', true ),
+		'Data z IG'       => get_post_meta( $post->ID, 'ig_published_at', true ),
+		'Typ media'       => get_post_meta( $post->ID, 'ig_media_type', true ),
+		'Link do posta'   => get_post_meta( $post->ID, 'ig_post_url', true ),
 	);
 
 	?>
 	<div class="bemke-instagram-post-details">
+		<?php if ( $attachment_id ) : ?>
+			<p>
+				<?php
+				echo wp_get_attachment_image(
+					$attachment_id,
+					'medium',
+					false,
+					array(
+						'style' => 'max-width:100%;height:auto;display:block;',
+					)
+				);
+				?>
+			</p>
+		<?php endif; ?>
+
 		<?php foreach ( $fields as $label => $value ) : ?>
 			<p>
 				<strong><?php echo esc_html( $label ); ?>:</strong><br>
-				<?php if ( '' === (string) $value ) : ?>
+				<?php if ( '' === (string) $value || '0' === (string) $value ) : ?>
 					<span aria-hidden="true">-</span>
 				<?php elseif ( 0 === strpos( (string) $value, 'http' ) ) : ?>
 					<a href="<?php echo esc_url( $value ); ?>" target="_blank" rel="noopener noreferrer">
