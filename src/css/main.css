@@ -1070,12 +1070,91 @@ body.is-team-popup-open {
   background-position: 0 0;
 }
 
+.btn-red-hover {
+  --btn-red-bg: var(--theme-red, rgba(116, 22, 24, 1));
+  --btn-red-bg-hover: var(--theme-brown, rgba(27, 5, 8, 1));
+  --btn-red-text: var(--theme-darkcream, rgba(255, 243, 224, 1));
+  --btn-red-text-hover: var(--theme-white, rgba(255, 253, 251, 1));
+  --btn-red-text-steps: 12;
+
+  position: relative;
+  isolation: isolate;
+  z-index: 0;
+  overflow: hidden;
+  background: var(--btn-red-bg) !important;
+  color: var(--btn-red-text) !important;
+  transition:
+    background-color 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    color 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.btn-red-hover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--btn-red-bg-hover);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.btn-red-hover .brxe-text,
+.btn-red-hover > span,
+.btn-red-hover > div {
+  color: transparent !important;
+  position: relative;
+  z-index: 1;
+  background-image: linear-gradient(
+    to right,
+    var(--btn-red-text-hover) 50%,
+    var(--btn-red-text) 50%
+  );
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  background-repeat: no-repeat;
+  background-clip: text;
+  -webkit-background-clip: text;
+  transition: background-position 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-timing-function: steps(var(--btn-red-text-steps), end);
+  -webkit-text-fill-color: transparent;
+}
+
+.btn-red-hover:hover::before,
+.btn-red-hover:focus-visible::before {
+  transform: scaleX(1);
+}
+
+.btn-red-hover:hover,
+.btn-red-hover:focus-visible {
+  background: var(--btn-red-bg) !important;
+  background-color: var(--btn-red-bg) !important;
+  color: var(--btn-red-text-hover) !important;
+}
+
+.btn-red-hover:hover,
+.btn-red-hover:focus-visible,
+.btn-red-hover:hover .brxe-text,
+.btn-red-hover:hover > span,
+.btn-red-hover:hover > div,
+.btn-red-hover:focus-visible .brxe-text,
+.btn-red-hover:focus-visible > span,
+.btn-red-hover:focus-visible > div {
+  background-position: 0 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .btn-yellow-hover,
   .btn-yellow-hover::before,
   .btn-yellow-hover .brxe-text,
   .btn-yellow-hover > span,
-  .btn-yellow-hover > div {
+  .btn-yellow-hover > div,
+  .btn-red-hover,
+  .btn-red-hover::before,
+  .btn-red-hover .brxe-text,
+  .btn-red-hover > span,
+  .btn-red-hover > div {
     transition: none;
   }
 }
