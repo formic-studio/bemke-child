@@ -311,11 +311,9 @@ html[data-contrast]:not([data-contrast="default"]) textarea {
 .infinity-loop-block {
   --bemke-loop-distance: 0px;
   --bemke-loop-duration: 36s;
-  --bemke-loop-gap: clamp(1.2rem, 2vw, 2.4rem);
 }
 
 .infinity-loop-block[data-bemke-infinity-loop-ready="1"] {
-  display: block !important;
   max-width: 100%;
   overflow: hidden;
   width: 100%;
@@ -326,7 +324,7 @@ html[data-contrast]:not([data-contrast="default"]) textarea {
   animation: bemke-infinity-loop var(--bemke-loop-duration) linear infinite;
   display: flex !important;
   flex-wrap: nowrap !important;
-  gap: var(--bemke-loop-gap);
+  gap: inherit;
   width: max-content;
   will-change: transform;
 }
@@ -336,10 +334,9 @@ html[data-contrast]:not([data-contrast="default"]) textarea {
 }
 
 .infinity-loop-block[data-bemke-infinity-loop-ready="1"] .img-wrapper {
-  aspect-ratio: 3/4;
+  aspect-ratio: 4/5;
   flex: 0 0 auto !important;
   overflow: hidden;
-  width: clamp(18rem, 22vw, 34rem);
 }
 
 .infinity-loop-block[data-bemke-infinity-loop-ready="1"] .img-wrapper img {
@@ -362,10 +359,6 @@ html[data-contrast]:not([data-contrast="default"]) textarea {
   .bemke-instagram-feed__grid {
     --bemke-instagram-columns: 3;
   }
-
-  .infinity-loop-block[data-bemke-infinity-loop-ready="1"] .img-wrapper {
-    width: clamp(16rem, 34vw, 28rem);
-  }
 }
 
 @media screen and (max-width: 720px) {
@@ -373,13 +366,6 @@ html[data-contrast]:not([data-contrast="default"]) textarea {
     --bemke-instagram-columns: 2;
   }
 
-  .infinity-loop-block {
-    --bemke-loop-gap: 1.2rem;
-  }
-
-  .infinity-loop-block[data-bemke-infinity-loop-ready="1"] .img-wrapper {
-    width: clamp(16rem, 68vw, 24rem);
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
