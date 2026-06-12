@@ -4,6 +4,7 @@ const MEGA_MENU_SELECTOR = '.mega-menu';
 const TOP_LINK_SELECTOR =
   '#brxe-vhhhdt > .bricks-nav-menu-wrapper > .bricks-nav-menu > li > a';
 const MEGA_COLUMN_SELECTOR = '.mega-menu-link-wrapper';
+const CURRENT_PAGE_LINK_SELECTOR = 'a[href][aria-current="page"]';
 const MEGA_CLIP_CLASS = 'mega-menu-clip';
 const DESKTOP_QUERY = '(min-width: 992px)';
 const READY_ATTR = 'data-bemke-mega-menu-ready';
@@ -41,6 +42,7 @@ function createMegaMenu(header) {
 
   header.setAttribute(READY_ATTR, '1');
   setupA11y(header, megaMenu, topLinks);
+  preventCurrentPageLinkSelection(header);
   updateMegaMenuHeight(megaMenuClip, megaMenu, desktopQuery.matches);
   setMegaMenuOpen(header, megaMenu, topLinks, false);
   updateColumnAlignment(megaMenu, topLinks, megaColumns, desktopQuery.matches);
@@ -163,6 +165,19 @@ function setupA11y(header, megaMenu, topLinks) {
 
   header.querySelectorAll('.mega-menu-link:not([href])').forEach((element) => {
     element.setAttribute('role', 'presentation');
+  });
+}
+
+function preventCurrentPageLinkSelection(header) {
+  header.addEventListener('click', (event) => {
+    const currentPageLink = event.target.closest(CURRENT_PAGE_LINK_SELECTOR);
+
+    if (!currentPageLink || !header.contains(currentPageLink)) {
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
   });
 }
 

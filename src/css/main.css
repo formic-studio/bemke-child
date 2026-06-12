@@ -829,8 +829,15 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
   #brx-header .mega-menu :is(a[href], .mega-menu-link, .post-category-link),
   #brx-footer a[href]:not(:has(img, svg)),
   footer a[href]:not(:has(img, svg))
-):not(.brxe-button):not(.btn):not([data-contrast]):is(:hover, :focus-visible) {
+):not(.brxe-button):not(.btn):not([data-contrast]):is(:hover, :focus-visible, [aria-current="page"]) {
   background-size: 100% 0.08em;
+}
+
+:where(
+  #brx-header #brxe-vhhhdt > .bricks-nav-menu-wrapper > .bricks-nav-menu > li > a[aria-current="page"],
+  #brx-header .mega-menu :is(a[href], .mega-menu-link, .post-category-link)[aria-current="page"]
+):not(.brxe-button):not(.btn):not([data-contrast]) {
+  cursor: default;
 }
 
 @media (min-width: 992px) {
