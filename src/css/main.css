@@ -1218,6 +1218,80 @@ body.is-team-popup-open {
   background-position: 0 0;
 }
 
+.btn-red-yellow-hover {
+  --btn-red-yellow-bg: var(--theme-red, rgba(116, 22, 24, 1));
+  --btn-red-yellow-bg-hover: var(--theme-yellow, rgba(249, 187, 89, 1));
+  --btn-red-yellow-text: var(--theme-darkcream, rgba(255, 243, 224, 1));
+  --btn-red-yellow-text-hover: var(--theme-white, rgba(255, 253, 251, 1));
+  --btn-red-yellow-text-steps: 12;
+
+  position: relative;
+  isolation: isolate;
+  z-index: 0;
+  overflow: hidden;
+  background: var(--btn-red-yellow-bg) !important;
+  color: var(--btn-red-yellow-text) !important;
+  transition:
+    background-color 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    color 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.btn-red-yellow-hover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--btn-red-yellow-bg-hover);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.btn-red-yellow-hover .brxe-text,
+.btn-red-yellow-hover > span,
+.btn-red-yellow-hover > div {
+  color: transparent !important;
+  position: relative;
+  z-index: 1;
+  background-image: linear-gradient(
+    to right,
+    var(--btn-red-yellow-text-hover) 50%,
+    var(--btn-red-yellow-text) 50%
+  );
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  background-repeat: no-repeat;
+  background-clip: text;
+  -webkit-background-clip: text;
+  transition: background-position 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-timing-function: steps(var(--btn-red-yellow-text-steps), end);
+  -webkit-text-fill-color: transparent;
+}
+
+.btn-red-yellow-hover:hover::before,
+.btn-red-yellow-hover:focus-visible::before {
+  transform: scaleX(1);
+}
+
+.btn-red-yellow-hover:hover,
+.btn-red-yellow-hover:focus-visible {
+  background: var(--btn-red-yellow-bg) !important;
+  background-color: var(--btn-red-yellow-bg) !important;
+  color: var(--btn-red-yellow-text-hover) !important;
+}
+
+.btn-red-yellow-hover:hover,
+.btn-red-yellow-hover:focus-visible,
+.btn-red-yellow-hover:hover .brxe-text,
+.btn-red-yellow-hover:hover > span,
+.btn-red-yellow-hover:hover > div,
+.btn-red-yellow-hover:focus-visible .brxe-text,
+.btn-red-yellow-hover:focus-visible > span,
+.btn-red-yellow-hover:focus-visible > div {
+  background-position: 0 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .btn-yellow-hover,
   .btn-yellow-hover::before,
@@ -1233,7 +1307,12 @@ body.is-team-popup-open {
   .btn-mustard-hover::before,
   .btn-mustard-hover .brxe-text,
   .btn-mustard-hover > span,
-  .btn-mustard-hover > div {
+  .btn-mustard-hover > div,
+  .btn-red-yellow-hover,
+  .btn-red-yellow-hover::before,
+  .btn-red-yellow-hover .brxe-text,
+  .btn-red-yellow-hover > span,
+  .btn-red-yellow-hover > div {
     transition: none;
   }
 }
