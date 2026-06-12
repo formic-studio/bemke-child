@@ -835,7 +835,9 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
 
 :where(
   #brx-header #brxe-vhhhdt > .bricks-nav-menu-wrapper > .bricks-nav-menu > li > a[aria-current="page"],
-  #brx-header .mega-menu :is(a[href], .mega-menu-link, .post-category-link)[aria-current="page"]
+  #brx-header .mega-menu :is(a[href], .mega-menu-link, .post-category-link)[aria-current="page"],
+  #brx-footer a[href][aria-current="page"]:not(:has(img, svg)),
+  footer a[href][aria-current="page"]:not(:has(img, svg))
 ):not(.brxe-button):not(.btn):not([data-contrast]) {
   cursor: default;
 }

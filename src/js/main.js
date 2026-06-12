@@ -14,6 +14,7 @@ import { initPdfLinkLabels } from './modules/pdf-link-labels.js';
 import { initLinkedinPostNumbers } from './modules/linkedin-post-numbers.js';
 import { initTeamPopups } from './modules/team-popup.js';
 import { initSlideTittleContrastFix } from './modules/slide-tittle-contrast-fix.js';
+import { initCurrentPageLinks } from './modules/current-page-links.js';
 
 function initApp() {
   initAccordionControls();
@@ -31,6 +32,7 @@ function initApp() {
   initLinkedinPostNumbers();
   initTeamPopups();
   initSlideTittleContrastFix();
+  initCurrentPageLinks();
 }
 
 if (document.readyState === 'loading') {
