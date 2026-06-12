@@ -842,12 +842,12 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
   cursor: default;
 }
 
-.social-link svg [fill]:not([fill="none"]) {
+.social-link svg *:not([fill="none"]) {
   transition: fill 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.social-link:is(:hover, :focus-visible) svg [fill]:not([fill="none"]) {
-  fill: var(--theme-red, rgba(116, 22, 24, 1));
+.social-link:is(:hover, :focus-visible) svg *:not([fill="none"]) {
+  fill: var(--theme-red, rgba(116, 22, 24, 1)) !important;
 }
 
 @media (min-width: 992px) {
@@ -995,7 +995,7 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
     transition: none !important;
   }
 
-  .social-link svg [fill]:not([fill="none"]) {
+  .social-link svg *:not([fill="none"]) {
     transition: none !important;
   }
 }
