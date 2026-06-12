@@ -700,6 +700,11 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
 
 [data-bemke-history-tabs-ready="1"] .tab[role="tab"] {
   cursor: pointer;
+  transition: background-color 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-bemke-history-tabs-ready="1"] .tab[role="tab"][aria-selected="false"]:is(:hover, :focus-visible) {
+  background-color: var(--theme-red, rgba(116, 22, 24, 1));
 }
 
 [data-bemke-history-tabs-ready="1"] .tab[role="tab"]:focus {
