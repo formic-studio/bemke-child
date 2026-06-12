@@ -1096,6 +1096,80 @@ body.is-team-popup-open {
   background-position: 0 0;
 }
 
+.btn-yellow-light-hover {
+  --btn-yellow-light-bg: var(--theme-yellow, rgba(249, 187, 89, 1));
+  --btn-yellow-light-bg-hover: var(--theme-lightyellow, rgba(246, 204, 138, 1));
+  --btn-yellow-light-text: var(--theme-brown, rgba(27, 5, 8, 1));
+  --btn-yellow-light-text-hover: var(--theme-brown, rgba(27, 5, 8, 1));
+  --btn-yellow-light-text-steps: 12;
+
+  position: relative;
+  isolation: isolate;
+  z-index: 0;
+  overflow: hidden;
+  background: var(--btn-yellow-light-bg) !important;
+  color: var(--btn-yellow-light-text) !important;
+  transition:
+    background-color 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    color 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.btn-yellow-light-hover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--btn-yellow-light-bg-hover);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.btn-yellow-light-hover .brxe-text,
+.btn-yellow-light-hover > span,
+.btn-yellow-light-hover > div {
+  color: transparent !important;
+  position: relative;
+  z-index: 1;
+  background-image: linear-gradient(
+    to right,
+    var(--btn-yellow-light-text-hover) 50%,
+    var(--btn-yellow-light-text) 50%
+  );
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  background-repeat: no-repeat;
+  background-clip: text;
+  -webkit-background-clip: text;
+  transition: background-position 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-timing-function: steps(var(--btn-yellow-light-text-steps), end);
+  -webkit-text-fill-color: transparent;
+}
+
+.btn-yellow-light-hover:hover::before,
+.btn-yellow-light-hover:focus-visible::before {
+  transform: scaleX(1);
+}
+
+.btn-yellow-light-hover:hover,
+.btn-yellow-light-hover:focus-visible {
+  background: var(--btn-yellow-light-bg) !important;
+  background-color: var(--btn-yellow-light-bg) !important;
+  color: var(--btn-yellow-light-text-hover) !important;
+}
+
+.btn-yellow-light-hover:hover,
+.btn-yellow-light-hover:focus-visible,
+.btn-yellow-light-hover:hover .brxe-text,
+.btn-yellow-light-hover:hover > span,
+.btn-yellow-light-hover:hover > div,
+.btn-yellow-light-hover:focus-visible .brxe-text,
+.btn-yellow-light-hover:focus-visible > span,
+.btn-yellow-light-hover:focus-visible > div {
+  background-position: 0 0;
+}
+
 .btn-egg-hover {
   --btn-egg-bg: var(--theme-eggshell, rgba(255, 233, 198, 1));
   --btn-egg-bg-hover: var(--theme-yellow, rgba(249, 187, 89, 1));
@@ -1398,6 +1472,11 @@ body.is-team-popup-open {
   .btn-yellow-hover .brxe-text,
   .btn-yellow-hover > span,
   .btn-yellow-hover > div,
+  .btn-yellow-light-hover,
+  .btn-yellow-light-hover::before,
+  .btn-yellow-light-hover .brxe-text,
+  .btn-yellow-light-hover > span,
+  .btn-yellow-light-hover > div,
   .btn-egg-hover,
   .btn-egg-hover::before,
   .btn-egg-hover .brxe-text,
