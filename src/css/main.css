@@ -842,6 +842,14 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
   cursor: default;
 }
 
+:is(#brx-footer, footer) .social-link svg [fill]:not([fill="none"]) {
+  transition: fill 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:is(#brx-footer, footer) .social-link:is(:hover, :focus-visible) svg [fill]:not([fill="none"]) {
+  fill: var(--theme-red, rgba(116, 22, 24, 1));
+}
+
 @media (min-width: 992px) {
   #brx-header #brxe-spklen {
     align-items: center;
@@ -984,6 +992,10 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
     #brx-footer a[href]:not(:has(img, svg)),
     footer a[href]:not(:has(img, svg))
   ):not(.brxe-button):not(.btn):not([data-contrast]) {
+    transition: none !important;
+  }
+
+  :is(#brx-footer, footer) .social-link svg [fill]:not([fill="none"]) {
     transition: none !important;
   }
 }
