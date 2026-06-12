@@ -4,7 +4,7 @@ const TRACK_CLASS = 'bemke-infinity-loop-track';
 const READY_ATTR = 'data-bemke-infinity-loop-ready';
 const CLONE_ATTR = 'data-bemke-loop-clone';
 const BOOT_FLAG = '__bemkeInfinityLoopBooted';
-const PX_PER_SECOND = 58;
+const PX_PER_SECOND = 50;
 const MIN_DURATION = 18;
 const MAX_DURATION = 72;
 
