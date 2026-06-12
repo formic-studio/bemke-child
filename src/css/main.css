@@ -1144,6 +1144,80 @@ body.is-team-popup-open {
   background-position: 0 0;
 }
 
+.btn-mustard-hover {
+  --btn-mustard-bg: var(--theme-mustard, rgba(174, 107, 0, 1));
+  --btn-mustard-bg-hover: var(--theme-red, rgba(116, 22, 24, 1));
+  --btn-mustard-text: var(--theme-cream, rgba(255, 249, 244, 1));
+  --btn-mustard-text-hover: var(--theme-cream, rgba(255, 249, 244, 1));
+  --btn-mustard-text-steps: 12;
+
+  position: relative;
+  isolation: isolate;
+  z-index: 0;
+  overflow: hidden;
+  background: var(--btn-mustard-bg) !important;
+  color: var(--btn-mustard-text) !important;
+  transition:
+    background-color 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    color 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.btn-mustard-hover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--btn-mustard-bg-hover);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.btn-mustard-hover .brxe-text,
+.btn-mustard-hover > span,
+.btn-mustard-hover > div {
+  color: transparent !important;
+  position: relative;
+  z-index: 1;
+  background-image: linear-gradient(
+    to right,
+    var(--btn-mustard-text-hover) 50%,
+    var(--btn-mustard-text) 50%
+  );
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  background-repeat: no-repeat;
+  background-clip: text;
+  -webkit-background-clip: text;
+  transition: background-position 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-timing-function: steps(var(--btn-mustard-text-steps), end);
+  -webkit-text-fill-color: transparent;
+}
+
+.btn-mustard-hover:hover::before,
+.btn-mustard-hover:focus-visible::before {
+  transform: scaleX(1);
+}
+
+.btn-mustard-hover:hover,
+.btn-mustard-hover:focus-visible {
+  background: var(--btn-mustard-bg) !important;
+  background-color: var(--btn-mustard-bg) !important;
+  color: var(--btn-mustard-text-hover) !important;
+}
+
+.btn-mustard-hover:hover,
+.btn-mustard-hover:focus-visible,
+.btn-mustard-hover:hover .brxe-text,
+.btn-mustard-hover:hover > span,
+.btn-mustard-hover:hover > div,
+.btn-mustard-hover:focus-visible .brxe-text,
+.btn-mustard-hover:focus-visible > span,
+.btn-mustard-hover:focus-visible > div {
+  background-position: 0 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .btn-yellow-hover,
   .btn-yellow-hover::before,
@@ -1154,7 +1228,12 @@ body.is-team-popup-open {
   .btn-red-hover::before,
   .btn-red-hover .brxe-text,
   .btn-red-hover > span,
-  .btn-red-hover > div {
+  .btn-red-hover > div,
+  .btn-mustard-hover,
+  .btn-mustard-hover::before,
+  .btn-mustard-hover .brxe-text,
+  .btn-mustard-hover > span,
+  .btn-mustard-hover > div {
     transition: none;
   }
 }
