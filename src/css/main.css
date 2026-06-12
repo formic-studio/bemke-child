@@ -1222,7 +1222,7 @@ body.is-team-popup-open {
   --btn-red-yellow-bg: var(--theme-red, rgba(116, 22, 24, 1));
   --btn-red-yellow-bg-hover: var(--theme-yellow, rgba(249, 187, 89, 1));
   --btn-red-yellow-text: var(--theme-darkcream, rgba(255, 243, 224, 1));
-  --btn-red-yellow-text-hover: var(--theme-white, rgba(255, 253, 251, 1));
+  --btn-red-yellow-text-hover: var(--theme-brown, rgba(27, 5, 8, 1));
   --btn-red-yellow-text-steps: 12;
 
   position: relative;
