@@ -164,16 +164,17 @@ function createHistoryTabs(root, tabsBlock) {
       return;
     }
 
-    const direction = getDirection(activeNumber, nextNumber, numbers);
+    const previousNumber = activeNumber;
+    const direction = getDirection(previousNumber, nextNumber, numbers);
     activeNumber = nextNumber;
-    sync(nextNumber, direction, false);
+    sync(nextNumber, direction, false, previousNumber);
   }
 
-  function sync(nextNumber, direction, instant) {
+  function sync(nextNumber, direction, instant, previousNumber = nextNumber) {
     window.clearTimeout(transitionTimerId);
     syncTabs(tabs, nextNumber);
-    syncTrack(slideTrack, slides, nextNumber, direction, instant);
-    syncTrack(imageTrack, images, nextNumber, direction, instant);
+    syncTrack(slideTrack, slides, previousNumber, nextNumber, direction, instant);
+    syncTrack(imageTrack, images, previousNumber, nextNumber, direction, instant);
 
     if (instant || prefersReducedMotion()) {
       return;
@@ -206,20 +207,21 @@ function setupTrack(wrapper, items, modifier) {
   return track;
 }
 
-function syncTrack(track, items, activeNumber, direction, instant) {
+function syncTrack(track, items, previousNumber, activeNumber, direction, instant) {
   if (!track || !items.length) {
     return;
   }
 
-  const previousItems = items.filter((item) => item.classList.contains(ACTIVE_ITEM_CLASS));
+  const previousItems = items.filter((item) => getTabNumber(item) === previousNumber);
   const nextItems = items.filter((item) => getTabNumber(item) === activeNumber);
   const reducedMotion = prefersReducedMotion();
 
-  if (instant || reducedMotion || !previousItems.length) {
+  if (instant || reducedMotion || previousNumber === activeNumber || !previousItems.length || !nextItems.length) {
     arrangeActiveItems(track, items, activeNumber, true);
     return;
   }
 
+  const transitionId = getNextTrackTransitionId(track);
   const isForward = direction > 0;
   const transitionItems = uniqueItems(isForward
     ? [...previousItems, ...nextItems]
@@ -240,6 +242,10 @@ function syncTrack(track, items, activeNumber, direction, instant) {
   track.offsetHeight;
 
   window.requestAnimationFrame(() => {
+    if (track.__bemkeHistoryTransitionId !== transitionId) {
+      return;
+    }
+
     setTrackOffset(track, isForward ? 1 : 0, false);
   });
 }
@@ -248,6 +254,8 @@ function arrangeActiveItems(track, items, activeNumber, immediate) {
   if (!track || !items.length) {
     return;
   }
+
+  const transitionId = getNextTrackTransitionId(track);
 
   const activeItems = items.filter((item) => getTabNumber(item) === activeNumber);
   const inactiveItems = items.filter((item) => getTabNumber(item) !== activeNumber);
@@ -267,9 +275,19 @@ function arrangeActiveItems(track, items, activeNumber, immediate) {
   if (immediate) {
     track.offsetHeight;
     window.requestAnimationFrame(() => {
+      if (track.__bemkeHistoryTransitionId !== transitionId) {
+        return;
+      }
+
       track.classList.remove(TRACK_IMMEDIATE_CLASS);
     });
   }
+}
+
+function getNextTrackTransitionId(track) {
+  track.__bemkeHistoryTransitionId = (track.__bemkeHistoryTransitionId || 0) + 1;
+
+  return track.__bemkeHistoryTransitionId;
 }
 
 function setTrackOffset(track, offset, immediate) {

@@ -748,6 +748,11 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
   width: 100%;
 }
 
+[data-bemke-history-tabs-ready="1"] .history-img[hidden],
+[data-bemke-history-tabs-ready="1"] .history-slide[hidden] {
+  display: none !important;
+}
+
 [data-bemke-history-tabs-ready="1"] .history-img {
   display: block;
   height: auto;
