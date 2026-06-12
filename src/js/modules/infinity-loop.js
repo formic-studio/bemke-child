@@ -95,6 +95,17 @@ function getItemsWidth(items) {
   return Math.ceil(lastRect.right - firstRect.left);
 }
 
+function getLoopDistance(firstOriginal, firstClone) {
+  if (!firstOriginal || !firstClone) {
+    return 0;
+  }
+
+  const originalRect = firstOriginal.getBoundingClientRect();
+  const cloneRect = firstClone.getBoundingClientRect();
+
+  return Math.ceil(cloneRect.left - originalRect.left);
+}
+
 function refreshInfinityLoop(root) {
   const track = getTrack(root);
 
@@ -122,6 +133,7 @@ function refreshInfinityLoop(root) {
   }
 
   track.style.animation = 'none';
+  track.offsetHeight;
 
   const baseWidth = getItemsWidth(originals);
   const viewportWidth = root.getBoundingClientRect().width;
@@ -130,7 +142,25 @@ function refreshInfinityLoop(root) {
     return;
   }
 
-  const extraSets = Math.max(1, Math.ceil((viewportWidth + baseWidth) / baseWidth));
+  let firstClone = null;
+
+  originals.forEach((item, index) => {
+    const clone = cloneItem(item);
+
+    if (index === 0) {
+      firstClone = clone;
+    }
+
+    track.appendChild(clone);
+  });
+
+  const loopDistance = getLoopDistance(originals[0], firstClone);
+
+  if (!loopDistance) {
+    return;
+  }
+
+  const extraSets = Math.max(0, Math.ceil((viewportWidth + loopDistance) / loopDistance) - 1);
 
   for (let setIndex = 0; setIndex < extraSets; setIndex += 1) {
     originals.forEach((item) => {
@@ -138,9 +168,9 @@ function refreshInfinityLoop(root) {
     });
   }
 
-  const duration = clamp(baseWidth / PX_PER_SECOND, MIN_DURATION, MAX_DURATION);
+  const duration = clamp(loopDistance / PX_PER_SECOND, MIN_DURATION, MAX_DURATION);
 
-  root.style.setProperty('--bemke-loop-distance', `${baseWidth}px`);
+  root.style.setProperty('--bemke-loop-distance', `${loopDistance}px`);
   root.style.setProperty('--bemke-loop-duration', `${duration}s`);
 
   track.offsetHeight;
