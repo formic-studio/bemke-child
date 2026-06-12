@@ -700,11 +700,31 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
 
 [data-bemke-history-tabs-ready="1"] .tab[role="tab"] {
   cursor: pointer;
-  transition: background-color 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  isolation: isolate;
+  overflow: hidden;
+  position: relative;
+  z-index: 0;
 }
 
-[data-bemke-history-tabs-ready="1"] .tab[role="tab"][aria-selected="false"]:is(:hover, :focus-visible) {
-  background-color: var(--theme-red, rgba(116, 22, 24, 1));
+[data-bemke-history-tabs-ready="1"] .tab[role="tab"] > * {
+  position: relative;
+  z-index: 1;
+}
+
+[data-bemke-history-tabs-ready="1"] .tab[role="tab"][aria-selected="false"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--theme-red, rgba(116, 22, 24, 1));
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+[data-bemke-history-tabs-ready="1"] .tab[role="tab"][aria-selected="false"]:is(:hover, :focus-visible)::before {
+  transform: scaleX(1);
 }
 
 [data-bemke-history-tabs-ready="1"] .tab[role="tab"]:focus {
@@ -738,7 +758,8 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
   .slider:not(.slider-thinktank)[data-bemke-slider-ready="1"] .slider-wrapper,
   .slider:not(.slider-thinktank)[data-bemke-slider-ready="1"] .slide,
   .slider-block[data-bemke-project-slider-ready="1"] .slide-wrapper,
-  [data-bemke-history-tabs-ready="1"] .history-tabs-track {
+  [data-bemke-history-tabs-ready="1"] .history-tabs-track,
+  [data-bemke-history-tabs-ready="1"] .tab[role="tab"][aria-selected="false"]::before {
     transition: none !important;
   }
 }
