@@ -842,6 +842,25 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
   cursor: default;
 }
 
+#brx-footer #brxe-xbishl,
+footer #brxe-xbishl {
+  background-image: none;
+}
+
+#brx-footer #brxe-xbishl > .brxe-text-basic,
+footer #brxe-xbishl > .brxe-text-basic {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0 0.08em;
+  transition: background-size 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#brx-footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic,
+footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
+  background-size: 100% 0.08em;
+}
+
 .social-link svg *:not([fill="none"]) {
   transition: fill 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -992,6 +1011,11 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
     #brx-footer a[href]:not(:has(img, svg)),
     footer a[href]:not(:has(img, svg))
   ):not(.brxe-button):not(.btn):not([data-contrast]) {
+    transition: none !important;
+  }
+
+  #brx-footer #brxe-xbishl > .brxe-text-basic,
+  footer #brxe-xbishl > .brxe-text-basic {
     transition: none !important;
   }
 
