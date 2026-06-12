@@ -1072,9 +1072,9 @@ body.is-team-popup-open {
 
 .btn-egg-hover {
   --btn-egg-bg: var(--theme-eggshell, rgba(255, 233, 198, 1));
-  --btn-egg-bg-hover: var(--theme-red, rgba(116, 22, 24, 1));
+  --btn-egg-bg-hover: var(--theme-yellow, rgba(249, 187, 89, 1));
   --btn-egg-text: var(--theme-brown, rgba(27, 5, 8, 1));
-  --btn-egg-text-hover: var(--theme-cream, rgba(255, 249, 244, 1));
+  --btn-egg-text-hover: var(--theme-brown, rgba(27, 5, 8, 1));
   --btn-egg-text-steps: 12;
 
   position: relative;
