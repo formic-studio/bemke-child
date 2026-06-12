@@ -12,8 +12,8 @@ export function initPdfLinkLabels() {
 
   window[BOOTED_FLAG] = true;
 
-  window.addEventListener('load', labelPdfLinks);
-  document.addEventListener('bricks/ajax/end', labelPdfLinks);
+  window.addEventListener('load', () => labelPdfLinks());
+  document.addEventListener('bricks/ajax/end', () => labelPdfLinks());
 
   if (!window.MutationObserver || !document.body) {
     return;
@@ -27,7 +27,9 @@ export function initPdfLinkLabels() {
 }
 
 function labelPdfLinks(root = document) {
-  root.querySelectorAll('a[href]').forEach((link) => {
+  const scope = typeof root?.querySelectorAll === 'function' ? root : document;
+
+  scope.querySelectorAll('a[href]').forEach((link) => {
     if (link.getAttribute(PDF_READY_ATTR) === '1' || !isPdfHref(link.getAttribute('href'))) {
       return;
     }

@@ -12,8 +12,8 @@ export function initFormAriaReferences() {
 
   window[BOOTED_FLAG] = true;
 
-  window.addEventListener('load', repairFormAriaReferences);
-  document.addEventListener('bricks/ajax/end', repairFormAriaReferences);
+  window.addEventListener('load', () => repairFormAriaReferences());
+  document.addEventListener('bricks/ajax/end', () => repairFormAriaReferences());
 
   if (!window.MutationObserver || !document.body) {
     return;
@@ -27,7 +27,9 @@ export function initFormAriaReferences() {
 }
 
 function repairFormAriaReferences(root = document) {
-  root.querySelectorAll(FORM_SELECTOR).forEach((form) => {
+  const scope = typeof root?.querySelectorAll === 'function' ? root : document;
+
+  scope.querySelectorAll(FORM_SELECTOR).forEach((form) => {
     ARIA_REFERENCE_ATTRS.forEach((attribute) => {
       form.querySelectorAll(`[${attribute}]`).forEach((element) => {
         repairReferenceAttribute(element, attribute);
