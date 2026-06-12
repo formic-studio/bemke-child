@@ -308,15 +308,88 @@ html[data-contrast]:not([data-contrast="default"]) textarea {
   color: var(--theme-wine, #7a1a1d);
 }
 
+.infinity-loop-block {
+  --bemke-loop-distance: 0px;
+  --bemke-loop-duration: 36s;
+  --bemke-loop-gap: clamp(1.2rem, 2vw, 2.4rem);
+}
+
+.infinity-loop-block[data-bemke-infinity-loop-ready="1"] {
+  display: block !important;
+  max-width: 100%;
+  overflow: hidden;
+  width: 100%;
+}
+
+.infinity-loop-block[data-bemke-infinity-loop-ready="1"] > .bemke-infinity-loop-track {
+  align-items: stretch;
+  animation: bemke-infinity-loop var(--bemke-loop-duration) linear infinite;
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  gap: var(--bemke-loop-gap);
+  width: max-content;
+  will-change: transform;
+}
+
+.infinity-loop-block:is(:hover, :focus-within) > .bemke-infinity-loop-track {
+  animation-play-state: paused;
+}
+
+.infinity-loop-block[data-bemke-infinity-loop-ready="1"] .img-wrapper {
+  aspect-ratio: 3/4;
+  flex: 0 0 auto !important;
+  overflow: hidden;
+  width: clamp(18rem, 22vw, 34rem);
+}
+
+.infinity-loop-block[data-bemke-infinity-loop-ready="1"] .img-wrapper img {
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: auto;
+  user-select: none;
+  width: 100%;
+  -webkit-user-drag: none;
+}
+
+@keyframes bemke-infinity-loop {
+  to {
+    transform: translate3d(calc(var(--bemke-loop-distance) * -1), 0, 0);
+  }
+}
+
 @media screen and (max-width: 992px) {
   .bemke-instagram-feed__grid {
     --bemke-instagram-columns: 3;
+  }
+
+  .infinity-loop-block[data-bemke-infinity-loop-ready="1"] .img-wrapper {
+    width: clamp(16rem, 34vw, 28rem);
   }
 }
 
 @media screen and (max-width: 720px) {
   .bemke-instagram-feed__grid {
     --bemke-instagram-columns: 2;
+  }
+
+  .infinity-loop-block {
+    --bemke-loop-gap: 1.2rem;
+  }
+
+  .infinity-loop-block[data-bemke-infinity-loop-ready="1"] .img-wrapper {
+    width: clamp(16rem, 68vw, 24rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .infinity-loop-block[data-bemke-infinity-loop-ready="1"] {
+    overflow-x: auto;
+  }
+
+  .infinity-loop-block[data-bemke-infinity-loop-ready="1"] > .bemke-infinity-loop-track {
+    animation: none !important;
+    transform: none !important;
   }
 }
 

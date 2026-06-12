@@ -15,6 +15,7 @@ import { initLinkedinPostNumbers } from './modules/linkedin-post-numbers.js';
 import { initTeamPopups } from './modules/team-popup.js';
 import { initSlideTittleContrastFix } from './modules/slide-tittle-contrast-fix.js';
 import { initCurrentPageLinks } from './modules/current-page-links.js';
+import { initInfinityLoop } from './modules/infinity-loop.js';
 
 function initApp() {
   initAccordionControls();
@@ -33,6 +34,7 @@ function initApp() {
   initTeamPopups();
   initSlideTittleContrastFix();
   initCurrentPageLinks();
+  initInfinityLoop();
 }
 
 if (document.readyState === 'loading') {
