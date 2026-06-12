@@ -1070,6 +1070,80 @@ body.is-team-popup-open {
   background-position: 0 0;
 }
 
+.btn-egg-hover {
+  --btn-egg-bg: var(--theme-eggshell, rgba(255, 233, 198, 1));
+  --btn-egg-bg-hover: var(--theme-red, rgba(116, 22, 24, 1));
+  --btn-egg-text: var(--theme-brown, rgba(27, 5, 8, 1));
+  --btn-egg-text-hover: var(--theme-cream, rgba(255, 249, 244, 1));
+  --btn-egg-text-steps: 12;
+
+  position: relative;
+  isolation: isolate;
+  z-index: 0;
+  overflow: hidden;
+  background: var(--btn-egg-bg) !important;
+  color: var(--btn-egg-text) !important;
+  transition:
+    background-color 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    color 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.btn-egg-hover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--btn-egg-bg-hover);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.btn-egg-hover .brxe-text,
+.btn-egg-hover > span,
+.btn-egg-hover > div {
+  color: transparent !important;
+  position: relative;
+  z-index: 1;
+  background-image: linear-gradient(
+    to right,
+    var(--btn-egg-text-hover) 50%,
+    var(--btn-egg-text) 50%
+  );
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  background-repeat: no-repeat;
+  background-clip: text;
+  -webkit-background-clip: text;
+  transition: background-position 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-timing-function: steps(var(--btn-egg-text-steps), end);
+  -webkit-text-fill-color: transparent;
+}
+
+.btn-egg-hover:hover::before,
+.btn-egg-hover:focus-visible::before {
+  transform: scaleX(1);
+}
+
+.btn-egg-hover:hover,
+.btn-egg-hover:focus-visible {
+  background: var(--btn-egg-bg) !important;
+  background-color: var(--btn-egg-bg) !important;
+  color: var(--btn-egg-text-hover) !important;
+}
+
+.btn-egg-hover:hover,
+.btn-egg-hover:focus-visible,
+.btn-egg-hover:hover .brxe-text,
+.btn-egg-hover:hover > span,
+.btn-egg-hover:hover > div,
+.btn-egg-hover:focus-visible .brxe-text,
+.btn-egg-hover:focus-visible > span,
+.btn-egg-hover:focus-visible > div {
+  background-position: 0 0;
+}
+
 .btn-red-hover {
   --btn-red-bg: var(--theme-red, rgba(116, 22, 24, 1));
   --btn-red-bg-hover: var(--theme-brown, rgba(27, 5, 8, 1));
@@ -1298,6 +1372,11 @@ body.is-team-popup-open {
   .btn-yellow-hover .brxe-text,
   .btn-yellow-hover > span,
   .btn-yellow-hover > div,
+  .btn-egg-hover,
+  .btn-egg-hover::before,
+  .btn-egg-hover .brxe-text,
+  .btn-egg-hover > span,
+  .btn-egg-hover > div,
   .btn-red-hover,
   .btn-red-hover::before,
   .btn-red-hover .brxe-text,
