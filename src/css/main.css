@@ -847,7 +847,7 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
 }
 
 .social-link:is(:hover, :focus-visible) svg *:not([fill="none"]) {
-  fill: var(--theme-red, rgba(116, 22, 24, 1)) !important;
+  fill: var(--theme-white, rgba(255, 253, 251, 1)) !important;
 }
 
 @media (min-width: 992px) {
