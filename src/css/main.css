@@ -33,7 +33,7 @@ html {
 
 @media screen and (max-width: 1920px) {
   :root {
-    --font-from: 9;
+    --font-from: 10;
     --font-to: 10;
     --vw-from: calc(1440 / 100);
     --vw-to: calc(1920 / 100);
@@ -42,8 +42,8 @@ html {
 
 @media screen and (max-width: 1440px) {
   :root {
-    --font-from: 7;
-    --font-to: 9;
+    --font-from: 8;
+    --font-to: 10;
     --vw-from: calc(992 / 100);
     --vw-to: calc(1440 / 100);
   }
