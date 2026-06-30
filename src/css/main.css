@@ -625,6 +625,18 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
   -webkit-user-drag: none;
 }
 
+@media screen and (max-width: 1660px) {
+  .slider:not(.slider-thinktank)[data-bemke-slider-ready="1"] .slide {
+    --bemke-home-slide-width: min(clamp(240px, 48vw, 820px), calc(100vw - 32px));
+  }
+}
+
+@media screen and (max-width: 1660px) and (max-height: 820px) {
+  .slider:not(.slider-thinktank)[data-bemke-slider-ready="1"] .slide {
+    --bemke-home-slide-width: min(clamp(220px, 42vw, 680px), calc(100vw - 32px));
+  }
+}
+
 .slider:not(.slider-thinktank)[data-bemke-slider-ready="1"] .slider-wrapper.is-dragging,
 .slider:not(.slider-thinktank)[data-bemke-slider-ready="1"].is-resetting .slider-wrapper {
   transition: none !important;
