@@ -590,6 +590,12 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
 }
 
 .slider:not(.slider-thinktank)[data-bemke-slider-ready="1"] .slide {
+  --bemke-home-slide-width: min(clamp(280px, 61.7vw, 1024px), calc(100vw - 32px));
+  flex: 0 0 var(--bemke-home-slide-width);
+  width: var(--bemke-home-slide-width) !important;
+  max-width: var(--bemke-home-slide-width);
+  height: auto !important;
+  box-sizing: border-box;
   user-select: none;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
@@ -607,6 +613,13 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
 }
 
 .slider:not(.slider-thinktank)[data-bemke-slider-ready="1"] .slide img {
+  display: block;
+  width: 100% !important;
+  max-width: 100%;
+  height: auto !important;
+  max-height: none;
+  aspect-ratio: 1024 / 734;
+  object-fit: contain;
   pointer-events: none;
   -webkit-touch-callout: none;
   -webkit-user-drag: none;
