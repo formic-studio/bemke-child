@@ -286,9 +286,9 @@
 
 @media (min-width: 768px) and (max-width: 1199px) {
   .slider-thinktank {
-    --tt-step-factor: 0.3;
-    --tt-step-min: 36;
-    --tt-step-max: 64;
+    --tt-step-factor: 0.34;
+    --tt-step-min: 42;
+    --tt-step-max: 78;
   }
 
   .slider-thinktank .slider-wrapper {
@@ -317,9 +317,9 @@
 
 @media (min-width: 1024px) and (max-width: 1199px) and (max-height: 820px) {
   .slider-thinktank {
-    --tt-step-factor: 0.28;
-    --tt-step-min: 34;
-    --tt-step-max: 58;
+    --tt-step-factor: 0.36;
+    --tt-step-min: 44;
+    --tt-step-max: 76;
   }
 
   .slider-thinktank .slider-wrapper {
