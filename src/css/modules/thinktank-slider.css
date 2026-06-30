@@ -327,8 +327,8 @@
   }
 
   .slider-thinktank .slide-thinktank {
-    height: min(100%, clamp(220px, 26vw, 285px)) !important;
-    max-width: min(24vw, 200px) !important;
+    height: min(100%, clamp(210px, 25vw, 270px)) !important;
+    max-width: min(23vw, 188px) !important;
   }
 
   .slider-thinktank .slide-thinktank .slide-tittle {
