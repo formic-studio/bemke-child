@@ -1048,7 +1048,24 @@ function getStep(firstSlide, isMobileLayout = false) {
     return clamp(slideWidth * 0.42, 76, 124);
   }
 
-  return clamp(slideWidth * 0.41, 50, 110);
+  const root = firstSlide?.closest?.(SELECTORS.root);
+  const factor = getCssNumber(root, "--tt-step-factor", 0.41);
+  const min = getCssNumber(root, "--tt-step-min", 50);
+  const max = getCssNumber(root, "--tt-step-max", 110);
+
+  return clamp(slideWidth * factor, min, max);
+}
+
+function getCssNumber(element, propertyName, fallback) {
+  if (!element) {
+    return fallback;
+  }
+
+  const value = Number.parseFloat(
+    window.getComputedStyle(element).getPropertyValue(propertyName),
+  );
+
+  return Number.isFinite(value) ? value : fallback;
 }
 
 function circularDistance(index, activeIndex, total) {
