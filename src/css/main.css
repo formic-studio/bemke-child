@@ -928,6 +928,7 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
 
 .accordin-text.accordin-text-open,
 .accordin-item.is-open .accordin-text {
+  height: auto;
   opacity: 1;
   visibility: visible;
 }
