@@ -76,7 +76,7 @@ function setExpandedState(item, expanded) {
 
   if (heading) {
     heading.setAttribute('aria-expanded', expanded ? 'true' : 'false');
-    heading.setAttribute('aria-disabled', expanded ? 'true' : 'false');
+    heading.setAttribute('aria-disabled', 'false');
   }
 }
 
@@ -183,18 +183,14 @@ function setPanelClosed(item, immediate = false) {
   panel.addEventListener('transitionend', onTransitionEnd);
 }
 
-function getInitialOpenItem(items) {
-  return (
-    items.find((item) => {
-      const panel = getPanel(item);
-      const button = getButton(item);
+function isItemMarkedOpen(item) {
+  const panel = getPanel(item);
+  const button = getButton(item);
 
-      return (
-        item.classList.contains(OPEN_ITEM_CLASS) ||
-        panel?.classList.contains(OPEN_PANEL_CLASS) ||
-        button?.classList.contains(OPEN_BUTTON_CLASS)
-      );
-    }) ?? items[0] ?? null
+  return (
+    item.classList.contains(OPEN_ITEM_CLASS) ||
+    panel?.classList.contains(OPEN_PANEL_CLASS) ||
+    button?.classList.contains(OPEN_BUTTON_CLASS)
   );
 }
 
@@ -242,19 +238,17 @@ function decorateDecorativeElements(item) {
   });
 }
 
-function activateItem(root, nextItem) {
-  const items = getItems(root);
-  const currentItem = items.find((item) => item.classList.contains(OPEN_ITEM_CLASS));
-
-  if (!nextItem || nextItem === currentItem) {
+function toggleItem(item) {
+  if (!item) {
     return;
   }
 
-  if (currentItem) {
-    setPanelClosed(currentItem);
+  if (item.classList.contains(OPEN_ITEM_CLASS)) {
+    setPanelClosed(item);
+    return;
   }
 
-  setPanelOpen(nextItem);
+  setPanelOpen(item);
 }
 
 function resolveToggleItem(root, target) {
@@ -287,7 +281,7 @@ function handleAccordionClick(event) {
   }
 
   event.preventDefault();
-  activateItem(root, item);
+  toggleItem(item);
 }
 
 function handleAccordionKeydown(event) {
@@ -307,7 +301,7 @@ function handleAccordionKeydown(event) {
   }
 
   event.preventDefault();
-  activateItem(root, item);
+  toggleItem(item);
 }
 
 function setupAccordion(root) {
@@ -321,10 +315,11 @@ function setupAccordion(root) {
     decorateDecorativeElements(item);
   });
 
-  const openItem = getInitialOpenItem(items);
+  const markedOpenItems = items.filter(isItemMarkedOpen);
+  const initialOpenItems = new Set(markedOpenItems.length ? markedOpenItems : [items[0]]);
 
   items.forEach((item) => {
-    if (item === openItem) {
+    if (initialOpenItems.has(item)) {
       setPanelOpen(item, true);
       return;
     }

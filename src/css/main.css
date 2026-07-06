@@ -898,9 +898,8 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
   }
 }
 
-.accordin-item:not(.is-open),
-.accordin-item:not(.is-open) .accordin-heading,
-.accordin-item:not(.is-open) .accordin-btn {
+.accordin-heading,
+.accordin-btn {
   cursor: pointer;
 }
 
