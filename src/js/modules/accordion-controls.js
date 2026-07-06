@@ -316,7 +316,7 @@ function setupAccordion(root) {
   });
 
   const markedOpenItems = items.filter(isItemMarkedOpen);
-  const initialOpenItems = new Set(markedOpenItems.length ? markedOpenItems : [items[0]]);
+  const initialOpenItems = new Set(markedOpenItems);
 
   items.forEach((item) => {
     if (initialOpenItems.has(item)) {
