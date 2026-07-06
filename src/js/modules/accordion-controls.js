@@ -185,12 +185,10 @@ function setPanelClosed(item, immediate = false) {
 
 function isItemMarkedOpen(item) {
   const panel = getPanel(item);
-  const button = getButton(item);
 
   return (
     item.classList.contains(OPEN_ITEM_CLASS) ||
-    panel?.classList.contains(OPEN_PANEL_CLASS) ||
-    button?.classList.contains(OPEN_BUTTON_CLASS)
+    panel?.classList.contains(OPEN_PANEL_CLASS)
   );
 }
 
