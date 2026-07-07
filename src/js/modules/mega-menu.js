@@ -284,7 +284,7 @@ function updateSubmenuPositions(menuSurface, entries, isDesktop) {
     const itemRect = entry.item.getBoundingClientRect();
     const nextItemRect = getNextMenuItem(entry.item)?.getBoundingClientRect();
     const left = Math.max(0, itemRect.left - surfaceRect.left);
-    const right = nextItemRect?.left ?? viewportWidth;
+    const right = nextItemRect?.left ?? itemRect.right;
     const width = Math.max(1, right - itemRect.left);
     const maxWidth = Math.max(width, viewportWidth - itemRect.left);
 
