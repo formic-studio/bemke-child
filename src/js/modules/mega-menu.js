@@ -274,8 +274,8 @@ function updateSubmenuPositions(menuSurface, entries, isDesktop) {
   const surfaceRect = menuSurface.getBoundingClientRect();
 
   entries.forEach((entry) => {
-    const toggleRect = entry.toggle.getBoundingClientRect();
-    const left = Math.max(0, toggleRect.left - surfaceRect.left);
+    const itemRect = entry.item.getBoundingClientRect();
+    const left = Math.max(0, itemRect.left - surfaceRect.left);
     entry.submenu.style.setProperty('--bemke-mega-left', `${Math.round(left)}px`);
   });
 }
