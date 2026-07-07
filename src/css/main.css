@@ -1034,8 +1034,8 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
   #brx-header #brxe-vhhhdt > .bricks-nav-menu-wrapper > .bricks-nav-menu {
     align-items: center;
     display: flex;
-    gap: clamp(2.8rem, 3vw, 6.4rem);
-    justify-content: space-between;
+    gap: 0;
+    justify-content: stretch;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -1047,9 +1047,10 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     align-items: center;
     border-left: 1px solid color-mix(in srgb, var(--brown, var(--theme-brown, #1b0508)) 45%, transparent);
     display: flex;
-    flex: 0 1 auto;
+    flex: 1 1 0;
+    justify-content: center;
     min-width: 0;
-    padding-left: clamp(2.4rem, 2.4vw, 4.8rem);
+    padding-inline: clamp(1.2rem, 1.4vw, 2.8rem);
     position: static !important;
   }
 
