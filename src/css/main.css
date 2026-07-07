@@ -1046,9 +1046,11 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
   #brx-header #brxe-vhhhdt > .bricks-nav-menu-wrapper > .bricks-nav-menu > li {
     align-items: center;
     border-left: 1px solid color-mix(in srgb, var(--brown, var(--theme-brown, #1b0508)) 45%, transparent);
+    box-sizing: border-box;
     display: flex;
     flex: 1 1 0;
     justify-content: center;
+    margin: 0 !important;
     min-width: 0;
     padding-inline: clamp(1.2rem, 1.4vw, 2.8rem);
     position: static !important;
