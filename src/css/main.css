@@ -1045,10 +1045,11 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
 
   #brx-header #brxe-vhhhdt > .bricks-nav-menu-wrapper > .bricks-nav-menu > li {
     align-items: center;
+    border-left: 1px solid color-mix(in srgb, var(--brown, var(--theme-brown, #1b0508)) 45%, transparent);
     display: flex;
     flex: 0 1 auto;
-    gap: clamp(2.4rem, 2.4vw, 4.8rem);
     min-width: 0;
+    padding-left: clamp(2.4rem, 2.4vw, 4.8rem);
     position: static !important;
   }
 
@@ -1063,12 +1064,8 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     > .bricks-nav-menu-wrapper
     > .bricks-nav-menu
     > li::before {
-    content: "";
-    display: block;
-    height: 3.2rem;
-    opacity: 0.45;
-    width: 1px;
-    background-color: var(--brown);
+    content: none !important;
+    display: none !important;
   }
 
   #brx-header #brxe-vhhhdt > .bricks-nav-menu-wrapper > .bricks-nav-menu > li > a,
@@ -1185,6 +1182,12 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     visibility: hidden;
     width: min(var(--bemke-mega-width), calc(100% - 2rem));
     z-index: 100;
+  }
+
+  #brx-header .bemke-mega-submenu:not(.is-mega-submenu-open),
+  #brx-header .bemke-mega-submenu:not(.is-mega-submenu-open) * {
+    pointer-events: none !important;
+    visibility: hidden !important;
   }
 
   #brx-header .bemke-mega-submenu.is-mega-submenu-open {
