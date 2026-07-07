@@ -1162,13 +1162,7 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     display: flex !important;
     flex-direction: column;
     gap: 0;
-    left: max(
-      0px,
-      min(
-        var(--bemke-mega-left, 0px),
-        calc(100% - var(--bemke-mega-width) - 2rem)
-      )
-    ) !important;
+    left: var(--bemke-mega-left, 0px) !important;
     list-style: none;
     margin: 0;
     opacity: 0;
@@ -1183,7 +1177,7 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
       visibility 0s linear 0.34s;
     text-align: left;
     visibility: hidden;
-    width: min(var(--bemke-mega-width), calc(100% - 2rem));
+    width: var(--bemke-mega-width);
     z-index: 100;
   }
 
