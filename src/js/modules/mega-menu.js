@@ -1,18 +1,21 @@
 const HEADER_SELECTOR = '#brx-header';
 const MENU_SURFACE_SELECTOR = '#brxe-spklen';
+const NAV_MENU_SELECTOR =
+  '#brxe-vhhhdt > .bricks-nav-menu-wrapper > .bricks-nav-menu';
 const MEGA_MENU_SELECTOR = '.mega-menu';
-const TOP_LINK_SELECTOR =
-  '#brxe-vhhhdt > .bricks-nav-menu-wrapper > .bricks-nav-menu > li > a';
-const MEGA_COLUMN_SELECTOR = '.mega-menu-link-wrapper';
 const MEGA_CLIP_CLASS = 'mega-menu-clip';
 const DESKTOP_QUERY = '(min-width: 992px)';
 const READY_ATTR = 'data-bemke-mega-menu-ready';
+const GENERATED_ATTR = 'data-bemke-generated-mega-menu';
 const OPEN_CLASS = 'is-mega-menu-open';
+const ACTIVE_ITEM_CLASS = 'is-mega-menu-item-active';
+const HAS_MEGA_CLASS = 'bemke-has-mega-menu';
+const TOP_ARROW_CLASS = 'bemke-menu-arrow';
+const PANEL_CLASS = 'bemke-mega-panel';
+const PANEL_ACTIVE_CLASS = 'is-active';
+const ORIGINAL_TABINDEX_ATTR = 'data-bemke-original-tabindex';
 const FOCUSABLE_SELECTOR =
   'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]';
-
-const COLUMN_TO_TOP_LINK_INDEX = [0, 2, 3, 4, 5];
-const ORIGINAL_TABINDEX_ATTR = 'data-bemke-original-tabindex';
 
 export function initMegaMenu() {
   document.querySelectorAll(HEADER_SELECTOR).forEach((header) => {
@@ -27,45 +30,139 @@ export function initMegaMenu() {
 
 function createMegaMenu(header) {
   const menuSurface = header.querySelector(MENU_SURFACE_SELECTOR);
-  const megaMenu = header.querySelector(MEGA_MENU_SELECTOR);
-  const topLinks = Array.from(header.querySelectorAll(TOP_LINK_SELECTOR));
-  const megaColumns = megaMenu ? Array.from(megaMenu.querySelectorAll(MEGA_COLUMN_SELECTOR)) : [];
+  const navMenu = header.querySelector(NAV_MENU_SELECTOR);
   const desktopQuery = window.matchMedia(DESKTOP_QUERY);
 
-  if (!menuSurface || !megaMenu || !topLinks.length || !megaColumns.length) {
+  if (!menuSurface || !navMenu) {
     return;
   }
 
-  let closeTimerId = null;
+  const topItems = getDirectMenuItems(navMenu);
+  const topLinks = topItems.map((item) => getDirectLink(item)).filter(Boolean);
+  const entries = topItems
+    .map((item, topIndex) => {
+      const link = getDirectLink(item);
+      const submenu = getDirectSubmenu(item);
+
+      if (!link || !submenu) {
+        return null;
+      }
+
+      return { item, link, submenu, topIndex };
+    })
+    .filter(Boolean);
+
+  if (!entries.length) {
+    return;
+  }
+
+  const megaMenu = createOrResetMegaMenu(header, menuSurface);
   const megaMenuClip = ensureMegaMenuClip(megaMenu);
+  const panelEntries = buildPanels(megaMenu, entries);
+  const entryByTopItem = new WeakMap(panelEntries.map((entry) => [entry.item, entry]));
+
+  let activeEntry = null;
+  let closeTimerId = null;
 
   header.setAttribute(READY_ATTR, '1');
-  setupA11y(header, megaMenu, topLinks);
-  updateMegaMenuHeight(megaMenuClip, megaMenu, desktopQuery.matches);
-  setMegaMenuOpen(header, megaMenu, topLinks, false);
-  updateColumnAlignment(megaMenu, topLinks, megaColumns, desktopQuery.matches);
+  megaMenu.id ||= 'bemke-mega-menu';
+  megaMenu.setAttribute(GENERATED_ATTR, '1');
+  megaMenu.setAttribute('role', 'navigation');
+  megaMenu.setAttribute('aria-label', 'Mega menu');
 
-  menuSurface.addEventListener('pointerenter', () => openMegaMenu());
-  megaMenuClip.addEventListener('pointerenter', () => openMegaMenu());
-  menuSurface.addEventListener('pointerleave', () => scheduleClose(header, megaMenu, topLinks));
-  megaMenuClip.addEventListener('pointerleave', () => scheduleClose(header, megaMenu, topLinks));
+  setupTopLinks(panelEntries, megaMenu);
+  closeMegaMenu();
+  updatePanelAlignment(megaMenu, panelEntries, desktopQuery.matches);
 
-  header.addEventListener('focusin', (event) => {
-    if (!desktopQuery.matches) {
+  topItems.forEach((item) => {
+    const link = getDirectLink(item);
+
+    if (!link) {
       return;
     }
 
-    if (menuSurface.contains(event.target) || megaMenu.contains(event.target)) {
-      openMegaMenu();
-    }
+    link.addEventListener('pointerenter', () => {
+      if (!desktopQuery.matches) {
+        return;
+      }
+
+      const entry = entryByTopItem.get(item);
+
+      if (entry) {
+        openPanel(entry);
+        return;
+      }
+
+      closeMegaMenu();
+    });
+
+    link.addEventListener('focus', () => {
+      if (!desktopQuery.matches) {
+        return;
+      }
+
+      const entry = entryByTopItem.get(item);
+
+      if (entry) {
+        openPanel(entry);
+      }
+    });
+
+    link.addEventListener('keydown', (event) => {
+      const entry = entryByTopItem.get(item);
+
+      if (!entry || !desktopQuery.matches) {
+        return;
+      }
+
+      if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        openPanel(entry);
+        focusFirstPanelLink(entry.panel);
+        return;
+      }
+
+      if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+        event.preventDefault();
+        focusSiblingTopLink(topLinks, link, event.key === 'ArrowRight' ? 1 : -1);
+        return;
+      }
+
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeMegaMenu();
+        link.focus({ preventScroll: true });
+      }
+    });
   });
+
+  menuSurface.addEventListener('pointerleave', scheduleClose);
+  megaMenuClip.addEventListener('pointerenter', cancelClose);
+  megaMenuClip.addEventListener('pointerleave', scheduleClose);
 
   header.addEventListener('focusout', () => {
     window.setTimeout(() => {
       if (!header.contains(document.activeElement)) {
-        setMegaMenuOpen(header, megaMenu, topLinks, false);
+        closeMegaMenu();
       }
     }, 0);
+  });
+
+  megaMenu.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape' || !activeEntry) {
+      return;
+    }
+
+    event.preventDefault();
+    const linkToFocus = activeEntry.link;
+    closeMegaMenu();
+    linkToFocus.focus({ preventScroll: true });
+  });
+
+  document.addEventListener('pointerdown', (event) => {
+    if (!header.contains(event.target)) {
+      closeMegaMenu();
+    }
   });
 
   document.addEventListener('keydown', (event) => {
@@ -74,46 +171,92 @@ function createMegaMenu(header) {
     }
 
     event.preventDefault();
-    setMegaMenuOpen(header, megaMenu, topLinks, false);
-
-    if (megaMenu.contains(document.activeElement)) {
-      focusFirstTopLink(topLinks);
-    }
+    closeMegaMenu();
   });
 
   window.addEventListener(
     'resize',
     debounce(() => {
-      updateMegaMenuHeight(megaMenuClip, megaMenu, desktopQuery.matches);
-      updateColumnAlignment(megaMenu, topLinks, megaColumns, desktopQuery.matches);
+      updatePanelAlignment(megaMenu, panelEntries, desktopQuery.matches);
 
       if (!desktopQuery.matches) {
-        setMegaMenuOpen(header, megaMenu, topLinks, false);
+        closeMegaMenu();
+        return;
+      }
+
+      if (activeEntry) {
+        updateMegaMenuHeight(megaMenuClip, megaMenu, activeEntry.panel, true);
       }
     }, 90),
   );
 
   if (document.fonts?.ready) {
     document.fonts.ready.then(() => {
-      updateMegaMenuHeight(megaMenuClip, megaMenu, desktopQuery.matches);
-      updateColumnAlignment(megaMenu, topLinks, megaColumns, desktopQuery.matches);
+      updatePanelAlignment(megaMenu, panelEntries, desktopQuery.matches);
+
+      if (activeEntry) {
+        updateMegaMenuHeight(megaMenuClip, megaMenu, activeEntry.panel, desktopQuery.matches);
+      }
     });
   }
 
   header.__bemkeMegaMenuRefresh = () => {
-    updateMegaMenuHeight(megaMenuClip, megaMenu, desktopQuery.matches);
-    updateColumnAlignment(megaMenu, topLinks, megaColumns, desktopQuery.matches);
+    updatePanelAlignment(megaMenu, panelEntries, desktopQuery.matches);
+
+    if (activeEntry) {
+      updateMegaMenuHeight(megaMenuClip, megaMenu, activeEntry.panel, desktopQuery.matches);
+    }
   };
 
-  function openMegaMenu() {
+  function openPanel(entry) {
     if (!desktopQuery.matches) {
       return;
     }
 
-    window.clearTimeout(closeTimerId);
-    updateMegaMenuHeight(megaMenuClip, megaMenu, true);
-    updateColumnAlignment(megaMenu, topLinks, megaColumns, true);
-    setMegaMenuOpen(header, megaMenu, topLinks, true);
+    cancelClose();
+    activeEntry = entry;
+    header.classList.add(OPEN_CLASS);
+    megaMenu.setAttribute('aria-hidden', 'false');
+
+    if ('inert' in megaMenu) {
+      megaMenu.inert = false;
+    }
+
+    panelEntries.forEach((panelEntry) => {
+      const isActive = panelEntry === entry;
+
+      panelEntry.item.classList.toggle(ACTIVE_ITEM_CLASS, isActive);
+      panelEntry.link.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+      panelEntry.panel.hidden = !isActive;
+      panelEntry.panel.classList.toggle(PANEL_ACTIVE_CLASS, isActive);
+      panelEntry.panel.setAttribute('aria-hidden', isActive ? 'false' : 'true');
+      setPanelFocusable(panelEntry.panel, isActive);
+    });
+
+    updatePanelAlignment(megaMenu, panelEntries, true);
+    updateMegaMenuHeight(megaMenuClip, megaMenu, entry.panel, true);
+  }
+
+  function closeMegaMenu() {
+    cancelClose();
+    activeEntry = null;
+    header.classList.remove(OPEN_CLASS);
+    megaMenu.setAttribute('aria-hidden', 'true');
+    megaMenu.style.removeProperty('min-height');
+    megaMenuClip.style.setProperty('--mega-menu-height', '0px');
+
+    if ('inert' in megaMenu) {
+      megaMenu.inert = true;
+    }
+
+    panelEntries.forEach((entry) => {
+      entry.item.classList.remove(ACTIVE_ITEM_CLASS);
+      entry.link.setAttribute('aria-expanded', 'false');
+      entry.panel.hidden = true;
+      entry.panel.classList.remove(PANEL_ACTIVE_CLASS);
+      entry.panel.setAttribute('aria-hidden', 'true');
+      setPanelFocusable(entry.panel, false);
+    });
   }
 
   function scheduleClose() {
@@ -123,9 +266,34 @@ function createMegaMenu(header) {
         return;
       }
 
-      setMegaMenuOpen(header, megaMenu, topLinks, false);
+      closeMegaMenu();
     }, 120);
   }
+
+  function cancelClose() {
+    window.clearTimeout(closeTimerId);
+    closeTimerId = null;
+  }
+}
+
+function createOrResetMegaMenu(header, menuSurface) {
+  const existingMenu = header.querySelector(MEGA_MENU_SELECTOR);
+
+  if (existingMenu) {
+    existingMenu.replaceChildren();
+    return existingMenu;
+  }
+
+  const megaMenu = document.createElement('div');
+  megaMenu.className = MEGA_MENU_SELECTOR.slice(1);
+
+  if (menuSurface.parentElement) {
+    menuSurface.parentElement.insertBefore(megaMenu, menuSurface.nextSibling);
+    return megaMenu;
+  }
+
+  header.appendChild(megaMenu);
+  return megaMenu;
 }
 
 function ensureMegaMenuClip(megaMenu) {
@@ -145,14 +313,82 @@ function ensureMegaMenuClip(megaMenu) {
   return clip;
 }
 
-function setupA11y(header, megaMenu, topLinks) {
-  megaMenu.id ||= 'bemke-mega-menu';
-  megaMenu.setAttribute('role', 'navigation');
-  megaMenu.setAttribute('aria-label', 'Mega menu');
+function buildPanels(megaMenu, entries) {
+  return entries.map((entry) => {
+    const panel = document.createElement('div');
+    panel.className = PANEL_CLASS;
+    panel.id = `bemke-mega-panel-${entry.topIndex + 1}`;
+    panel.hidden = true;
+    panel.setAttribute('aria-hidden', 'true');
+    panel.setAttribute('aria-labelledby', ensureElementId(entry.link, `bemke-mega-trigger-${entry.topIndex + 1}`));
 
-  topLinks.forEach((link) => {
-    link.setAttribute('aria-haspopup', 'true');
-    link.setAttribute('aria-controls', megaMenu.id);
+    const inner = document.createElement('div');
+    inner.className = 'bemke-mega-panel__inner';
+    inner.appendChild(buildMegaList(entry.submenu, 1));
+
+    panel.appendChild(inner);
+    megaMenu.appendChild(panel);
+
+    return { ...entry, panel };
+  });
+}
+
+function buildMegaList(sourceList, depth) {
+  const list = document.createElement('ul');
+  list.className = `bemke-mega-list bemke-mega-list--depth-${depth}`;
+
+  getDirectMenuItems(sourceList).forEach((item) => {
+    const link = getDirectLink(item);
+
+    if (!link) {
+      return;
+    }
+
+    const childSubmenu = getDirectSubmenu(item);
+    const listItem = document.createElement('li');
+    const clonedLink = cloneMenuLink(link, depth, Boolean(childSubmenu));
+
+    listItem.className = 'bemke-mega-list__item';
+    listItem.appendChild(clonedLink);
+
+    if (childSubmenu) {
+      listItem.classList.add('bemke-mega-list__item--has-children');
+      listItem.appendChild(buildMegaList(childSubmenu, depth + 1));
+    }
+
+    list.appendChild(listItem);
+  });
+
+  return list;
+}
+
+function cloneMenuLink(link, depth, hasChildren) {
+  const clonedLink = link.cloneNode(true);
+
+  removeIds(clonedLink);
+  clonedLink.querySelectorAll(`.${TOP_ARROW_CLASS}`).forEach((arrow) => arrow.remove());
+  clonedLink.className = [
+    'bemke-mega-link',
+    `bemke-mega-link--depth-${Math.min(depth, 3)}`,
+    hasChildren ? 'bemke-mega-link--has-children' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+  clonedLink.removeAttribute('aria-controls');
+  clonedLink.removeAttribute('aria-expanded');
+  clonedLink.removeAttribute('aria-haspopup');
+  clonedLink.removeAttribute('tabindex');
+
+  return clonedLink;
+}
+
+function setupTopLinks(panelEntries, megaMenu) {
+  panelEntries.forEach((entry) => {
+    entry.item.classList.add(HAS_MEGA_CLASS);
+    entry.link.setAttribute('aria-haspopup', 'true');
+    entry.link.setAttribute('aria-expanded', 'false');
+    entry.link.setAttribute('aria-controls', entry.panel.id);
+    ensureTopLinkArrow(entry.link);
   });
 
   megaMenu.querySelectorAll(FOCUSABLE_SELECTOR).forEach((element) => {
@@ -160,73 +396,21 @@ function setupA11y(header, megaMenu, topLinks) {
       element.setAttribute(ORIGINAL_TABINDEX_ATTR, element.getAttribute('tabindex') ?? '');
     }
   });
-
-  header.querySelectorAll('.mega-menu-link:not([href])').forEach((element) => {
-    element.setAttribute('role', 'presentation');
-  });
 }
 
-function updateMegaMenuHeight(megaMenuClip, megaMenu, isDesktop) {
-  megaMenu.style.removeProperty('min-height');
-
-  if (!isDesktop) {
-    megaMenuClip.style.removeProperty('--mega-menu-height');
+function ensureTopLinkArrow(link) {
+  if (link.querySelector(`:scope > .${TOP_ARROW_CLASS}`)) {
     return;
   }
 
-  const height = measureMegaMenuHeight(megaMenu);
-
-  if (height > 0) {
-    megaMenuClip.style.setProperty('--mega-menu-height', `${height}px`);
-    megaMenu.style.setProperty('min-height', `${height}px`);
-  }
+  const arrow = document.createElement('span');
+  arrow.className = TOP_ARROW_CLASS;
+  arrow.setAttribute('aria-hidden', 'true');
+  link.appendChild(arrow);
 }
 
-function measureMegaMenuHeight(megaMenu) {
-  const menuRect = megaMenu.getBoundingClientRect();
-  const menuStyle = window.getComputedStyle?.(megaMenu);
-  const paddingBottom = getPixelValue(menuStyle?.paddingBottom);
-  const borderBottom = getPixelValue(menuStyle?.borderBottomWidth);
-  let height = Math.max(megaMenu.scrollHeight, menuRect.height);
-
-  megaMenu.querySelectorAll(MEGA_COLUMN_SELECTOR).forEach((column) => {
-    const columnRect = column.getBoundingClientRect();
-    const columnStyle = window.getComputedStyle?.(column);
-    const renderedColumnBottom = columnRect.height > 0
-      ? columnRect.bottom - menuRect.top
-      : (column.offsetTop || 0) + Math.max(column.scrollHeight || 0, columnRect.height || 0);
-
-    height = Math.max(
-      height,
-      renderedColumnBottom + getPixelValue(columnStyle?.marginBottom) + paddingBottom + borderBottom,
-    );
-  });
-
-  return Math.ceil(height);
-}
-
-function getPixelValue(value) {
-  const number = Number.parseFloat(value);
-  return Number.isFinite(number) ? number : 0;
-}
-
-function setMegaMenuOpen(header, megaMenu, topLinks, isOpen) {
-  header.classList.toggle(OPEN_CLASS, isOpen);
-  megaMenu.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
-
-  if ('inert' in megaMenu) {
-    megaMenu.inert = !isOpen;
-  }
-
-  topLinks.forEach((link) => {
-    link.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-  });
-
-  setMegaMenuFocusable(megaMenu, isOpen);
-}
-
-function setMegaMenuFocusable(megaMenu, isEnabled) {
-  megaMenu.querySelectorAll(FOCUSABLE_SELECTOR).forEach((element) => {
+function setPanelFocusable(panel, isEnabled) {
+  panel.querySelectorAll(FOCUSABLE_SELECTOR).forEach((element) => {
     if (isEnabled) {
       const originalTabindex = element.getAttribute(ORIGINAL_TABINDEX_ATTR);
 
@@ -243,37 +427,102 @@ function setMegaMenuFocusable(megaMenu, isEnabled) {
   });
 }
 
-function updateColumnAlignment(megaMenu, topLinks, megaColumns, isDesktop) {
+function updateMegaMenuHeight(megaMenuClip, megaMenu, activePanel, isDesktop) {
+  if (!isDesktop || !activePanel) {
+    megaMenuClip.style.setProperty('--mega-menu-height', '0px');
+    megaMenu.style.removeProperty('min-height');
+    return;
+  }
+
+  const height = measurePanelHeight(activePanel);
+
+  if (height > 0) {
+    megaMenuClip.style.setProperty('--mega-menu-height', `${height}px`);
+    megaMenu.style.setProperty('min-height', `${height}px`);
+  }
+}
+
+function measurePanelHeight(panel) {
+  const panelRect = panel.getBoundingClientRect();
+  return Math.ceil(Math.max(panel.scrollHeight, panelRect.height));
+}
+
+function updatePanelAlignment(megaMenu, panelEntries, isDesktop) {
   if (!isDesktop) {
-    megaColumns.forEach((column) => {
-      column.style.removeProperty('--mega-menu-column-left');
+    panelEntries.forEach((entry) => {
+      entry.panel.style.removeProperty('--mega-menu-panel-left');
     });
     return;
   }
 
   const menuRect = megaMenu.getBoundingClientRect();
 
-  megaColumns.forEach((column, index) => {
-    const topLink = topLinks[COLUMN_TO_TOP_LINK_INDEX[index]];
-
-    if (!topLink) {
-      return;
-    }
-
-    const linkRect = topLink.getBoundingClientRect();
+  panelEntries.forEach((entry) => {
+    const linkRect = entry.link.getBoundingClientRect();
     const left = Math.max(0, linkRect.left - menuRect.left);
-    column.style.setProperty('--mega-menu-column-left', `${Math.round(left)}px`);
+    entry.panel.style.setProperty('--mega-menu-panel-left', `${Math.round(left)}px`);
   });
 }
 
-function focusFirstTopLink(topLinks) {
-  const firstTopLink = topLinks[0];
+function focusFirstPanelLink(panel) {
+  const firstLink = panel.querySelector(FOCUSABLE_SELECTOR);
 
-  if (!firstTopLink) {
+  if (firstLink) {
+    firstLink.focus({ preventScroll: true });
+  }
+}
+
+function focusSiblingTopLink(topLinks, currentLink, direction) {
+  const currentIndex = topLinks.indexOf(currentLink);
+
+  if (currentIndex < 0 || !topLinks.length) {
     return;
   }
 
-  firstTopLink.focus({ preventScroll: true });
+  const nextIndex = (currentIndex + direction + topLinks.length) % topLinks.length;
+  topLinks[nextIndex].focus({ preventScroll: true });
+}
+
+function getDirectMenuItems(list) {
+  return Array.from(list.children).filter((child) => child.matches('li'));
+}
+
+function getDirectLink(menuItem) {
+  const submenu = getDirectSubmenu(menuItem);
+
+  for (const child of Array.from(menuItem.children)) {
+    if (child === submenu) {
+      continue;
+    }
+
+    if (child.matches('a, button')) {
+      return child;
+    }
+
+    const link = child.querySelector('a, button');
+
+    if (link && (!submenu || !submenu.contains(link))) {
+      return link;
+    }
+  }
+
+  return null;
+}
+
+function getDirectSubmenu(menuItem) {
+  return Array.from(menuItem.children).find((child) =>
+    child.matches('ul, .sub-menu, .bricks-nav-menu-submenu'),
+  );
+}
+
+function ensureElementId(element, fallbackId) {
+  element.id ||= fallbackId;
+  return element.id;
+}
+
+function removeIds(element) {
+  element.removeAttribute('id');
+  element.querySelectorAll('[id]').forEach((child) => child.removeAttribute('id'));
 }
 
 function debounce(fn, delay) {
