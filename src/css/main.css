@@ -1168,10 +1168,10 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     list-style: none;
     margin: 0;
     opacity: 0;
-    padding: clamp(2.4rem, 2vw, 3.2rem) clamp(2rem, 1.7vw, 2.8rem);
+    padding: 2.4rem 1.8rem;
     pointer-events: none;
     position: absolute !important;
-    top: calc(100% + 0.1rem) !important;
+    top: 100% !important;
     transform: translate3d(0, -0.4rem, 0);
     transition:
       opacity 0.34s ease,
