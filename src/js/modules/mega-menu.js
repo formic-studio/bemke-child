@@ -240,6 +240,7 @@ function setEntryOpen(entry, isOpen) {
   entry.item.classList.toggle(ACTIVE_ITEM_CLASS, isOpen);
   entry.submenu.classList.toggle(SUBMENU_OPEN_CLASS, isOpen);
   entry.submenu.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+  entry.submenu.toggleAttribute('inert', !isOpen);
   entry.link.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
   entry.button?.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
   setSubmenuFocusable(entry.submenu, isOpen);

@@ -946,7 +946,6 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
 :where(
   #brx-header #brxe-vhhhdt > .bricks-nav-menu-wrapper > .bricks-nav-menu > li > a,
   #brx-header #brxe-vhhhdt > .bricks-nav-menu-wrapper > .bricks-nav-menu > li > .brx-submenu-toggle > a,
-  #brx-header .bemke-mega-submenu a[href],
   #brx-footer a[href]:not(:has(img, svg)),
   footer a[href]:not(:has(img, svg))
 ):not(.brxe-button):not(.btn):not([data-contrast]) {
@@ -961,7 +960,6 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
 :where(
   #brx-header #brxe-vhhhdt > .bricks-nav-menu-wrapper > .bricks-nav-menu > li > a,
   #brx-header #brxe-vhhhdt > .bricks-nav-menu-wrapper > .bricks-nav-menu > li > .brx-submenu-toggle > a,
-  #brx-header .bemke-mega-submenu a[href],
   #brx-footer a[href]:not(:has(img, svg)),
   footer a[href]:not(:has(img, svg))
 ):not(.brxe-button):not(.btn):not([data-contrast]):is(:hover, :focus-visible, [aria-current="page"]) {
@@ -971,7 +969,6 @@ html[data-contrast]:not([data-contrast="default"]) [data-a11y-contrast-fixed="tr
 :where(
   #brx-header #brxe-vhhhdt > .bricks-nav-menu-wrapper > .bricks-nav-menu > li > a[aria-current="page"],
   #brx-header #brxe-vhhhdt > .bricks-nav-menu-wrapper > .bricks-nav-menu > li > .brx-submenu-toggle > a[aria-current="page"],
-  #brx-header .bemke-mega-submenu a[href][aria-current="page"],
   #brx-footer a[href][aria-current="page"]:not(:has(img, svg)),
   footer a[href][aria-current="page"]:not(:has(img, svg))
 ):not(.brxe-button):not(.btn):not([data-contrast]) {
@@ -1218,12 +1215,22 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
 
   #brx-header .bemke-mega-submenu a {
     align-self: flex-start;
+    background-image: none !important;
+    background-size: 0 0 !important;
     color: var(--brown, var(--theme-brown));
     display: inline-flex;
     justify-content: flex-start;
     line-height: 1.4;
     text-align: left;
-    text-decoration: none;
+    text-decoration: none !important;
+    transition: color 0.24s ease;
+  }
+
+  #brx-header .bemke-mega-submenu a:is(:hover, :focus-visible, [aria-current="page"]) {
+    background-image: none !important;
+    background-size: 0 0 !important;
+    color: var(--red, var(--theme-red, #741618));
+    text-decoration: none !important;
   }
 
   #brx-header .bemke-mega-submenu > li > a,
@@ -1257,11 +1264,14 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     margin: 0.2rem 0 0;
     opacity: 1 !important;
     padding: 0 0 0 1.4rem;
-    pointer-events: auto !important;
     position: static !important;
     transform: none !important;
-    visibility: visible !important;
     width: auto !important;
+  }
+
+  #brx-header .bemke-mega-submenu.is-mega-submenu-open ul.sub-menu {
+    pointer-events: auto !important;
+    visibility: visible !important;
   }
 
   #brx-header .bemke-mega-submenu a:focus-visible {
@@ -1296,10 +1306,13 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
   :where(
     #brx-header #brxe-vhhhdt > .bricks-nav-menu-wrapper > .bricks-nav-menu > li > a,
     #brx-header #brxe-vhhhdt > .bricks-nav-menu-wrapper > .bricks-nav-menu > li > .brx-submenu-toggle > a,
-    #brx-header .bemke-mega-submenu a[href],
     #brx-footer a[href]:not(:has(img, svg)),
     footer a[href]:not(:has(img, svg))
   ):not(.brxe-button):not(.btn):not([data-contrast]) {
+    transition: none !important;
+  }
+
+  #brx-header .bemke-mega-submenu a {
     transition: none !important;
   }
 
