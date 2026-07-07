@@ -226,6 +226,8 @@ function setupEntries(entries) {
     if (entry.button) {
       entry.button.setAttribute('aria-controls', entry.submenu.id);
       entry.button.setAttribute('aria-expanded', 'false');
+      entry.button.setAttribute('aria-hidden', 'true');
+      entry.button.setAttribute('tabindex', '-1');
     }
 
     entry.submenu.querySelectorAll(FOCUSABLE_SELECTOR).forEach((element) => {

@@ -1217,7 +1217,7 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     align-self: flex-start;
     background-image: none !important;
     background-size: 0 0 !important;
-    color: var(--brown, var(--theme-brown));
+    color: var(--brown, var(--theme-brown)) !important;
     display: inline-flex;
     justify-content: flex-start;
     line-height: 1.4;
@@ -1226,10 +1226,15 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     transition: color 0.24s ease;
   }
 
-  #brx-header .bemke-mega-submenu a:is(:hover, :focus-visible, [aria-current="page"]) {
+  #brx-header .bemke-mega-submenu a * {
+    color: inherit !important;
+  }
+
+  #brx-header .bemke-mega-submenu a:is(:hover, :focus-visible, [aria-current="page"]),
+  #brx-header .bemke-mega-submenu a:is(:hover, :focus-visible, [aria-current="page"]) * {
     background-image: none !important;
     background-size: 0 0 !important;
-    color: var(--red, var(--theme-red, #741618));
+    color: var(--red, var(--theme-red, #741618)) !important;
     text-decoration: none !important;
   }
 
