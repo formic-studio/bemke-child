@@ -1154,6 +1154,7 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
   }
 
   #brx-header .bemke-mega-submenu {
+    --bemke-mega-max-width: calc(100vw - var(--bemke-mega-screen-left, 0px));
     --bemke-mega-width: clamp(24rem, 18vw, 34rem);
     align-items: stretch;
     background-color: var(--theme-lightyellow, var(--lightyellow, #f6cc8a));
@@ -1176,7 +1177,10 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
       visibility 0s linear 0.34s;
     text-align: left;
     visibility: hidden;
-    width: var(--bemke-mega-width);
+    inline-size: max-content;
+    max-inline-size: var(--bemke-mega-max-width);
+    min-inline-size: var(--bemke-mega-width);
+    width: max-content;
     z-index: 100;
   }
 

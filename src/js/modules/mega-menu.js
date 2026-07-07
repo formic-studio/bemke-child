@@ -270,16 +270,28 @@ function updateSubmenuPositions(menuSurface, entries, isDesktop) {
   if (!isDesktop) {
     entries.forEach((entry) => {
       entry.submenu.style.removeProperty('--bemke-mega-left');
+      entry.submenu.style.removeProperty('--bemke-mega-screen-left');
+      entry.submenu.style.removeProperty('--bemke-mega-width');
+      entry.submenu.style.removeProperty('--bemke-mega-max-width');
     });
     return;
   }
 
   const surfaceRect = menuSurface.getBoundingClientRect();
+  const viewportWidth = document.documentElement.clientWidth || window.innerWidth;
 
   entries.forEach((entry) => {
     const itemRect = entry.item.getBoundingClientRect();
+    const nextItemRect = getNextMenuItem(entry.item)?.getBoundingClientRect();
     const left = Math.max(0, itemRect.left - surfaceRect.left);
+    const right = nextItemRect?.left ?? viewportWidth;
+    const width = Math.max(1, right - itemRect.left);
+    const maxWidth = Math.max(width, viewportWidth - itemRect.left);
+
     entry.submenu.style.setProperty('--bemke-mega-left', `${Math.round(left)}px`);
+    entry.submenu.style.setProperty('--bemke-mega-screen-left', `${Math.round(itemRect.left)}px`);
+    entry.submenu.style.setProperty('--bemke-mega-width', `${Math.round(width)}px`);
+    entry.submenu.style.setProperty('--bemke-mega-max-width', `${Math.round(maxWidth)}px`);
   });
 }
 
@@ -308,6 +320,16 @@ function findEntryFromTarget(entries, target) {
 
 function getDirectMenuItems(list) {
   return Array.from(list.children).filter((child) => child.matches('li'));
+}
+
+function getNextMenuItem(menuItem) {
+  let nextItem = menuItem.nextElementSibling;
+
+  while (nextItem && !nextItem.matches('li')) {
+    nextItem = nextItem.nextElementSibling;
+  }
+
+  return nextItem;
 }
 
 function getDirectToggle(menuItem) {
