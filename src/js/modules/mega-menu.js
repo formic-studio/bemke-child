@@ -285,14 +285,38 @@ function updateSubmenuPositions(menuSurface, entries, isDesktop) {
     const nextItemRect = getNextMenuItem(entry.item)?.getBoundingClientRect();
     const left = Math.max(0, itemRect.left - surfaceRect.left);
     const right = nextItemRect?.left ?? itemRect.right;
-    const width = Math.max(1, right - itemRect.left);
-    const maxWidth = Math.max(width, viewportWidth - itemRect.left);
+    const segmentWidth = Math.max(1, right - itemRect.left);
+    const maxWidth = Math.max(segmentWidth, viewportWidth - itemRect.left);
 
     entry.submenu.style.setProperty('--bemke-mega-left', `${Math.round(left)}px`);
     entry.submenu.style.setProperty('--bemke-mega-screen-left', `${Math.round(itemRect.left)}px`);
-    entry.submenu.style.setProperty('--bemke-mega-width', `${Math.round(width)}px`);
     entry.submenu.style.setProperty('--bemke-mega-max-width', `${Math.round(maxWidth)}px`);
+    entry.submenu.style.setProperty('--bemke-mega-width', `${Math.round(segmentWidth)}px`);
+
+    const requiredWidth = getRequiredSubmenuWidth(entry.submenu);
+    const adjustedWidth = Math.min(maxWidth, Math.max(segmentWidth, requiredWidth));
+    entry.submenu.style.setProperty('--bemke-mega-width', `${Math.round(adjustedWidth)}px`);
   });
+}
+
+function getRequiredSubmenuWidth(submenu) {
+  const submenuRect = submenu.getBoundingClientRect();
+  const submenuStyle = window.getComputedStyle(submenu);
+  const paddingRight = parseCssPixels(submenuStyle.paddingRight);
+  let requiredWidth = submenu.scrollWidth;
+
+  submenu.querySelectorAll('a[href]').forEach((link) => {
+    const linkRect = link.getBoundingClientRect();
+    requiredWidth = Math.max(requiredWidth, linkRect.right - submenuRect.left + paddingRight);
+  });
+
+  return Math.ceil(requiredWidth);
+}
+
+function parseCssPixels(value) {
+  const parsedValue = Number.parseFloat(value);
+
+  return Number.isFinite(parsedValue) ? parsedValue : 0;
 }
 
 function focusFirstSubmenuLink(submenu) {

@@ -1192,6 +1192,9 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     align-items: center;
     display: inline-flex;
     gap: 0.6rem;
+    transition:
+      background-size 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+      color 0.24s ease;
     white-space: nowrap;
   }
 
@@ -1206,6 +1209,40 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     color: inherit;
     display: inline-flex;
     white-space: nowrap;
+  }
+
+  #brx-header.is-mega-menu-open
+    #brxe-vhhhdt
+    > .bricks-nav-menu-wrapper
+    > .bricks-nav-menu
+    > li.bemke-mega-item:not(.is-mega-menu-item-active)
+    > a,
+  #brx-header.is-mega-menu-open
+    #brxe-vhhhdt
+    > .bricks-nav-menu-wrapper
+    > .bricks-nav-menu
+    > li.bemke-mega-item:not(.is-mega-menu-item-active)
+    > .brx-submenu-toggle {
+    color: color-mix(
+      in srgb,
+      var(--brown, var(--theme-brown, #1b0508)) 34%,
+      var(--mustard, var(--theme-mustard, #ae6b00))
+    );
+  }
+
+  #brx-header.is-mega-menu-open
+    #brxe-vhhhdt
+    > .bricks-nav-menu-wrapper
+    > .bricks-nav-menu
+    > li.is-mega-menu-item-active
+    > a,
+  #brx-header.is-mega-menu-open
+    #brxe-vhhhdt
+    > .bricks-nav-menu-wrapper
+    > .bricks-nav-menu
+    > li.is-mega-menu-item-active
+    > .brx-submenu-toggle {
+    color: var(--brown, var(--theme-brown, #1b0508));
   }
 
   #brx-header
@@ -1280,6 +1317,7 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     list-style: none;
     margin: 0;
     opacity: 0;
+    overflow: visible;
     padding: 2.4rem 1.8rem;
     pointer-events: none;
     position: absolute !important;
@@ -1291,10 +1329,10 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
       visibility 0s linear 0.34s;
     text-align: left;
     visibility: hidden;
-    inline-size: max-content;
+    inline-size: min(var(--bemke-mega-width), var(--bemke-mega-max-width));
     max-inline-size: var(--bemke-mega-max-width);
-    min-inline-size: var(--bemke-mega-width);
-    width: max-content;
+    min-inline-size: min(var(--bemke-mega-width), var(--bemke-mega-max-width));
+    width: min(var(--bemke-mega-width), var(--bemke-mega-max-width));
     z-index: 100;
   }
 
@@ -1347,6 +1385,7 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     text-align: left;
     text-decoration: none !important;
     transition: color 0.24s ease;
+    white-space: nowrap;
   }
 
   #brx-header .bemke-mega-submenu a * {
