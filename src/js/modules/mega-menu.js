@@ -307,7 +307,11 @@ function getRequiredSubmenuWidth(submenu) {
 
   submenu.querySelectorAll('a[href]').forEach((link) => {
     const linkRect = link.getBoundingClientRect();
-    requiredWidth = Math.max(requiredWidth, linkRect.right - submenuRect.left + paddingRight);
+    const linkContentWidth = Math.max(link.scrollWidth, linkRect.width);
+    requiredWidth = Math.max(
+      requiredWidth,
+      linkRect.left - submenuRect.left + linkContentWidth + paddingRight,
+    );
   });
 
   return Math.ceil(requiredWidth);

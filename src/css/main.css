@@ -1457,6 +1457,7 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
 
   #brx-header .bemke-mega-submenu ul.sub-menu {
     background: transparent !important;
+    box-sizing: border-box;
     box-shadow: none !important;
     display: flex !important;
     flex-direction: column;
