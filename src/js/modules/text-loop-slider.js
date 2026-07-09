@@ -7,7 +7,7 @@ const EXITING_CLASS = 'is-text-slider-exiting';
 const BOOT_FLAG = '__bemkeTextLoopSliderBooted';
 
 const ENTER_MS = 1200;
-const HOLD_MS = 800;
+const HOLD_MS = 1200;
 const EXIT_MS = 800;
 const EASING = 'cubic-bezier(0.25, 0.46, 0.45, 0.94)';
 
@@ -233,7 +233,7 @@ function exitItem(item) {
       },
       {
         opacity: '0',
-        transform: 'translate3d(-115%, 0, 0) scale(1)',
+        transform: 'translate3d(0, 0, 0) scale(0.95)',
         filter: 'blur(8px)',
       },
     ],
