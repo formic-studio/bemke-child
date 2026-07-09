@@ -1313,8 +1313,8 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     --bemke-mega-max-width: calc(100vw - var(--bemke-mega-screen-left, 0px));
     --bemke-mega-space-3: var(--var-3, var(--space-3, 1.2rem));
     --bemke-mega-space-4: var(--var-4, var(--space-4, 1.6rem));
-    --bemke-mega-item-padding-block: 0.4rem;
-    --bemke-mega-subitem-padding-block: 0.3rem;
+    --bemke-mega-item-padding-block: 0;
+    --bemke-mega-subitem-padding-block: 0;
     --bemke-mega-width: clamp(24rem, 18vw, 34rem);
     align-items: stretch;
     background-color: var(--theme-lightyellow, var(--lightyellow, #f6cc8a));
@@ -1384,6 +1384,8 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
         var(--brown, var(--theme-brown, #1b0508)) 20%,
         transparent
       );
+    margin-top: var(--bemke-mega-space-3);
+    padding-top: var(--bemke-mega-space-3);
   }
 
   #brx-header .bemke-mega-submenu a {
@@ -1452,7 +1454,7 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     flex-direction: column;
     left: auto !important;
     gap: 0;
-    margin: 0;
+    margin: var(--bemke-mega-space-3) 0 0;
     opacity: 1 !important;
     padding: 0 0 0 var(--bemke-mega-space-4) !important;
     position: static !important;
