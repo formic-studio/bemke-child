@@ -1327,7 +1327,7 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     margin: 0;
     opacity: 0;
     overflow: visible;
-    padding: var(--bemke-mega-space-4) var(--bemke-mega-space-3) !important;
+    padding: 2.4rem 1.8rem !important;
     pointer-events: none;
     position: absolute !important;
     top: 100% !important;
