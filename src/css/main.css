@@ -1412,7 +1412,7 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
 
   #brx-header .bemke-mega-submenu > li > a,
   #brx-header .bemke-mega-submenu > li > .brx-submenu-toggle > a {
-    padding: 1rem 0;
+    padding: 0;
     text-transform: uppercase;
   }
 
