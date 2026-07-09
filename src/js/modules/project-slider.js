@@ -15,6 +15,7 @@ const GHOST_CLASS = 'is-ghost';
 const ORIGINAL_TABINDEX_ATTR = 'data-bemke-original-tabindex';
 
 const ANIMATION_MS = 640;
+const AUTOPLAY_MS = 2200;
 const SWIPE_THRESHOLD = 46;
 
 let sliderId = 0;
@@ -87,6 +88,8 @@ function createProjectSlider(root) {
   let currentOffset = 0;
   let isAnimating = false;
   let queuedDirection = 0;
+  let isPlaying = false;
+  let autoplayTimerId = null;
   let transitionTimerId = null;
   let pointerState = null;
   let shouldSuppressClick = false;
@@ -95,8 +98,10 @@ function createProjectSlider(root) {
   prepareSlides(slides);
   decorateSlider(root, track, slides);
   bindControls(controls, track, {
-    onPrev: () => queueMove(-1),
-    onNext: () => queueMove(1),
+    onPause: () => disableAutoplay(),
+    onPlay: () => enableAutoplay(),
+    onPrev: () => queueMove(-1, true),
+    onNext: () => queueMove(1, true),
   });
 
   root.addEventListener('keydown', (event) => {
@@ -107,14 +112,14 @@ function createProjectSlider(root) {
     if (event.key === 'ArrowLeft') {
       event.preventDefault();
       focusControl(controls.prev);
-      queueMove(-1);
+      queueMove(-1, true);
       return;
     }
 
     if (event.key === 'ArrowRight') {
       event.preventDefault();
       focusControl(controls.next);
-      queueMove(1);
+      queueMove(1, true);
     }
   });
 
@@ -178,7 +183,7 @@ function createProjectSlider(root) {
 
     if (shouldMove) {
       shouldSuppressClick = true;
-      queueMove(dx < 0 ? 1 : -1);
+      queueMove(dx < 0 ? 1 : -1, true);
       return;
     }
 
@@ -222,9 +227,28 @@ function createProjectSlider(root) {
   arrangeSlides(track, slides, activeIndex);
   syncSlides(slides, activeIndex);
   currentOffset = recenterActive(root, track, slides[activeIndex], currentOffset);
+  updateControlsState(controls, isPlaying);
 
-  function queueMove(direction) {
+  root.addEventListener('mouseenter', stopAutoplay);
+  root.addEventListener('mouseleave', startAutoplay);
+  root.addEventListener('focusin', stopAutoplay);
+  root.addEventListener('focusout', startAutoplay);
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      stopAutoplay();
+      return;
+    }
+
+    startAutoplay();
+  });
+
+  function queueMove(direction, restartTimer = false) {
     const normalizedDirection = direction < 0 ? -1 : 1;
+
+    if (restartTimer && isPlaying) {
+      startAutoplay();
+    }
 
     if (isAnimating) {
       queuedDirection = normalizedDirection;
@@ -275,6 +299,38 @@ function createProjectSlider(root) {
     queuedDirection = 0;
     move(direction);
   }
+
+  function enableAutoplay() {
+    isPlaying = true;
+    startAutoplay();
+    updateControlsState(controls, isPlaying);
+  }
+
+  function disableAutoplay() {
+    isPlaying = false;
+    stopAutoplay();
+    updateControlsState(controls, isPlaying);
+  }
+
+  function startAutoplay() {
+    if (!isPlaying) {
+      return;
+    }
+
+    stopAutoplay();
+    autoplayTimerId = window.setInterval(() => {
+      queueMove(1);
+    }, AUTOPLAY_MS);
+  }
+
+  function stopAutoplay() {
+    if (!autoplayTimerId) {
+      return;
+    }
+
+    window.clearInterval(autoplayTimerId);
+    autoplayTimerId = null;
+  }
 }
 
 function decorateSlider(root, track, slides) {
@@ -311,6 +367,8 @@ function decorateSlider(root, track, slides) {
 }
 
 function bindControls(controls, track, handlers) {
+  bindControl(controls.pause, 'Pauza autoplay', track.id, handlers.onPause);
+  bindControl(controls.play, 'Start autoplay', track.id, handlers.onPlay);
   bindControl(controls.prev, 'Poprzedni projekt', track.id, handlers.onPrev);
   bindControl(controls.next, 'Następny projekt', track.id, handlers.onNext);
 }
@@ -320,6 +378,7 @@ function bindControl(control, label, controlsId, handler) {
     return;
   }
 
+  control.classList.remove('bricks-lazy-hidden');
   control.setAttribute('role', 'button');
   control.setAttribute('tabindex', '0');
   control.setAttribute('aria-label', label);
@@ -352,11 +411,26 @@ function focusControl(control) {
 function getControls(root) {
   const controlsWrap = root.querySelector(CONTROLS_SELECTOR);
   const arrows = controlsWrap ? Array.from(controlsWrap.querySelectorAll(ARROW_SELECTOR)) : [];
+  const hasAutoplayControls = arrows.length >= 4;
 
   return {
-    prev: arrows[0] ?? null,
-    next: arrows[1] ?? null,
+    pause: hasAutoplayControls ? (arrows[0] ?? null) : null,
+    play: hasAutoplayControls ? (arrows[1] ?? null) : null,
+    prev: arrows[hasAutoplayControls ? 2 : 0] ?? null,
+    next: arrows[hasAutoplayControls ? 3 : 1] ?? null,
   };
+}
+
+function updateControlsState(controls, isPlaying) {
+  if (controls.play) {
+    controls.play.classList.toggle('is-disabled', isPlaying);
+    controls.play.setAttribute('aria-disabled', isPlaying ? 'true' : 'false');
+  }
+
+  if (controls.pause) {
+    controls.pause.classList.toggle('is-disabled', !isPlaying);
+    controls.pause.setAttribute('aria-disabled', !isPlaying ? 'true' : 'false');
+  }
 }
 
 function getInitialActiveIndex(slides) {
