@@ -734,7 +734,6 @@ html[data-contrast]:not([data-contrast="default"])
   justify-content: center;
   min-block-size: 32px;
   min-inline-size: 32px;
-  padding: 0 !important;
 }
 
 .slider:not(.slider-thinktank)[data-bemke-slider-ready="1"] .arrow:focus {
