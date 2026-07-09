@@ -93,7 +93,7 @@ function createHomeSlider(root) {
   decorateSlider(root, track, slides);
   bindControls(controls, track, {
     onPause: () => disableAutoplay(),
-    onPlay: () => enableAutoplay(),
+    onPlay: () => enableAutoplay(true),
     onPrev: () => queueMove(-1, true),
     onNext: () => queueMove(1, true),
   });
@@ -278,8 +278,13 @@ function createHomeSlider(root) {
     move(direction);
   }
 
-  function enableAutoplay() {
+  function enableAutoplay(shouldAdvance = false) {
     isPlaying = true;
+
+    if (shouldAdvance) {
+      queueMove(1);
+    }
+
     startAutoplay();
     updateControlsState(controls, isPlaying);
   }
