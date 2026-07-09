@@ -1311,6 +1311,9 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
 
   #brx-header .bemke-mega-submenu {
     --bemke-mega-max-width: calc(100vw - var(--bemke-mega-screen-left, 0px));
+    --bemke-mega-space-3: var(--var-3, var(--space-3, 1.2rem));
+    --bemke-mega-space-4: var(--var-4, var(--space-4, 1.6rem));
+    --bemke-mega-item-padding-block: 0.4rem;
     --bemke-mega-width: clamp(24rem, 18vw, 34rem);
     align-items: stretch;
     background-color: var(--theme-lightyellow, var(--lightyellow, #f6cc8a));
@@ -1323,7 +1326,7 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     margin: 0;
     opacity: 0;
     overflow: visible;
-    padding: 2.4rem 1.8rem;
+    padding: var(--bemke-mega-space-4) var(--bemke-mega-space-3);
     pointer-events: none;
     position: absolute !important;
     top: 100% !important;
@@ -1364,7 +1367,10 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
   }
 
   #brx-header .bemke-mega-submenu li {
+    display: block;
+    height: auto !important;
     margin: 0;
+    min-height: 0 !important;
     padding: 0;
     text-align: left;
   }
@@ -1380,17 +1386,20 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
   }
 
   #brx-header .bemke-mega-submenu a {
-    align-self: flex-start;
+    align-self: stretch;
     background-image: none !important;
     background-size: 0 0 !important;
     color: var(--brown, var(--theme-brown)) !important;
-    display: inline-flex;
+    display: flex;
     justify-content: flex-start;
     line-height: 1.4;
+    min-height: 0 !important;
+    padding: var(--bemke-mega-item-padding-block) 0;
     text-align: left;
     text-decoration: none !important;
     transition: color 0.24s ease;
     white-space: nowrap;
+    width: 100%;
   }
 
   #brx-header .bemke-mega-submenu a * {
@@ -1412,20 +1421,20 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
 
   #brx-header .bemke-mega-submenu > li > a,
   #brx-header .bemke-mega-submenu > li > .brx-submenu-toggle > a {
-    padding: 0;
     text-transform: uppercase;
   }
 
   #brx-header .bemke-mega-submenu ul.sub-menu a {
-    padding: 0.8rem 0;
     text-transform: none;
   }
 
   #brx-header .bemke-mega-submenu .brx-submenu-toggle {
-    align-items: flex-start;
+    align-items: stretch;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    min-height: 0 !important;
+    width: 100%;
   }
 
   #brx-header .bemke-mega-submenu .brx-submenu-toggle > button {
@@ -1438,12 +1447,13 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     display: flex !important;
     flex-direction: column;
     left: auto !important;
-    margin: 0.2rem 0 0;
+    gap: 0;
+    margin: 0;
     opacity: 1 !important;
-    padding: 0 0 0 1.4rem;
+    padding: 0 0 0 var(--bemke-mega-space-4);
     position: static !important;
     transform: none !important;
-    width: auto !important;
+    width: 100% !important;
   }
 
   #brx-header .bemke-mega-submenu.is-mega-submenu-open ul.sub-menu {
