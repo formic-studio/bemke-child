@@ -7,6 +7,7 @@ import { initFontSizeControls } from './modules/font-size-controls.js';
 import { initOfferBlockHover } from './modules/offer-block-hover.js';
 import { initHomeSlider } from './modules/home-slider.js';
 import { initProjectSlider } from './modules/project-slider.js';
+import { initTextLoopSlider } from './modules/text-loop-slider.js';
 import { initHistoryTabs } from './modules/history-tabs.js';
 import { initMegaMenu } from './modules/mega-menu.js';
 import { initFormAriaReferences } from './modules/form-aria-references.js';
@@ -26,6 +27,7 @@ function initApp() {
   initOfferBlockHover();
   initHomeSlider();
   initProjectSlider();
+  initTextLoopSlider();
   initHistoryTabs();
   initMegaMenu();
   initFormAriaReferences();

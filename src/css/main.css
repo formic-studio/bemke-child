@@ -119,6 +119,32 @@ html {
   width: 1px;
 }
 
+.slider.slider-text-wrapper[data-bemke-text-slider-ready="1"] {
+  overflow: hidden;
+}
+
+.slider.slider-text-wrapper[data-bemke-text-slider-ready="1"] > .slider-text {
+  display: grid;
+  overflow: hidden;
+}
+
+.slider.slider-text-wrapper[data-bemke-text-slider-ready="1"]
+  > .slider-text
+  > .slide-item {
+  grid-area: 1 / 1;
+  margin-block: 0;
+  opacity: 0;
+  transform-origin: center;
+  visibility: hidden;
+  will-change: opacity, transform, filter;
+}
+
+.slider.slider-text-wrapper[data-bemke-text-slider-ready="1"]
+  > .slider-text
+  > .slide-item:is(.is-text-slider-active, .is-text-slider-exiting) {
+  visibility: visible;
+}
+
 #brxe-kecesp a:focus-visible,
 #brxe-qcwgax [data-contrast]:focus-visible {
   outline: 2px solid var(--brown);
