@@ -78,6 +78,7 @@ function bemke_render_getresponse_settings_page() {
 	$has_option_api_key   = '' !== (string) get_option( BEMKE_GETRESPONSE_API_KEY_OPTION, '' );
 	$api_key_placeholder  = $has_option_api_key ? str_repeat( '*', 24 ) : '';
 	$campaign_id          = bemke_getresponse_get_campaign_id();
+	$campaigns_result     = bemke_getresponse_get_campaigns();
 	$last_result          = get_option( BEMKE_GETRESPONSE_LAST_RESULT_OPTION, array() );
 	?>
 	<div class="wrap">
@@ -109,6 +110,8 @@ function bemke_render_getresponse_settings_page() {
 				<td><code><?php echo esc_html( $campaign_id ); ?></code></td>
 			</tr>
 		</table>
+
+		<?php bemke_render_getresponse_campaigns_preview( $campaigns_result, $campaign_id ); ?>
 
 		<?php if ( is_array( $last_result ) && ! empty( $last_result ) ) : ?>
 			<h2>Ostatni wynik formularza</h2>
@@ -191,6 +194,67 @@ function bemke_render_getresponse_settings_page() {
 			<?php endif; ?>
 		</form>
 	</div>
+	<?php
+}
+
+function bemke_render_getresponse_campaigns_preview( $campaigns_result, $current_campaign_id ) {
+	if ( '' === bemke_getresponse_get_api_key() ) {
+		return;
+	}
+
+	?>
+	<h2>Listy widoczne przez API</h2>
+	<?php
+
+	if ( is_wp_error( $campaigns_result ) ) {
+		?>
+		<div class="notice notice-error inline">
+			<p><?php echo esc_html( $campaigns_result->get_error_message() ); ?></p>
+		</div>
+		<?php
+		return;
+	}
+
+	if ( empty( $campaigns_result ) ) {
+		?>
+		<p>API nie zwróciło żadnych list.</p>
+		<?php
+		return;
+	}
+
+	$current_campaign_found = false;
+	?>
+	<p>Skopiuj właściwy <code>campaignId</code> z listy poniżej do pola <strong>Campaign ID</strong> i zapisz ustawienia.</p>
+	<table class="widefat striped" style="max-width: 860px;">
+		<thead>
+			<tr>
+				<th>Nazwa</th>
+				<th>campaignId</th>
+				<th>Domyślna</th>
+				<th>Kontakty</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php foreach ( $campaigns_result as $campaign ) : ?>
+				<?php
+				$api_campaign_id = isset( $campaign['campaignId'] ) ? (string) $campaign['campaignId'] : '';
+				$current_campaign_found = $current_campaign_found || $api_campaign_id === $current_campaign_id;
+				?>
+				<tr>
+					<td><?php echo esc_html( $campaign['name'] ?? '' ); ?></td>
+					<td><code><?php echo esc_html( $api_campaign_id ); ?></code></td>
+					<td><?php echo ! empty( $campaign['isDefault'] ) ? 'Tak' : 'Nie'; ?></td>
+					<td><?php echo esc_html( (string) ( $campaign['contactsCount'] ?? '' ) ); ?></td>
+				</tr>
+			<?php endforeach; ?>
+		</tbody>
+	</table>
+
+	<?php if ( ! $current_campaign_found && '' !== $current_campaign_id ) : ?>
+		<div class="notice notice-warning inline">
+			<p>Aktualnie zapisany Campaign ID <code><?php echo esc_html( $current_campaign_id ); ?></code> nie występuje na liście zwróconej przez API.</p>
+		</div>
+	<?php endif; ?>
 	<?php
 }
 
@@ -313,6 +377,52 @@ function bemke_getresponse_create_contact( array $contact, $api_key ) {
 			'body'    => wp_json_encode( $body ),
 		)
 	);
+}
+
+function bemke_getresponse_get_campaigns() {
+	$api_key = bemke_getresponse_get_api_key();
+
+	if ( '' === $api_key ) {
+		return array();
+	}
+
+	$response = wp_remote_get(
+		'https://api.getresponse.com/v3/campaigns?perPage=100',
+		array(
+			'timeout' => 15,
+			'headers' => array(
+				'Accept'       => 'application/json',
+				'X-Auth-Token' => 'api-key ' . $api_key,
+			),
+		)
+	);
+
+	if ( is_wp_error( $response ) ) {
+		return $response;
+	}
+
+	$status_code = (int) wp_remote_retrieve_response_code( $response );
+	$body        = json_decode( (string) wp_remote_retrieve_body( $response ), true );
+
+	if ( 200 !== $status_code ) {
+		$message = is_array( $body ) && ! empty( $body['message'] )
+			? sanitize_text_field( (string) $body['message'] )
+			: 'Nie udało się pobrać list z GetResponse.';
+
+		return new WP_Error(
+			'bemke_getresponse_campaigns_error',
+			sprintf( 'GetResponse zwrócił HTTP %1$d: %2$s', $status_code, $message )
+		);
+	}
+
+	if ( ! is_array( $body ) ) {
+		return new WP_Error(
+			'bemke_getresponse_campaigns_invalid_body',
+			'GetResponse zwrócił niepoprawną odpowiedź list.'
+		);
+	}
+
+	return $body;
 }
 
 function bemke_getresponse_is_newsletter_form( array $fields ) {
