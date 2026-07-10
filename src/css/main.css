@@ -1581,6 +1581,42 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     color: inherit !important;
   }
 
+  #brx-header .bemke-mega-submenu:has(a:is(:hover, :focus-visible)) a,
+  #brx-header .bemke-mega-submenu:has(a:is(:hover, :focus-visible)) a * {
+    color: var(--mustard, var(--theme-mustard, #ae6b00)) !important;
+  }
+
+  #brx-header
+    .bemke-mega-submenu:has(a:is(:hover, :focus-visible))
+    a:is(:hover, :focus-visible),
+  #brx-header
+    .bemke-mega-submenu:has(a:is(:hover, :focus-visible))
+    a:is(:hover, :focus-visible)
+    * {
+    color: var(--red, var(--theme-red, #741618)) !important;
+  }
+
+  html[data-contrast]:not([data-contrast="default"])
+    #brx-header
+    .bemke-mega-submenu:has(a:is(:hover, :focus-visible))
+    a,
+  html[data-contrast]:not([data-contrast="default"])
+    #brx-header
+    .bemke-mega-submenu:has(a:is(:hover, :focus-visible))
+    a
+    *,
+  html[data-contrast]:not([data-contrast="default"])
+    #brx-header
+    .bemke-mega-submenu:has(a:is(:hover, :focus-visible))
+    a:is(:hover, :focus-visible),
+  html[data-contrast]:not([data-contrast="default"])
+    #brx-header
+    .bemke-mega-submenu:has(a:is(:hover, :focus-visible))
+    a:is(:hover, :focus-visible)
+    * {
+    color: var(--a11y-text) !important;
+  }
+
   #brx-header
     .bemke-mega-submenu
     a:is(:hover, :focus-visible, [aria-current="page"]),
@@ -1592,6 +1628,38 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     background-size: 0 0 !important;
     color: var(--red, var(--theme-red, #741618)) !important;
     text-decoration: none !important;
+  }
+
+  #brx-header
+    .bemke-mega-submenu:has(a:is(:hover, :focus-visible))
+    a:not(:hover):not(:focus-visible),
+  #brx-header
+    .bemke-mega-submenu:has(a:is(:hover, :focus-visible))
+    a:not(:hover):not(:focus-visible)
+    * {
+    color: var(--mustard, var(--theme-mustard, #ae6b00)) !important;
+  }
+
+  #brx-header
+    .bemke-mega-submenu:has(a:is(:hover, :focus-visible))
+    a:is(:hover, :focus-visible),
+  #brx-header
+    .bemke-mega-submenu:has(a:is(:hover, :focus-visible))
+    a:is(:hover, :focus-visible)
+    * {
+    color: var(--red, var(--theme-red, #741618)) !important;
+  }
+
+  html[data-contrast]:not([data-contrast="default"])
+    #brx-header
+    .bemke-mega-submenu:has(a:is(:hover, :focus-visible))
+    a,
+  html[data-contrast]:not([data-contrast="default"])
+    #brx-header
+    .bemke-mega-submenu:has(a:is(:hover, :focus-visible))
+    a
+    * {
+    color: var(--a11y-text) !important;
   }
 
   #brx-header .bemke-mega-submenu > li > a,
