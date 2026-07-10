@@ -1,8 +1,9 @@
+import { bindSliderControl, getSliderControls } from './slider-controls.js';
+
 const ROOT_SELECTOR = '.slider:not(.slider-thinktank)';
 const TRACK_SELECTOR = '.slider-wrapper';
 const SLIDE_SELECTOR = '.slide';
 const CONTROLS_SELECTOR = '.slider-paggination';
-const ARROW_SELECTOR = '.arrow';
 
 const READY_ATTR = 'data-bemke-slider-ready';
 const ACTIVE_ATTR = 'slide-active';
@@ -357,30 +358,7 @@ function bindControls(controls, track, handlers) {
 }
 
 function bindControl(control, label, controlsId, handler) {
-  if (!control || typeof handler !== 'function') {
-    return;
-  }
-
-  control.classList.remove('bricks-lazy-hidden');
-  control.setAttribute('role', 'button');
-  control.setAttribute('tabindex', '0');
-  control.setAttribute('aria-label', label);
-  control.setAttribute('aria-controls', controlsId);
-
-  control.querySelectorAll('svg').forEach((svg) => {
-    svg.setAttribute('aria-hidden', 'true');
-    svg.setAttribute('focusable', 'false');
-  });
-
-  control.addEventListener('click', handler);
-  control.addEventListener('keydown', (event) => {
-    if (event.key !== 'Enter' && event.key !== ' ') {
-      return;
-    }
-
-    event.preventDefault();
-    handler();
-  });
+  bindSliderControl(control, { label, controlsId, handler });
 }
 
 function focusControl(control) {
@@ -392,16 +370,7 @@ function focusControl(control) {
 }
 
 function getControls(root) {
-  const controlsWrap = root.querySelector(CONTROLS_SELECTOR);
-  const arrows = controlsWrap ? Array.from(controlsWrap.querySelectorAll(ARROW_SELECTOR)) : [];
-  const hasAutoplayControls = arrows.length >= 4;
-
-  return {
-    pause: hasAutoplayControls ? (arrows[0] ?? null) : null,
-    play: hasAutoplayControls ? (arrows[1] ?? null) : null,
-    prev: arrows[hasAutoplayControls ? 2 : 0] ?? null,
-    next: arrows[hasAutoplayControls ? 3 : 1] ?? null,
-  };
+  return getSliderControls(root, CONTROLS_SELECTOR);
 }
 
 function updateControlsState(controls, isPlaying) {

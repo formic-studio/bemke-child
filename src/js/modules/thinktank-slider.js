@@ -1,3 +1,9 @@
+import {
+  SLIDER_CONTROL_SELECTOR,
+  bindSliderControl,
+  getSliderControls,
+} from "./slider-controls.js";
+
 const SELECTORS = {
   root: ".slider-thinktank",
   track: ".slider-wrapper",
@@ -6,7 +12,7 @@ const SELECTORS = {
   textWrap: ".slider-text-wrapper",
   textSlide: ".slide-text",
   controlsWrap: ".slider-paggination",
-  control: ".arrow",
+  control: SLIDER_CONTROL_SELECTOR,
 };
 
 const INIT_ATTR = "data-thinktank-ready";
@@ -351,7 +357,7 @@ function createSlider(root) {
 
   bindControls(controls, {
     onPause: () => disableAutoplay(),
-    onPlay: () => enableAutoplay(),
+    onPlay: () => enableAutoplay(true),
     onPrev: () => queueMove(-1, 1, true),
     onNext: () => queueMove(1, 1, true),
   });
@@ -530,8 +536,13 @@ function createSlider(root) {
     render(previousIndex, activeIndex, direction, false);
   }
 
-  function enableAutoplay() {
+  function enableAutoplay(shouldAdvance = false) {
     isPlaying = true;
+
+    if (shouldAdvance) {
+      queueMove(1, 1, false);
+    }
+
     startAutoplay();
     updateControlsState(controls, isPlaying);
   }
@@ -712,20 +723,7 @@ function spawnWrapGhost(
 }
 
 function getControls(root) {
-  const controlsWrap = root.querySelector(SELECTORS.controlsWrap);
-
-  if (!controlsWrap) {
-    return {};
-  }
-
-  const arrows = Array.from(controlsWrap.querySelectorAll(SELECTORS.control));
-
-  return {
-    pause: arrows[0] || null,
-    play: arrows[1] || null,
-    prev: arrows[2] || null,
-    next: arrows[3] || null,
-  };
+  return getSliderControls(root, SELECTORS.controlsWrap, SELECTORS.control);
 }
 
 function bindControls(controls, handlers) {
@@ -736,24 +734,7 @@ function bindControls(controls, handlers) {
 }
 
 function bindControl(control, label, handler) {
-  if (!control || typeof handler !== "function") {
-    return;
-  }
-
-  control.classList.remove("bricks-lazy-hidden");
-  control.setAttribute("role", "button");
-  control.setAttribute("tabindex", "0");
-  control.setAttribute("aria-label", label);
-
-  control.addEventListener("click", handler);
-  control.addEventListener("keydown", (event) => {
-    if (event.key !== "Enter" && event.key !== " ") {
-      return;
-    }
-
-    event.preventDefault();
-    handler();
-  });
+  bindSliderControl(control, { label, handler });
 }
 
 function updateControlsState(controls, isPlaying) {
