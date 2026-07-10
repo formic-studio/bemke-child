@@ -12,6 +12,7 @@ import { initHistoryTabs } from './modules/history-tabs.js';
 import { initMegaMenu } from './modules/mega-menu.js';
 import { initFormAriaReferences } from './modules/form-aria-references.js';
 import { initPdfLinkLabels } from './modules/pdf-link-labels.js';
+import { initSocialLinkLabels } from './modules/social-link-labels.js';
 import { initLinkedinPostNumbers } from './modules/linkedin-post-numbers.js';
 import { initTeamPopups } from './modules/team-popup.js';
 import { initSlideTittleContrastFix } from './modules/slide-tittle-contrast-fix.js';
@@ -32,6 +33,7 @@ function initApp() {
   initMegaMenu();
   initFormAriaReferences();
   initPdfLinkLabels();
+  initSocialLinkLabels();
   initLinkedinPostNumbers();
   initTeamPopups();
   initSlideTittleContrastFix();
