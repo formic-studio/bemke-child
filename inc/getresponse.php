@@ -5,6 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 const BEMKE_GETRESPONSE_API_KEY_OPTION     = 'bemke_getresponse_api_key';
 const BEMKE_GETRESPONSE_CAMPAIGN_ID_OPTION = 'bemke_getresponse_campaign_id';
+const BEMKE_GETRESPONSE_LAST_RESULT_OPTION = 'bemke_getresponse_last_result';
 const BEMKE_GETRESPONSE_DEFAULT_CAMPAIGN_ID = 'XGhMQ';
 
 add_action( 'admin_menu', 'bemke_register_getresponse_settings_page' );
@@ -51,7 +52,7 @@ function bemke_handle_getresponse_settings_save() {
 		: '';
 
 	if ( '' !== $new_api_key ) {
-		update_option( BEMKE_GETRESPONSE_API_KEY_OPTION, $new_api_key, false );
+		update_option( BEMKE_GETRESPONSE_API_KEY_OPTION, bemke_getresponse_normalize_api_key( $new_api_key ), false );
 	}
 
 	$campaign_id = isset( $_POST['bemke_getresponse_campaign_id'] )
@@ -77,6 +78,7 @@ function bemke_render_getresponse_settings_page() {
 	$has_option_api_key   = '' !== (string) get_option( BEMKE_GETRESPONSE_API_KEY_OPTION, '' );
 	$api_key_placeholder  = $has_option_api_key ? str_repeat( '*', 24 ) : '';
 	$campaign_id          = bemke_getresponse_get_campaign_id();
+	$last_result          = get_option( BEMKE_GETRESPONSE_LAST_RESULT_OPTION, array() );
 	?>
 	<div class="wrap">
 		<h1>Bemke GetResponse</h1>
@@ -107,6 +109,36 @@ function bemke_render_getresponse_settings_page() {
 				<td><code><?php echo esc_html( $campaign_id ); ?></code></td>
 			</tr>
 		</table>
+
+		<?php if ( is_array( $last_result ) && ! empty( $last_result ) ) : ?>
+			<h2>Ostatni wynik formularza</h2>
+			<table class="form-table" role="presentation">
+				<tr>
+					<th scope="row">Czas</th>
+					<td><?php echo esc_html( $last_result['time'] ?? '' ); ?></td>
+				</tr>
+				<tr>
+					<th scope="row">Status</th>
+					<td><?php echo esc_html( $last_result['status'] ?? '' ); ?></td>
+				</tr>
+				<tr>
+					<th scope="row">HTTP</th>
+					<td><?php echo esc_html( $last_result['http_status'] ?? '' ); ?></td>
+				</tr>
+				<tr>
+					<th scope="row">Kod GetResponse</th>
+					<td><?php echo esc_html( $last_result['code'] ?? '' ); ?></td>
+				</tr>
+				<tr>
+					<th scope="row">Komunikat</th>
+					<td><code><?php echo esc_html( $last_result['message'] ?? '' ); ?></code></td>
+				</tr>
+				<tr>
+					<th scope="row">Campaign ID</th>
+					<td><code><?php echo esc_html( $last_result['campaign_id'] ?? '' ); ?></code></td>
+				</tr>
+			</table>
+		<?php endif; ?>
 
 		<form method="post" action="">
 			<?php wp_nonce_field( 'bemke_save_getresponse_settings', 'bemke_getresponse_settings_nonce' ); ?>
@@ -188,6 +220,13 @@ function bemke_handle_getresponse_form_submission( $form ) {
 	$campaign_id = bemke_getresponse_get_campaign_id();
 
 	if ( '' === $api_key || '' === $campaign_id ) {
+		bemke_getresponse_store_last_result(
+			array(
+				'status'      => 'configuration_error',
+				'message'     => 'Missing API key or campaign ID.',
+				'campaign_id' => $campaign_id,
+			)
+		);
 		bemke_getresponse_set_form_result( $form, 'danger', 'Integracja newslettera nie jest jeszcze skonfigurowana.' );
 		return;
 	}
@@ -203,6 +242,13 @@ function bemke_handle_getresponse_form_submission( $form ) {
 	);
 
 	if ( is_wp_error( $response ) ) {
+		bemke_getresponse_store_last_result(
+			array(
+				'status'      => 'wp_error',
+				'message'     => $response->get_error_message(),
+				'campaign_id' => $campaign_id,
+			)
+		);
 		error_log( 'Bemke GetResponse error: ' . $response->get_error_message() );
 		bemke_getresponse_set_form_result( $form, 'danger', 'Nie udało się zapisać do newslettera. Spróbuj ponownie za chwilę.' );
 		return;
@@ -211,15 +257,32 @@ function bemke_handle_getresponse_form_submission( $form ) {
 	$status_code = (int) wp_remote_retrieve_response_code( $response );
 
 	if ( 202 === $status_code ) {
+		bemke_getresponse_store_last_result(
+			array(
+				'status'      => 'success',
+				'http_status' => $status_code,
+				'message'     => 'Contact accepted by GetResponse.',
+				'campaign_id' => $campaign_id,
+			)
+		);
 		bemke_getresponse_set_form_result( $form, 'success', 'Dziękujemy za zapis do newslettera.' );
 		return;
 	}
 
 	if ( 409 === $status_code ) {
+		bemke_getresponse_store_last_result(
+			array(
+				'status'      => 'duplicate',
+				'http_status' => $status_code,
+				'message'     => bemke_getresponse_get_response_error_message( $response ),
+				'campaign_id' => $campaign_id,
+			)
+		);
 		bemke_getresponse_set_form_result( $form, 'success', 'Ten adres e-mail jest już zapisany do newslettera.' );
 		return;
 	}
 
+	bemke_getresponse_store_last_response( $response, $campaign_id );
 	$error_message = bemke_getresponse_get_response_error_message( $response );
 	error_log( sprintf( 'Bemke GetResponse HTTP %d: %s', $status_code, $error_message ) );
 	bemke_getresponse_set_form_result( $form, 'danger', 'Nie udało się zapisać do newslettera. Spróbuj ponownie za chwilę.' );
@@ -245,7 +308,7 @@ function bemke_getresponse_create_contact( array $contact, $api_key ) {
 			'headers' => array(
 				'Accept'       => 'application/json',
 				'Content-Type' => 'application/json',
-				'X-Auth-Token' => 'api-key ' . $api_key,
+				'X-Auth-Token' => 'api-key ' . bemke_getresponse_normalize_api_key( $api_key ),
 			),
 			'body'    => wp_json_encode( $body ),
 		)
@@ -294,10 +357,10 @@ function bemke_getresponse_is_checked( $value ) {
 
 function bemke_getresponse_get_api_key() {
 	if ( defined( 'BEMKE_GETRESPONSE_API_KEY' ) && '' !== BEMKE_GETRESPONSE_API_KEY ) {
-		return trim( (string) BEMKE_GETRESPONSE_API_KEY );
+		return bemke_getresponse_normalize_api_key( (string) BEMKE_GETRESPONSE_API_KEY );
 	}
 
-	return trim( (string) get_option( BEMKE_GETRESPONSE_API_KEY_OPTION, '' ) );
+	return bemke_getresponse_normalize_api_key( (string) get_option( BEMKE_GETRESPONSE_API_KEY_OPTION, '' ) );
 }
 
 function bemke_getresponse_get_campaign_id() {
@@ -324,6 +387,66 @@ function bemke_getresponse_get_response_error_message( $response ) {
 	}
 
 	return 'Unknown GetResponse error.';
+}
+
+function bemke_getresponse_store_last_response( $response, $campaign_id ) {
+	$body = json_decode( (string) wp_remote_retrieve_body( $response ), true );
+
+	if ( ! is_array( $body ) ) {
+		$body = array();
+	}
+
+	bemke_getresponse_store_last_result(
+		array(
+			'status'      => 'api_error',
+			'http_status' => (int) wp_remote_retrieve_response_code( $response ),
+			'code'        => sanitize_text_field( (string) ( $body['code'] ?? '' ) ),
+			'message'     => sanitize_text_field( (string) ( $body['message'] ?? 'Unknown GetResponse error.' ) ),
+			'campaign_id' => $campaign_id,
+		)
+	);
+}
+
+function bemke_getresponse_store_last_result( array $result ) {
+	$result = wp_parse_args(
+		$result,
+		array(
+			'time'        => current_time( 'mysql' ),
+			'status'      => '',
+			'http_status' => '',
+			'code'        => '',
+			'message'     => '',
+			'campaign_id' => '',
+		)
+	);
+
+	update_option(
+		BEMKE_GETRESPONSE_LAST_RESULT_OPTION,
+		array(
+			'time'        => sanitize_text_field( (string) $result['time'] ),
+			'status'      => sanitize_text_field( (string) $result['status'] ),
+			'http_status' => sanitize_text_field( (string) $result['http_status'] ),
+			'code'        => sanitize_text_field( (string) $result['code'] ),
+			'message'     => sanitize_text_field( (string) $result['message'] ),
+			'campaign_id' => sanitize_text_field( (string) $result['campaign_id'] ),
+		),
+		false
+	);
+}
+
+function bemke_getresponse_normalize_api_key( $api_key ) {
+	$api_key = trim( (string) $api_key );
+	$api_key = trim( $api_key, " \t\n\r\0\x0B\"'" );
+
+	if ( 0 === stripos( $api_key, 'api-key ' ) ) {
+		$api_key = trim( substr( $api_key, 8 ) );
+	}
+
+	if ( 0 === stripos( $api_key, 'bearer ' ) ) {
+		$api_key = trim( substr( $api_key, 7 ) );
+	}
+
+	return $api_key;
 }
 
 function bemke_getresponse_set_form_result( $form, $type, $message ) {
