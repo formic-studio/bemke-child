@@ -230,11 +230,6 @@ function createProjectSlider(root) {
   currentOffset = recenterActive(root, track, slides[activeIndex], currentOffset);
   updateControlsState(controls, isPlaying);
 
-  root.addEventListener('mouseenter', stopAutoplay);
-  root.addEventListener('mouseleave', startAutoplay);
-  root.addEventListener('focusin', stopAutoplay);
-  root.addEventListener('focusout', startAutoplay);
-
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
       stopAutoplay();

@@ -385,11 +385,6 @@ function createSlider(root) {
   render(activeIndex, activeIndex, 0, true);
   updateControlsState(controls, isPlaying);
 
-  root.addEventListener("mouseenter", stopAutoplay);
-  root.addEventListener("mouseleave", startAutoplay);
-  root.addEventListener("focusin", stopAutoplay);
-  root.addEventListener("focusout", startAutoplay);
-
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
       stopAutoplay();
