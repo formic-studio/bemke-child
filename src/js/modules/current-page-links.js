@@ -16,7 +16,35 @@ export function initCurrentPageLinks() {
       return;
     }
 
+    if (isSamePageAnchorLink(currentPageLink)) {
+      return;
+    }
+
     event.preventDefault();
     event.stopPropagation();
   });
+}
+
+function isSamePageAnchorLink(link) {
+  const href = link.getAttribute('href');
+
+  if (!href) {
+    return false;
+  }
+
+  try {
+    const url = new URL(href, window.location.href);
+
+    return (
+      Boolean(url.hash) &&
+      url.origin === window.location.origin &&
+      normalizePath(url.pathname) === normalizePath(window.location.pathname)
+    );
+  } catch {
+    return false;
+  }
+}
+
+function normalizePath(pathname) {
+  return pathname.replace(/\/+$/, '') || '/';
 }
