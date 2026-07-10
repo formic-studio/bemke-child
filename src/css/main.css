@@ -1269,11 +1269,7 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     > .bricks-nav-menu
     > li.bemke-mega-item:not(.is-mega-menu-item-active)
     > .brx-submenu-toggle {
-    color: color-mix(
-      in srgb,
-      var(--brown, var(--theme-brown, #1b0508)) 34%,
-      var(--mustard, var(--theme-mustard, #ae6b00))
-    );
+    color: var(--mustard, var(--theme-mustard, #ae6b00));
   }
 
   #brx-header.is-mega-menu-open
