@@ -510,6 +510,132 @@ html[data-contrast]:not([data-contrast="default"])
   stroke: currentColor !important;
 }
 
+html[data-contrast]:not([data-contrast="default"])
+  #brx-header
+  #brxe-vhhhdt
+  > .bricks-nav-menu-wrapper
+  > .bricks-nav-menu {
+  color: var(--a11y-text) !important;
+}
+
+html[data-contrast]:not([data-contrast="default"])
+  #brx-header
+  #brxe-vhhhdt
+  > .bricks-nav-menu-wrapper
+  > .bricks-nav-menu
+  > li {
+  border-color: var(--a11y-border) !important;
+}
+
+html[data-contrast]:not([data-contrast="default"])
+  #brx-header
+  #brxe-vhhhdt
+  > .bricks-nav-menu-wrapper
+  > .bricks-nav-menu
+  > li
+  > a,
+html[data-contrast]:not([data-contrast="default"])
+  #brx-header
+  #brxe-vhhhdt
+  > .bricks-nav-menu-wrapper
+  > .bricks-nav-menu
+  > li
+  > .brx-submenu-toggle,
+html[data-contrast]:not([data-contrast="default"])
+  #brx-header
+  #brxe-vhhhdt
+  > .bricks-nav-menu-wrapper
+  > .bricks-nav-menu
+  > li
+  > .brx-submenu-toggle
+  > a {
+  color: var(--a11y-text) !important;
+}
+
+html[data-contrast]:not([data-contrast="default"])
+  #brx-header
+  #brxe-vhhhdt
+  > .bricks-nav-menu-wrapper
+  > .bricks-nav-menu
+  > li
+  > .brx-submenu-toggle
+  > button {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  color: var(--a11y-text) !important;
+  padding: 0 !important;
+}
+
+html[data-contrast]:not([data-contrast="default"])
+  #brx-header
+  #brxe-vhhhdt
+  > .bricks-nav-menu-wrapper
+  > .bricks-nav-menu
+  > li
+  > .brx-submenu-toggle
+  > button
+  :is(svg, span, i) {
+  color: currentColor !important;
+}
+
+html[data-contrast]:not([data-contrast="default"])
+  #brx-header
+  #brxe-vhhhdt
+  > .bricks-nav-menu-wrapper
+  > .bricks-nav-menu
+  > li
+  > .brx-submenu-toggle
+  > button
+  svg
+  [fill]:not([fill="none"]) {
+  fill: currentColor !important;
+}
+
+html[data-contrast]:not([data-contrast="default"])
+  #brx-header
+  #brxe-vhhhdt
+  > .bricks-nav-menu-wrapper
+  > .bricks-nav-menu
+  > li
+  > .brx-submenu-toggle
+  > button
+  svg
+  [stroke]:not([stroke="none"]) {
+  stroke: currentColor !important;
+}
+
+html[data-contrast]:not([data-contrast="default"])
+  #brx-header
+  .bemke-mega-submenu
+  a:is(:hover, :focus-visible, [aria-current="page"]),
+html[data-contrast]:not([data-contrast="default"])
+  #brx-header
+  .bemke-mega-submenu
+  a:is(:hover, :focus-visible, [aria-current="page"])
+  * {
+  color: var(--a11y-text) !important;
+}
+
+html[data-contrast]:not([data-contrast="default"])
+  #brx-header
+  .bemke-mega-submenu
+  > li + li,
+html[data-contrast]:not([data-contrast="default"])
+  #brx-header
+  .bemke-mega-submenu
+  ul.sub-menu
+  > li + li {
+  border-color: var(--a11y-border) !important;
+}
+
+html[data-contrast]:not([data-contrast="default"])
+  #brx-header
+  .bemke-mega-submenu
+  a:focus-visible {
+  outline-color: var(--a11y-border) !important;
+}
+
 html[data-contrast]:not([data-contrast="default"]) .brxe-divider .line {
   border-color: var(--a11y-border) !important;
 }
