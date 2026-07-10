@@ -1,3 +1,4 @@
+const ANCHOR_LINK_SELECTOR = 'a[href*="#"]';
 const CURRENT_PAGE_LINK_SELECTOR = 'a[href][aria-current="page"]';
 const CURRENT_PAGE_LINK_SCOPE_SELECTOR = '#brx-header, #brx-footer, footer';
 const BOOTED_KEY = '__bemkeCurrentPageLinksBooted';
@@ -9,40 +10,104 @@ export function initCurrentPageLinks() {
 
   window[BOOTED_KEY] = true;
 
-  document.addEventListener('click', (event) => {
-    const currentPageLink = event.target.closest(CURRENT_PAGE_LINK_SELECTOR);
+  document.addEventListener('click', handleCrossPageAnchorClick, true);
+  document.addEventListener('click', handleCurrentPageLinkClick);
+}
 
-    if (!currentPageLink || !currentPageLink.closest(CURRENT_PAGE_LINK_SCOPE_SELECTOR)) {
-      return;
-    }
+function handleCrossPageAnchorClick(event) {
+  if (!isPrimaryPlainClick(event)) {
+    return;
+  }
 
-    if (isSamePageAnchorLink(currentPageLink)) {
-      return;
-    }
+  const anchorLink = getScopedLinkFromEvent(event, ANCHOR_LINK_SELECTOR);
+  const url = getUrl(anchorLink);
 
-    event.preventDefault();
-    event.stopPropagation();
-  });
+  if (!anchorLink || !url || !shouldForceCrossPageAnchorNavigation(anchorLink, url)) {
+    return;
+  }
+
+  event.preventDefault();
+  event.stopImmediatePropagation();
+  window.location.assign(url.href);
+}
+
+function handleCurrentPageLinkClick(event) {
+  const currentPageLink = getScopedLinkFromEvent(event, CURRENT_PAGE_LINK_SELECTOR);
+
+  if (!currentPageLink) {
+    return;
+  }
+
+  if (isSamePageAnchorLink(currentPageLink)) {
+    return;
+  }
+
+  event.preventDefault();
+  event.stopPropagation();
 }
 
 function isSamePageAnchorLink(link) {
-  const href = link.getAttribute('href');
+  const url = getUrl(link);
+
+  if (!url) {
+    return false;
+  }
+
+  return (
+    Boolean(url.hash) &&
+    url.origin === window.location.origin &&
+    normalizePath(url.pathname) === normalizePath(window.location.pathname) &&
+    url.search === window.location.search
+  );
+}
+
+function shouldForceCrossPageAnchorNavigation(link, url) {
+  if (!url.hash || url.origin !== window.location.origin || link.hasAttribute('download')) {
+    return false;
+  }
+
+  const target = link.getAttribute('target');
+
+  if (target && target.toLowerCase() !== '_self') {
+    return false;
+  }
+
+  return (
+    normalizePath(url.pathname) !== normalizePath(window.location.pathname) ||
+    url.search !== window.location.search
+  );
+}
+
+function getScopedLinkFromEvent(event, selector) {
+  const target = event.target instanceof Element ? event.target : null;
+  const link = target?.closest(selector);
+
+  return link?.closest(CURRENT_PAGE_LINK_SCOPE_SELECTOR) ? link : null;
+}
+
+function getUrl(link) {
+  const href = link?.getAttribute('href');
 
   if (!href) {
-    return false;
+    return null;
   }
 
   try {
-    const url = new URL(href, window.location.href);
-
-    return (
-      Boolean(url.hash) &&
-      url.origin === window.location.origin &&
-      normalizePath(url.pathname) === normalizePath(window.location.pathname)
-    );
+    return new URL(href, window.location.href);
   } catch {
-    return false;
+    return null;
   }
+}
+
+function isPrimaryPlainClick(event) {
+  return (
+    !event.defaultPrevented &&
+    event.button === 0 &&
+    !event.altKey &&
+    !event.ctrlKey &&
+    !event.metaKey &&
+    !event.shiftKey
+  );
 }
 
 function normalizePath(pathname) {
