@@ -145,8 +145,7 @@ html {
   visibility: visible;
 }
 
-#brxe-kecesp a:focus-visible,
-#brxe-qcwgax [data-contrast]:focus-visible {
+#brxe-kecesp a:focus-visible {
   outline: 2px solid var(--brown);
   outline-offset: 2px;
   border-radius: 999px;
@@ -155,34 +154,6 @@ html {
 #brxe-kecesp a[aria-pressed="true"] {
   text-decoration: underline;
   text-underline-offset: 0.2em;
-}
-
-#brxe-qcwgax [data-contrast][aria-pressed="true"] {
-  box-shadow: inset 0 0 0 2px currentColor;
-}
-
-#brxe-qcwgax [data-contrast="default"] {
-  background-color: var(--theme-white);
-  border-color: var(--theme-lightmustard) !important;
-  color: var(--theme-brown) !important;
-}
-
-#brxe-qcwgax [data-contrast="white-black"] {
-  background-color: #000000;
-  border-color: #ffffff !important;
-  color: #ffffff !important;
-}
-
-#brxe-qcwgax [data-contrast="black-yellow"] {
-  background-color: #ffeb3b;
-  border-color: #000000 !important;
-  color: #000000 !important;
-}
-
-#brxe-qcwgax [data-contrast="yellow-black"] {
-  background-color: #000000;
-  border-color: #ffeb3b !important;
-  color: #ffeb3b !important;
 }
 
 html[data-contrast="white-black"] {
@@ -1888,7 +1859,7 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     list-style: none;
     margin: 0;
     overflow: visible;
-    padding: 3.2rem;
+    padding: 2rem 3.2rem 3.2rem;
     width: 100%;
   }
 
@@ -2222,7 +2193,6 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
   }
 
   #brx-header .bemke-mobile-wcag__row--font-size #brxe-kecesp,
-  #brx-header .bemke-mobile-wcag__row--contrast #brxe-qcwgax,
   #brx-header .bemke-mobile-wcag__row--language .lang-switcher-block {
     align-items: center;
     align-self: auto !important;
@@ -2236,10 +2206,6 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
   #brx-header .bemke-mobile-wcag__row--font-size #brxe-kecesp {
     gap: clamp(1.8rem, 4vw, 3.2rem);
     text-transform: uppercase;
-  }
-
-  #brx-header .bemke-mobile-wcag__row--contrast #brxe-qcwgax {
-    gap: 1.2rem;
   }
 
   #brx-header .bemke-mobile-wcag__row--language .lang-switcher-block {
