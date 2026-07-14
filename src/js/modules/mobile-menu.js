@@ -1,5 +1,6 @@
 const HEADER_SELECTOR = '#brx-header';
 const NAV_SELECTOR = '#brxe-vhhhdt';
+const MENU_BAR_SELECTOR = '#brxe-spklen';
 const MOBILE_WRAPPER_SELECTOR = '.bricks-mobile-menu-wrapper';
 const MOBILE_MENU_SELECTOR = '.bricks-mobile-menu';
 const MOBILE_TOGGLE_SELECTOR = '.bricks-mobile-menu-toggle';
@@ -20,6 +21,7 @@ export function initMobileMenu() {
 
 function setupMobileMenu(header) {
   const navigation = header.querySelector(NAV_SELECTOR);
+  const menuBar = header.querySelector(MENU_BAR_SELECTOR);
   const mobileWrapper = navigation?.querySelector(MOBILE_WRAPPER_SELECTOR);
   const mobileMenu = mobileWrapper?.querySelector(MOBILE_MENU_SELECTOR);
   const mobileToggle = navigation?.querySelector(MOBILE_TOGGLE_SELECTOR);
@@ -27,6 +29,7 @@ function setupMobileMenu(header) {
 
   if (
     !navigation ||
+    !menuBar ||
     !mobileWrapper ||
     !mobileMenu ||
     !mobileToggle ||
@@ -38,6 +41,7 @@ function setupMobileMenu(header) {
   const originalAccessibilityParent = accessibilitySection.parentNode;
   const originalAccessibilityNextSibling = accessibilitySection.nextSibling;
   const mobileQuery = window.matchMedia(MOBILE_QUERY);
+  const mobileContent = createMobileContent(mobileWrapper, mobileMenu);
 
   decorateAccessibilitySection(accessibilitySection);
   setupPolishMenuLabels(navigation, mobileToggle, mobileWrapper);
@@ -45,9 +49,11 @@ function setupMobileMenu(header) {
   header.setAttribute(READY_ATTR, '1');
 
   const syncLayout = () => {
+    updateMobileHeaderHeight(header, menuBar);
+
     if (mobileQuery.matches) {
-      if (accessibilitySection.parentNode !== mobileWrapper) {
-        mobileWrapper.appendChild(accessibilitySection);
+      if (accessibilitySection.parentNode !== mobileContent) {
+        mobileContent.appendChild(accessibilitySection);
       }
 
       accessibilitySection.classList.add('bemke-mobile-wcag');
@@ -72,9 +78,42 @@ function setupMobileMenu(header) {
   };
 
   mobileQuery.addEventListener('change', syncLayout);
+
+  if ('ResizeObserver' in window) {
+    const menuBarObserver = new ResizeObserver(() => {
+      updateMobileHeaderHeight(header, menuBar);
+    });
+    menuBarObserver.observe(menuBar);
+  } else {
+    window.addEventListener('resize', () => updateMobileHeaderHeight(header, menuBar));
+  }
+
   syncLayout();
 
   header.__bemkeMobileMenuRefresh = syncLayout;
+}
+
+function createMobileContent(mobileWrapper, mobileMenu) {
+  const existingContent = mobileWrapper.querySelector(':scope > .bemke-mobile-menu__content');
+
+  if (existingContent) {
+    return existingContent;
+  }
+
+  const mobileContent = document.createElement('div');
+  mobileContent.className = 'bemke-mobile-menu__content';
+  mobileWrapper.insertBefore(mobileContent, mobileMenu);
+  mobileContent.appendChild(mobileMenu);
+
+  return mobileContent;
+}
+
+function updateMobileHeaderHeight(header, menuBar) {
+  const height = menuBar.getBoundingClientRect().height;
+
+  if (height > 0) {
+    header.style.setProperty('--bemke-mobile-header-height', `${Math.round(height)}px`);
+  }
 }
 
 function decorateAccessibilitySection(section) {

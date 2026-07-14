@@ -1755,42 +1755,65 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
   }
 
   #brx-header #brxe-vhhhdt > .bricks-mobile-menu-wrapper {
-    background: var(--yellow, var(--theme-yellow, #f9bb59));
+    --bemke-mobile-panel-top: calc(
+      var(--wp-admin--admin-bar--height, 0px) +
+        var(--bemke-mobile-header-height, 5rem)
+    );
+    background: transparent;
+    bottom: auto;
     box-sizing: border-box;
     color: var(--brown, var(--theme-brown, #1b0508));
     display: flex !important;
-    height: 100svh;
-    inset: 0;
-    max-height: 100svh;
+    height: calc(100svh - var(--bemke-mobile-panel-top));
+    left: 0;
+    max-height: calc(100svh - var(--bemke-mobile-panel-top));
     max-width: none;
     opacity: 1;
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: hidden;
     overscroll-behavior: contain;
     pointer-events: none;
-    scrollbar-width: thin;
-    transform: translate3d(0, -100%, 0);
-    transition:
-      transform 0.38s cubic-bezier(0.22, 1, 0.36, 1),
-      visibility 0s linear 0.38s;
+    right: 0;
+    top: var(--bemke-mobile-panel-top);
+    transform: none !important;
+    transition: visibility 0s linear 0.38s;
     visibility: hidden;
     width: 100%;
     z-index: 9999;
   }
 
   #brx-header #brxe-vhhhdt > .bricks-mobile-menu-wrapper::before {
-    background: var(--yellow, var(--theme-yellow, #f9bb59));
+    background: transparent;
   }
 
   #brx-header
     #brxe-vhhhdt.show-mobile-menu
     > .bricks-mobile-menu-wrapper {
     pointer-events: auto;
-    transform: translate3d(0, 0, 0) !important;
-    transition:
-      transform 0.38s cubic-bezier(0.22, 1, 0.36, 1),
-      visibility 0s;
+    transition: visibility 0s;
     visibility: visible;
+  }
+
+  #brx-header .bemke-mobile-menu__content {
+    background: var(--yellow, var(--theme-yellow, #f9bb59));
+    box-sizing: border-box;
+    display: flex;
+    flex: 0 0 100%;
+    flex-direction: column;
+    height: 100%;
+    max-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    transform: translate3d(0, -100%, 0);
+    transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+    width: 100%;
+  }
+
+  #brx-header
+    #brxe-vhhhdt.show-mobile-menu
+    > .bricks-mobile-menu-wrapper
+    > .bemke-mobile-menu__content {
+    transform: translate3d(0, 0, 0);
   }
 
   #brx-header #brxe-vhhhdt > .bricks-mobile-menu-overlay {
@@ -1865,7 +1888,7 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     list-style: none;
     margin: 0;
     overflow: visible;
-    padding: 8.8rem clamp(2.4rem, 5vw, 4rem) 2.4rem;
+    padding: 3.2rem;
     width: 100%;
   }
 
@@ -2140,7 +2163,7 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     flex-direction: column;
     gap: 0;
     justify-content: flex-start;
-    padding: 2.4rem clamp(2.4rem, 5vw, 4rem) 2.8rem;
+    padding: 3.2rem;
     width: 100%;
   }
 
@@ -2266,6 +2289,7 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
   }
 
   #brx-header #brxe-vhhhdt > .bricks-mobile-menu-wrapper,
+  #brx-header .bemke-mobile-menu__content,
   #brx-header
     #brxe-vhhhdt
     .bricks-mobile-menu
