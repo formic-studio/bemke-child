@@ -1712,6 +1712,15 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
   display: contents;
 }
 
+.bemke-mobile-wcag__heading,
+.bemke-mobile-wcag__panel {
+  display: contents;
+}
+
+.bemke-mobile-wcag__toggle {
+  display: none;
+}
+
 @media (max-width: 991px) {
   html {
     scrollbar-gutter: stable;
@@ -2022,6 +2031,24 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     #brxe-vhhhdt
     .bricks-mobile-menu
     > li
+    > .sub-menu {
+    box-sizing: border-box;
+    padding-bottom: 1.6rem !important;
+  }
+
+  #brx-header
+    #brxe-vhhhdt.bemke-mobile-menu--gsap-submenus
+    .bricks-mobile-menu
+    > li
+    > .sub-menu {
+    display: block !important;
+    will-change: height, opacity;
+  }
+
+  #brx-header
+    #brxe-vhhhdt
+    .bricks-mobile-menu
+    > li
     > .sub-menu
     > li {
     border-bottom: 1px solid
@@ -2190,6 +2217,15 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     display: none;
   }
 
+  #brx-header .bemke-mobile-wcag__heading {
+    align-items: center;
+    display: flex;
+    flex: 0 0 auto;
+    justify-content: space-between;
+    padding: 0 0 1.2rem;
+    width: 100%;
+  }
+
   #brx-header .bemke-mobile-wcag__title {
     color: inherit;
     display: block;
@@ -2200,8 +2236,66 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     line-height: 1.15;
     margin: 0;
     order: 0;
-    padding: 0 0 1.2rem;
+    padding: 0;
     text-transform: uppercase;
+  }
+
+  #brx-header .bemke-mobile-wcag__toggle {
+    align-items: center;
+    appearance: none;
+    background: transparent;
+    border: 0;
+    color: var(--brown, var(--theme-brown, #1b0508));
+    cursor: pointer;
+    display: inline-flex;
+    flex: 0 0 4.4rem;
+    height: 4.4rem;
+    justify-content: center;
+    margin: -1.1rem -1.1rem -1.1rem 0;
+    padding: 0;
+    width: 4.4rem;
+  }
+
+  #brx-header .bemke-mobile-wcag__toggle svg,
+  #brx-header .bemke-mobile-wcag__toggle-arrow {
+    background: var(--lightmustard, var(--theme-lightmustard, #e0a545));
+    border-radius: 50%;
+    box-sizing: border-box;
+    color: currentColor;
+    height: 2.2rem;
+    padding: 0.45rem;
+    transition: transform 0.24s ease;
+    width: 2.2rem;
+  }
+
+  #brx-header .bemke-mobile-wcag__toggle-arrow::before {
+    border-bottom: 0.2rem solid currentColor;
+    border-right: 0.2rem solid currentColor;
+    content: "";
+    display: block;
+    height: 0.55rem;
+    transform: rotate(45deg) translate(-0.05rem, -0.05rem);
+    width: 0.55rem;
+  }
+
+  #brx-header
+    .bemke-mobile-wcag__toggle[aria-expanded="true"]
+    > :is(svg, .bemke-mobile-wcag__toggle-arrow) {
+    transform: rotate(180deg);
+  }
+
+  #brx-header .bemke-mobile-wcag__toggle:focus-visible {
+    border-radius: 0.4rem;
+    outline: 2px solid var(--brown, var(--theme-brown, #1b0508));
+    outline-offset: 2px;
+  }
+
+  #brx-header .bemke-mobile-wcag__panel {
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    width: 100%;
+    will-change: height, opacity;
   }
 
   #brx-header .bemke-mobile-wcag__row {
@@ -2314,6 +2408,7 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
 
   #brx-header #brxe-vhhhdt > .bricks-mobile-menu-wrapper,
   #brx-header .bemke-mobile-menu__content,
+  #brx-header .bemke-mobile-wcag__toggle > :is(svg, .bemke-mobile-wcag__toggle-arrow),
   #brx-header
     #brxe-vhhhdt
     .bricks-mobile-menu

@@ -48,6 +48,8 @@ function setupMobileMenu(header) {
   decorateAccessibilitySection(accessibilitySection);
   setupAlwaysOpenNestedBranches(mobileMenu);
   setupPolishMenuLabels(navigation, mobileToggle, mobileWrapper);
+  setupMobileSubmenuAnimation(navigation, mobileMenu, mobileQuery);
+  setupAccessibilityDisclosure(accessibilitySection, mobileQuery);
   setupMobileMenuAnimation(navigation, mobileContent, mobileQuery);
 
   header.setAttribute(READY_ATTR, '1');
@@ -151,6 +153,95 @@ function setupMobileMenuAnimation(navigation, mobileContent, mobileQuery) {
   reducedMotionQuery.addEventListener('change', () => syncAnimationState(false));
 }
 
+function setupMobileSubmenuAnimation(navigation, mobileMenu, mobileQuery) {
+  const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const menuItems = Array.from(mobileMenu.children).filter((item) =>
+    item.matches('li'),
+  );
+  const animatedBranches = menuItems
+    .map((item) => ({
+      item,
+      link: item.querySelector(':scope > .brx-submenu-toggle > a'),
+      submenu: item.querySelector(':scope > .sub-menu'),
+    }))
+    .filter(({ link, submenu }) => link && submenu);
+
+  if (!animatedBranches.length) {
+    return;
+  }
+
+  navigation.classList.add('bemke-mobile-menu--gsap-submenus');
+
+  mobileMenu.addEventListener(
+    'click',
+    (event) => {
+      const link = event.target.closest('.brx-submenu-toggle > a');
+      const item = link?.closest('li');
+
+      if (!link || item?.parentElement !== mobileMenu) {
+        return;
+      }
+
+      event.stopPropagation();
+    },
+    true,
+  );
+
+  const syncBranch = ({ item, submenu }, animate = true) => {
+    const isOpen = item.classList.contains('open');
+
+    gsap.killTweensOf(submenu);
+
+    if (!animate || !mobileQuery.matches || reducedMotionQuery.matches) {
+      gsap.set(submenu, {
+        autoAlpha: isOpen ? 1 : 0,
+        height: isOpen ? 'auto' : 0,
+        overflow: isOpen ? 'visible' : 'hidden',
+      });
+      return;
+    }
+
+    if (isOpen) {
+      gsap.set(submenu, { overflow: 'hidden', visibility: 'visible' });
+      gsap.to(submenu, {
+        autoAlpha: 1,
+        duration: 0.44,
+        ease: 'power2.out',
+        height: 'auto',
+        onComplete: () => gsap.set(submenu, { overflow: 'visible' }),
+        overwrite: true,
+      });
+      return;
+    }
+
+    gsap.set(submenu, { overflow: 'hidden', visibility: 'visible' });
+    gsap.to(submenu, {
+      autoAlpha: 0,
+      duration: 0.34,
+      ease: 'power2.inOut',
+      height: 0,
+      overwrite: true,
+    });
+  };
+
+  animatedBranches.forEach((branch) => {
+    syncBranch(branch, false);
+
+    const itemObserver = new MutationObserver(() => syncBranch(branch, true));
+    itemObserver.observe(branch.item, {
+      attributeFilter: ['class'],
+      attributes: true,
+    });
+  });
+
+  const syncAllBranches = () => {
+    animatedBranches.forEach((branch) => syncBranch(branch, false));
+  };
+
+  mobileQuery.addEventListener('change', syncAllBranches);
+  reducedMotionQuery.addEventListener('change', syncAllBranches);
+}
+
 function updateMobileHeaderHeight(header, menuBar) {
   const height = menuBar.getBoundingClientRect().height;
 
@@ -160,7 +251,7 @@ function updateMobileHeaderHeight(header, menuBar) {
 }
 
 function decorateAccessibilitySection(section) {
-  if (section.querySelector('.bemke-mobile-wcag__title')) {
+  if (section.querySelector('.bemke-mobile-wcag__heading')) {
     return;
   }
 
@@ -173,14 +264,126 @@ function decorateAccessibilitySection(section) {
     return;
   }
 
+  const heading = document.createElement('div');
   const title = document.createElement('h2');
+  const toggle = document.createElement('button');
+  const panel = document.createElement('div');
+  const panelId = 'bemke-mobile-wcag-panel';
+
+  heading.className = 'bemke-mobile-wcag__heading';
   title.className = 'bemke-mobile-wcag__title';
   title.textContent = 'Dostępność';
-  content.insertBefore(title, content.firstChild);
+  toggle.className = 'bemke-mobile-wcag__toggle';
+  toggle.type = 'button';
+  toggle.setAttribute('aria-controls', panelId);
+  toggle.setAttribute('aria-expanded', 'true');
+  toggle.setAttribute('aria-label', 'Zwiń dostępność');
+  panel.className = 'bemke-mobile-wcag__panel';
+  panel.id = panelId;
 
-  wrapAccessibilityControl(fontSizeControls, 'Wielkość treści', 'font-size');
-  wrapAccessibilityControl(contrastControls, 'Kontrast', 'contrast');
-  wrapAccessibilityControl(languageControls, 'Język', 'language');
+  const sourceArrow = section
+    .closest(HEADER_SELECTOR)
+    ?.querySelector(`${NAV_SELECTOR} .brx-submenu-toggle > button svg`);
+
+  if (sourceArrow) {
+    const arrow = sourceArrow.cloneNode(true);
+    arrow.setAttribute('aria-hidden', 'true');
+    arrow.setAttribute('focusable', 'false');
+    toggle.appendChild(arrow);
+  } else {
+    const arrow = document.createElement('span');
+    arrow.className = 'bemke-mobile-wcag__toggle-arrow';
+    arrow.setAttribute('aria-hidden', 'true');
+    toggle.appendChild(arrow);
+  }
+
+  heading.append(title, toggle);
+  content.insertBefore(heading, content.firstChild);
+
+  const rows = [
+    wrapAccessibilityControl(fontSizeControls, 'Wielkość treści', 'font-size'),
+    wrapAccessibilityControl(contrastControls, 'Kontrast', 'contrast'),
+    wrapAccessibilityControl(languageControls, 'Język', 'language'),
+  ];
+
+  rows.forEach((row) => {
+    panel.appendChild(row);
+  });
+  heading.insertAdjacentElement('afterend', panel);
+}
+
+function setupAccessibilityDisclosure(section, mobileQuery) {
+  const toggle = section.querySelector('.bemke-mobile-wcag__toggle');
+  const panel = section.querySelector('.bemke-mobile-wcag__panel');
+  const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  if (!toggle || !panel) {
+    return;
+  }
+
+  const setExpanded = (isExpanded, animate = true) => {
+    toggle.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+    toggle.setAttribute(
+      'aria-label',
+      isExpanded ? 'Zwiń dostępność' : 'Rozwiń dostępność',
+    );
+    panel.setAttribute('aria-hidden', isExpanded ? 'false' : 'true');
+
+    gsap.killTweensOf(panel);
+
+    if (!animate || !mobileQuery.matches || reducedMotionQuery.matches) {
+      gsap.set(panel, {
+        autoAlpha: isExpanded ? 1 : 0,
+        height: isExpanded ? 'auto' : 0,
+        overflow: isExpanded ? 'visible' : 'hidden',
+      });
+      return;
+    }
+
+    if (isExpanded) {
+      gsap.set(panel, { overflow: 'hidden', visibility: 'visible' });
+      gsap.to(panel, {
+        autoAlpha: 1,
+        duration: 0.44,
+        ease: 'power2.out',
+        height: 'auto',
+        onComplete: () => gsap.set(panel, { overflow: 'visible' }),
+        overwrite: true,
+      });
+      return;
+    }
+
+    gsap.set(panel, { overflow: 'hidden', visibility: 'visible' });
+    gsap.to(panel, {
+      autoAlpha: 0,
+      duration: 0.34,
+      ease: 'power2.inOut',
+      height: 0,
+      overwrite: true,
+    });
+  };
+
+  toggle.addEventListener('click', () => {
+    const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+    setExpanded(!isExpanded, true);
+  });
+
+  const syncDisclosure = () => {
+    if (!mobileQuery.matches) {
+      toggle.setAttribute('aria-expanded', 'true');
+      toggle.setAttribute('aria-label', 'Zwiń dostępność');
+      panel.setAttribute('aria-hidden', 'false');
+      gsap.killTweensOf(panel);
+      gsap.set(panel, { clearProps: 'height,opacity,overflow,visibility' });
+      return;
+    }
+
+    setExpanded(toggle.getAttribute('aria-expanded') === 'true', false);
+  };
+
+  syncDisclosure();
+  mobileQuery.addEventListener('change', syncDisclosure);
+  reducedMotionQuery.addEventListener('change', syncDisclosure);
 }
 
 function wrapAccessibilityControl(control, label, key) {
@@ -197,6 +400,8 @@ function wrapAccessibilityControl(control, label, key) {
 
   control.parentNode.insertBefore(row, control);
   row.append(labelElement, control);
+
+  return row;
 }
 
 function setupAlwaysOpenNestedBranches(mobileMenu) {
