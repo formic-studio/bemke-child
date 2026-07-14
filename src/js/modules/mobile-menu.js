@@ -1,3 +1,5 @@
+import { gsap } from 'gsap';
+
 const HEADER_SELECTOR = '#brx-header';
 const NAV_SELECTOR = '#brxe-vhhhdt';
 const MENU_BAR_SELECTOR = '#brxe-spklen';
@@ -46,6 +48,7 @@ function setupMobileMenu(header) {
   decorateAccessibilitySection(accessibilitySection);
   setupAlwaysOpenNestedBranches(mobileMenu);
   setupPolishMenuLabels(navigation, mobileToggle, mobileWrapper);
+  setupMobileMenuAnimation(navigation, mobileContent, mobileQuery);
 
   header.setAttribute(READY_ATTR, '1');
 
@@ -107,6 +110,44 @@ function createMobileContent(mobileWrapper, mobileMenu) {
   mobileContent.appendChild(mobileMenu);
 
   return mobileContent;
+}
+
+function setupMobileMenuAnimation(navigation, mobileContent, mobileQuery) {
+  const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  const syncAnimationState = (animate = true) => {
+    const isOpen = navigation.classList.contains('show-mobile-menu');
+    const yPercent = isOpen ? 0 : -100;
+
+    gsap.killTweensOf(mobileContent);
+
+    if (!animate || !mobileQuery.matches || reducedMotionQuery.matches) {
+      gsap.set(mobileContent, { yPercent });
+      return;
+    }
+
+    gsap.to(mobileContent, {
+      duration: isOpen ? 0.58 : 0.46,
+      ease: isOpen ? 'power3.out' : 'power2.inOut',
+      force3D: true,
+      overwrite: true,
+      yPercent,
+    });
+  };
+
+  syncAnimationState(false);
+
+  const navigationObserver = new MutationObserver(() => {
+    syncAnimationState(true);
+  });
+
+  navigationObserver.observe(navigation, {
+    attributeFilter: ['class'],
+    attributes: true,
+  });
+
+  mobileQuery.addEventListener('change', () => syncAnimationState(false));
+  reducedMotionQuery.addEventListener('change', () => syncAnimationState(false));
 }
 
 function updateMobileHeaderHeight(header, menuBar) {

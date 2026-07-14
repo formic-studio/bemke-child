@@ -1757,7 +1757,7 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     right: 0;
     top: var(--bemke-mobile-panel-top);
     transform: none !important;
-    transition: visibility 0s linear 0.38s;
+    transition: visibility 0s linear 0.5s;
     visibility: hidden;
     width: 100%;
     z-index: 9999;
@@ -1787,7 +1787,8 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     overflow-y: auto;
     scrollbar-width: thin;
     transform: translate3d(0, -100%, 0);
-    transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: none;
+    will-change: transform;
     width: 100%;
   }
 
