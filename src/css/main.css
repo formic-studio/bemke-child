@@ -1733,8 +1733,17 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
 }
 
 @media (max-width: 991px) {
+  html {
+    scrollbar-gutter: stable;
+  }
+
   #brx-header:has(#brxe-vhhhdt.show-mobile-menu) {
     transform: none !important;
+  }
+
+  #brx-header:has(#brxe-vhhhdt.show-mobile-menu) #brxe-etginj {
+    position: relative;
+    z-index: 10001;
   }
 
   #brx-header > .section_wcag {
@@ -1750,9 +1759,9 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     box-sizing: border-box;
     color: var(--brown, var(--theme-brown, #1b0508));
     display: flex !important;
-    height: calc(100dvh - var(--wp-admin--admin-bar--height, 0px));
-    inset: var(--wp-admin--admin-bar--height, 0px) 0 0;
-    max-height: calc(100dvh - var(--wp-admin--admin-bar--height, 0px));
+    height: 100svh;
+    inset: 0;
+    max-height: 100svh;
     max-width: none;
     opacity: 1;
     overflow-x: hidden;
@@ -1760,12 +1769,12 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     overscroll-behavior: contain;
     pointer-events: none;
     scrollbar-width: thin;
-    transform: translate3d(100%, 0, 0);
+    transform: translate3d(0, -100%, 0);
     transition:
       transform 0.38s cubic-bezier(0.22, 1, 0.36, 1),
       visibility 0s linear 0.38s;
     visibility: hidden;
-    width: 100vw;
+    width: 100%;
     z-index: 9999;
   }
 
@@ -1801,7 +1810,9 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     min-width: 4.4rem;
     outline: none;
     padding: 0;
+    position: relative;
     width: 4.4rem;
+    z-index: 10001;
   }
 
   #brx-header #brxe-vhhhdt > .bricks-mobile-menu-toggle > span {
@@ -1841,43 +1852,11 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     outline-offset: 2px;
   }
 
-  #brx-header #brxe-vhhhdt.show-mobile-menu > .bricks-mobile-menu-toggle {
-    color: var(--brown, var(--theme-brown, #1b0508));
-    margin: 0;
-    position: fixed;
-    right: clamp(2.4rem, 5vw, 4rem);
-    top: calc(var(--wp-admin--admin-bar--height, 0px) + 2.2rem);
-    z-index: 10001;
-  }
-
   #brx-header
     #brxe-vhhhdt.show-mobile-menu
     > .bricks-mobile-menu-toggle
     > :is(.bar-top, .bar-bottom) {
     top: calc(50% - 0.1rem);
-  }
-
-  #brx-header .bemke-mobile-menu__header {
-    align-items: center;
-    box-sizing: border-box;
-    display: flex;
-    flex: 0 0 auto;
-    min-height: 8.8rem;
-    padding: 2.4rem clamp(7.6rem, 12vw, 10rem) 2rem
-      clamp(2.4rem, 5vw, 4rem);
-    width: 100%;
-  }
-
-  #brx-header .bemke-mobile-menu__logo {
-    color: var(--brown, var(--theme-brown, #1b0508));
-    display: block;
-    width: 13.2rem;
-  }
-
-  #brx-header .bemke-mobile-menu__logo > svg {
-    display: block;
-    height: auto;
-    width: 100%;
   }
 
   #brx-header #brxe-vhhhdt .bricks-mobile-menu {
@@ -1886,7 +1865,7 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     list-style: none;
     margin: 0;
     overflow: visible;
-    padding: 0 clamp(2.4rem, 5vw, 4rem) 2.4rem;
+    padding: 8.8rem clamp(2.4rem, 5vw, 4rem) 2.4rem;
     width: 100%;
   }
 
@@ -2136,8 +2115,7 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
   }
 
   #brx-header #brxe-vhhhdt .bricks-mobile-menu a:focus-visible,
-  #brx-header #brxe-vhhhdt .bricks-mobile-menu button:focus-visible,
-  #brx-header .bemke-mobile-menu__logo:focus-visible {
+  #brx-header #brxe-vhhhdt .bricks-mobile-menu button:focus-visible {
     outline: 2px solid var(--brown, var(--theme-brown, #1b0508));
     outline-offset: 3px;
   }

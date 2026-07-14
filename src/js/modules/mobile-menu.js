@@ -4,7 +4,6 @@ const MOBILE_WRAPPER_SELECTOR = '.bricks-mobile-menu-wrapper';
 const MOBILE_MENU_SELECTOR = '.bricks-mobile-menu';
 const MOBILE_TOGGLE_SELECTOR = '.bricks-mobile-menu-toggle';
 const ACCESSIBILITY_SELECTOR = '.section_wcag';
-const LOGO_SELECTOR = '#brxe-etginj';
 const MOBILE_QUERY = '(max-width: 991px)';
 const READY_ATTR = 'data-bemke-mobile-menu-ready';
 
@@ -25,15 +24,13 @@ function setupMobileMenu(header) {
   const mobileMenu = mobileWrapper?.querySelector(MOBILE_MENU_SELECTOR);
   const mobileToggle = navigation?.querySelector(MOBILE_TOGGLE_SELECTOR);
   const accessibilitySection = header.querySelector(ACCESSIBILITY_SELECTOR);
-  const logo = header.querySelector(LOGO_SELECTOR);
 
   if (
     !navigation ||
     !mobileWrapper ||
     !mobileMenu ||
     !mobileToggle ||
-    !accessibilitySection ||
-    !logo
+    !accessibilitySection
   ) {
     return;
   }
@@ -41,12 +38,10 @@ function setupMobileMenu(header) {
   const originalAccessibilityParent = accessibilitySection.parentNode;
   const originalAccessibilityNextSibling = accessibilitySection.nextSibling;
   const mobileQuery = window.matchMedia(MOBILE_QUERY);
-  const panelHeader = createPanelHeader(logo);
 
   decorateAccessibilitySection(accessibilitySection);
   setupPolishMenuLabels(navigation, mobileToggle, mobileWrapper);
 
-  mobileWrapper.insertBefore(panelHeader, mobileMenu);
   header.setAttribute(READY_ATTR, '1');
 
   const syncLayout = () => {
@@ -80,20 +75,6 @@ function setupMobileMenu(header) {
   syncLayout();
 
   header.__bemkeMobileMenuRefresh = syncLayout;
-}
-
-function createPanelHeader(logo) {
-  const panelHeader = document.createElement('div');
-  const panelLogo = logo.cloneNode(true);
-
-  panelHeader.className = 'bemke-mobile-menu__header';
-  panelLogo.className = 'bemke-mobile-menu__logo';
-  panelLogo.removeAttribute('id');
-  panelLogo.removeAttribute('aria-current');
-  panelLogo.querySelectorAll('[id]').forEach((element) => element.removeAttribute('id'));
-  panelHeader.appendChild(panelLogo);
-
-  return panelHeader;
 }
 
 function decorateAccessibilitySection(section) {
