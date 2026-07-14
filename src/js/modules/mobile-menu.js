@@ -122,7 +122,7 @@ function setupMobileMenuAnimation(navigation, mobileContent, mobileQuery) {
     gsap.killTweensOf(mobileContent);
 
     if (!animate || !mobileQuery.matches || reducedMotionQuery.matches) {
-      gsap.set(mobileContent, { yPercent });
+      gsap.set(mobileContent, { y: 0, yPercent });
       return;
     }
 
@@ -131,6 +131,7 @@ function setupMobileMenuAnimation(navigation, mobileContent, mobileQuery) {
       ease: isOpen ? 'power3.out' : 'power2.inOut',
       force3D: true,
       overwrite: true,
+      y: 0,
       yPercent,
     });
   };
