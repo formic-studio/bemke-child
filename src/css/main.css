@@ -1745,8 +1745,10 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     color: var(--brown, var(--theme-brown, #1b0508));
     display: flex !important;
     height: calc(100svh - var(--bemke-mobile-panel-top));
+    height: calc(100dvh - var(--bemke-mobile-panel-top));
     left: 0;
     max-height: calc(100svh - var(--bemke-mobile-panel-top));
+    max-height: calc(100dvh - var(--bemke-mobile-panel-top));
     max-width: none;
     opacity: 1;
     overflow: hidden;
