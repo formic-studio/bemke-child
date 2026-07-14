@@ -44,6 +44,7 @@ function setupMobileMenu(header) {
   const mobileContent = createMobileContent(mobileWrapper, mobileMenu);
 
   decorateAccessibilitySection(accessibilitySection);
+  setupAlwaysOpenNestedBranches(mobileMenu);
   setupPolishMenuLabels(navigation, mobileToggle, mobileWrapper);
 
   header.setAttribute(READY_ATTR, '1');
@@ -154,6 +155,36 @@ function wrapAccessibilityControl(control, label, key) {
 
   control.parentNode.insertBefore(row, control);
   row.append(labelElement, control);
+}
+
+function setupAlwaysOpenNestedBranches(mobileMenu) {
+  const secondLevelItems = mobileMenu.querySelectorAll(
+    ':scope > li > .sub-menu > li',
+  );
+
+  secondLevelItems.forEach((item) => {
+    const submenuToggle = Array.from(item.children).find((child) =>
+      child.matches('.brx-submenu-toggle'),
+    );
+    const submenu = Array.from(item.children).find((child) =>
+      child.matches('.sub-menu'),
+    );
+    const button = submenuToggle?.querySelector(':scope > button');
+
+    if (!submenuToggle || !submenu) {
+      return;
+    }
+
+    item.classList.add('bemke-mobile-menu__nested-branch');
+    submenu.setAttribute('aria-hidden', 'false');
+
+    if (button) {
+      button.hidden = true;
+      button.tabIndex = -1;
+      button.setAttribute('aria-expanded', 'true');
+      button.setAttribute('aria-hidden', 'true');
+    }
+  });
 }
 
 function setupPolishMenuLabels(navigation, mobileToggle, mobileWrapper) {
