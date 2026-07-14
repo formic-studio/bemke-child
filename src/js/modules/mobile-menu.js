@@ -266,14 +266,21 @@ function decorateAccessibilitySection(section) {
 
   const heading = document.createElement('div');
   const title = document.createElement('h2');
-  const toggle = document.createElement('button');
   const panel = document.createElement('div');
   const panelId = 'bemke-mobile-wcag-panel';
+  const sourceToggle = section
+    .closest(HEADER_SELECTOR)
+    ?.querySelector(
+      `${NAV_SELECTOR} .bricks-mobile-menu > li > .brx-submenu-toggle > button`,
+    );
+  const toggle = sourceToggle?.cloneNode(true) ?? document.createElement('button');
 
   heading.className = 'bemke-mobile-wcag__heading';
   title.className = 'bemke-mobile-wcag__title';
   title.textContent = 'Dostępność';
-  toggle.className = 'bemke-mobile-wcag__toggle';
+  toggle.classList.add('bemke-mobile-wcag__toggle');
+  toggle.hidden = false;
+  toggle.removeAttribute('id');
   toggle.type = 'button';
   toggle.setAttribute('aria-controls', panelId);
   toggle.setAttribute('aria-expanded', 'true');
@@ -281,16 +288,14 @@ function decorateAccessibilitySection(section) {
   panel.className = 'bemke-mobile-wcag__panel';
   panel.id = panelId;
 
-  const sourceArrow = section
-    .closest(HEADER_SELECTOR)
-    ?.querySelector(`${NAV_SELECTOR} .brx-submenu-toggle > button svg`);
-
-  if (sourceArrow) {
-    const arrow = sourceArrow.cloneNode(true);
+  toggle.querySelectorAll('[id]').forEach((element) => element.removeAttribute('id'));
+  toggle.querySelectorAll('svg').forEach((arrow) => {
     arrow.setAttribute('aria-hidden', 'true');
     arrow.setAttribute('focusable', 'false');
-    toggle.appendChild(arrow);
-  } else {
+  });
+
+  if (!toggle.firstElementChild) {
+    toggle.replaceChildren();
     const arrow = document.createElement('span');
     arrow.className = 'bemke-mobile-wcag__toggle-arrow';
     arrow.setAttribute('aria-hidden', 'true');

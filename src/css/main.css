@@ -2273,9 +2273,9 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     border-right: 0.2rem solid currentColor;
     content: "";
     display: block;
-    height: 0.55rem;
+    height: 0.8rem;
     transform: rotate(45deg) translate(-0.05rem, -0.05rem);
-    width: 0.55rem;
+    width: 0.8rem;
   }
 
   #brx-header
