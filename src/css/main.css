@@ -1790,21 +1790,71 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
 
   #brx-header #brxe-vhhhdt > .bricks-mobile-menu-toggle {
     align-items: center;
+    appearance: none;
+    background: transparent;
+    border: 0;
     color: var(--brown, var(--theme-brown, #1b0508));
     display: flex;
     height: 4.4rem;
     justify-content: center;
     margin: -1.2rem;
     min-width: 4.4rem;
+    outline: none;
+    padding: 0;
     width: 4.4rem;
+  }
+
+  #brx-header #brxe-vhhhdt > .bricks-mobile-menu-toggle > span {
+    left: 50%;
+    margin-left: -1rem;
+    min-width: 2rem;
+    right: auto;
+    width: 2rem;
+  }
+
+  #brx-header
+    #brxe-vhhhdt
+    > .bricks-mobile-menu-toggle
+    > .bar-top {
+    top: calc(50% - 0.8rem);
+  }
+
+  #brx-header
+    #brxe-vhhhdt
+    > .bricks-mobile-menu-toggle
+    > .bar-center {
+    top: calc(50% - 0.1rem);
+  }
+
+  #brx-header
+    #brxe-vhhhdt
+    > .bricks-mobile-menu-toggle
+    > .bar-bottom {
+    top: calc(50% + 0.6rem);
+  }
+
+  #brx-header
+    #brxe-vhhhdt
+    > .bricks-mobile-menu-toggle:focus-visible {
+    border-radius: 0.4rem;
+    outline: 2px solid var(--brown, var(--theme-brown, #1b0508));
+    outline-offset: 2px;
   }
 
   #brx-header #brxe-vhhhdt.show-mobile-menu > .bricks-mobile-menu-toggle {
     color: var(--brown, var(--theme-brown, #1b0508));
+    margin: 0;
     position: fixed;
     right: clamp(2.4rem, 5vw, 4rem);
     top: calc(var(--wp-admin--admin-bar--height, 0px) + 2.2rem);
     z-index: 10001;
+  }
+
+  #brx-header
+    #brxe-vhhhdt.show-mobile-menu
+    > .bricks-mobile-menu-toggle
+    > :is(.bar-top, .bar-bottom) {
+    top: calc(50% - 0.1rem);
   }
 
   #brx-header .bemke-mobile-menu__header {
@@ -1881,7 +1931,13 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     #brxe-vhhhdt
     .bricks-mobile-menu
     > li
-    > :is(a, .brx-submenu-toggle > a) {
+    > a,
+  #brx-header
+    #brxe-vhhhdt
+    .bricks-mobile-menu
+    > li
+    > .brx-submenu-toggle
+    > a {
     color: var(--mustard, var(--theme-mustard, #ae6b00));
     flex: 1 1 auto;
     font-family: "Season Mix", serif;
@@ -1897,12 +1953,24 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     #brxe-vhhhdt
     .bricks-mobile-menu
     > li.open
-    > :is(a, .brx-submenu-toggle > a),
+    > a,
+  #brx-header
+    #brxe-vhhhdt
+    .bricks-mobile-menu
+    > li.open
+    > .brx-submenu-toggle
+    > a,
   #brx-header
     #brxe-vhhhdt
     .bricks-mobile-menu
     > li
-    > :is(a, .brx-submenu-toggle > a):is(:hover, :focus-visible) {
+    > a:is(:hover, :focus-visible),
+  #brx-header
+    #brxe-vhhhdt
+    .bricks-mobile-menu
+    > li
+    > .brx-submenu-toggle
+    > a:is(:hover, :focus-visible) {
     color: var(--brown, var(--theme-brown, #1b0508));
   }
 
@@ -1996,7 +2064,15 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     > li
     > .sub-menu
     > li
-    > :is(a, .brx-submenu-toggle > a) {
+    > a,
+  #brx-header
+    #brxe-vhhhdt
+    .bricks-mobile-menu
+    > li
+    > .sub-menu
+    > li
+    > .brx-submenu-toggle
+    > a {
     color: var(--brown, var(--theme-brown, #1b0508));
     font-family: "Season Sans", sans-serif;
     font-size: 1.5rem;
