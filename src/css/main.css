@@ -2060,6 +2060,7 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     font-size: 1.5rem;
     font-style: normal;
     font-weight: 400;
+    letter-spacing: normal;
     line-height: 1.25 !important;
     padding: 1.8rem 0 !important;
     text-transform: uppercase;
@@ -2142,7 +2143,11 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     .sub-menu
     a {
     color: var(--brown, var(--theme-brown, #1b0508));
+    font-family: "Season Sans", sans-serif;
     font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 400;
+    letter-spacing: normal;
     line-height: 1.25 !important;
     padding: 1.6rem 1.2rem !important;
     text-transform: none;
