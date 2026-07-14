@@ -24,6 +24,13 @@ function bemke_child_enqueue_assets() {
 			array(),
 			filemtime( $css_abs_path )
 		);
+
+		if ( $is_builder ) {
+			wp_add_inline_style(
+				'bemke-child-main',
+				'@media (max-width: 991px) { #brx-header #brxe-vhhhdt > .bricks-mobile-menu-wrapper, #brx-header #brxe-vhhhdt > .bricks-mobile-menu-overlay { display: none !important; } }'
+			);
+		}
 	}
 
 	if ( ! $is_builder && file_exists( $js_abs_path ) ) {
