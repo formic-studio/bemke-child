@@ -18,6 +18,7 @@ import { initTeamPopups } from './modules/team-popup.js';
 import { initSlideTittleContrastFix } from './modules/slide-tittle-contrast-fix.js';
 import { initCurrentPageLinks } from './modules/current-page-links.js';
 import { initInfinityLoop } from './modules/infinity-loop.js';
+import { initMobileMenu } from './modules/mobile-menu.js';
 
 function initApp() {
   initAccordionControls();
@@ -31,6 +32,7 @@ function initApp() {
   initTextLoopSlider();
   initHistoryTabs();
   initMegaMenu();
+  initMobileMenu();
   initFormAriaReferences();
   initPdfLinkLabels();
   initSocialLinkLabels();
