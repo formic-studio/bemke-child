@@ -24,7 +24,7 @@ const SIDE_SLIDE_SCALE = 0.96;
 const INCOMING_SLIDE_DELAY = 0.008;
 const ANIMATION_EASE = CustomEase.create(
   "bemkeSliderEase",
-  "M0,0 C0.247,0.107 0.472,0.455 0.496,0.496 0.574,0.63 0.775,0.933 1,1",
+  "M0,0 C0.255,0.089 0.472,0.455 0.496,0.496 0.574,0.63 0.775,0.955 1,1",
 );
 const SNAP_EASE = "power3.out";
 
