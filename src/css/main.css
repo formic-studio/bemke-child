@@ -423,10 +423,6 @@ html[data-contrast]:not([data-contrast="default"]) textarea {
 }
 
 /* Card image hover */
-.card {
-  transition: background-color 0.6s ease;
-}
-
 .card-image-clip {
   width: 100%;
   line-height: 0;
@@ -450,15 +446,9 @@ html[data-contrast]:not([data-contrast="default"]) textarea {
   transform: scale(1.02);
 }
 
-.card:hover,
-.card:focus-within {
-  background-color: color-mix(in srgb, var(--eggshell) 94%, var(--brown) 6%);
-}
-
 @media (prefers-reduced-motion: reduce) {
   .img-link-block img,
-  .card-image-clip img,
-  .card {
+  .card-image-clip img {
     transition: none;
   }
 }
