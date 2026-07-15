@@ -18,7 +18,7 @@ const SNAP_DURATION = 0.45;
 const AUTOPLAY_MS = 3500;
 const SWIPE_THRESHOLD = 46;
 const SIDE_SLIDE_SCALE = 0.96;
-const ACTIVE_SCALE_DELAY = 0.1;
+const ACTIVE_SCALE_DELAY = 1;
 const ANIMATION_EASE = "power3.inOut";
 const SNAP_EASE = "power3.out";
 
