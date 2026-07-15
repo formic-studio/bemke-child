@@ -3,8 +3,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const IMAGE_SELECTOR = ".img-scroll-expand";
 const ANIMATION_START = "top 95%";
-const ANIMATION_END = "top 40%";
-const SCRUB_SMOOTHING = 0.8;
+const ANIMATION_DURATION = 1.2;
+const ANIMATION_EASE = "power2.inOut";
 
 export function initScrollExpandImages() {
   const images = gsap.utils.toArray(IMAGE_SELECTOR);
@@ -25,12 +25,12 @@ export function initScrollExpandImages() {
   images.forEach((image) => {
     gsap.to(image, {
       width: "100%",
-      ease: "none",
+      duration: ANIMATION_DURATION,
+      ease: ANIMATION_EASE,
       scrollTrigger: {
         trigger: image,
         start: ANIMATION_START,
-        end: ANIMATION_END,
-        scrub: SCRUB_SMOOTHING,
+        once: true,
         invalidateOnRefresh: true,
       },
     });
