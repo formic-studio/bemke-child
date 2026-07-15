@@ -18,7 +18,7 @@ const SNAP_DURATION = 0.45;
 const AUTOPLAY_MS = 3500;
 const SWIPE_THRESHOLD = 46;
 const SIDE_SLIDE_SCALE = 0.96;
-const ACTIVE_SCALE_DELAY = 1;
+const INCOMING_SLIDE_DELAY = 1;
 const ANIMATION_EASE = "power3.inOut";
 const SNAP_EASE = "power3.out";
 
@@ -289,12 +289,14 @@ function createHomeSlider(root) {
     }
 
     isAnimating = true;
+    const startOffset = getRenderedOffset(track, currentOffset);
     currentOffset -= distance;
-    movementTween = animateOffset(
+    movementTween = animateSliderMove(
       track,
+      nextSlide,
+      startOffset,
       currentOffset,
-      ANIMATION_DURATION,
-      ANIMATION_EASE,
+      INCOMING_SLIDE_DELAY,
       () => {
         movementTween = null;
         isAnimating = false;
@@ -315,6 +317,7 @@ function createHomeSlider(root) {
     movementTween?.kill();
     movementTween = null;
     gsap.killTweensOf(track);
+    gsap.set(slides, { x: 0, force3D: true });
     isAnimating = false;
     queuedDirection = 0;
   }
@@ -502,7 +505,7 @@ function updateSlideDepth(slides, activeIndex, shouldAnimate) {
   gsap.to(activeSlide, {
     scale: 1,
     duration: ANIMATION_DURATION,
-    delay: ACTIVE_SCALE_DELAY,
+    delay: INCOMING_SLIDE_DELAY,
     ease: ANIMATION_EASE,
     overwrite: "auto",
   });
@@ -638,6 +641,65 @@ function animateOffset(track, offset, duration, ease, onComplete) {
     overwrite: "auto",
     onComplete,
   });
+}
+
+function animateSliderMove(
+  track,
+  incomingSlide,
+  startOffset,
+  targetOffset,
+  incomingDelay,
+  onComplete,
+) {
+  const motion = {
+    trackProgress: 0,
+    incomingProgress: 0,
+  };
+  const distance = targetOffset - startOffset;
+
+  gsap.killTweensOf(track);
+  gsap.killTweensOf(incomingSlide, "x");
+  gsap.set(incomingSlide, { x: 0, force3D: true });
+
+  const timeline = gsap.timeline({
+    onUpdate: () => {
+      applyOffset(track, startOffset + distance * motion.trackProgress);
+      gsap.set(incomingSlide, {
+        x: distance * (motion.incomingProgress - motion.trackProgress),
+        force3D: true,
+      });
+    },
+    onComplete: () => {
+      applyOffset(track, targetOffset);
+      gsap.set(incomingSlide, { x: 0, force3D: true });
+      onComplete?.();
+    },
+    onInterrupt: () => {
+      gsap.set(incomingSlide, { x: 0, force3D: true });
+    },
+  });
+
+  timeline.to(
+    motion,
+    {
+      trackProgress: 1,
+      duration: ANIMATION_DURATION,
+      ease: ANIMATION_EASE,
+    },
+    0,
+  );
+
+  timeline.to(
+    motion,
+    {
+      incomingProgress: 1,
+      duration: ANIMATION_DURATION,
+      ease: ANIMATION_EASE,
+    },
+    incomingDelay,
+  );
+
+  return timeline;
 }
 
 function snapToOffset(track, offset) {
