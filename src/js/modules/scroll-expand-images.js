@@ -23,15 +23,19 @@ export function initScrollExpandImages() {
   }
 
   images.forEach((image) => {
-    gsap.to(image, {
-      width: "100%",
-      duration: ANIMATION_DURATION,
-      ease: ANIMATION_EASE,
-      scrollTrigger: {
-        trigger: image,
-        start: ANIMATION_START,
-        once: true,
-        invalidateOnRefresh: true,
+    gsap.set(image, { width: "300px" });
+
+    ScrollTrigger.create({
+      trigger: image,
+      start: ANIMATION_START,
+      once: true,
+      onEnter: () => {
+        gsap.to(image, {
+          width: "100%",
+          duration: ANIMATION_DURATION,
+          ease: ANIMATION_EASE,
+          overwrite: "auto",
+        });
       },
     });
   });
