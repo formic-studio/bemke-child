@@ -1,5 +1,4 @@
 const CARD_SELECTOR = ".card";
-const DIRECT_MEDIA_SELECTOR = ":scope > img, :scope > picture";
 const WRAPPER_CLASS = "card-image-clip";
 
 function wrapCardImage(media) {
@@ -25,6 +24,12 @@ function wrapCardImage(media) {
 
 export function initCardImageHover() {
   document.querySelectorAll(CARD_SELECTOR).forEach((card) => {
-    card.querySelectorAll(DIRECT_MEDIA_SELECTOR).forEach(wrapCardImage);
+    const cardMedia = new Set(
+      Array.from(card.querySelectorAll("img"), (image) =>
+        image.closest("picture") ?? image,
+      ),
+    );
+
+    cardMedia.forEach(wrapCardImage);
   });
 }
