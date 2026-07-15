@@ -19,6 +19,7 @@ import { initSlideTittleContrastFix } from './modules/slide-tittle-contrast-fix.
 import { initCurrentPageLinks } from './modules/current-page-links.js';
 import { initInfinityLoop } from './modules/infinity-loop.js';
 import { initMobileMenu } from './modules/mobile-menu.js';
+import { initScrollExpandImages } from './modules/scroll-expand-images.js';
 
 function initApp() {
   initAccordionControls();
@@ -41,6 +42,7 @@ function initApp() {
   initSlideTittleContrastFix();
   initCurrentPageLinks();
   initInfinityLoop();
+  initScrollExpandImages();
 }
 
 if (document.readyState === 'loading') {
