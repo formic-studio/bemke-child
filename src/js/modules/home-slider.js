@@ -21,7 +21,7 @@ const SNAP_DURATION = 0.45;
 const AUTOPLAY_MS = 3500;
 const SWIPE_THRESHOLD = 46;
 const SIDE_SLIDE_SCALE = 0.96;
-const INCOMING_SLIDE_DELAY = 0.005;
+const INCOMING_SLIDE_DELAY = 0.008;
 const ANIMATION_EASE = CustomEase.create(
   "bemkeSliderEase",
   "M0,0 C0.247,0.107 0.472,0.455 0.496,0.496 0.574,0.63 0.775,0.933 1,1",
