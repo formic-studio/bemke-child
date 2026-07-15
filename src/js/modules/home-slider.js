@@ -1,3 +1,4 @@
+import { gsap } from 'gsap';
 import { bindSliderControl, getSliderControls } from './slider-controls.js';
 
 const ROOT_SELECTOR = '.slider:not(.slider-thinktank)';
@@ -12,9 +13,12 @@ const RESETTING_CLASS = 'is-resetting';
 const DRAGGING_CLASS = 'is-dragging';
 const GHOST_CLASS = 'is-ghost';
 
-const ANIMATION_MS = 640;
-const AUTOPLAY_MS = 2200;
+const ANIMATION_DURATION = 0.9;
+const SNAP_DURATION = 0.45;
+const AUTOPLAY_MS = 3500;
 const SWIPE_THRESHOLD = 46;
+const ANIMATION_EASE = 'power3.inOut';
+const SNAP_EASE = 'power3.out';
 
 let sliderId = 0;
 const imagePreloads = new Set();
@@ -86,7 +90,7 @@ function createHomeSlider(root) {
   let queuedDirection = 0;
   let isPlaying = false;
   let autoplayTimerId = null;
-  let transitionTimerId = null;
+  let movementTween = null;
   let pointerState = null;
 
   root.setAttribute(READY_ATTR, '1');
@@ -123,11 +127,13 @@ function createHomeSlider(root) {
       return;
     }
 
+    gsap.killTweensOf(track);
+
     pointerState = {
       id: event.pointerId,
       startX: event.clientX,
       startY: event.clientY,
-      offset: currentOffset,
+      offset: getRenderedOffset(track, currentOffset),
       lockedAxis: null,
       dragged: false,
     };
@@ -180,24 +186,27 @@ function createHomeSlider(root) {
       return;
     }
 
-    applyOffset(track, currentOffset);
+    snapToOffset(track, currentOffset);
   });
 
   track.addEventListener('pointercancel', () => {
     pointerState = null;
     track.classList.remove(DRAGGING_CLASS);
-    applyOffset(track, currentOffset);
+    snapToOffset(track, currentOffset);
   });
 
   window.addEventListener(
     'resize',
     debounce(() => {
+      cancelMovement();
       arrangeSlides(track, slides, activeIndex);
+      syncSlides(slides, activeIndex);
       currentOffset = recenterActive(root, track, slides[activeIndex], currentOffset);
     }, 120),
   );
 
   root.__bemkeHomeSliderRefresh = () => {
+    cancelMovement();
     arrangeSlides(track, slides, activeIndex);
     syncSlides(slides, activeIndex);
     currentOffset = recenterActive(root, track, slides[activeIndex], currentOffset);
@@ -237,11 +246,11 @@ function createHomeSlider(root) {
     const activeSlide = slides[activeIndex];
     const nextSlide = slides[nextIndex];
     const distance = getSlideCenter(nextSlide) - getSlideCenter(activeSlide);
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const shouldReduceMotion = prefersReducedMotion();
 
     syncSlides(slides, nextIndex);
 
-    if (prefersReducedMotion || distance === 0) {
+    if (shouldReduceMotion || distance === 0) {
       activeIndex = nextIndex;
       arrangeSlides(track, slides, activeIndex);
       currentOffset = recenterActive(root, track, slides[activeIndex], currentOffset);
@@ -251,17 +260,28 @@ function createHomeSlider(root) {
 
     isAnimating = true;
     currentOffset -= distance;
-    applyOffset(track, currentOffset);
+    movementTween = animateOffset(
+      track,
+      currentOffset,
+      ANIMATION_DURATION,
+      ANIMATION_EASE,
+      () => {
+        movementTween = null;
+        isAnimating = false;
+        activeIndex = nextIndex;
+        arrangeSlides(track, slides, activeIndex);
+        currentOffset = recenterActive(root, track, slides[activeIndex], currentOffset);
+        flushQueuedMove();
+      },
+    );
+  }
 
-    window.clearTimeout(transitionTimerId);
-    transitionTimerId = window.setTimeout(() => {
-      transitionTimerId = null;
-      isAnimating = false;
-      activeIndex = nextIndex;
-      arrangeSlides(track, slides, activeIndex);
-      currentOffset = recenterActive(root, track, slides[activeIndex], currentOffset);
-      flushQueuedMove();
-    }, ANIMATION_MS + 40);
+  function cancelMovement() {
+    movementTween?.kill();
+    movementTween = null;
+    gsap.killTweensOf(track);
+    isAnimating = false;
+    queuedDirection = 0;
   }
 
   function flushQueuedMove() {
@@ -525,7 +545,36 @@ function getSlideCenter(slide) {
 }
 
 function applyOffset(track, offset) {
-  track.style.transform = `translate3d(${offset}px, 0, 0)`;
+  gsap.set(track, { x: offset, force3D: true });
+}
+
+function animateOffset(track, offset, duration, ease, onComplete) {
+  return gsap.to(track, {
+    x: offset,
+    duration,
+    ease,
+    force3D: true,
+    overwrite: 'auto',
+    onComplete,
+  });
+}
+
+function snapToOffset(track, offset) {
+  if (prefersReducedMotion()) {
+    applyOffset(track, offset);
+    return;
+  }
+
+  animateOffset(track, offset, SNAP_DURATION, SNAP_EASE);
+}
+
+function prefersReducedMotion() {
+  return window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+}
+
+function getRenderedOffset(track, fallback) {
+  const offset = Number(gsap.getProperty(track, 'x'));
+  return Number.isFinite(offset) ? offset : fallback;
 }
 
 function getSliderLabel(root) {
