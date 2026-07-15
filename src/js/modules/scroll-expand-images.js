@@ -21,7 +21,6 @@ function prepareImageLayout(image) {
   gsap.set(image, {
     width: "100%",
     scale: 1,
-    force3D: true,
   });
 
   const expandedRect = image.getBoundingClientRect();
@@ -40,7 +39,6 @@ function prepareImageLayout(image) {
   gsap.set(image, {
     scale: startScale,
     transformOrigin: `${originX}% ${originY}%`,
-    force3D: true,
   });
 }
 
@@ -75,11 +73,21 @@ export function initScrollExpandImages() {
       onEnter: () => {
         hasStarted = true;
 
-        gsap.to(image, {
-          scale: 1,
-          duration: ANIMATION_DURATION,
-          ease: ANIMATION_EASE,
-          overwrite: "auto",
+        gsap.set(image, { willChange: "transform" });
+
+        requestAnimationFrame(() => {
+          gsap.to(image, {
+            scale: 1,
+            duration: ANIMATION_DURATION,
+            ease: ANIMATION_EASE,
+            force3D: true,
+            overwrite: "auto",
+            onComplete: () => {
+              gsap.set(image, {
+                clearProps: "transform,transformOrigin,willChange",
+              });
+            },
+          });
         });
       },
     });
