@@ -17,6 +17,8 @@ const ANIMATION_DURATION = 0.9;
 const SNAP_DURATION = 0.45;
 const AUTOPLAY_MS = 3500;
 const SWIPE_THRESHOLD = 46;
+const SIDE_SLIDE_SCALE = 0.96;
+const ACTIVE_SCALE_DELAY = 0.02;
 const ANIMATION_EASE = 'power3.inOut';
 const SNAP_EASE = 'power3.out';
 
@@ -201,6 +203,7 @@ function createHomeSlider(root) {
       cancelMovement();
       arrangeSlides(track, slides, activeIndex);
       syncSlides(slides, activeIndex);
+      updateSlideDepth(slides, activeIndex, false);
       currentOffset = recenterActive(root, track, slides[activeIndex], currentOffset);
     }, 120),
   );
@@ -209,11 +212,13 @@ function createHomeSlider(root) {
     cancelMovement();
     arrangeSlides(track, slides, activeIndex);
     syncSlides(slides, activeIndex);
+    updateSlideDepth(slides, activeIndex, false);
     currentOffset = recenterActive(root, track, slides[activeIndex], currentOffset);
   };
 
   arrangeSlides(track, slides, activeIndex);
   syncSlides(slides, activeIndex);
+  updateSlideDepth(slides, activeIndex, false);
   currentOffset = recenterActive(root, track, slides[activeIndex], currentOffset);
   updateControlsState(controls, isPlaying);
 
@@ -249,6 +254,7 @@ function createHomeSlider(root) {
     const shouldReduceMotion = prefersReducedMotion();
 
     syncSlides(slides, nextIndex);
+    updateSlideDepth(slides, nextIndex, !shouldReduceMotion && distance !== 0);
 
     if (shouldReduceMotion || distance === 0) {
       activeIndex = nextIndex;
@@ -432,6 +438,38 @@ function syncSlides(slides, activeIndex) {
   });
 }
 
+function updateSlideDepth(slides, activeIndex, shouldAnimate) {
+  const activeSlide = slides[activeIndex];
+  const sideSlides = slides.filter((_, index) => index !== activeIndex);
+
+  gsap.killTweensOf(slides, 'scale');
+
+  slides.forEach((slide, index) => {
+    slide.style.zIndex = index === activeIndex ? '2' : '1';
+  });
+
+  if (!shouldAnimate) {
+    gsap.set(sideSlides, { scale: SIDE_SLIDE_SCALE });
+    gsap.set(activeSlide, { scale: 1 });
+    return;
+  }
+
+  gsap.to(sideSlides, {
+    scale: SIDE_SLIDE_SCALE,
+    duration: ANIMATION_DURATION,
+    ease: ANIMATION_EASE,
+    overwrite: 'auto',
+  });
+
+  gsap.to(activeSlide, {
+    scale: 1,
+    duration: ANIMATION_DURATION,
+    delay: ACTIVE_SCALE_DELAY,
+    ease: ANIMATION_EASE,
+    overwrite: 'auto',
+  });
+}
+
 function createGhostSlide(sourceSlide) {
   const ghost = sourceSlide.cloneNode(true);
 
@@ -441,6 +479,8 @@ function createGhostSlide(sourceSlide) {
   ghost.removeAttribute('aria-current');
   ghost.removeAttribute('id');
   ghost.setAttribute('tabindex', '-1');
+  ghost.style.zIndex = '1';
+  gsap.set(ghost, { scale: SIDE_SLIDE_SCALE });
 
   if ('inert' in ghost) {
     ghost.inert = true;

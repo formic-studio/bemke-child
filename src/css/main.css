@@ -767,15 +767,19 @@ html[data-contrast]:not([data-contrast="default"])
   max-width: var(--bemke-home-slide-width);
   height: auto !important;
   box-sizing: border-box;
+  transform: scale(0.96);
+  transform-origin: center center;
   user-select: none;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
   transition: opacity 0.42s ease;
+  will-change: transform, opacity;
 }
 
 .slider:not(.slider-thinktank)[data-bemke-slider-ready="1"]
   .slide[slide-active="1"] {
   opacity: 1;
+  transform: scale(1);
 }
 
 .slider:not(.slider-thinktank)[data-bemke-slider-ready="1"] .slide *,
