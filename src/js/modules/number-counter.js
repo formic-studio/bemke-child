@@ -2,7 +2,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const COUNTER_SELECTOR = ".number-counter";
-const COUNTER_START = "top 90%";
+const COUNTER_START = "top 98%";
 const COUNTER_DURATION = 1.8;
 const COUNTER_EASE = "power2.out";
 
