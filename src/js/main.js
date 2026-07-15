@@ -21,6 +21,7 @@ import { initInfinityLoop } from './modules/infinity-loop.js';
 import { initMobileMenu } from './modules/mobile-menu.js';
 import { initScrollExpandImages } from './modules/scroll-expand-images.js';
 import { initNumberCounters } from './modules/number-counter.js';
+import { initCardImageHover } from './modules/card-image-hover.js';
 
 function initApp() {
   initAccordionControls();
@@ -45,6 +46,7 @@ function initApp() {
   initInfinityLoop();
   initScrollExpandImages();
   initNumberCounters();
+  initCardImageHover();
 }
 
 if (document.readyState === 'loading') {

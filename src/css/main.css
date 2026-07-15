@@ -422,8 +422,33 @@ html[data-contrast]:not([data-contrast="default"]) textarea {
   transform: scale(1.02);
 }
 
+/* Card image hover */
+.card-image-clip {
+  width: 100%;
+  line-height: 0;
+  overflow: hidden;
+}
+
+.card-image-clip > img,
+.card-image-clip > picture,
+.card-image-clip > picture > img {
+  display: block;
+  width: 100%;
+}
+
+.card-image-clip img {
+  transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+  transform-origin: center;
+}
+
+.card:hover .card-image-clip img,
+.card:focus-within .card-image-clip img {
+  transform: scale(1.02);
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .img-link-block img {
+  .img-link-block img,
+  .card-image-clip img {
     transition: none;
   }
 }
