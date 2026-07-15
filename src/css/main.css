@@ -408,6 +408,7 @@ html[data-contrast]:not([data-contrast="default"]) textarea {
 
 /* Scroll-expand image */
 .img-scroll-expand {
+  width: 300px;
   max-width: 100%;
 }
 
