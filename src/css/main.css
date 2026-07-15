@@ -412,6 +412,11 @@ html[data-contrast]:not([data-contrast="default"]) textarea {
   max-width: 100%;
 }
 
+/* Animated number counter */
+.number-counter {
+  font-variant-numeric: tabular-nums;
+}
+
 .img-link-block:hover img,
 .img-link-block:focus-within img {
   transform: scale(1.05);
