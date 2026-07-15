@@ -1,26 +1,26 @@
-import { gsap } from 'gsap';
-import { bindSliderControl, getSliderControls } from './slider-controls.js';
+import { gsap } from "gsap";
+import { bindSliderControl, getSliderControls } from "./slider-controls.js";
 
-const ROOT_SELECTOR = '.slider:not(.slider-thinktank)';
-const TRACK_SELECTOR = '.slider-wrapper';
-const SLIDE_SELECTOR = '.slide';
-const CONTROLS_SELECTOR = '.slider-paggination';
+const ROOT_SELECTOR = ".slider:not(.slider-thinktank)";
+const TRACK_SELECTOR = ".slider-wrapper";
+const SLIDE_SELECTOR = ".slide";
+const CONTROLS_SELECTOR = ".slider-paggination";
 
-const READY_ATTR = 'data-bemke-slider-ready';
-const ACTIVE_ATTR = 'slide-active';
-const BOOT_FLAG = '__bemkeHomeSliderBooted';
-const RESETTING_CLASS = 'is-resetting';
-const DRAGGING_CLASS = 'is-dragging';
-const GHOST_CLASS = 'is-ghost';
+const READY_ATTR = "data-bemke-slider-ready";
+const ACTIVE_ATTR = "slide-active";
+const BOOT_FLAG = "__bemkeHomeSliderBooted";
+const RESETTING_CLASS = "is-resetting";
+const DRAGGING_CLASS = "is-dragging";
+const GHOST_CLASS = "is-ghost";
 
 const ANIMATION_DURATION = 0.9;
 const SNAP_DURATION = 0.45;
 const AUTOPLAY_MS = 3500;
 const SWIPE_THRESHOLD = 46;
 const SIDE_SLIDE_SCALE = 0.96;
-const ACTIVE_SCALE_DELAY = 0.02;
-const ANIMATION_EASE = 'power3.inOut';
-const SNAP_EASE = 'power3.out';
+const ACTIVE_SCALE_DELAY = 0.1;
+const ANIMATION_EASE = "power3.inOut";
+const SNAP_EASE = "power3.out";
 
 let sliderId = 0;
 const imagePreloads = new Set();
@@ -32,7 +32,7 @@ export function initHomeSlider() {
 
 function initHomeSliderRoots(scope = document) {
   scope.querySelectorAll(ROOT_SELECTOR).forEach((root) => {
-    if (root.getAttribute(READY_ATTR) === '1') {
+    if (root.getAttribute(READY_ATTR) === "1") {
       root.__bemkeHomeSliderRefresh?.();
       return;
     }
@@ -52,8 +52,8 @@ function setupHomeSliderLifecycle() {
     initHomeSliderRoots();
   }, 90);
 
-  window.addEventListener('load', rerunInit);
-  document.addEventListener('bricks/ajax/end', rerunInit);
+  window.addEventListener("load", rerunInit);
+  document.addEventListener("bricks/ajax/end", rerunInit);
   window.setTimeout(rerunInit, 200);
   window.setTimeout(rerunInit, 800);
 
@@ -79,7 +79,9 @@ function setupHomeSliderLifecycle() {
 
 function createHomeSlider(root) {
   const track = root.querySelector(TRACK_SELECTOR);
-  const slides = track ? Array.from(track.querySelectorAll(`:scope > ${SLIDE_SELECTOR}`)) : [];
+  const slides = track
+    ? Array.from(track.querySelectorAll(`:scope > ${SLIDE_SELECTOR}`))
+    : [];
 
   if (!track || slides.length < 2) {
     return;
@@ -95,7 +97,7 @@ function createHomeSlider(root) {
   let movementTween = null;
   let pointerState = null;
 
-  root.setAttribute(READY_ATTR, '1');
+  root.setAttribute(READY_ATTR, "1");
   prepareSlideMedia(slides);
   decorateSlider(root, track, slides);
   bindControls(controls, track, {
@@ -105,27 +107,27 @@ function createHomeSlider(root) {
     onNext: () => queueMove(1, true),
   });
 
-  root.addEventListener('keydown', (event) => {
+  root.addEventListener("keydown", (event) => {
     if (isFormControl(event.target)) {
       return;
     }
 
-    if (event.key === 'ArrowLeft') {
+    if (event.key === "ArrowLeft") {
       event.preventDefault();
       focusControl(controls.prev);
       queueMove(-1, true);
       return;
     }
 
-    if (event.key === 'ArrowRight') {
+    if (event.key === "ArrowRight") {
       event.preventDefault();
       focusControl(controls.next);
       queueMove(1, true);
     }
   });
 
-  track.addEventListener('pointerdown', (event) => {
-    if (isAnimating || (event.pointerType === 'mouse' && event.button !== 0)) {
+  track.addEventListener("pointerdown", (event) => {
+    if (isAnimating || (event.pointerType === "mouse" && event.button !== 0)) {
       return;
     }
 
@@ -147,7 +149,7 @@ function createHomeSlider(root) {
     }
   });
 
-  track.addEventListener('pointermove', (event) => {
+  track.addEventListener("pointermove", (event) => {
     if (!pointerState || pointerState.id !== event.pointerId) {
       return;
     }
@@ -158,10 +160,10 @@ function createHomeSlider(root) {
     const absY = Math.abs(dy);
 
     if (!pointerState.lockedAxis && (absX > 8 || absY > 8)) {
-      pointerState.lockedAxis = absX > absY ? 'x' : 'y';
+      pointerState.lockedAxis = absX > absY ? "x" : "y";
     }
 
-    if (pointerState.lockedAxis !== 'x') {
+    if (pointerState.lockedAxis !== "x") {
       return;
     }
 
@@ -170,7 +172,7 @@ function createHomeSlider(root) {
     applyOffset(track, pointerState.offset + dx * 0.36);
   });
 
-  track.addEventListener('pointerup', (event) => {
+  track.addEventListener("pointerup", (event) => {
     if (!pointerState || pointerState.id !== event.pointerId) {
       return;
     }
@@ -178,7 +180,9 @@ function createHomeSlider(root) {
     const dx = event.clientX - pointerState.startX;
     const dy = event.clientY - pointerState.startY;
     const shouldMove =
-      pointerState.dragged && Math.abs(dx) > SWIPE_THRESHOLD && Math.abs(dx) > Math.abs(dy);
+      pointerState.dragged &&
+      Math.abs(dx) > SWIPE_THRESHOLD &&
+      Math.abs(dx) > Math.abs(dy);
 
     pointerState = null;
     track.classList.remove(DRAGGING_CLASS);
@@ -191,20 +195,25 @@ function createHomeSlider(root) {
     snapToOffset(track, currentOffset);
   });
 
-  track.addEventListener('pointercancel', () => {
+  track.addEventListener("pointercancel", () => {
     pointerState = null;
     track.classList.remove(DRAGGING_CLASS);
     snapToOffset(track, currentOffset);
   });
 
   window.addEventListener(
-    'resize',
+    "resize",
     debounce(() => {
       cancelMovement();
       arrangeSlides(track, slides, activeIndex);
       syncSlides(slides, activeIndex);
       updateSlideDepth(slides, activeIndex, false);
-      currentOffset = recenterActive(root, track, slides[activeIndex], currentOffset);
+      currentOffset = recenterActive(
+        root,
+        track,
+        slides[activeIndex],
+        currentOffset,
+      );
     }, 120),
   );
 
@@ -213,16 +222,26 @@ function createHomeSlider(root) {
     arrangeSlides(track, slides, activeIndex);
     syncSlides(slides, activeIndex);
     updateSlideDepth(slides, activeIndex, false);
-    currentOffset = recenterActive(root, track, slides[activeIndex], currentOffset);
+    currentOffset = recenterActive(
+      root,
+      track,
+      slides[activeIndex],
+      currentOffset,
+    );
   };
 
   arrangeSlides(track, slides, activeIndex);
   syncSlides(slides, activeIndex);
   updateSlideDepth(slides, activeIndex, false);
-  currentOffset = recenterActive(root, track, slides[activeIndex], currentOffset);
+  currentOffset = recenterActive(
+    root,
+    track,
+    slides[activeIndex],
+    currentOffset,
+  );
   updateControlsState(controls, isPlaying);
 
-  document.addEventListener('visibilitychange', () => {
+  document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
       stopAutoplay();
       return;
@@ -259,7 +278,12 @@ function createHomeSlider(root) {
     if (shouldReduceMotion || distance === 0) {
       activeIndex = nextIndex;
       arrangeSlides(track, slides, activeIndex);
-      currentOffset = recenterActive(root, track, slides[activeIndex], currentOffset);
+      currentOffset = recenterActive(
+        root,
+        track,
+        slides[activeIndex],
+        currentOffset,
+      );
       flushQueuedMove();
       return;
     }
@@ -276,7 +300,12 @@ function createHomeSlider(root) {
         isAnimating = false;
         activeIndex = nextIndex;
         arrangeSlides(track, slides, activeIndex);
-        currentOffset = recenterActive(root, track, slides[activeIndex], currentOffset);
+        currentOffset = recenterActive(
+          root,
+          track,
+          slides[activeIndex],
+          currentOffset,
+        );
         flushQueuedMove();
       },
     );
@@ -345,37 +374,40 @@ function decorateSlider(root, track, slides) {
     track.id = `bemke-home-slider-track-${sliderId}`;
   }
 
-  if (!root.hasAttribute('role')) {
-    root.setAttribute('role', 'region');
+  if (!root.hasAttribute("role")) {
+    root.setAttribute("role", "region");
   }
 
-  if (!root.hasAttribute('aria-roledescription')) {
-    root.setAttribute('aria-roledescription', 'karuzela');
+  if (!root.hasAttribute("aria-roledescription")) {
+    root.setAttribute("aria-roledescription", "karuzela");
   }
 
-  if (!root.hasAttribute('aria-label') && !root.hasAttribute('aria-labelledby')) {
-    root.setAttribute('aria-label', getSliderLabel(root));
+  if (
+    !root.hasAttribute("aria-label") &&
+    !root.hasAttribute("aria-labelledby")
+  ) {
+    root.setAttribute("aria-label", getSliderLabel(root));
   }
 
-  if (!root.hasAttribute('tabindex')) {
-    root.setAttribute('tabindex', '0');
+  if (!root.hasAttribute("tabindex")) {
+    root.setAttribute("tabindex", "0");
   }
 
-  track.setAttribute('aria-live', 'polite');
-  track.setAttribute('aria-atomic', 'false');
+  track.setAttribute("aria-live", "polite");
+  track.setAttribute("aria-atomic", "false");
 
   slides.forEach((slide, index) => {
-    slide.setAttribute('role', 'group');
-    slide.setAttribute('aria-roledescription', 'slajd');
-    slide.setAttribute('aria-label', `Slajd ${index + 1} z ${slides.length}`);
+    slide.setAttribute("role", "group");
+    slide.setAttribute("aria-roledescription", "slajd");
+    slide.setAttribute("aria-label", `Slajd ${index + 1} z ${slides.length}`);
   });
 }
 
 function bindControls(controls, track, handlers) {
-  bindControl(controls.pause, 'Pauza autoplay', track.id, handlers.onPause);
-  bindControl(controls.play, 'Start autoplay', track.id, handlers.onPlay);
-  bindControl(controls.prev, 'Poprzedni slajd', track.id, handlers.onPrev);
-  bindControl(controls.next, 'Następny slajd', track.id, handlers.onNext);
+  bindControl(controls.pause, "Pauza autoplay", track.id, handlers.onPause);
+  bindControl(controls.play, "Start autoplay", track.id, handlers.onPlay);
+  bindControl(controls.prev, "Poprzedni slajd", track.id, handlers.onPrev);
+  bindControl(controls.next, "Następny slajd", track.id, handlers.onNext);
 }
 
 function bindControl(control, label, controlsId, handler) {
@@ -396,18 +428,20 @@ function getControls(root) {
 
 function updateControlsState(controls, isPlaying) {
   if (controls.play) {
-    controls.play.classList.toggle('is-disabled', isPlaying);
-    controls.play.setAttribute('aria-disabled', isPlaying ? 'true' : 'false');
+    controls.play.classList.toggle("is-disabled", isPlaying);
+    controls.play.setAttribute("aria-disabled", isPlaying ? "true" : "false");
   }
 
   if (controls.pause) {
-    controls.pause.classList.toggle('is-disabled', !isPlaying);
-    controls.pause.setAttribute('aria-disabled', !isPlaying ? 'true' : 'false');
+    controls.pause.classList.toggle("is-disabled", !isPlaying);
+    controls.pause.setAttribute("aria-disabled", !isPlaying ? "true" : "false");
   }
 }
 
 function getInitialActiveIndex(slides) {
-  const activeIndex = slides.findIndex((slide) => slide.getAttribute(ACTIVE_ATTR) === '1');
+  const activeIndex = slides.findIndex(
+    (slide) => slide.getAttribute(ACTIVE_ATTR) === "1",
+  );
   return activeIndex >= 0 ? activeIndex : 0;
 }
 
@@ -420,21 +454,25 @@ function arrangeSlides(track, slides, activeIndex) {
     orderedSlides.push(slides[wrapIndex(activeIndex + offset, slides.length)]);
   }
 
-  track.appendChild(createGhostSlide(slides[wrapIndex(activeIndex - 2, slides.length)]));
+  track.appendChild(
+    createGhostSlide(slides[wrapIndex(activeIndex - 2, slides.length)]),
+  );
 
   orderedSlides.forEach((slide) => {
     track.appendChild(slide);
   });
 
-  track.appendChild(createGhostSlide(slides[wrapIndex(activeIndex - 1, slides.length)]));
+  track.appendChild(
+    createGhostSlide(slides[wrapIndex(activeIndex - 1, slides.length)]),
+  );
 }
 
 function syncSlides(slides, activeIndex) {
   slides.forEach((slide, index) => {
     const isActive = index === activeIndex;
-    slide.setAttribute(ACTIVE_ATTR, isActive ? '1' : '0');
-    slide.setAttribute('aria-hidden', isActive ? 'false' : 'true');
-    slide.setAttribute('aria-current', isActive ? 'true' : 'false');
+    slide.setAttribute(ACTIVE_ATTR, isActive ? "1" : "0");
+    slide.setAttribute("aria-hidden", isActive ? "false" : "true");
+    slide.setAttribute("aria-current", isActive ? "true" : "false");
   });
 }
 
@@ -442,10 +480,10 @@ function updateSlideDepth(slides, activeIndex, shouldAnimate) {
   const activeSlide = slides[activeIndex];
   const sideSlides = slides.filter((_, index) => index !== activeIndex);
 
-  gsap.killTweensOf(slides, 'scale');
+  gsap.killTweensOf(slides, "scale");
 
   slides.forEach((slide, index) => {
-    slide.style.zIndex = index === activeIndex ? '2' : '1';
+    slide.style.zIndex = index === activeIndex ? "2" : "1";
   });
 
   if (!shouldAnimate) {
@@ -458,7 +496,7 @@ function updateSlideDepth(slides, activeIndex, shouldAnimate) {
     scale: SIDE_SLIDE_SCALE,
     duration: ANIMATION_DURATION,
     ease: ANIMATION_EASE,
-    overwrite: 'auto',
+    overwrite: "auto",
   });
 
   gsap.to(activeSlide, {
@@ -466,7 +504,7 @@ function updateSlideDepth(slides, activeIndex, shouldAnimate) {
     duration: ANIMATION_DURATION,
     delay: ACTIVE_SCALE_DELAY,
     ease: ANIMATION_EASE,
-    overwrite: 'auto',
+    overwrite: "auto",
   });
 }
 
@@ -474,26 +512,26 @@ function createGhostSlide(sourceSlide) {
   const ghost = sourceSlide.cloneNode(true);
 
   ghost.classList.add(GHOST_CLASS);
-  ghost.setAttribute(ACTIVE_ATTR, '0');
-  ghost.setAttribute('aria-hidden', 'true');
-  ghost.removeAttribute('aria-current');
-  ghost.removeAttribute('id');
-  ghost.setAttribute('tabindex', '-1');
-  ghost.style.zIndex = '1';
+  ghost.setAttribute(ACTIVE_ATTR, "0");
+  ghost.setAttribute("aria-hidden", "true");
+  ghost.removeAttribute("aria-current");
+  ghost.removeAttribute("id");
+  ghost.setAttribute("tabindex", "-1");
+  ghost.style.zIndex = "1";
   gsap.set(ghost, { scale: SIDE_SLIDE_SCALE });
 
-  if ('inert' in ghost) {
+  if ("inert" in ghost) {
     ghost.inert = true;
   }
 
-  ghost.querySelectorAll('[id]').forEach((node) => {
-    node.removeAttribute('id');
+  ghost.querySelectorAll("[id]").forEach((node) => {
+    node.removeAttribute("id");
   });
 
   ghost
-    .querySelectorAll('a, button, input, select, textarea, [tabindex]')
+    .querySelectorAll("a, button, input, select, textarea, [tabindex]")
     .forEach((node) => {
-      node.setAttribute('tabindex', '-1');
+      node.setAttribute("tabindex", "-1");
     });
 
   prepareSlideImages(ghost, false);
@@ -502,9 +540,11 @@ function createGhostSlide(sourceSlide) {
 }
 
 function removeGhostSlides(track) {
-  track.querySelectorAll(`:scope > ${SLIDE_SELECTOR}.${GHOST_CLASS}`).forEach((slide) => {
-    slide.remove();
-  });
+  track
+    .querySelectorAll(`:scope > ${SLIDE_SELECTOR}.${GHOST_CLASS}`)
+    .forEach((slide) => {
+      slide.remove();
+    });
 }
 
 function prepareSlideMedia(slides) {
@@ -514,10 +554,10 @@ function prepareSlideMedia(slides) {
 }
 
 function prepareSlideImages(scope, shouldPreload) {
-  scope.querySelectorAll('img').forEach((image) => {
-    image.setAttribute('draggable', 'false');
-    image.setAttribute('loading', 'eager');
-    image.setAttribute('decoding', 'async');
+  scope.querySelectorAll("img").forEach((image) => {
+    image.setAttribute("draggable", "false");
+    image.setAttribute("loading", "eager");
+    image.setAttribute("decoding", "async");
     image.draggable = false;
 
     if (shouldPreload) {
@@ -527,19 +567,19 @@ function prepareSlideImages(scope, shouldPreload) {
 }
 
 function preloadImage(image) {
-  const src = image.currentSrc || image.getAttribute('src') || image.src;
+  const src = image.currentSrc || image.getAttribute("src") || image.src;
 
   if (!src || (image.complete && image.naturalWidth > 0)) {
     return;
   }
 
-  if (typeof image.decode === 'function') {
+  if (typeof image.decode === "function") {
     image.decode().catch(() => {});
   }
 
   const preload = new Image();
-  const srcset = image.getAttribute('srcset');
-  const sizes = image.getAttribute('sizes');
+  const srcset = image.getAttribute("srcset");
+  const sizes = image.getAttribute("sizes");
 
   if (srcset) {
     preload.srcset = srcset;
@@ -549,7 +589,7 @@ function preloadImage(image) {
     preload.sizes = sizes;
   }
 
-  preload.decoding = 'async';
+  preload.decoding = "async";
   preload.onload = () => imagePreloads.delete(preload);
   preload.onerror = () => imagePreloads.delete(preload);
   imagePreloads.add(preload);
@@ -563,7 +603,8 @@ function recenterActive(root, track, activeSlide, currentOffset) {
 
   root.classList.add(RESETTING_CLASS);
 
-  const nextOffset = currentOffset + getRootCenter(root) - getSlideCenter(activeSlide);
+  const nextOffset =
+    currentOffset + getRootCenter(root) - getSlideCenter(activeSlide);
   applyOffset(track, nextOffset);
   track.offsetHeight;
 
@@ -594,7 +635,7 @@ function animateOffset(track, offset, duration, ease, onComplete) {
     duration,
     ease,
     force3D: true,
-    overwrite: 'auto',
+    overwrite: "auto",
     onComplete,
   });
 }
@@ -609,23 +650,29 @@ function snapToOffset(track, offset) {
 }
 
 function prefersReducedMotion() {
-  return window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+  return (
+    window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false
+  );
 }
 
 function getRenderedOffset(track, fallback) {
-  const offset = Number(gsap.getProperty(track, 'x'));
+  const offset = Number(gsap.getProperty(track, "x"));
   return Number.isFinite(offset) ? offset : fallback;
 }
 
 function getSliderLabel(root) {
-  const heading = root.closest('section')?.querySelector('h1, h2, h3');
-  const label = heading?.textContent?.replace(/\s+/g, ' ').trim();
+  const heading = root.closest("section")?.querySelector("h1, h2, h3");
+  const label = heading?.textContent?.replace(/\s+/g, " ").trim();
 
-  return label ? `Slider: ${label}` : 'Slider zdjęć';
+  return label ? `Slider: ${label}` : "Slider zdjęć";
 }
 
 function isFormControl(target) {
-  return Boolean(target?.closest?.('input, textarea, select, button, [contenteditable="true"]'));
+  return Boolean(
+    target?.closest?.(
+      'input, textarea, select, button, [contenteditable="true"]',
+    ),
+  );
 }
 
 function wrapIndex(index, total) {
