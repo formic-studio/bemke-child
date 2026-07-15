@@ -19,7 +19,7 @@ const AUTOPLAY_MS = 3500;
 const SWIPE_THRESHOLD = 46;
 const SIDE_SLIDE_SCALE = 0.96;
 const INCOMING_SLIDE_DELAY = 0.02;
-const ANIMATION_EASE = "power3.inOut";
+const ANIMATION_EASE = "power1.inOut";
 const SNAP_EASE = "power3.out";
 
 let sliderId = 0;
