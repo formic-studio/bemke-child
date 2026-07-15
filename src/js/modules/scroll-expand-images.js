@@ -4,8 +4,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 const IMAGE_SELECTOR = ".img-scroll-expand";
 const INITIAL_IMAGE_WIDTH = 300;
 const ANIMATION_START = "top 90%";
-const ANIMATION_DURATION = 1.6;
-const ANIMATION_EASE = "power2.inOut";
+const ANIMATION_DURATION = 1.4;
+const ANIMATION_EASE = "power1.inOut";
 
 function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
