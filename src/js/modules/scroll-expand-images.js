@@ -2,8 +2,8 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const IMAGE_SELECTOR = ".img-scroll-expand";
-const ANIMATION_START = "top 95%";
-const ANIMATION_DURATION = 1.2;
+const ANIMATION_START = "top 90%";
+const ANIMATION_DURATION = 1.6;
 const ANIMATION_EASE = "power2.inOut";
 
 export function initScrollExpandImages() {
