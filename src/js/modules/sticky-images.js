@@ -10,6 +10,15 @@ const STICKY_SELECTOR = ".sticky";
 const SECTION_SELECTOR = ".brxe-section";
 const MOBILE_QUERY = "(max-width: 767px)";
 
+function restoreInlineStyle(element, originalStyle) {
+  if (originalStyle === null) {
+    element.removeAttribute("style");
+    return;
+  }
+
+  element.setAttribute("style", originalStyle);
+}
+
 export function initStickyImages() {
   const wrappers = gsap.utils.toArray(WRAPPER_SELECTOR);
 
@@ -19,10 +28,38 @@ export function initStickyImages() {
 
   const mobileQuery = window.matchMedia(MOBILE_QUERY);
   let stickyTriggers = [];
+  const mobileLayerStyles = new Map();
+
+  const prepareMobileLayers = (image, section, nextSection) => {
+    [image, section, nextSection].forEach((element) => {
+      if (!mobileLayerStyles.has(element)) {
+        mobileLayerStyles.set(element, element.getAttribute("style"));
+      }
+    });
+
+    section.style.position = "relative";
+    section.style.zIndex = "0";
+    section.style.isolation = "isolate";
+
+    image.style.zIndex = "0";
+
+    nextSection.style.position = "relative";
+    nextSection.style.zIndex = "10";
+    nextSection.style.isolation = "isolate";
+    nextSection.style.transform = "translateZ(0)";
+  };
+
+  const restoreMobileLayers = () => {
+    mobileLayerStyles.forEach((originalStyle, element) => {
+      restoreInlineStyle(element, originalStyle);
+    });
+    mobileLayerStyles.clear();
+  };
 
   const stopSticky = () => {
     stickyTriggers.forEach((trigger) => trigger.kill());
     stickyTriggers = [];
+    restoreMobileLayers();
   };
 
   const startSticky = () => {
@@ -37,6 +74,10 @@ export function initStickyImages() {
         return [];
       }
 
+      if (mobileQuery.matches) {
+        prepareMobileLayers(image, section, nextSection);
+      }
+
       return [
         ScrollTrigger.create({
           trigger: wrapper,
@@ -46,7 +87,7 @@ export function initStickyImages() {
           pin: image,
           pinSpacing: false,
           pinType: mobileQuery.matches ? "transform" : "fixed",
-          anticipatePin: 1,
+          anticipatePin: mobileQuery.matches ? 0 : 1,
           invalidateOnRefresh: true,
         }),
       ];

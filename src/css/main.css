@@ -530,14 +530,6 @@ html[data-contrast]:not([data-contrast="default"]) textarea {
   z-index: 1;
 }
 
-@media (max-width: 767px) {
-  .sticky-wrapper > .sticky {
-    backface-visibility: hidden;
-    transform: translateZ(0);
-    will-change: transform;
-  }
-}
-
 /* Animated number counter */
 .number-counter {
   font-variant-numeric: tabular-nums;
