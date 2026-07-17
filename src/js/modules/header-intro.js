@@ -39,6 +39,7 @@ export function initHeaderIntro() {
 
     gsap.set(header, {
       autoAlpha: 0,
+      transition: 'none',
       yPercent: -100,
     });
     header.setAttribute(READY_ATTR, '1');
@@ -102,7 +103,7 @@ function revealHeader(state, animate) {
 
   if (!animate) {
     gsap.set(state.header, {
-      clearProps: 'opacity,transform,visibility',
+      clearProps: 'opacity,transform,transition,visibility',
     });
     markHeaderComplete(state);
     return;
@@ -116,7 +117,7 @@ function revealHeader(state, animate) {
     yPercent: 0,
     onComplete: () => {
       gsap.set(state.header, {
-        clearProps: 'opacity,transform,visibility',
+        clearProps: 'opacity,transform,transition,visibility',
       });
       markHeaderComplete(state);
     },
