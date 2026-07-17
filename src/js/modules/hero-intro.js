@@ -13,7 +13,7 @@ const COMPLETE_ATTR = 'data-bemke-hero-intro-complete';
 const MOBILE_QUERY = '(max-width: 767px)';
 const START_Y = 10;
 const DESKTOP_BLUR = 8;
-const LINE_STAGGER = 0.06;
+const LINE_STAGGER = 0.12;
 const FONT_WAIT_MS = 1000;
 
 const activeStates = new Set();
@@ -139,13 +139,13 @@ async function animateHeroLines(state, isMobile) {
     gsap.set(lines, lineInitialState);
 
     const headingTween = {
-      duration: isMobile ? 0.55 : 0.65,
+      duration: isMobile ? 0.66 : 0.78,
       opacity: 1,
       stagger: LINE_STAGGER,
       y: 0,
     };
     const supplementaryTween = {
-      duration: isMobile ? 0.45 : 0.55,
+      duration: isMobile ? 0.54 : 0.66,
       opacity: 1,
       stagger: LINE_STAGGER,
       y: 0,
