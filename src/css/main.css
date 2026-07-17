@@ -520,6 +520,16 @@ html[data-contrast]:not([data-contrast="default"]) textarea {
   max-width: 100%;
 }
 
+.brxe-section:has(.sticky-wrapper) {
+  position: relative;
+  z-index: 0;
+}
+
+.brxe-section:has(.sticky-wrapper) + .brxe-section {
+  position: relative;
+  z-index: 1;
+}
+
 /* Animated number counter */
 .number-counter {
   font-variant-numeric: tabular-nums;

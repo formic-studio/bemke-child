@@ -20,6 +20,7 @@ import { initCurrentPageLinks } from './modules/current-page-links.js';
 import { initInfinityLoop } from './modules/infinity-loop.js';
 import { initMobileMenu } from './modules/mobile-menu.js';
 import { initScrollExpandImages } from './modules/scroll-expand-images.js';
+import { initStickyImages } from './modules/sticky-images.js';
 import { initNumberCounters } from './modules/number-counter.js';
 import { initCardImageHover } from './modules/card-image-hover.js';
 import { initAccessibilitySwitches } from './modules/accessibility-switches.js';
@@ -51,6 +52,7 @@ function initApp() {
   initCurrentPageLinks();
   initInfinityLoop();
   initScrollExpandImages();
+  initStickyImages();
   initNumberCounters();
   initCardImageHover();
 }
