@@ -7,8 +7,10 @@ const ROOT_SELECTOR = '.video';
 const VIDEO_SELECTOR = 'video';
 const videoStates = new WeakMap();
 const decorativeVideos = new Set();
-const ACTIVATION_EVENTS = ['pointerdown', 'touchstart', 'keydown', 'scroll'];
-let activationBound = false;
+const VIDEO_START_DELAY_MS = 150;
+const VIDEO_IDLE_TIMEOUT_MS = 800;
+let activationDelayId = null;
+let activationIdleId = null;
 
 function rememberVideoState(video) {
   if (videoStates.has(video)) {
@@ -94,44 +96,56 @@ function activateDeferredVideos() {
     return;
   }
 
-  let hydrated = false;
-
   decorativeVideos.forEach((video) => {
-    hydrated = hydrateDeferredVideo(video) || hydrated;
+    hydrateDeferredVideo(video);
   });
-
-  if (hydrated || !Array.from(decorativeVideos).some((video) => video.dataset.bemkeSrc)) {
-    unbindDeferredVideoActivation();
-  }
 }
 
-function bindDeferredVideoActivation() {
+function scheduleDeferredVideoActivation() {
   if (
-    activationBound ||
+    activationDelayId !== null ||
+    activationIdleId !== null ||
+    isReducedMotion() ||
     !Array.from(decorativeVideos).some((video) => video.dataset.bemkeSrc)
   ) {
     return;
   }
 
-  activationBound = true;
+  activationDelayId = window.setTimeout(() => {
+    activationDelayId = null;
 
-  ACTIVATION_EVENTS.forEach((eventName) => {
-    window.addEventListener(eventName, activateDeferredVideos, {
-      passive: true,
-    });
-  });
+    if (isReducedMotion()) {
+      return;
+    }
+
+    if (typeof window.requestIdleCallback === 'function') {
+      activationIdleId = window.requestIdleCallback(
+        () => {
+          activationIdleId = null;
+          activateDeferredVideos();
+        },
+        { timeout: VIDEO_IDLE_TIMEOUT_MS },
+      );
+      return;
+    }
+
+    activateDeferredVideos();
+  }, VIDEO_START_DELAY_MS);
 }
 
-function unbindDeferredVideoActivation() {
-  if (!activationBound) {
-    return;
+function cancelDeferredVideoActivation() {
+  if (activationDelayId !== null) {
+    window.clearTimeout(activationDelayId);
+    activationDelayId = null;
   }
 
-  activationBound = false;
-
-  ACTIVATION_EVENTS.forEach((eventName) => {
-    window.removeEventListener(eventName, activateDeferredVideos);
-  });
+  if (
+    activationIdleId !== null &&
+    typeof window.cancelIdleCallback === 'function'
+  ) {
+    window.cancelIdleCallback(activationIdleId);
+    activationIdleId = null;
+  }
 }
 
 function getDecorativeVideoRoots() {
@@ -166,15 +180,20 @@ function decorateVideo(root) {
 
 export function initDecorativeVideoControls() {
   getDecorativeVideoRoots().forEach(decorateVideo);
-  bindDeferredVideoActivation();
+  scheduleDeferredVideoActivation();
 
   document.addEventListener(MOTION_CHANGE_EVENT, (event) => {
+    const reduced = Boolean(event.detail?.reduced);
+
     decorativeVideos.forEach((video) => {
-      applyVideoMotionState(video, Boolean(event.detail?.reduced));
+      applyVideoMotionState(video, reduced);
     });
 
-    if (!event.detail?.reduced) {
-      bindDeferredVideoActivation();
+    if (reduced) {
+      cancelDeferredVideoActivation();
+      return;
     }
+
+    scheduleDeferredVideoActivation();
   });
 }
