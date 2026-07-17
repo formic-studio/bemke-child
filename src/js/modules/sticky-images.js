@@ -8,6 +8,7 @@ import {
 const WRAPPER_SELECTOR = ".sticky-wrapper";
 const STICKY_SELECTOR = ".sticky";
 const SECTION_SELECTOR = ".brxe-section";
+const MOBILE_QUERY = "(max-width: 767px)";
 
 export function initStickyImages() {
   const wrappers = gsap.utils.toArray(WRAPPER_SELECTOR);
@@ -16,6 +17,7 @@ export function initStickyImages() {
 
   gsap.registerPlugin(ScrollTrigger);
 
+  const mobileQuery = window.matchMedia(MOBILE_QUERY);
   let stickyTriggers = [];
 
   const stopSticky = () => {
@@ -43,6 +45,7 @@ export function initStickyImages() {
           end: "top top",
           pin: image,
           pinSpacing: false,
+          pinType: mobileQuery.matches ? "transform" : "fixed",
           anticipatePin: 1,
           invalidateOnRefresh: true,
         }),
@@ -78,4 +81,15 @@ export function initStickyImages() {
   }
 
   document.addEventListener(MOTION_CHANGE_EVENT, syncSticky);
+
+  const rebuildSticky = () => {
+    stopSticky();
+    syncSticky();
+  };
+
+  if (typeof mobileQuery.addEventListener === "function") {
+    mobileQuery.addEventListener("change", rebuildSticky);
+  } else if (typeof mobileQuery.addListener === "function") {
+    mobileQuery.addListener(rebuildSticky);
+  }
 }
