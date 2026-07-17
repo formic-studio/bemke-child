@@ -29,6 +29,10 @@ html {
   );
 }
 
+html.bemke-scroll-expand-active {
+  overflow-anchor: none;
+}
+
 html[data-bemke-reduced-motion="true"] {
   scroll-behavior: auto !important;
 }

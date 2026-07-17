@@ -7,14 +7,19 @@ import {
 
 const IMAGE_SELECTOR = ".img-scroll-expand";
 const COMPLETE_ATTR = "data-bemke-scroll-expand-complete";
+const ACTIVE_ROOT_CLASS = "bemke-scroll-expand-active";
 const INITIAL_IMAGE_WIDTH = 300;
 const SCROLL_START = "top 95%";
-const SCROLL_END = "bottom 5%";
 const SCROLL_SCRUB = 1.4;
+const VIEWPORT_SCROLL_DISTANCE = 0.9;
 const MOBILE_QUERY = "(max-width: 767px)";
 const GROW_DURATION = 0.45;
 const FULL_SIZE_DURATION = 0.1;
 const SHRINK_DURATION = 0.45;
+
+function clamp(value, min, max) {
+  return Math.min(Math.max(value, min), max);
+}
 
 function restoreInlineStyle(image, originalStyle) {
   if (originalStyle === null) {
@@ -25,42 +30,81 @@ function restoreInlineStyle(image, originalStyle) {
   image.setAttribute("style", originalStyle);
 }
 
-function measureImageWidths(image, originalStyle) {
-  restoreInlineStyle(image, originalStyle);
+function prepareImageLayout({
+  container,
+  containerOriginalStyle,
+  image,
+  imageOriginalStyle,
+}) {
+  restoreInlineStyle(container, containerOriginalStyle);
+  restoreInlineStyle(image, imageOriginalStyle);
 
   const initialRect = image.getBoundingClientRect();
   const initialWidth = Math.min(INITIAL_IMAGE_WIDTH, initialRect.width);
+  const initialHeight = initialRect.height;
+  const initialLeft = initialRect.left;
+  const initialTop = initialRect.top;
+  const initialContainerHeight = container.getBoundingClientRect().height;
 
   gsap.set(image, {
     width: "100%",
+    scale: 1,
   });
 
   const expandedRect = image.getBoundingClientRect();
-  const expandedWidth = Math.max(expandedRect.width, initialWidth);
+  const expandedContainerHeight = container.getBoundingClientRect().height;
+  const startScale = expandedRect.width
+    ? clamp(initialWidth / expandedRect.width, 0, 1)
+    : 1;
+  const horizontalSpace = Math.max(expandedRect.width - initialWidth, 0);
+  const verticalSpace = Math.max(expandedRect.height - initialHeight, 0);
+  const originX = horizontalSpace
+    ? clamp((initialLeft - expandedRect.left) / horizontalSpace, 0, 1) * 100
+    : 50;
+  const originY = verticalSpace
+    ? clamp((initialTop - expandedRect.top) / verticalSpace, 0, 1) * 100
+    : 0;
 
-  restoreInlineStyle(image, originalStyle);
+  restoreInlineStyle(container, containerOriginalStyle);
+  restoreInlineStyle(image, imageOriginalStyle);
+  gsap.set(container, {
+    height: initialContainerHeight,
+  });
   gsap.set(image, {
-    width: initialWidth,
+    width: "100%",
+    scale: startScale,
+    transformOrigin: `${originX}% ${originY}%`,
   });
 
-  return { initialWidth, expandedWidth };
+  return {
+    expandedContainerHeight,
+    initialContainerHeight,
+    startScale,
+  };
 }
 
-function showImageWithoutMotion(image) {
+function showImageWithoutMotion({
+  container,
+  containerOriginalStyle,
+  image,
+  imageOriginalStyle,
+}) {
   image.setAttribute(COMPLETE_ATTR, "1");
   gsap.killTweensOf(image);
+  gsap.killTweensOf(container);
+  restoreInlineStyle(container, containerOriginalStyle);
+  restoreInlineStyle(image, imageOriginalStyle);
   gsap.set(image, {
     width: "100%",
   });
-  gsap.set(image, {
-    clearProps: "transform,transformOrigin,willChange",
-  });
 }
 
-function createScrollAnimation(image, originalStyle) {
+function createScrollAnimation(imageState) {
+  const { container, image } = imageState;
   const metrics = {
-    initialWidth: INITIAL_IMAGE_WIDTH,
-    expandedWidth: INITIAL_IMAGE_WIDTH,
+    expandedContainerHeight: 0,
+    initialContainerHeight: 0,
+    startScale: 1,
   };
 
   const prepare = () => {
@@ -71,14 +115,14 @@ function createScrollAnimation(image, originalStyle) {
       return;
     }
 
-    Object.assign(metrics, measureImageWidths(image, originalStyle));
+    Object.assign(metrics, prepareImageLayout(imageState));
   };
 
-  const enableWidthRendering = () => {
-    gsap.set(image, { willChange: "width" });
+  const enableTransformRendering = () => {
+    gsap.set(image, { willChange: "transform" });
   };
 
-  const disableWidthRendering = () => {
+  const disableTransformRendering = () => {
     gsap.set(image, { clearProps: "willChange" });
   };
 
@@ -93,35 +137,70 @@ function createScrollAnimation(image, originalStyle) {
     .fromTo(
       image,
       {
-        width: () => metrics.initialWidth,
+        scale: () => metrics.startScale,
       },
       {
-        width: () => metrics.expandedWidth,
+        scale: 1,
+        duration: GROW_DURATION,
+        force3D: true,
+        immediateRender: true,
+      },
+      0,
+    )
+    .fromTo(
+      container,
+      {
+        height: () => metrics.initialContainerHeight,
+      },
+      {
+        height: () => metrics.expandedContainerHeight,
         duration: GROW_DURATION,
         immediateRender: true,
       },
+      0,
     )
     .to(image, {
-      width: () => metrics.expandedWidth,
+      scale: 1,
       duration: FULL_SIZE_DURATION,
     })
+    .to(
+      container,
+      {
+        height: () => metrics.expandedContainerHeight,
+        duration: FULL_SIZE_DURATION,
+      },
+      "<",
+    )
     .to(image, {
-      width: () => metrics.initialWidth,
+      scale: () => metrics.startScale,
       duration: SHRINK_DURATION,
-    });
+      force3D: true,
+    })
+    .to(
+      container,
+      {
+        height: () => metrics.initialContainerHeight,
+        duration: SHRINK_DURATION,
+      },
+      "<",
+    );
 
   const trigger = ScrollTrigger.create({
-    trigger: image.parentElement ?? image,
+    trigger: container,
     animation: timeline,
     start: SCROLL_START,
-    end: SCROLL_END,
+    end: () =>
+      `+=${
+        window.innerHeight * VIEWPORT_SCROLL_DISTANCE +
+        metrics.expandedContainerHeight
+      }`,
     scrub: SCROLL_SCRUB,
     invalidateOnRefresh: true,
     onRefreshInit: prepare,
-    onEnter: enableWidthRendering,
-    onEnterBack: enableWidthRendering,
-    onLeave: disableWidthRendering,
-    onLeaveBack: disableWidthRendering,
+    onEnter: enableTransformRendering,
+    onEnterBack: enableTransformRendering,
+    onLeave: disableTransformRendering,
+    onLeaveBack: disableTransformRendering,
   });
 
   return { image, timeline, trigger };
@@ -134,10 +213,16 @@ export function initScrollExpandImages() {
 
   gsap.registerPlugin(ScrollTrigger);
 
-  const imageStates = images.map((image) => ({
-    image,
-    originalStyle: image.getAttribute("style"),
-  }));
+  const imageStates = images.map((image) => {
+    const container = image.parentElement ?? image;
+
+    return {
+      container,
+      containerOriginalStyle: container.getAttribute("style"),
+      image,
+      imageOriginalStyle: image.getAttribute("style"),
+    };
+  });
   const mobileQuery = window.matchMedia(MOBILE_QUERY);
   let imageAnimations = [];
 
@@ -147,20 +232,28 @@ export function initScrollExpandImages() {
       timeline.kill();
     });
     imageAnimations = [];
-    images.forEach(showImageWithoutMotion);
+    imageStates.forEach(showImageWithoutMotion);
+    document.documentElement.classList.remove(ACTIVE_ROOT_CLASS);
   };
 
   const startAnimations = () => {
     if (imageAnimations.length) return;
 
-    imageStates.forEach(({ image, originalStyle }) => {
-      image.removeAttribute(COMPLETE_ATTR);
-      restoreInlineStyle(image, originalStyle);
-    });
-
-    imageAnimations = imageStates.map(({ image, originalStyle }) =>
-      createScrollAnimation(image, originalStyle),
+    imageStates.forEach(
+      ({
+        container,
+        containerOriginalStyle,
+        image,
+        imageOriginalStyle,
+      }) => {
+        image.removeAttribute(COMPLETE_ATTR);
+        restoreInlineStyle(container, containerOriginalStyle);
+        restoreInlineStyle(image, imageOriginalStyle);
+      },
     );
+
+    document.documentElement.classList.add(ACTIVE_ROOT_CLASS);
+    imageAnimations = imageStates.map(createScrollAnimation);
     ScrollTrigger.refresh();
   };
 
