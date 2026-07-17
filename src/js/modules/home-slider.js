@@ -27,6 +27,7 @@ const ANIMATION_EASE = "power1.inOut";
 const SNAP_EASE = "power3.out";
 
 let sliderId = 0;
+const imagePreloads = new Set();
 
 export function initHomeSlider() {
   initHomeSliderRoots();
@@ -102,7 +103,6 @@ function createHomeSlider(root) {
 
   root.setAttribute(READY_ATTR, "1");
   prepareSlideMedia(slides);
-  observeSlideMedia(root, slides, () => activeIndex);
   decorateSlider(root, track, slides);
   bindControls(controls, track, {
     onPause: () => disableAutoplay(),
@@ -294,7 +294,6 @@ function createHomeSlider(root) {
     const distance = getSlideCenter(nextSlide) - getSlideCenter(activeSlide);
     const shouldReduceMotion = isReducedMotion();
 
-    hydrateSlideImages(nextSlide);
     syncSlides(slides, nextIndex);
     updateSlideDepth(slides, nextIndex, !shouldReduceMotion && distance !== 0);
 
@@ -560,7 +559,7 @@ function createGhostSlide(sourceSlide) {
       node.setAttribute("tabindex", "-1");
     });
 
-  prepareSlideImages(ghost);
+  prepareSlideImages(ghost, false);
 
   return ghost;
 }
@@ -575,74 +574,51 @@ function removeGhostSlides(track) {
 
 function prepareSlideMedia(slides) {
   slides.forEach((slide) => {
-    prepareSlideImages(slide);
+    prepareSlideImages(slide, true);
   });
 }
 
-function prepareSlideImages(scope) {
+function prepareSlideImages(scope, shouldPreload) {
   scope.querySelectorAll("img").forEach((image) => {
     image.setAttribute("draggable", "false");
-    image.setAttribute("loading", "lazy");
+    image.setAttribute("loading", "eager");
     image.setAttribute("decoding", "async");
     image.draggable = false;
+
+    if (shouldPreload) {
+      preloadImage(image);
+    }
   });
 }
 
-function observeSlideMedia(root, slides, getActiveIndex) {
-  const hydrateNearbySlides = () => {
-    const activeIndex = getActiveIndex();
+function preloadImage(image) {
+  const src = image.currentSrc || image.getAttribute("src") || image.src;
 
-    [-1, 0, 1].forEach((offset) => {
-      hydrateSlideImages(slides[wrapIndex(activeIndex + offset, slides.length)]);
-    });
-  };
-
-  if (!("IntersectionObserver" in window)) {
-    hydrateNearbySlides();
+  if (!src || (image.complete && image.naturalWidth > 0)) {
     return;
   }
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      if (!entries.some((entry) => entry.isIntersecting)) {
-        return;
-      }
+  if (typeof image.decode === "function") {
+    image.decode().catch(() => {});
+  }
 
-      observer.disconnect();
-      hydrateNearbySlides();
-    },
-    {
-      rootMargin: "200px 0px",
-    },
-  );
+  const preload = new Image();
+  const srcset = image.getAttribute("srcset");
+  const sizes = image.getAttribute("sizes");
 
-  observer.observe(root);
-}
+  if (srcset) {
+    preload.srcset = srcset;
+  }
 
-function hydrateSlideImages(scope) {
-  scope.querySelectorAll("img").forEach((image) => {
-    const src = image.dataset.bemkeSrc;
-    const srcset = image.dataset.bemkeSrcset;
+  if (sizes) {
+    preload.sizes = sizes;
+  }
 
-    if (!src && !srcset) {
-      return;
-    }
-
-    image.setAttribute("loading", "eager");
-    image.setAttribute("fetchpriority", "auto");
-
-    if (srcset) {
-      image.setAttribute("srcset", srcset);
-      delete image.dataset.bemkeSrcset;
-    }
-
-    if (src) {
-      image.src = src;
-      delete image.dataset.bemkeSrc;
-    }
-
-    image.decode?.().catch(() => {});
-  });
+  preload.decoding = "async";
+  preload.onload = () => imagePreloads.delete(preload);
+  preload.onerror = () => imagePreloads.delete(preload);
+  imagePreloads.add(preload);
+  preload.src = src;
 }
 
 function recenterActive(root, track, activeSlide, currentOffset) {
