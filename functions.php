@@ -9,6 +9,8 @@ require_once get_stylesheet_directory() . '/inc/getresponse.php';
 
 add_action( 'wp_head', 'bemke_child_print_motion_preference', 1 );
 add_action( 'wp_enqueue_scripts', 'bemke_child_enqueue_assets', 20 );
+add_action( 'template_redirect', 'bemke_child_start_frontend_optimization_buffer', 0 );
+add_filter( 'wp_get_attachment_image_attributes', 'bemke_child_optimize_below_fold_images', 100, 3 );
 
 function bemke_child_print_motion_preference() {
 	if ( bemke_child_is_bricks_builder_request() ) {
@@ -77,6 +79,83 @@ function bemke_child_enqueue_assets() {
 			wp_script_add_data( 'bemke-child-main', 'defer', true );
 		}
 	}
+}
+
+function bemke_child_start_frontend_optimization_buffer() {
+	if (
+		is_admin() ||
+		wp_doing_ajax() ||
+		( defined( 'REST_REQUEST' ) && REST_REQUEST ) ||
+		is_feed() ||
+		bemke_child_is_bricks_builder_request()
+	) {
+		return;
+	}
+
+	ob_start( 'bemke_child_optimize_frontend_markup' );
+}
+
+function bemke_child_optimize_frontend_markup( $html ) {
+	if ( false === stripos( $html, 'Ksztaltuj-przyszlosc-edukacji.mp4' ) ) {
+		return $html;
+	}
+
+	return preg_replace_callback(
+		'/<video\b(?=[^>]*Ksztaltuj-przyszlosc-edukacji\.mp4)[^>]*>/i',
+		function ( $matches ) {
+			$tag = preg_replace_callback(
+				'/\ssrc\s*=\s*(["\'])([^"\']*Ksztaltuj-przyszlosc-edukacji\.mp4[^"\']*)\1/i',
+				function ( $source_matches ) {
+					return ' data-bemke-src="' . esc_url( $source_matches[2] ) . '"';
+				},
+				$matches[0],
+				1
+			);
+
+			$tag = preg_replace(
+				'/\s+autoplay(?:\s*=\s*(?:"[^"]*"|\'[^\']*\'|[^\s>]+))?/i',
+				'',
+				$tag
+			);
+
+			if ( preg_match( '/\s+preload\s*=/i', $tag ) ) {
+				$tag = preg_replace(
+					'/\s+preload\s*=\s*(?:"[^"]*"|\'[^\']*\'|[^\s>]+)/i',
+					' preload="none"',
+					$tag,
+					1
+				);
+			} else {
+				$tag = preg_replace( '/>$/', ' preload="none">', $tag );
+			}
+
+			if ( false === stripos( $tag, 'data-bemke-autoplay=' ) ) {
+				$tag = preg_replace( '/>$/', ' data-bemke-autoplay="true">', $tag );
+			}
+
+			return $tag;
+		},
+		$html
+	);
+}
+
+function bemke_child_optimize_below_fold_images( $attr, $attachment, $size ) {
+	if ( empty( $attr['class'] ) ) {
+		return $attr;
+	}
+
+	$classes        = preg_split( '/\s+/', trim( $attr['class'] ) );
+	$target_classes = array( 'slider-img', 'sticky', 'img-scroll-expand' );
+
+	if ( ! array_intersect( $target_classes, $classes ) ) {
+		return $attr;
+	}
+
+	$attr['loading']       = 'lazy';
+	$attr['decoding']      = 'async';
+	$attr['fetchpriority'] = 'low';
+
+	return $attr;
 }
 
 function bemke_child_is_bricks_builder_request() {

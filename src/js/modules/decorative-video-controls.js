@@ -7,6 +7,8 @@ const ROOT_SELECTOR = '.video';
 const VIDEO_SELECTOR = 'video';
 const videoStates = new WeakMap();
 const decorativeVideos = new Set();
+const ACTIVATION_EVENTS = ['pointerdown', 'touchstart', 'keydown', 'scroll'];
+let activationBound = false;
 
 function rememberVideoState(video) {
   if (videoStates.has(video)) {
@@ -14,7 +16,10 @@ function rememberVideoState(video) {
   }
 
   const state = {
-    autoplay: video.autoplay || video.hasAttribute('autoplay'),
+    autoplay:
+      video.dataset.bemkeAutoplay === 'true' ||
+      video.autoplay ||
+      video.hasAttribute('autoplay'),
     loop: video.loop || video.hasAttribute('loop'),
     wasPlaying: false,
   };
@@ -49,11 +54,84 @@ function applyVideoMotionState(video, reduced) {
   }
 
   if (state.wasPlaying || state.autoplay) {
+    if (video.dataset.bemkeSrc) {
+      return;
+    }
+
     const playPromise = video.play();
     playPromise?.catch?.(() => {});
   }
 
   state.wasPlaying = false;
+}
+
+function hydrateDeferredVideo(video) {
+  const source = video.dataset.bemkeSrc;
+
+  if (!source || isReducedMotion()) {
+    return false;
+  }
+
+  const state = rememberVideoState(video);
+
+  video.src = source;
+  delete video.dataset.bemkeSrc;
+  video.preload = 'metadata';
+  video.loop = state.loop;
+  video.autoplay = state.autoplay;
+  video.load();
+
+  if (state.autoplay) {
+    const playPromise = video.play();
+    playPromise?.catch?.(() => {});
+  }
+
+  return true;
+}
+
+function activateDeferredVideos() {
+  if (isReducedMotion()) {
+    return;
+  }
+
+  let hydrated = false;
+
+  decorativeVideos.forEach((video) => {
+    hydrated = hydrateDeferredVideo(video) || hydrated;
+  });
+
+  if (hydrated || !Array.from(decorativeVideos).some((video) => video.dataset.bemkeSrc)) {
+    unbindDeferredVideoActivation();
+  }
+}
+
+function bindDeferredVideoActivation() {
+  if (
+    activationBound ||
+    !Array.from(decorativeVideos).some((video) => video.dataset.bemkeSrc)
+  ) {
+    return;
+  }
+
+  activationBound = true;
+
+  ACTIVATION_EVENTS.forEach((eventName) => {
+    window.addEventListener(eventName, activateDeferredVideos, {
+      passive: true,
+    });
+  });
+}
+
+function unbindDeferredVideoActivation() {
+  if (!activationBound) {
+    return;
+  }
+
+  activationBound = false;
+
+  ACTIVATION_EVENTS.forEach((eventName) => {
+    window.removeEventListener(eventName, activateDeferredVideos);
+  });
 }
 
 function getDecorativeVideoRoots() {
@@ -88,10 +166,15 @@ function decorateVideo(root) {
 
 export function initDecorativeVideoControls() {
   getDecorativeVideoRoots().forEach(decorateVideo);
+  bindDeferredVideoActivation();
 
   document.addEventListener(MOTION_CHANGE_EVENT, (event) => {
     decorativeVideos.forEach((video) => {
       applyVideoMotionState(video, Boolean(event.detail?.reduced));
     });
+
+    if (!event.detail?.reduced) {
+      bindDeferredVideoActivation();
+    }
   });
 }
