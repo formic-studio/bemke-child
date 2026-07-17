@@ -44,12 +44,13 @@ function setupMobileMenu(header) {
   const originalAccessibilityNextSibling = accessibilitySection.nextSibling;
   const mobileQuery = window.matchMedia(MOBILE_QUERY);
   const mobileContent = createMobileContent(mobileWrapper, mobileMenu);
+  const accessibilityLayout = createMobileAccessibilityLayout(
+    accessibilitySection,
+  );
 
-  decorateAccessibilitySection(accessibilitySection);
   setupAlwaysOpenNestedBranches(mobileMenu);
   setupPolishMenuLabels(navigation, mobileToggle, mobileWrapper);
   setupMobileSubmenuAnimation(navigation, mobileMenu, mobileQuery);
-  setupAccessibilityDisclosure(accessibilitySection, mobileQuery);
   setupMobileMenuAnimation(navigation, mobileContent, mobileQuery);
 
   header.setAttribute(READY_ATTR, '1');
@@ -63,9 +64,11 @@ function setupMobileMenu(header) {
       }
 
       accessibilitySection.classList.add('bemke-mobile-wcag');
+      accessibilityLayout.mount();
       return;
     }
 
+    accessibilityLayout.unmount();
     accessibilitySection.classList.remove('bemke-mobile-wcag');
 
     if (accessibilitySection.parentNode === originalAccessibilityParent) {
@@ -250,80 +253,125 @@ function updateMobileHeaderHeight(header, menuBar) {
   }
 }
 
-function decorateAccessibilitySection(section) {
-  if (section.querySelector('.bemke-mobile-wcag__heading')) {
-    return;
-  }
-
+function createMobileAccessibilityLayout(section) {
   const content = section.querySelector('.brxe-container > .brxe-block');
-  const fontSizeControls = section.querySelector('#brxe-kecesp');
-  const contrastControls = section.querySelector('#brxe-qcwgax');
-  const languageControls = section.querySelector('.lang-switcher-block');
+  // Bricks remains the source of truth for the desktop structure and order.
+  let originalChildren = null;
+  let cleanupDisclosure = null;
 
-  if (!content || !fontSizeControls || !contrastControls || !languageControls) {
-    return;
-  }
+  const mount = () => {
+    if (!content || originalChildren) {
+      return;
+    }
 
-  const heading = document.createElement('div');
-  const title = document.createElement('h2');
-  const panel = document.createElement('div');
-  const panelId = 'bemke-mobile-wcag-panel';
-  const sourceToggle = section
-    .closest(HEADER_SELECTOR)
-    ?.querySelector(
-      `${NAV_SELECTOR} .bricks-mobile-menu > li > .brx-submenu-toggle > button`,
+    const fontSizeControls = section.querySelector('#brxe-kecesp');
+    const contrastControls = section.querySelector('#brxe-qcwgax');
+    const switcherBlocks = Array.from(
+      section.querySelectorAll('.lang-switcher-block'),
     );
-  const toggle = sourceToggle?.cloneNode(true) ?? document.createElement('button');
+    const animationControls = switcherBlocks.find((control) =>
+      control.querySelector('.animation-switcher'),
+    );
+    const languageControls = switcherBlocks.find((control) =>
+      control.querySelector('.lang-switcher:not(.animation-switcher)'),
+    );
 
-  heading.className = 'bemke-mobile-wcag__heading';
-  title.className = 'bemke-mobile-wcag__title';
-  title.textContent = 'Dostępność';
-  toggle.classList.add('bemke-mobile-wcag__toggle');
-  toggle.hidden = false;
-  toggle.removeAttribute('id');
-  toggle.type = 'button';
-  toggle.setAttribute('aria-controls', panelId);
-  toggle.setAttribute('aria-expanded', 'true');
-  toggle.setAttribute('aria-label', 'Zwiń dostępność');
-  panel.className = 'bemke-mobile-wcag__panel';
-  panel.id = panelId;
+    if (!fontSizeControls || !contrastControls || !languageControls) {
+      return;
+    }
 
-  toggle.querySelectorAll('[id]').forEach((element) => element.removeAttribute('id'));
-  toggle.querySelectorAll('svg').forEach((arrow) => {
-    arrow.setAttribute('aria-hidden', 'true');
-    arrow.setAttribute('focusable', 'false');
-  });
+    originalChildren = Array.from(content.childNodes);
 
-  if (!toggle.firstElementChild) {
-    toggle.replaceChildren();
-    const arrow = document.createElement('span');
-    arrow.className = 'bemke-mobile-wcag__toggle-arrow';
-    arrow.setAttribute('aria-hidden', 'true');
-    toggle.appendChild(arrow);
-  }
+    const heading = document.createElement('div');
+    const title = document.createElement('h2');
+    const panel = document.createElement('div');
+    const panelId = 'bemke-mobile-wcag-panel';
+    const sourceToggle = section
+      .closest(HEADER_SELECTOR)
+      ?.querySelector(
+        `${NAV_SELECTOR} .bricks-mobile-menu > li > .brx-submenu-toggle > button`,
+      );
+    const toggle =
+      sourceToggle?.cloneNode(true) ?? document.createElement('button');
 
-  heading.append(title, toggle);
-  content.insertBefore(heading, content.firstChild);
+    heading.className = 'bemke-mobile-wcag__heading';
+    title.className = 'bemke-mobile-wcag__title';
+    title.textContent = 'Dostępność';
+    toggle.classList.add('bemke-mobile-wcag__toggle');
+    toggle.hidden = false;
+    toggle.removeAttribute('id');
+    toggle.type = 'button';
+    toggle.setAttribute('aria-controls', panelId);
+    toggle.setAttribute('aria-expanded', 'true');
+    toggle.setAttribute('aria-label', 'Zwiń dostępność');
+    panel.className = 'bemke-mobile-wcag__panel';
+    panel.id = panelId;
 
-  const rows = [
-    wrapAccessibilityControl(fontSizeControls, 'Wielkość treści', 'font-size'),
-    wrapAccessibilityControl(contrastControls, 'Kontrast', 'contrast'),
-    wrapAccessibilityControl(languageControls, 'Język', 'language'),
-  ];
+    toggle
+      .querySelectorAll('[id]')
+      .forEach((element) => element.removeAttribute('id'));
+    toggle.querySelectorAll('svg').forEach((arrow) => {
+      arrow.setAttribute('aria-hidden', 'true');
+      arrow.setAttribute('focusable', 'false');
+    });
 
-  rows.forEach((row) => {
-    panel.appendChild(row);
-  });
-  heading.insertAdjacentElement('afterend', panel);
+    if (!toggle.firstElementChild) {
+      toggle.replaceChildren();
+      const arrow = document.createElement('span');
+      arrow.className = 'bemke-mobile-wcag__toggle-arrow';
+      arrow.setAttribute('aria-hidden', 'true');
+      toggle.appendChild(arrow);
+    }
+
+    heading.append(title, toggle);
+    content.insertBefore(heading, content.firstChild);
+
+    const controls = [
+      animationControls
+        ? {
+            control: animationControls,
+            key: 'motion',
+            label: 'Ogranicz animacje',
+          }
+        : null,
+      {
+        control: fontSizeControls,
+        key: 'font-size',
+        label: 'Wielkość treści',
+      },
+      { control: contrastControls, key: 'contrast', label: 'Kontrast' },
+      { control: languageControls, key: 'language', label: 'Język' },
+    ].filter(Boolean);
+
+    controls.forEach(({ control, label, key }) => {
+      panel.appendChild(wrapAccessibilityControl(control, label, key));
+    });
+
+    heading.insertAdjacentElement('afterend', panel);
+    cleanupDisclosure = setupAccessibilityDisclosure(section);
+  };
+
+  const unmount = () => {
+    if (!content || !originalChildren) {
+      return;
+    }
+
+    cleanupDisclosure?.();
+    cleanupDisclosure = null;
+    content.replaceChildren(...originalChildren);
+    originalChildren = null;
+  };
+
+  return { mount, unmount };
 }
 
-function setupAccessibilityDisclosure(section, mobileQuery) {
+function setupAccessibilityDisclosure(section) {
   const toggle = section.querySelector('.bemke-mobile-wcag__toggle');
   const panel = section.querySelector('.bemke-mobile-wcag__panel');
   const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   if (!toggle || !panel) {
-    return;
+    return null;
   }
 
   const setExpanded = (isExpanded, animate = true) => {
@@ -336,7 +384,7 @@ function setupAccessibilityDisclosure(section, mobileQuery) {
 
     gsap.killTweensOf(panel);
 
-    if (!animate || !mobileQuery.matches || reducedMotionQuery.matches) {
+    if (!animate || reducedMotionQuery.matches) {
       gsap.set(panel, {
         autoAlpha: isExpanded ? 1 : 0,
         height: isExpanded ? 'auto' : 0,
@@ -368,27 +416,26 @@ function setupAccessibilityDisclosure(section, mobileQuery) {
     });
   };
 
-  toggle.addEventListener('click', () => {
+  const handleToggleClick = () => {
     const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
     setExpanded(!isExpanded, true);
-  });
-
+  };
   const syncDisclosure = () => {
-    if (!mobileQuery.matches) {
-      toggle.setAttribute('aria-expanded', 'true');
-      toggle.setAttribute('aria-label', 'Zwiń dostępność');
-      panel.setAttribute('aria-hidden', 'false');
-      gsap.killTweensOf(panel);
-      gsap.set(panel, { clearProps: 'height,opacity,overflow,visibility' });
-      return;
-    }
-
     setExpanded(toggle.getAttribute('aria-expanded') === 'true', false);
   };
 
+  toggle.addEventListener('click', handleToggleClick);
   syncDisclosure();
-  mobileQuery.addEventListener('change', syncDisclosure);
   reducedMotionQuery.addEventListener('change', syncDisclosure);
+
+  return () => {
+    toggle.removeEventListener('click', handleToggleClick);
+    reducedMotionQuery.removeEventListener('change', syncDisclosure);
+    gsap.killTweensOf(panel);
+    gsap.set(panel, {
+      clearProps: 'height,opacity,overflow,visibility',
+    });
+  };
 }
 
 function wrapAccessibilityControl(control, label, key) {

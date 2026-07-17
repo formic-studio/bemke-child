@@ -2377,6 +2377,10 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     width: 100%;
   }
 
+  #brx-header .bemke-mobile-wcag__row--motion {
+    order: 0;
+  }
+
   #brx-header .bemke-mobile-wcag__row--font-size {
     order: 1;
   }
@@ -2401,6 +2405,7 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     white-space: nowrap;
   }
 
+  #brx-header .bemke-mobile-wcag__row--motion .lang-switcher-block,
   #brx-header .bemke-mobile-wcag__row--font-size #brxe-kecesp,
   #brx-header .bemke-mobile-wcag__row--contrast #brxe-qcwgax,
   #brx-header .bemke-mobile-wcag__row--language .lang-switcher-block {
@@ -2421,10 +2426,12 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     text-transform: uppercase;
   }
 
+  #brx-header .bemke-mobile-wcag__row--motion .lang-switcher-block,
   #brx-header .bemke-mobile-wcag__row--language .lang-switcher-block {
     gap: 1.2rem;
   }
 
+  #brx-header .bemke-mobile-wcag__row--motion .animation-switcher,
   #brx-header .bemke-mobile-wcag__row--language .lang-switcher {
     flex: 0 0 auto;
   }
