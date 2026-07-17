@@ -1,3 +1,8 @@
+import {
+  MOTION_CHANGE_EVENT,
+  isReducedMotion,
+} from './motion-preference.js';
+
 const ROOT_SELECTOR = '.slider.slider-text-wrapper';
 const TRACK_SELECTOR = ':scope > .slider-text';
 const ITEM_SELECTOR = ':scope > .slide-item';
@@ -81,6 +86,7 @@ function createTextLoopSlider(root) {
   let isAnimating = false;
   let timerId = null;
   let observer = null;
+  let animationCycle = 0;
 
   root.setAttribute(READY_ATTR, '1');
   track.setAttribute('aria-live', 'polite');
@@ -97,13 +103,22 @@ function createTextLoopSlider(root) {
     }
   };
 
+  document.addEventListener(MOTION_CHANGE_EVENT, (event) => {
+    if (event.detail?.reduced) {
+      stopForReducedMotion();
+      return;
+    }
+
+    observeVisibility();
+  });
+
   observeVisibility();
 
   function observeVisibility() {
     observer?.disconnect();
 
-    if (prefersReducedMotion()) {
-      showItemInstant(items[activeIndex]);
+    if (isReducedMotion()) {
+      stopForReducedMotion();
       return;
     }
 
@@ -139,7 +154,13 @@ function createTextLoopSlider(root) {
     if (!hasStarted) {
       hasStarted = true;
       isAnimating = true;
+      const cycle = ++animationCycle;
+
       enterItem(items[activeIndex]).then(() => {
+        if (cycle !== animationCycle || isReducedMotion()) {
+          return;
+        }
+
         isAnimating = false;
         scheduleNext();
       });
@@ -179,18 +200,46 @@ function createTextLoopSlider(root) {
     const currentItem = items[activeIndex];
     const nextIndex = wrapIndex(activeIndex + 1, items.length);
     const nextItem = items[nextIndex];
+    const cycle = ++animationCycle;
 
     isAnimating = true;
 
     exitItem(currentItem)
       .then(() => {
+        if (cycle !== animationCycle || isReducedMotion()) {
+          return null;
+        }
+
         activeIndex = nextIndex;
         return enterItem(nextItem);
       })
       .then(() => {
+        if (cycle !== animationCycle || isReducedMotion()) {
+          return;
+        }
+
         isAnimating = false;
         scheduleNext();
       });
+  }
+
+  function stopForReducedMotion() {
+    animationCycle += 1;
+    observer?.disconnect();
+    observer = null;
+    clearTimer();
+    isAnimating = false;
+    hasStarted = true;
+
+    items.forEach((item, index) => {
+      item.getAnimations?.().forEach((animation) => animation.cancel());
+
+      if (index === activeIndex) {
+        showItemInstant(item);
+      } else {
+        hideItem(item);
+      }
+    });
   }
 }
 
@@ -263,7 +312,7 @@ function hideItem(item) {
 }
 
 function runAnimation(element, keyframes, duration) {
-  if (prefersReducedMotion() || typeof element.animate !== 'function') {
+  if (isReducedMotion() || typeof element.animate !== 'function') {
     applyFrame(element, keyframes[keyframes.length - 1]);
     return Promise.resolve();
   }
@@ -286,10 +335,6 @@ function applyFrame(element, frame) {
   Object.entries(frame).forEach(([property, value]) => {
     element.style[property] = value;
   });
-}
-
-function prefersReducedMotion() {
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
 function wrapIndex(index, total) {

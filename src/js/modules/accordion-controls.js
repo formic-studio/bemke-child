@@ -1,3 +1,5 @@
+import { isReducedMotion } from './motion-preference.js';
+
 const ROOT_SELECTOR = '.accordin-block';
 const ITEM_SELECTOR = '.accordin-item';
 const HEADING_SELECTOR = '.accordin-heading';
@@ -53,10 +55,6 @@ function getPreferredDisplay(panel) {
   return resolvedDisplay;
 }
 
-function prefersReducedMotion() {
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-}
-
 function setExpandedState(item, expanded) {
   const heading = getHeading(item);
   const panel = getPanel(item);
@@ -99,7 +97,7 @@ function setPanelOpen(item, immediate = false) {
 
   setExpandedState(item, true);
 
-  if (immediate || prefersReducedMotion()) {
+  if (immediate || isReducedMotion()) {
     stopRunningTransition(panel);
     panel.style.opacity = '1';
     panel.style.height = 'auto';
@@ -146,7 +144,7 @@ function setPanelClosed(item, immediate = false) {
 
   setExpandedState(item, false);
 
-  if (immediate || prefersReducedMotion()) {
+  if (immediate || isReducedMotion()) {
     stopRunningTransition(panel);
     panel.style.height = '0px';
     panel.style.opacity = '0';

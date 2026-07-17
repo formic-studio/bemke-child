@@ -55,6 +55,21 @@ npm run build
 - `dist/main.min.css`
 - `dist/main.min.js` (`defer`)
 
+## Ograniczenie animacji
+
+Przełącznik „Ogranicz animacje” zapisuje wybór użytkownika w przeglądarce i
+respektuje również systemowe `prefers-reduced-motion`.
+
+Po włączeniu:
+
+- automatyczne i dekoracyjne animacje zostają zatrzymane,
+- dekoracyjne filmy są pauzowane,
+- animacje interfejsu i przejścia slajdów odbywają się natychmiast,
+- ręczne sterowanie sliderem oraz przyciski Play/Pause pozostają dostępne.
+
+Slidery nie uruchamiają autoplay samodzielnie. Jeżeli użytkownik świadomie
+włączy Play, slider nadal może zmieniać slajdy, ale bez animowanego przejścia.
+
 ## WordPress (GitHub -> WP)
 
 ### Opcja A: WP Pusher

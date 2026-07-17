@@ -1,7 +1,12 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import {
+  MOTION_CHANGE_EVENT,
+  isReducedMotion,
+} from "./motion-preference.js";
 
 const IMAGE_SELECTOR = ".img-scroll-expand";
+const COMPLETE_ATTR = "data-bemke-scroll-expand-complete";
 const INITIAL_IMAGE_WIDTH = 300;
 const ANIMATION_START = "top 90%";
 const ANIMATION_DURATION = 1.4;
@@ -42,6 +47,18 @@ function prepareImageLayout(image) {
   });
 }
 
+function showImageWithoutMotion(image) {
+  image.setAttribute(COMPLETE_ATTR, "1");
+  gsap.killTweensOf(image);
+  gsap.set(image, {
+    scale: 1,
+    width: "100%",
+  });
+  gsap.set(image, {
+    clearProps: "transform,transformOrigin,willChange",
+  });
+}
+
 export function initScrollExpandImages() {
   const images = gsap.utils.toArray(IMAGE_SELECTOR);
 
@@ -49,12 +66,8 @@ export function initScrollExpandImages() {
 
   gsap.registerPlugin(ScrollTrigger);
 
-  const prefersReducedMotion = window.matchMedia?.(
-    "(prefers-reduced-motion: reduce)",
-  ).matches;
-
-  if (prefersReducedMotion) {
-    gsap.set(images, { width: "100%", scale: 1 });
+  if (isReducedMotion()) {
+    images.forEach(showImageWithoutMotion);
     return;
   }
 
@@ -68,9 +81,16 @@ export function initScrollExpandImages() {
       start: ANIMATION_START,
       once: true,
       onRefresh: () => {
-        if (!hasStarted) prepareImageLayout(image);
+        if (!hasStarted && image.getAttribute(COMPLETE_ATTR) !== "1") {
+          prepareImageLayout(image);
+        }
       },
       onEnter: () => {
+        if (isReducedMotion() || image.getAttribute(COMPLETE_ATTR) === "1") {
+          showImageWithoutMotion(image);
+          return;
+        }
+
         hasStarted = true;
 
         gsap.set(image, { willChange: "transform" });
@@ -96,4 +116,10 @@ export function initScrollExpandImages() {
   if (document.readyState !== "complete") {
     window.addEventListener("load", () => ScrollTrigger.refresh(), { once: true });
   }
+
+  document.addEventListener(MOTION_CHANGE_EVENT, (event) => {
+    if (event.detail?.reduced) {
+      images.forEach(showImageWithoutMotion);
+    }
+  });
 }

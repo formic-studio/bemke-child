@@ -1,4 +1,8 @@
 import { gsap } from 'gsap';
+import {
+  MOTION_CHANGE_EVENT,
+  isReducedMotion,
+} from './motion-preference.js';
 
 const HEADER_SELECTOR = '#brx-header';
 const NAV_SELECTOR = '#brxe-vhhhdt';
@@ -118,15 +122,13 @@ function createMobileContent(mobileWrapper, mobileMenu) {
 }
 
 function setupMobileMenuAnimation(navigation, mobileContent, mobileQuery) {
-  const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-
   const syncAnimationState = (animate = true) => {
     const isOpen = navigation.classList.contains('show-mobile-menu');
     const yPercent = isOpen ? 0 : -100;
 
     gsap.killTweensOf(mobileContent);
 
-    if (!animate || !mobileQuery.matches || reducedMotionQuery.matches) {
+    if (!animate || !mobileQuery.matches || isReducedMotion()) {
       gsap.set(mobileContent, { y: 0, yPercent });
       return;
     }
@@ -153,11 +155,12 @@ function setupMobileMenuAnimation(navigation, mobileContent, mobileQuery) {
   });
 
   mobileQuery.addEventListener('change', () => syncAnimationState(false));
-  reducedMotionQuery.addEventListener('change', () => syncAnimationState(false));
+  document.addEventListener(MOTION_CHANGE_EVENT, () =>
+    syncAnimationState(false),
+  );
 }
 
 function setupMobileSubmenuAnimation(navigation, mobileMenu, mobileQuery) {
-  const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
   const menuItems = Array.from(mobileMenu.children).filter((item) =>
     item.matches('li'),
   );
@@ -195,7 +198,7 @@ function setupMobileSubmenuAnimation(navigation, mobileMenu, mobileQuery) {
 
     gsap.killTweensOf(submenu);
 
-    if (!animate || !mobileQuery.matches || reducedMotionQuery.matches) {
+    if (!animate || !mobileQuery.matches || isReducedMotion()) {
       gsap.set(submenu, {
         autoAlpha: isOpen ? 1 : 0,
         height: isOpen ? 'auto' : 0,
@@ -242,7 +245,7 @@ function setupMobileSubmenuAnimation(navigation, mobileMenu, mobileQuery) {
   };
 
   mobileQuery.addEventListener('change', syncAllBranches);
-  reducedMotionQuery.addEventListener('change', syncAllBranches);
+  document.addEventListener(MOTION_CHANGE_EVENT, syncAllBranches);
 }
 
 function updateMobileHeaderHeight(header, menuBar) {
@@ -371,7 +374,6 @@ function createMobileAccessibilityLayout(section) {
 function setupAccessibilityDisclosure(section) {
   const toggle = section.querySelector('.bemke-mobile-wcag__toggle');
   const panel = section.querySelector('.bemke-mobile-wcag__panel');
-  const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   if (!toggle || !panel) {
     return null;
@@ -387,7 +389,7 @@ function setupAccessibilityDisclosure(section) {
 
     gsap.killTweensOf(panel);
 
-    if (!animate || reducedMotionQuery.matches) {
+    if (!animate || isReducedMotion()) {
       gsap.set(panel, {
         autoAlpha: isExpanded ? 1 : 0,
         height: isExpanded ? 'auto' : 0,
@@ -429,11 +431,11 @@ function setupAccessibilityDisclosure(section) {
 
   toggle.addEventListener('click', handleToggleClick);
   syncDisclosure();
-  reducedMotionQuery.addEventListener('change', syncDisclosure);
+  document.addEventListener(MOTION_CHANGE_EVENT, syncDisclosure);
 
   return () => {
     toggle.removeEventListener('click', handleToggleClick);
-    reducedMotionQuery.removeEventListener('change', syncDisclosure);
+    document.removeEventListener(MOTION_CHANGE_EVENT, syncDisclosure);
     gsap.killTweensOf(panel);
     gsap.set(panel, {
       clearProps: 'height,opacity,overflow,visibility',

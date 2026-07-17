@@ -1,3 +1,8 @@
+import {
+  MOTION_CHANGE_EVENT,
+  isReducedMotion,
+} from './motion-preference.js';
+
 const ROOT_SELECTOR = '.tabs-block';
 const TAB_SELECTOR = '.tab[tab-number], .tab[data-tab-number]';
 const SLIDE_SELECTOR = '.history-slide[tab-number], .history-slide[data-tab-number]';
@@ -159,6 +164,12 @@ function createHistoryTabs(root, tabsBlock) {
     sync(activeNumber, 1, true);
   };
 
+  document.addEventListener(MOTION_CHANGE_EVENT, (event) => {
+    if (event.detail?.reduced) {
+      sync(activeNumber, 1, true);
+    }
+  });
+
   function activate(nextNumber) {
     if (nextNumber === activeNumber) {
       return;
@@ -176,7 +187,7 @@ function createHistoryTabs(root, tabsBlock) {
     syncTrack(slideTrack, slides, previousNumber, nextNumber, direction, instant);
     syncTrack(imageTrack, images, previousNumber, nextNumber, direction, instant);
 
-    if (instant || prefersReducedMotion()) {
+    if (instant || isReducedMotion()) {
       return;
     }
 
@@ -214,7 +225,7 @@ function syncTrack(track, items, previousNumber, activeNumber, direction, instan
 
   const previousItems = items.filter((item) => getTabNumber(item) === previousNumber);
   const nextItems = items.filter((item) => getTabNumber(item) === activeNumber);
-  const reducedMotion = prefersReducedMotion();
+  const reducedMotion = isReducedMotion();
 
   if (instant || reducedMotion || previousNumber === activeNumber || !previousItems.length || !nextItems.length) {
     arrangeActiveItems(track, items, activeNumber, true);
@@ -551,10 +562,6 @@ function uniqueItems(items) {
 
 function getTabNumber(element) {
   return element?.getAttribute('tab-number') || element?.getAttribute('data-tab-number') || '';
-}
-
-function prefersReducedMotion() {
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
 function wrapIndex(index, total) {

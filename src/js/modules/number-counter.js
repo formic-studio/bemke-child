@@ -1,5 +1,9 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import {
+  MOTION_CHANGE_EVENT,
+  isReducedMotion,
+} from "./motion-preference.js";
 
 const COUNTER_SELECTOR = ".number-counter";
 const COUNTER_START = "top 98%";
@@ -64,14 +68,11 @@ function getCounterData(element) {
 
 export function initNumberCounters() {
   const counters = gsap.utils.toArray(COUNTER_SELECTOR);
+  const counterEntries = [];
 
   if (!counters.length) return;
 
   gsap.registerPlugin(ScrollTrigger);
-
-  const prefersReducedMotion = window.matchMedia?.(
-    "(prefers-reduced-motion: reduce)",
-  ).matches;
 
   counters.forEach((counter) => {
     const counterData = getCounterData(counter);
@@ -89,9 +90,17 @@ export function initNumberCounters() {
 
     counter.setAttribute("aria-label", finalText);
 
-    if (prefersReducedMotion || target === 0) return;
+    const entry = {
+      counter,
+      finalText,
+      tweenTarget: null,
+    };
+    counterEntries.push(entry);
+
+    if (isReducedMotion() || target === 0) return;
 
     const counterValue = { value: 0 };
+    entry.tweenTarget = counterValue;
 
     counter.textContent = `${prefix}${formatCounterValue(0, decimalPlaces, decimalSeparator)}${suffix}`;
 
@@ -100,6 +109,11 @@ export function initNumberCounters() {
       start: COUNTER_START,
       once: true,
       onEnter: () => {
+        if (isReducedMotion()) {
+          counter.textContent = finalText;
+          return;
+        }
+
         gsap.to(counterValue, {
           value: target,
           duration: COUNTER_DURATION,
@@ -114,6 +128,20 @@ export function initNumberCounters() {
           },
         });
       },
+    });
+  });
+
+  document.addEventListener(MOTION_CHANGE_EVENT, (event) => {
+    if (!event.detail?.reduced) {
+      return;
+    }
+
+    counterEntries.forEach(({ counter, finalText, tweenTarget }) => {
+      if (tweenTarget) {
+        gsap.killTweensOf(tweenTarget);
+      }
+
+      counter.textContent = finalText;
     });
   });
 }

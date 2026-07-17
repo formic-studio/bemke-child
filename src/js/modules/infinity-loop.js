@@ -1,3 +1,8 @@
+import {
+  MOTION_CHANGE_EVENT,
+  isReducedMotion,
+} from './motion-preference.js';
+
 const ROOT_SELECTOR = '.infinity-loop-block';
 const ITEM_SELECTOR = '.img-wrapper';
 const TRACK_CLASS = 'bemke-infinity-loop-track';
@@ -132,7 +137,14 @@ function refreshInfinityLoop(root) {
     return;
   }
 
+  if (isReducedMotion()) {
+    track.style.animation = 'none';
+    track.style.transform = 'none';
+    return;
+  }
+
   track.style.animation = 'none';
+  track.style.transform = '';
   track.offsetHeight;
 
   const baseWidth = getItemsWidth(originals);
@@ -252,6 +264,10 @@ export function initInfinityLoop() {
 
   document.addEventListener('bricks/ajax/end', () => {
     schedule(refreshAllLoops, 80);
+  });
+
+  document.addEventListener(MOTION_CHANGE_EVENT, () => {
+    schedule(refreshAllLoops, 0);
   });
 
   if (window.MutationObserver && document.body) {

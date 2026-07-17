@@ -1,5 +1,9 @@
 import { gsap } from 'gsap';
 import { bindSliderControl, getSliderControls } from './slider-controls.js';
+import {
+  MOTION_CHANGE_EVENT,
+  isReducedMotion,
+} from './motion-preference.js';
 
 const ROOT_SELECTOR = '.slider-block';
 const TRACK_SELECTOR = '.slide-wrapper';
@@ -248,6 +252,23 @@ function createProjectSlider(root) {
     startAutoplay();
   });
 
+  document.addEventListener(MOTION_CHANGE_EVENT, (event) => {
+    if (!event.detail?.reduced) {
+      return;
+    }
+
+    cancelMovement();
+    activeIndex = getInitialActiveIndex(slides);
+    arrangeSlides(track, slides, activeIndex);
+    syncSlides(slides, activeIndex);
+    currentOffset = recenterActive(
+      root,
+      track,
+      slides[activeIndex],
+      currentOffset,
+    );
+  });
+
   function queueMove(direction, restartTimer = false) {
     const normalizedDirection = direction < 0 ? -1 : 1;
 
@@ -268,7 +289,7 @@ function createProjectSlider(root) {
     const activeSlide = slides[activeIndex];
     const nextSlide = slides[nextIndex];
     const distance = getSlideCenter(nextSlide) - getSlideCenter(activeSlide);
-    const shouldReduceMotion = prefersReducedMotion();
+    const shouldReduceMotion = isReducedMotion();
 
     syncSlides(slides, nextIndex);
 
@@ -614,16 +635,12 @@ function animateOffset(track, offset, duration, ease, onComplete) {
 }
 
 function snapToOffset(track, offset) {
-  if (prefersReducedMotion()) {
+  if (isReducedMotion()) {
     applyOffset(track, offset);
     return;
   }
 
   animateOffset(track, offset, SNAP_DURATION, SNAP_EASE);
-}
-
-function prefersReducedMotion() {
-  return window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
 }
 
 function getRenderedOffset(track, fallback) {

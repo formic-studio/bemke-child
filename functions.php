@@ -7,7 +7,36 @@ require_once get_stylesheet_directory() . '/inc/linkedin-posts.php';
 require_once get_stylesheet_directory() . '/inc/instagram-feed.php';
 require_once get_stylesheet_directory() . '/inc/getresponse.php';
 
+add_action( 'wp_head', 'bemke_child_print_motion_preference', 1 );
 add_action( 'wp_enqueue_scripts', 'bemke_child_enqueue_assets', 20 );
+
+function bemke_child_print_motion_preference() {
+	if ( bemke_child_is_bricks_builder_request() ) {
+		return;
+	}
+	?>
+	<script id="bemke-motion-preference">
+		(function () {
+			var reduced = window.matchMedia &&
+				window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+			try {
+				reduced =
+					window.localStorage.getItem('bemke_a11y_reduce_motion') === 'true' ||
+					reduced;
+			} catch (error) {
+				// The system preference still applies when storage is unavailable.
+			}
+
+			if (reduced) {
+				document.documentElement.setAttribute('data-bemke-reduced-motion', 'true');
+			} else {
+				document.documentElement.removeAttribute('data-bemke-reduced-motion');
+			}
+		})();
+	</script>
+	<?php
+}
 
 function bemke_child_enqueue_assets() {
 	$css_rel_path = '/dist/main.min.css';

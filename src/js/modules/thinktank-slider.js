@@ -3,6 +3,10 @@ import {
   bindSliderControl,
   getSliderControls,
 } from "./slider-controls.js";
+import {
+  MOTION_CHANGE_EVENT,
+  isReducedMotion,
+} from "./motion-preference.js";
 
 const SELECTORS = {
   root: ".slider-thinktank",
@@ -409,6 +413,18 @@ function createSlider(root) {
     render(activeIndex, activeIndex, 0, true);
   };
 
+  document.addEventListener(MOTION_CHANGE_EVENT, (event) => {
+    if (!event.detail?.reduced) {
+      return;
+    }
+
+    window.clearTimeout(transitionTimerId);
+    transitionTimerId = null;
+    isAnimating = false;
+    queue.length = 0;
+    render(activeIndex, activeIndex, 0, true);
+  });
+
   function bindSwipeSurface(surface) {
     if (!surface) {
       return;
@@ -573,7 +589,7 @@ function createSlider(root) {
     const range = getVisibleRange(slides.length, isMobileLayout);
     const step = getStep(slides[0], isMobileLayout);
     const duration =
-      instant || window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      instant || isReducedMotion()
         ? 0
         : 1100;
 
@@ -753,9 +769,7 @@ function syncTextSlides(textTrack, textSlides, activeIndex, direction = 1, insta
   const previousIndex = textSlides.findIndex((textSlide) =>
     textSlide.classList.contains("is-active"),
   );
-  const prefersReducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)",
-  ).matches;
+  const reducedMotion = isReducedMotion();
   const targetPosition = getTextTrackPosition(
     previousIndex,
     normalized,
@@ -764,7 +778,7 @@ function syncTextSlides(textTrack, textSlides, activeIndex, direction = 1, insta
   );
   const shouldMoveInstantly =
     instant ||
-    prefersReducedMotion ||
+    reducedMotion ||
     previousIndex < 0 ||
     previousIndex === normalized;
 
