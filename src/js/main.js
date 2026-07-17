@@ -22,6 +22,7 @@ import { initMobileMenu } from './modules/mobile-menu.js';
 import { initScrollExpandImages } from './modules/scroll-expand-images.js';
 import { initNumberCounters } from './modules/number-counter.js';
 import { initCardImageHover } from './modules/card-image-hover.js';
+import { initAccessibilitySwitches } from './modules/accessibility-switches.js';
 
 function initApp() {
   initAccordionControls();
@@ -47,6 +48,7 @@ function initApp() {
   initScrollExpandImages();
   initNumberCounters();
   initCardImageHover();
+  initAccessibilitySwitches();
 }
 
 if (document.readyState === 'loading') {

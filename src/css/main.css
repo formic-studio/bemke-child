@@ -169,6 +169,37 @@ html {
   vertical-align: middle;
 }
 
+.lang-switcher-block[data-bemke-switch-ready="1"] {
+  cursor: pointer;
+}
+
+.lang-switcher-block[data-bemke-switch-ready="1"]:focus-visible {
+  border-radius: 0.4rem;
+  outline: 2px solid var(--brown, var(--theme-brown, #1b0508));
+  outline-offset: 0.4rem;
+}
+
+.lang-switcher-block.is-active .animation-switcher {
+  align-items: flex-start;
+  background-color: var(--mustard, var(--theme-mustard, #ae6b00));
+}
+
+.lang-switcher-block.is-active .lang-switcher {
+  justify-content: flex-end;
+}
+
+.animation-switcher,
+.lang-switcher {
+  transition: background-color 0.2s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animation-switcher,
+  .lang-switcher {
+    transition: none;
+  }
+}
+
 html[data-contrast="white-black"] {
   --a11y-bg: #000000;
   --a11y-surface: #000000;
