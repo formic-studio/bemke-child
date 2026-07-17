@@ -520,14 +520,24 @@ html[data-contrast]:not([data-contrast="default"]) textarea {
   max-width: 100%;
 }
 
-.brxe-section:has(.sticky-wrapper) {
-  position: relative;
-  z-index: 0;
+@media (min-width: 992px) {
+  .brxe-section:has(.sticky-wrapper) {
+    position: relative;
+    z-index: 0;
+  }
+
+  .brxe-section:has(.sticky-wrapper) + .brxe-section {
+    position: relative;
+    z-index: 1;
+  }
 }
 
-.brxe-section:has(.sticky-wrapper) + .brxe-section {
-  position: relative;
-  z-index: 1;
+@media (max-width: 991px) {
+  .sticky-wrapper > .sticky {
+    position: static !important;
+    top: auto !important;
+    transform: none !important;
+  }
 }
 
 /* Animated number counter */

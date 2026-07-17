@@ -8,16 +8,7 @@ import {
 const WRAPPER_SELECTOR = ".sticky-wrapper";
 const STICKY_SELECTOR = ".sticky";
 const SECTION_SELECTOR = ".brxe-section";
-const MOBILE_QUERY = "(max-width: 767px)";
-
-function restoreInlineStyle(element, originalStyle) {
-  if (originalStyle === null) {
-    element.removeAttribute("style");
-    return;
-  }
-
-  element.setAttribute("style", originalStyle);
-}
+const DESKTOP_QUERY = "(min-width: 992px)";
 
 export function initStickyImages() {
   const wrappers = gsap.utils.toArray(WRAPPER_SELECTOR);
@@ -26,44 +17,22 @@ export function initStickyImages() {
 
   gsap.registerPlugin(ScrollTrigger);
 
-  const mobileQuery = window.matchMedia(MOBILE_QUERY);
+  const desktopQuery = window.matchMedia(DESKTOP_QUERY);
   let stickyTriggers = [];
-  const mobileLayerStyles = new Map();
-
-  const prepareMobileLayers = (image, section, nextSection) => {
-    [image, section, nextSection].forEach((element) => {
-      if (!mobileLayerStyles.has(element)) {
-        mobileLayerStyles.set(element, element.getAttribute("style"));
-      }
-    });
-
-    section.style.position = "relative";
-    section.style.zIndex = "0";
-    section.style.isolation = "isolate";
-
-    image.style.zIndex = "0";
-
-    nextSection.style.position = "relative";
-    nextSection.style.zIndex = "10";
-    nextSection.style.isolation = "isolate";
-    nextSection.style.transform = "translateZ(0)";
-  };
-
-  const restoreMobileLayers = () => {
-    mobileLayerStyles.forEach((originalStyle, element) => {
-      restoreInlineStyle(element, originalStyle);
-    });
-    mobileLayerStyles.clear();
-  };
 
   const stopSticky = () => {
     stickyTriggers.forEach((trigger) => trigger.kill());
     stickyTriggers = [];
-    restoreMobileLayers();
   };
 
   const startSticky = () => {
-    if (stickyTriggers.length || isReducedMotion()) return;
+    if (
+      stickyTriggers.length ||
+      !desktopQuery.matches ||
+      isReducedMotion()
+    ) {
+      return;
+    }
 
     stickyTriggers = wrappers.flatMap((wrapper) => {
       const image = wrapper.querySelector(`:scope > ${STICKY_SELECTOR}`);
@@ -74,10 +43,6 @@ export function initStickyImages() {
         return [];
       }
 
-      if (mobileQuery.matches) {
-        prepareMobileLayers(image, section, nextSection);
-      }
-
       return [
         ScrollTrigger.create({
           trigger: wrapper,
@@ -86,8 +51,8 @@ export function initStickyImages() {
           end: "top top",
           pin: image,
           pinSpacing: false,
-          pinType: mobileQuery.matches ? "transform" : "fixed",
-          anticipatePin: mobileQuery.matches ? 0 : 1,
+          pinType: "fixed",
+          anticipatePin: 1,
           invalidateOnRefresh: true,
         }),
       ];
@@ -99,7 +64,7 @@ export function initStickyImages() {
   };
 
   const syncSticky = () => {
-    if (isReducedMotion()) {
+    if (isReducedMotion() || !desktopQuery.matches) {
       stopSticky();
       return;
     }
@@ -128,9 +93,9 @@ export function initStickyImages() {
     syncSticky();
   };
 
-  if (typeof mobileQuery.addEventListener === "function") {
-    mobileQuery.addEventListener("change", rebuildSticky);
-  } else if (typeof mobileQuery.addListener === "function") {
-    mobileQuery.addListener(rebuildSticky);
+  if (typeof desktopQuery.addEventListener === "function") {
+    desktopQuery.addEventListener("change", rebuildSticky);
+  } else if (typeof desktopQuery.addListener === "function") {
+    desktopQuery.addListener(rebuildSticky);
   }
 }
