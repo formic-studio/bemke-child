@@ -109,7 +109,6 @@ html[data-bemke-frontend="true"]:not(
 @keyframes bemke-header-intro-failsafe {
   to {
     opacity: 1;
-    transform: none;
     visibility: visible;
   }
 }
@@ -120,7 +119,6 @@ html[data-bemke-frontend="true"]:not(
   #brx-header:not([data-bemke-header-intro-ready="1"]) {
   animation: bemke-header-intro-failsafe 0.01s linear 3s forwards;
   opacity: 0;
-  transform: translate3d(0, -100%, 0);
   visibility: hidden;
 }
 

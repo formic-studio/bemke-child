@@ -27,6 +27,7 @@ export function initHeaderIntro() {
       complete: false,
       header,
       revealing: false,
+      sections: Array.from(header.children),
       tween: null,
     };
 
@@ -37,11 +38,13 @@ export function initHeaderIntro() {
       return;
     }
 
-    gsap.set(header, {
-      autoAlpha: 0,
+    const headerHeight = Math.max(header.getBoundingClientRect().height, 1);
+
+    gsap.set(state.sections, {
       transition: 'none',
-      yPercent: -100,
+      y: -headerHeight,
     });
+    gsap.set(header, { autoAlpha: 0 });
     header.setAttribute(READY_ATTR, '1');
 
     if (areHeroIntrosComplete()) {
@@ -103,21 +106,28 @@ function revealHeader(state, animate) {
 
   if (!animate) {
     gsap.set(state.header, {
-      clearProps: 'opacity,transform,transition,visibility',
+      clearProps: 'opacity,visibility',
+    });
+    gsap.set(state.sections, {
+      clearProps: 'transform,transition',
     });
     markHeaderComplete(state);
     return;
   }
 
-  state.tween = gsap.to(state.header, {
-    autoAlpha: 1,
+  gsap.set(state.header, { autoAlpha: 1 });
+
+  state.tween = gsap.to(state.sections, {
     duration: ANIMATION_DURATION,
     ease: 'power3.out',
     overwrite: true,
-    yPercent: 0,
+    y: 0,
     onComplete: () => {
       gsap.set(state.header, {
-        clearProps: 'opacity,transform,transition,visibility',
+        clearProps: 'opacity,visibility',
+      });
+      gsap.set(state.sections, {
+        clearProps: 'transform,transition',
       });
       markHeaderComplete(state);
     },
