@@ -73,6 +73,7 @@ włączy Play, slider nadal może zmieniać slajdy, ale bez animowanego przejśc
 Animacja wejścia tekstów w `.section_hero` również respektuje to ustawienie.
 Teksty pozostają w pozycjach ustawionych w Bricks. Na desktopie pojawiają się
 z lekkim blurem, opacity i przesunięciem `y: 10px`, a na mobile bez blura.
+Jeżeli tekst zajmuje kilka linii, kolejne linie mają subtelny stagger.
 
 ## WordPress (GitHub -> WP)
 
