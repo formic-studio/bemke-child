@@ -10,10 +10,9 @@ const COMPLETE_ATTR = "data-bemke-scroll-expand-complete";
 const INITIAL_IMAGE_WIDTH = 300;
 const SCROLL_START = "center bottom";
 const SCROLL_END = "center top";
-
-function clamp(value, min, max) {
-  return Math.min(Math.max(value, min), max);
-}
+const GROW_DURATION = 0.45;
+const FULL_SIZE_DURATION = 0.1;
+const SHRINK_DURATION = 0.45;
 
 function restoreInlineStyle(image, originalStyle) {
   if (originalStyle === null) {
@@ -24,46 +23,31 @@ function restoreInlineStyle(image, originalStyle) {
   image.setAttribute("style", originalStyle);
 }
 
-function prepareImageLayout(image, originalStyle) {
+function measureImageWidths(image, originalStyle) {
   restoreInlineStyle(image, originalStyle);
 
   const initialRect = image.getBoundingClientRect();
   const initialWidth = Math.min(INITIAL_IMAGE_WIDTH, initialRect.width);
-  const initialHeight = initialRect.height;
-  const initialLeft = initialRect.left;
-  const initialTop = initialRect.top;
 
   gsap.set(image, {
     width: "100%",
-    scale: 1,
   });
 
   const expandedRect = image.getBoundingClientRect();
-  const startScale = expandedRect.width
-    ? clamp(initialWidth / expandedRect.width, 0, 1)
-    : 1;
-  const horizontalSpace = Math.max(expandedRect.width - initialWidth, 0);
-  const verticalSpace = Math.max(expandedRect.height - initialHeight, 0);
-  const originX = horizontalSpace
-    ? clamp((initialLeft - expandedRect.left) / horizontalSpace, 0, 1) * 100
-    : 50;
-  const originY = verticalSpace
-    ? clamp((initialTop - expandedRect.top) / verticalSpace, 0, 1) * 100
-    : 0;
+  const expandedWidth = Math.max(expandedRect.width, initialWidth);
 
+  restoreInlineStyle(image, originalStyle);
   gsap.set(image, {
-    scale: startScale,
-    transformOrigin: `${originX}% ${originY}%`,
+    width: initialWidth,
   });
 
-  return { startScale };
+  return { initialWidth, expandedWidth };
 }
 
 function showImageWithoutMotion(image) {
   image.setAttribute(COMPLETE_ATTR, "1");
   gsap.killTweensOf(image);
   gsap.set(image, {
-    scale: 1,
     width: "100%",
   });
   gsap.set(image, {
@@ -73,7 +57,10 @@ function showImageWithoutMotion(image) {
 
 function createScrollAnimation(image) {
   const originalStyle = image.getAttribute("style");
-  const metrics = { startScale: 1 };
+  const metrics = {
+    initialWidth: INITIAL_IMAGE_WIDTH,
+    expandedWidth: INITIAL_IMAGE_WIDTH,
+  };
 
   const prepare = () => {
     if (
@@ -83,14 +70,14 @@ function createScrollAnimation(image) {
       return;
     }
 
-    metrics.startScale = prepareImageLayout(image, originalStyle).startScale;
+    Object.assign(metrics, measureImageWidths(image, originalStyle));
   };
 
-  const enableTransformRendering = () => {
-    gsap.set(image, { willChange: "transform" });
+  const enableWidthRendering = () => {
+    gsap.set(image, { willChange: "width" });
   };
 
-  const disableTransformRendering = () => {
+  const disableWidthRendering = () => {
     gsap.set(image, { clearProps: "willChange" });
   };
 
@@ -105,19 +92,21 @@ function createScrollAnimation(image) {
     .fromTo(
       image,
       {
-        scale: () => metrics.startScale,
+        width: () => metrics.initialWidth,
       },
       {
-        scale: 1,
-        duration: 0.5,
-        force3D: true,
+        width: () => metrics.expandedWidth,
+        duration: GROW_DURATION,
         immediateRender: true,
       },
     )
     .to(image, {
-      scale: () => metrics.startScale,
-      duration: 0.5,
-      force3D: true,
+      width: () => metrics.expandedWidth,
+      duration: FULL_SIZE_DURATION,
+    })
+    .to(image, {
+      width: () => metrics.initialWidth,
+      duration: SHRINK_DURATION,
     });
 
   const trigger = ScrollTrigger.create({
@@ -128,10 +117,10 @@ function createScrollAnimation(image) {
     scrub: true,
     invalidateOnRefresh: true,
     onRefreshInit: prepare,
-    onEnter: enableTransformRendering,
-    onEnterBack: enableTransformRendering,
-    onLeave: disableTransformRendering,
-    onLeaveBack: disableTransformRendering,
+    onEnter: enableWidthRendering,
+    onEnterBack: enableWidthRendering,
+    onLeave: disableWidthRendering,
+    onLeaveBack: disableWidthRendering,
   });
 
   return { image, timeline, trigger };
