@@ -6,12 +6,14 @@ const TEAM_POPUP_BOOTED_FLAG = '__bemkeTeamPopupBooted';
 const OVERLAY_CLASS = 'bemke-team-popup-overlay';
 const OVERLAY_VISIBLE_CLASS = 'is-visible';
 const POPUP_CLASS = 'bemke-team-popup';
+const POPUP_PORTAL_CLASS = 'bemke-team-popup-portal';
 const POPUP_VISIBLE_CLASS = 'is-visible';
 
 let popupMap = new Map();
 let activePopup = null;
 let activeTrigger = null;
 let popupOverlay = null;
+let popupPortal = null;
 
 export function initTeamPopups() {
   setupTeamPopupElements();
@@ -28,6 +30,8 @@ function setupTeamPopupElements(scope = document) {
   }
 
   ensurePopupOverlay();
+  ensurePopupPortal();
+  movePopupsToPortal(popups);
 
   popups.forEach((popup) => {
     const number = normalizeNumber(popup.dataset.number);
@@ -39,12 +43,22 @@ function setupTeamPopupElements(scope = document) {
     popup.classList.add(POPUP_CLASS);
     popup.setAttribute(TEAM_POPUP_READY_ATTR, '1');
     popup.setAttribute('role', 'dialog');
-    popup.setAttribute('aria-hidden', 'true');
     popup.setAttribute('tabindex', '-1');
-    popup.setAttribute('hidden', '');
 
     if (popup.getAttribute('aria-label') === null) {
       popup.setAttribute('aria-label', `Zespół: ${number}`);
+    }
+
+    if (
+      popup === activePopup &&
+      popup.classList.contains(POPUP_VISIBLE_CLASS)
+    ) {
+      popup.hidden = false;
+      popup.setAttribute('aria-hidden', 'false');
+    } else {
+      popup.classList.remove(POPUP_VISIBLE_CLASS);
+      popup.setAttribute('aria-hidden', 'true');
+      popup.setAttribute('hidden', '');
     }
 
     addPopupByNumber(number, popup);
@@ -81,12 +95,21 @@ function setupTeamPopupLifecycle() {
     }
 
     for (const mutation of mutations) {
+      if (mutation.target === popupPortal) {
+        continue;
+      }
+
       for (const node of mutation.addedNodes) {
         if (!(node instanceof Element)) {
           continue;
         }
 
-        if (node.matches(TEAM_POPUP_SELECTOR) || node.querySelector?.(TEAM_POPUP_SELECTOR)) {
+        if (
+          node !== popupPortal &&
+          node !== popupOverlay &&
+          (node.matches(TEAM_POPUP_SELECTOR) ||
+            node.querySelector?.(TEAM_POPUP_SELECTOR))
+        ) {
           rerun();
           return;
         }
@@ -203,16 +226,48 @@ function closeTeamPopup() {
 }
 
 function ensurePopupOverlay() {
-  if (popupOverlay) {
+  if (popupOverlay?.isConnected) {
     return;
   }
 
-  popupOverlay = document.createElement('div');
-  popupOverlay.className = OVERLAY_CLASS;
+  popupOverlay =
+    document.querySelector(`.${OVERLAY_CLASS}`) ??
+    document.createElement('div');
+  popupOverlay.classList.add(OVERLAY_CLASS);
   popupOverlay.setAttribute('aria-hidden', 'true');
   popupOverlay.tabIndex = -1;
   popupOverlay.style.zIndex = '2147483000';
-  document.body.appendChild(popupOverlay);
+
+  if (!popupOverlay.isConnected) {
+    document.body.appendChild(popupOverlay);
+  }
+}
+
+function ensurePopupPortal() {
+  if (popupPortal?.isConnected) {
+    return;
+  }
+
+  popupPortal =
+    document.querySelector(`.${POPUP_PORTAL_CLASS}`) ??
+    document.createElement('div');
+  popupPortal.classList.add(POPUP_PORTAL_CLASS);
+
+  if (!popupPortal.isConnected) {
+    document.body.appendChild(popupPortal);
+  }
+}
+
+function movePopupsToPortal(popups) {
+  if (!popupPortal) {
+    return;
+  }
+
+  popups.forEach((popup) => {
+    if (popup.parentElement !== popupPortal) {
+      popupPortal.appendChild(popup);
+    }
+  });
 }
 
 function addPopupByNumber(number, popup) {
