@@ -31,6 +31,7 @@ function setupTeamPopupElements(scope = document) {
 
   ensurePopupOverlay();
   ensurePopupPortal();
+  restoreContentLeakedIntoPopups(popups);
   movePopupsToPortal(popups);
 
   popups.forEach((popup) => {
@@ -268,6 +269,60 @@ function movePopupsToPortal(popups) {
       popupPortal.appendChild(popup);
     }
   });
+}
+
+function restoreContentLeakedIntoPopups(popups) {
+  const popupSet = new Set(popups);
+  const outerPopups = popups.filter(
+    (popup) => !popup.parentElement?.closest(TEAM_POPUP_SELECTOR),
+  );
+
+  outerPopups.forEach((outerPopup) => {
+    const sourceParent = outerPopup.parentElement;
+
+    if (!sourceParent) {
+      return;
+    }
+
+    const sourceAnchor = outerPopup.nextSibling;
+    const popupGroup = [
+      outerPopup,
+      ...outerPopup.querySelectorAll(TEAM_POPUP_SELECTOR),
+    ];
+
+    popupGroup.forEach((popup) => {
+      const directChildren = Array.from(popup.children);
+      const exitButton = Array.from(
+        popup.querySelectorAll(TEAM_EXIT_SELECTOR),
+      ).find(
+        (button) => button.closest(TEAM_POPUP_SELECTOR) === popup,
+      );
+      const exitContainer = getDirectChildOfPopup(popup, exitButton);
+
+      if (!exitContainer) {
+        return;
+      }
+
+      const exitIndex = directChildren.indexOf(exitContainer);
+      const leakedContent = directChildren
+        .slice(exitIndex + 1)
+        .filter((child) => !popupSet.has(child));
+
+      leakedContent.forEach((element) => {
+        sourceParent.insertBefore(element, sourceAnchor);
+      });
+    });
+  });
+}
+
+function getDirectChildOfPopup(popup, element) {
+  let current = element;
+
+  while (current?.parentElement && current.parentElement !== popup) {
+    current = current.parentElement;
+  }
+
+  return current?.parentElement === popup ? current : null;
 }
 
 function addPopupByNumber(number, popup) {
