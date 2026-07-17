@@ -11,6 +11,7 @@ const INITIAL_IMAGE_WIDTH = 300;
 const SCROLL_START = "top 95%";
 const SCROLL_END = "bottom 5%";
 const SCROLL_SCRUB = 1.4;
+const MOBILE_QUERY = "(max-width: 767px)";
 const GROW_DURATION = 0.45;
 const FULL_SIZE_DURATION = 0.1;
 const SHRINK_DURATION = 0.45;
@@ -56,8 +57,7 @@ function showImageWithoutMotion(image) {
   });
 }
 
-function createScrollAnimation(image) {
-  const originalStyle = image.getAttribute("style");
+function createScrollAnimation(image, originalStyle) {
   const metrics = {
     initialWidth: INITIAL_IMAGE_WIDTH,
     expandedWidth: INITIAL_IMAGE_WIDTH,
@@ -134,24 +134,64 @@ export function initScrollExpandImages() {
 
   gsap.registerPlugin(ScrollTrigger);
 
-  if (isReducedMotion()) {
-    images.forEach(showImageWithoutMotion);
-    return;
-  }
+  const imageStates = images.map((image) => ({
+    image,
+    originalStyle: image.getAttribute("style"),
+  }));
+  const mobileQuery = window.matchMedia(MOBILE_QUERY);
+  let imageAnimations = [];
 
-  const imageAnimations = images.map(createScrollAnimation);
-
-  if (document.readyState !== "complete") {
-    window.addEventListener("load", () => ScrollTrigger.refresh(), { once: true });
-  }
-
-  document.addEventListener(MOTION_CHANGE_EVENT, (event) => {
-    if (!event.detail?.reduced) return;
-
-    imageAnimations.forEach(({ image, timeline, trigger }) => {
+  const stopAnimations = () => {
+    imageAnimations.forEach(({ timeline, trigger }) => {
       trigger.kill();
       timeline.kill();
-      showImageWithoutMotion(image);
     });
-  });
+    imageAnimations = [];
+    images.forEach(showImageWithoutMotion);
+  };
+
+  const startAnimations = () => {
+    if (imageAnimations.length) return;
+
+    imageStates.forEach(({ image, originalStyle }) => {
+      image.removeAttribute(COMPLETE_ATTR);
+      restoreInlineStyle(image, originalStyle);
+    });
+
+    imageAnimations = imageStates.map(({ image, originalStyle }) =>
+      createScrollAnimation(image, originalStyle),
+    );
+    ScrollTrigger.refresh();
+  };
+
+  const syncAnimations = () => {
+    if (isReducedMotion() || mobileQuery.matches) {
+      stopAnimations();
+      return;
+    }
+
+    startAnimations();
+  };
+
+  syncAnimations();
+
+  if (document.readyState !== "complete") {
+    window.addEventListener(
+      "load",
+      () => {
+        if (imageAnimations.length) {
+          ScrollTrigger.refresh();
+        }
+      },
+      { once: true },
+    );
+  }
+
+  document.addEventListener(MOTION_CHANGE_EVENT, syncAnimations);
+
+  if (typeof mobileQuery.addEventListener === "function") {
+    mobileQuery.addEventListener("change", syncAnimations);
+  } else if (typeof mobileQuery.addListener === "function") {
+    mobileQuery.addListener(syncAnimations);
+  }
 }
