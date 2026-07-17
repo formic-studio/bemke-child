@@ -8,8 +8,9 @@ import {
 const IMAGE_SELECTOR = ".img-scroll-expand";
 const COMPLETE_ATTR = "data-bemke-scroll-expand-complete";
 const INITIAL_IMAGE_WIDTH = 300;
-const SCROLL_START = "center bottom";
-const SCROLL_END = "center top";
+const SCROLL_START = "top 95%";
+const SCROLL_END = "bottom 5%";
+const SCROLL_SCRUB = 0.7;
 const GROW_DURATION = 0.45;
 const FULL_SIZE_DURATION = 0.1;
 const SHRINK_DURATION = 0.45;
@@ -114,7 +115,7 @@ function createScrollAnimation(image) {
     animation: timeline,
     start: SCROLL_START,
     end: SCROLL_END,
-    scrub: true,
+    scrub: SCROLL_SCRUB,
     invalidateOnRefresh: true,
     onRefreshInit: prepare,
     onEnter: enableWidthRendering,
