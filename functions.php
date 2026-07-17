@@ -17,6 +17,8 @@ function bemke_child_print_motion_preference() {
 	?>
 	<script id="bemke-motion-preference">
 		(function () {
+			document.documentElement.setAttribute('data-bemke-frontend', 'true');
+
 			var reduced = window.matchMedia &&
 				window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 

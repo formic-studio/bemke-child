@@ -24,10 +24,12 @@ import { initNumberCounters } from './modules/number-counter.js';
 import { initCardImageHover } from './modules/card-image-hover.js';
 import { initAccessibilitySwitches } from './modules/accessibility-switches.js';
 import { initMotionPreference } from './modules/motion-preference.js';
+import { initHeroIntro } from './modules/hero-intro.js';
 
 function initApp() {
   initMotionPreference();
   initAccessibilitySwitches();
+  initHeroIntro();
   initAccordionControls();
   initDecorativeVideoControls();
   initThinktankSlider();
