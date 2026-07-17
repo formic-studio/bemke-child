@@ -10,6 +10,7 @@ const HEADING_SELECTOR = 'h1';
 const SUPPLEMENTARY_SELECTOR = '.brxe-text-basic, .brxe-text, p';
 const READY_ATTR = 'data-bemke-hero-intro-ready';
 const COMPLETE_ATTR = 'data-bemke-hero-intro-complete';
+export const HERO_INTRO_COMPLETE_EVENT = 'bemke:hero-intro-complete';
 const MOBILE_QUERY = '(max-width: 767px)';
 const START_Y = 10;
 const DESKTOP_BLUR = 8;
@@ -266,4 +267,9 @@ function restoreInlineStyle(element, originalStyle) {
 function markHeroComplete(hero) {
   hero.setAttribute(READY_ATTR, '1');
   hero.setAttribute(COMPLETE_ATTR, '1');
+  document.dispatchEvent(
+    new CustomEvent(HERO_INTRO_COMPLETE_EVENT, {
+      detail: { hero },
+    }),
+  );
 }

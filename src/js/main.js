@@ -26,12 +26,14 @@ import { initCardImageHover } from './modules/card-image-hover.js';
 import { initAccessibilitySwitches } from './modules/accessibility-switches.js';
 import { initMotionPreference } from './modules/motion-preference.js';
 import { initHeroIntro } from './modules/hero-intro.js';
+import { initHeaderIntro } from './modules/header-intro.js';
 
 function initApp() {
   initMotionPreference();
   initAccessibilitySwitches();
   initMegaMenu();
   initMobileMenu();
+  initHeaderIntro();
   initHeroIntro();
   initAccordionControls();
   initDecorativeVideoControls();
