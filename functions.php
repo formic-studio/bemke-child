@@ -96,42 +96,66 @@ function bemke_child_start_frontend_optimization_buffer() {
 }
 
 function bemke_child_optimize_frontend_markup( $html ) {
-	if ( false === stripos( $html, 'Ksztaltuj-przyszlosc-edukacji.mp4' ) ) {
-		return $html;
+	if ( false !== stripos( $html, 'Ksztaltuj-przyszlosc-edukacji.mp4' ) ) {
+		$html = preg_replace_callback(
+			'/<video\b(?=[^>]*Ksztaltuj-przyszlosc-edukacji\.mp4)[^>]*>/i',
+			function ( $matches ) {
+				$tag = preg_replace_callback(
+					'/\ssrc\s*=\s*(["\'])([^"\']*Ksztaltuj-przyszlosc-edukacji\.mp4[^"\']*)\1/i',
+					function ( $source_matches ) {
+						return ' data-bemke-src="' . esc_url( $source_matches[2] ) . '"';
+					},
+					$matches[0],
+					1
+				);
+
+				$tag = preg_replace(
+					'/\s+autoplay(?:\s*=\s*(?:"[^"]*"|\'[^\']*\'|[^\s>]+))?/i',
+					'',
+					$tag
+				);
+
+				if ( preg_match( '/\s+preload\s*=/i', $tag ) ) {
+					$tag = preg_replace(
+						'/\s+preload\s*=\s*(?:"[^"]*"|\'[^\']*\'|[^\s>]+)/i',
+						' preload="none"',
+						$tag,
+						1
+					);
+				} else {
+					$tag = preg_replace( '/>$/', ' preload="none">', $tag );
+				}
+
+				if ( false === stripos( $tag, 'data-bemke-autoplay=' ) ) {
+					$tag = preg_replace( '/>$/', ' data-bemke-autoplay="true">', $tag );
+				}
+
+				return $tag;
+			},
+			$html
+		);
 	}
 
 	return preg_replace_callback(
-		'/<video\b(?=[^>]*Ksztaltuj-przyszlosc-edukacji\.mp4)[^>]*>/i',
+		'/<img\b(?=[^>]*\bslider-img\b)[^>]*>/i',
 		function ( $matches ) {
 			$tag = preg_replace_callback(
-				'/\ssrc\s*=\s*(["\'])([^"\']*Ksztaltuj-przyszlosc-edukacji\.mp4[^"\']*)\1/i',
-				function ( $source_matches ) {
-					return ' data-bemke-src="' . esc_url( $source_matches[2] ) . '"';
+				'/\ssrcset\s*=\s*(["\'])([^"\']+)\1/i',
+				function ( $attribute_matches ) {
+					return ' data-bemke-srcset="' . $attribute_matches[2] . '"';
 				},
 				$matches[0],
 				1
 			);
 
-			$tag = preg_replace(
-				'/\s+autoplay(?:\s*=\s*(?:"[^"]*"|\'[^\']*\'|[^\s>]+))?/i',
-				'',
-				$tag
+			$tag = preg_replace_callback(
+				'/\ssrc\s*=\s*(["\'])([^"\']+)\1/i',
+				function ( $attribute_matches ) {
+					return ' data-bemke-src="' . $attribute_matches[2] . '"';
+				},
+				$tag,
+				1
 			);
-
-			if ( preg_match( '/\s+preload\s*=/i', $tag ) ) {
-				$tag = preg_replace(
-					'/\s+preload\s*=\s*(?:"[^"]*"|\'[^\']*\'|[^\s>]+)/i',
-					' preload="none"',
-					$tag,
-					1
-				);
-			} else {
-				$tag = preg_replace( '/>$/', ' preload="none">', $tag );
-			}
-
-			if ( false === stripos( $tag, 'data-bemke-autoplay=' ) ) {
-				$tag = preg_replace( '/>$/', ' data-bemke-autoplay="true">', $tag );
-			}
 
 			return $tag;
 		},
