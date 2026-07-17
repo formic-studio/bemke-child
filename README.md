@@ -60,11 +60,25 @@ npm run build
 Przełącznik „Ogranicz animacje” zapisuje wybór użytkownika w przeglądarce i
 respektuje również systemowe `prefers-reduced-motion`.
 
+Stan użytkownika jest zapisywany w `localStorage` pod kluczem
+`bemke_a11y_reduce_motion`. Gdy ograniczenie jest aktywne, element `<html>`
+otrzymuje atrybut `data-bemke-reduced-motion="true"`. Zmiana ustawienia emituje
+zdarzenie `bemke:motion-change`, dzięki czemu komponenty mogą zareagować bez
+odświeżania strony.
+
+Systemowe `prefers-reduced-motion: reduce` ma pierwszeństwo przed ustawieniem
+strony. Jeżeli ograniczenie ruchu jest włączone w systemie operacyjnym,
+przełącznik na stronie nie pozwala wymusić animacji.
+
 Po włączeniu:
 
-- automatyczne i dekoracyjne animacje zostają zatrzymane,
-- dekoracyjne filmy są pauzowane,
-- animacje interfejsu i przejścia slajdów odbywają się natychmiast,
+- animacje i przejścia CSS są skracane do wartości praktycznie natychmiastowej,
+- automatyczne oraz dekoracyjne animacje zostają zatrzymane,
+- dekoracyjne filmy są pauzowane, a ich `autoplay` i `loop` wyłączane,
+- animacje interfejsu, akordeonów, menu, zakładek i przejścia slajdów odbywają
+  się natychmiast,
+- liczniki od razu pokazują wartość końcową,
+- nieskończone pętle zostają zatrzymane i mogą być przewijane ręcznie,
 - ręczne sterowanie sliderem oraz przyciski Play/Pause pozostają dostępne.
 
 Slidery nie uruchamiają autoplay samodzielnie. Jeżeli użytkownik świadomie
@@ -74,6 +88,19 @@ Animacja wejścia tekstów w `.section_hero` również respektuje to ustawienie.
 Teksty pozostają w pozycjach ustawionych w Bricks. Na desktopie pojawiają się
 z lekkim blurem, opacity i przesunięciem `y: 10px`, a na mobile bez blura.
 Jeżeli tekst zajmuje kilka linii, kolejne linie mają subtelny stagger.
+
+Zdjęcia z klasą `.img-scroll-expand` na desktopie rosną i maleją pod scrollem.
+Po włączeniu ograniczenia animacji ich ScrollTriggery są usuwane, a zdjęcia
+natychmiast otrzymują szerokość `100%`. Po ponownym wyłączeniu ograniczenia
+animacje są odbudowywane bez przeładowania strony. Na ekranach do `767px`
+animacja zdjęć nie jest uruchamiana niezależnie od ustawienia — zdjęcia od razu
+mają szerokość `100%`.
+
+Nowe animacje JS powinny przed uruchomieniem sprawdzać `isReducedMotion()` z
+`src/js/modules/motion-preference.js` oraz reagować na
+`MOTION_CHANGE_EVENT`. Efekt musi mieć bezpieczny stan końcowy, który można
+pokazać natychmiast po włączeniu ograniczenia. Dla animacji CSS należy
+uwzględnić selektor `html[data-bemke-reduced-motion="true"]`.
 
 ## WordPress (GitHub -> WP)
 
