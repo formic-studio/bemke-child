@@ -2431,6 +2431,11 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     gap: 1.2rem;
   }
 
+  #brx-header .bemke-mobile-wcag__row--motion .lang-switcher-block {
+    justify-content: space-between;
+    width: 100%;
+  }
+
   #brx-header .bemke-mobile-wcag__row--motion .animation-switcher,
   #brx-header .bemke-mobile-wcag__row--language .lang-switcher {
     flex: 0 0 auto;
