@@ -8,6 +8,7 @@ require_once get_stylesheet_directory() . '/inc/instagram-feed.php';
 require_once get_stylesheet_directory() . '/inc/getresponse.php';
 
 add_action( 'wp_head', 'bemke_child_print_motion_preference', 1 );
+add_action( 'wp_head', 'bemke_child_preload_critical_fonts', 2 );
 add_action( 'wp_enqueue_scripts', 'bemke_child_enqueue_assets', 20 );
 add_action( 'template_redirect', 'bemke_child_start_frontend_optimization_buffer', 0 );
 add_filter( 'wp_get_attachment_image_attributes', 'bemke_child_optimize_below_fold_images', 100, 3 );
@@ -40,6 +41,25 @@ function bemke_child_print_motion_preference() {
 		})();
 	</script>
 	<?php
+}
+
+function bemke_child_preload_critical_fonts() {
+	if ( bemke_child_is_bricks_builder_request() ) {
+		return;
+	}
+
+	$uploads  = wp_get_upload_dir();
+	$font_url = trailingslashit( $uploads['baseurl'] ) . '2026/05/';
+	$fonts    = array(
+		'SeasonSans-Regular.woff2',
+		'SeasonSans-Medium.woff2',
+	);
+
+	foreach ( $fonts as $font ) {
+		?>
+		<link rel="preload" href="<?php echo esc_url( $font_url . $font ); ?>" as="font" type="font/woff2" crossorigin>
+		<?php
+	}
 }
 
 function bemke_child_enqueue_assets() {
@@ -96,6 +116,18 @@ function bemke_child_start_frontend_optimization_buffer() {
 }
 
 function bemke_child_optimize_frontend_markup( $html ) {
+	$html = str_replace(
+		array(
+			'font-family:"Season Sans";font-weight:400;font-display:swap;',
+			'font-family:"Season Sans";font-weight:500;font-display:swap;',
+		),
+		array(
+			'font-family:"Season Sans";font-weight:400;font-display:block;',
+			'font-family:"Season Sans";font-weight:500;font-display:block;',
+		),
+		$html
+	);
+
 	if ( false === stripos( $html, 'Ksztaltuj-przyszlosc-edukacji.mp4' ) ) {
 		return $html;
 	}

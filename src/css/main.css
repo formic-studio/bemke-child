@@ -1346,6 +1346,18 @@ html[data-contrast]:not([data-contrast="default"])
   display: none !important;
 }
 
+html[data-bemke-frontend="true"]
+  #brx-header:not([data-bemke-mega-menu-ready="1"])
+  #brxe-vhhhdt
+  > .bricks-nav-menu-wrapper
+  > .bricks-nav-menu
+  > li
+  > .sub-menu {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
 :where(
     #brx-header
       #brxe-vhhhdt

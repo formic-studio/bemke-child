@@ -30,6 +30,8 @@ import { initHeroIntro } from './modules/hero-intro.js';
 function initApp() {
   initMotionPreference();
   initAccessibilitySwitches();
+  initMegaMenu();
+  initMobileMenu();
   initHeroIntro();
   initAccordionControls();
   initDecorativeVideoControls();
@@ -41,8 +43,6 @@ function initApp() {
   initProjectSlider();
   initTextLoopSlider();
   initHistoryTabs();
-  initMegaMenu();
-  initMobileMenu();
   initFormAriaReferences();
   initPdfLinkLabels();
   initSocialLinkLabels();
