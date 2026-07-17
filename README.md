@@ -71,8 +71,8 @@ Slidery nie uruchamiają autoplay samodzielnie. Jeżeli użytkownik świadomie
 włączy Play, slider nadal może zmieniać slajdy, ale bez animowanego przejścia.
 
 Animacja wejścia tekstów w `.section_hero` również respektuje to ustawienie.
-Na desktopie tekst przechodzi ze środka do układu z Bricks, a na mobile
-wykonywany jest tylko krótki fade z przesunięciem `y: 10px`.
+Teksty pozostają w pozycjach ustawionych w Bricks. Na desktopie pojawiają się
+z lekkim blurem, opacity i przesunięciem `y: 10px`, a na mobile bez blura.
 
 ## WordPress (GitHub -> WP)
 
