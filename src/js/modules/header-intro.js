@@ -1,5 +1,8 @@
 import { gsap } from 'gsap';
-import { HERO_INTRO_COMPLETE_EVENT } from './hero-intro.js';
+import {
+  HERO_INTRO_COMPLETE_EVENT,
+  HERO_INTRO_HEADER_REVEAL_EVENT,
+} from './hero-intro.js';
 import {
   MOTION_CHANGE_EVENT,
   isReducedMotion,
@@ -10,7 +13,7 @@ const HERO_SELECTOR = '.section_hero';
 const HERO_COMPLETE_ATTR = 'data-bemke-hero-intro-complete';
 const READY_ATTR = 'data-bemke-header-intro-ready';
 const COMPLETE_ATTR = 'data-bemke-header-intro-complete';
-const ANIMATION_DURATION = 0.72;
+const ANIMATION_DURATION = 0.864;
 
 const headerStates = new Map();
 let lifecycleBound = false;
@@ -59,6 +62,12 @@ function bindLifecycle() {
   }
 
   lifecycleBound = true;
+
+  document.addEventListener(HERO_INTRO_HEADER_REVEAL_EVENT, () => {
+    headerStates.forEach((state) => {
+      revealHeader(state, !isReducedMotion());
+    });
+  });
 
   document.addEventListener(HERO_INTRO_COMPLETE_EVENT, () => {
     if (!areHeroIntrosComplete()) {

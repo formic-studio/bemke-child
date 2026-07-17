@@ -11,6 +11,10 @@ const SUPPLEMENTARY_SELECTOR = '.brxe-text-basic, .brxe-text, p';
 const READY_ATTR = 'data-bemke-hero-intro-ready';
 const COMPLETE_ATTR = 'data-bemke-hero-intro-complete';
 export const HERO_INTRO_COMPLETE_EVENT = 'bemke:hero-intro-complete';
+export const HERO_INTRO_HEADER_REVEAL_EVENT =
+  'bemke:hero-intro-header-reveal';
+const HEADER_REVEAL_ATTR = 'data-bemke-hero-intro-header-reveal';
+const HEADER_REVEAL_PROGRESS = 0.7;
 const MOBILE_QUERY = '(max-width: 767px)';
 const START_Y = 10;
 const DESKTOP_BLUR = 8;
@@ -170,6 +174,11 @@ async function animateHeroLines(state, isMobile) {
     if (supplementaryLines.length) {
       timeline.to(supplementaryLines, supplementaryTween, '-=0.08');
     }
+
+    timeline.add(
+      () => signalHeaderReveal(state.hero),
+      timeline.duration() * HEADER_REVEAL_PROGRESS,
+    );
   } catch {
     finishHeroIntro(state);
   }
@@ -265,10 +274,24 @@ function restoreInlineStyle(element, originalStyle) {
 }
 
 function markHeroComplete(hero) {
+  signalHeaderReveal(hero);
   hero.setAttribute(READY_ATTR, '1');
   hero.setAttribute(COMPLETE_ATTR, '1');
   document.dispatchEvent(
     new CustomEvent(HERO_INTRO_COMPLETE_EVENT, {
+      detail: { hero },
+    }),
+  );
+}
+
+function signalHeaderReveal(hero) {
+  if (hero.getAttribute(HEADER_REVEAL_ATTR) === '1') {
+    return;
+  }
+
+  hero.setAttribute(HEADER_REVEAL_ATTR, '1');
+  document.dispatchEvent(
+    new CustomEvent(HERO_INTRO_HEADER_REVEAL_EVENT, {
       detail: { hero },
     }),
   );
