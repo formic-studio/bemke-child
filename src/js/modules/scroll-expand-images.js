@@ -8,15 +8,25 @@ import {
 const IMAGE_SELECTOR = ".img-scroll-expand";
 const COMPLETE_ATTR = "data-bemke-scroll-expand-complete";
 const INITIAL_IMAGE_WIDTH = 300;
-const ANIMATION_START = "top 90%";
-const ANIMATION_DURATION = 1.4;
-const ANIMATION_EASE = "power1.inOut";
+const SCROLL_START = "center bottom";
+const SCROLL_END = "center top";
 
 function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
 }
 
-function prepareImageLayout(image) {
+function restoreInlineStyle(image, originalStyle) {
+  if (originalStyle === null) {
+    image.removeAttribute("style");
+    return;
+  }
+
+  image.setAttribute("style", originalStyle);
+}
+
+function prepareImageLayout(image, originalStyle) {
+  restoreInlineStyle(image, originalStyle);
+
   const initialRect = image.getBoundingClientRect();
   const initialWidth = Math.min(INITIAL_IMAGE_WIDTH, initialRect.width);
   const initialHeight = initialRect.height;
@@ -45,6 +55,8 @@ function prepareImageLayout(image) {
     scale: startScale,
     transformOrigin: `${originX}% ${originY}%`,
   });
+
+  return { startScale };
 }
 
 function showImageWithoutMotion(image) {
@@ -59,6 +71,72 @@ function showImageWithoutMotion(image) {
   });
 }
 
+function createScrollAnimation(image) {
+  const originalStyle = image.getAttribute("style");
+  const metrics = { startScale: 1 };
+
+  const prepare = () => {
+    if (
+      isReducedMotion() ||
+      image.getAttribute(COMPLETE_ATTR) === "1"
+    ) {
+      return;
+    }
+
+    metrics.startScale = prepareImageLayout(image, originalStyle).startScale;
+  };
+
+  const enableTransformRendering = () => {
+    gsap.set(image, { willChange: "transform" });
+  };
+
+  const disableTransformRendering = () => {
+    gsap.set(image, { clearProps: "willChange" });
+  };
+
+  prepare();
+
+  const timeline = gsap.timeline({
+    paused: true,
+    defaults: { ease: "none" },
+  });
+
+  timeline
+    .fromTo(
+      image,
+      {
+        scale: () => metrics.startScale,
+      },
+      {
+        scale: 1,
+        duration: 0.5,
+        force3D: true,
+        immediateRender: true,
+      },
+    )
+    .to(image, {
+      scale: () => metrics.startScale,
+      duration: 0.5,
+      force3D: true,
+    });
+
+  const trigger = ScrollTrigger.create({
+    trigger: image.parentElement ?? image,
+    animation: timeline,
+    start: SCROLL_START,
+    end: SCROLL_END,
+    scrub: true,
+    invalidateOnRefresh: true,
+    onRefreshInit: prepare,
+    onEnter: enableTransformRendering,
+    onEnterBack: enableTransformRendering,
+    onLeave: disableTransformRendering,
+    onLeaveBack: disableTransformRendering,
+  });
+
+  return { image, timeline, trigger };
+}
+
 export function initScrollExpandImages() {
   const images = gsap.utils.toArray(IMAGE_SELECTOR);
 
@@ -71,55 +149,19 @@ export function initScrollExpandImages() {
     return;
   }
 
-  images.forEach((image) => {
-    let hasStarted = false;
-
-    prepareImageLayout(image);
-
-    ScrollTrigger.create({
-      trigger: image.parentElement ?? image,
-      start: ANIMATION_START,
-      once: true,
-      onRefresh: () => {
-        if (!hasStarted && image.getAttribute(COMPLETE_ATTR) !== "1") {
-          prepareImageLayout(image);
-        }
-      },
-      onEnter: () => {
-        if (isReducedMotion() || image.getAttribute(COMPLETE_ATTR) === "1") {
-          showImageWithoutMotion(image);
-          return;
-        }
-
-        hasStarted = true;
-
-        gsap.set(image, { willChange: "transform" });
-
-        requestAnimationFrame(() => {
-          gsap.to(image, {
-            scale: 1,
-            duration: ANIMATION_DURATION,
-            ease: ANIMATION_EASE,
-            force3D: true,
-            overwrite: "auto",
-            onComplete: () => {
-              gsap.set(image, {
-                clearProps: "transform,transformOrigin,willChange",
-              });
-            },
-          });
-        });
-      },
-    });
-  });
+  const imageAnimations = images.map(createScrollAnimation);
 
   if (document.readyState !== "complete") {
     window.addEventListener("load", () => ScrollTrigger.refresh(), { once: true });
   }
 
   document.addEventListener(MOTION_CHANGE_EVENT, (event) => {
-    if (event.detail?.reduced) {
-      images.forEach(showImageWithoutMotion);
-    }
+    if (!event.detail?.reduced) return;
+
+    imageAnimations.forEach(({ image, timeline, trigger }) => {
+      trigger.kill();
+      timeline.kill();
+      showImageWithoutMotion(image);
+    });
   });
 }
