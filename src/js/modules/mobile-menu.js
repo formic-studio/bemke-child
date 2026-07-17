@@ -327,13 +327,6 @@ function createMobileAccessibilityLayout(section) {
     content.insertBefore(heading, content.firstChild);
 
     const controls = [
-      animationControls
-        ? {
-            control: animationControls,
-            key: 'motion',
-            label: 'Ogranicz animacje',
-          }
-        : null,
       {
         control: fontSizeControls,
         key: 'font-size',
@@ -341,10 +334,20 @@ function createMobileAccessibilityLayout(section) {
       },
       { control: contrastControls, key: 'contrast', label: 'Kontrast' },
       { control: languageControls, key: 'language', label: 'Język' },
+      animationControls
+        ? {
+            control: animationControls,
+            key: 'motion',
+            label: 'Ogranicz animacje',
+            showLabel: false,
+          }
+        : null,
     ].filter(Boolean);
 
-    controls.forEach(({ control, label, key }) => {
-      panel.appendChild(wrapAccessibilityControl(control, label, key));
+    controls.forEach(({ control, label, key, showLabel = true }) => {
+      panel.appendChild(
+        wrapAccessibilityControl(control, label, key, showLabel),
+      );
     });
 
     heading.insertAdjacentElement('afterend', panel);
@@ -438,20 +441,33 @@ function setupAccessibilityDisclosure(section) {
   };
 }
 
-function wrapAccessibilityControl(control, label, key) {
+function wrapAccessibilityControl(control, label, key, showLabel = true) {
   const row = document.createElement('div');
-  const labelElement = document.createElement('span');
   const labelId = `bemke-mobile-wcag-label-${key}`;
 
   row.className = `bemke-mobile-wcag__row bemke-mobile-wcag__row--${key}`;
   row.setAttribute('role', 'group');
-  row.setAttribute('aria-labelledby', labelId);
-  labelElement.className = 'bemke-mobile-wcag__label';
-  labelElement.id = labelId;
-  labelElement.textContent = label;
 
   control.parentNode.insertBefore(row, control);
-  row.append(labelElement, control);
+
+  if (showLabel) {
+    const labelElement = document.createElement('span');
+    labelElement.className = 'bemke-mobile-wcag__label';
+    labelElement.id = labelId;
+    labelElement.textContent = label;
+    row.setAttribute('aria-labelledby', labelId);
+    row.append(labelElement);
+  } else {
+    const existingLabel = control.querySelector('.brxe-text-basic');
+
+    if (existingLabel?.id) {
+      row.setAttribute('aria-labelledby', existingLabel.id);
+    } else {
+      row.setAttribute('aria-label', label);
+    }
+  }
+
+  row.append(control);
 
   return row;
 }

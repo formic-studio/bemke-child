@@ -2378,7 +2378,8 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
   }
 
   #brx-header .bemke-mobile-wcag__row--motion {
-    order: 0;
+    border-bottom: 0;
+    order: 4;
   }
 
   #brx-header .bemke-mobile-wcag__row--font-size {
@@ -2390,7 +2391,6 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
   }
 
   #brx-header .bemke-mobile-wcag__row--language {
-    border-bottom: 0;
     order: 3;
   }
 
