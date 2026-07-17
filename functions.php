@@ -137,7 +137,7 @@ function bemke_child_optimize_frontend_markup( $html ) {
 	}
 
 	return preg_replace_callback(
-		'/<img\b(?=[^>]*\bslider-img\b)[^>]*>/i',
+		'/<img\b(?=[^>]*\b(?:slider-img|sticky)\b)[^>]*>/i',
 		function ( $matches ) {
 			$tag = preg_replace_callback(
 				'/\ssrcset\s*=\s*(["\'])([^"\']+)\1/i',
