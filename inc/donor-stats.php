@@ -82,17 +82,12 @@ function bemke_child_register_donor_stats_fields() {
 /**
  * Allow Bricks to call the donor statistics data provider through an echo tag.
  *
- * @param array<int, string> $function_names Allowed function names.
  * @return array<int, string>
  */
-function bemke_child_allow_donor_stats_echo_function( $function_names ) {
-	if ( ! is_array( $function_names ) ) {
-		return $function_names;
-	}
-
-	$function_names[] = 'bemke_child_get_donor_stats_for_bricks';
-
-	return array_values( array_unique( $function_names ) );
+function bemke_child_allow_donor_stats_echo_function() {
+	return array(
+		'bemke_child_get_donor_stats_for_bricks',
+	);
 }
 
 /**
