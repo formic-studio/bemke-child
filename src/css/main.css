@@ -561,41 +561,6 @@ html[data-contrast]:not([data-contrast="default"]) textarea {
   font-variant-numeric: tabular-nums;
 }
 
-/* Repeatable donor statistics */
-.bemke-donor-stats {
-  display: grid;
-  gap: 4rem;
-  grid-template-columns: repeat(
-    auto-fit,
-    minmax(min(100%, 22rem), 1fr)
-  );
-  width: 100%;
-}
-
-.bemke-donor-stat {
-  height: 100%;
-  justify-content: center;
-  min-width: 0;
-  text-align: center;
-}
-
-.bemke-donor-stat__description {
-  text-align: center;
-}
-
-@media (max-width: 991px) {
-  .bemke-donor-stats {
-    gap: 3.2rem;
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 767px) {
-  .bemke-donor-stats {
-    gap: 1.2rem;
-  }
-}
-
 .img-link-block:hover img,
 .img-link-block:focus-within img {
   transform: scale(1.02);

@@ -129,8 +129,6 @@ function bemke_child_optimize_frontend_markup( $html ) {
 		$html
 	);
 
-	$html = bemke_child_maybe_replace_donor_stats_markup( $html );
-
 	if ( false === stripos( $html, 'Ksztaltuj-przyszlosc-edukacji.mp4' ) ) {
 		return $html;
 	}
