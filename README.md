@@ -161,6 +161,22 @@ Zamykanie:
 - kliknięcie w tło overlay,
 - klawisz `Esc`.
 
+## Darczyńcy – powtarzalne liczby
+
+Po aktywacji wtyczki Carbon Fields wpisy typu `Darczyńcy` otrzymują metabox
+`Darczyńcy – liczby i statystyki`. Każdy kafelek zawiera:
+
+- liczbę lub krótki zapis wartości, np. `1600+`,
+- opis.
+
+Kafelki można dodawać bez limitu, usuwać i sortować. Jeżeli zapisano co najmniej
+jeden kompletny kafelek, dane automatycznie zastępują trzy statyczne kafelki
+w obecnym szablonie Bricks. Puste pola Carbon Fields pozostawiają dotychczasową
+treść bez zmian.
+
+Przy przebudowie szablonu sekcję można też osadzić ręcznie shortcode'em:
+`[bemke_donor_stats]`.
+
 ## Ważne
 
 - `dist/` musi być commitowany do repo (to pliki produkcyjne pobierane przez WordPress).
