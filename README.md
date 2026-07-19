@@ -172,6 +172,17 @@ Po aktywacji wtyczki Carbon Fields wpisy typu `Darczyńcy` otrzymują metabox
 Pola można dodawać bez limitu, usuwać i sortować. Metabox zapisuje wyłącznie
 dane i nie ingeruje w szablon ani renderowanie frontendu.
 
+Wpisy typu `Darczyńcy` otrzymują również metabox `Darczyńcy – cytaty`.
+Można w nim dodać i sortować do 6 zestawów zawierających:
+
+- cytat,
+- imię i nazwisko,
+- pozycję,
+- zdjęcie.
+
+Oba rodzaje danych są dostępne dla Bricks jako Array Query przez dedykowane,
+tylko odczytujące funkcje.
+
 ## Ważne
 
 - `dist/` musi być commitowany do repo (to pliki produkcyjne pobierane przez WordPress).
