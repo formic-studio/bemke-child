@@ -111,8 +111,15 @@ function bemke_child_get_donor_stats_for_bricks( $post_id = 0 ) {
 
 	$post_id = absint( $post_id );
 
-	if ( ! $post_id ) {
-		$post_id = get_queried_object_id();
+	if ( ! $post_id || 'darczynca' !== get_post_type( $post_id ) ) {
+		$queried_post_id = get_queried_object_id();
+
+		if (
+			$queried_post_id &&
+			'darczynca' === get_post_type( $queried_post_id )
+		) {
+			$post_id = $queried_post_id;
+		}
 	}
 
 	if ( ! $post_id || 'darczynca' !== get_post_type( $post_id ) ) {
