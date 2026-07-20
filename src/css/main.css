@@ -927,9 +927,12 @@ html[data-contrast]:not([data-contrast="default"])
   transition: background-color 0.28s ease;
 }
 
-.offer-block.bg-eggShell,
-.donors-block.bg-eggShell {
+.offer-block.bg-eggShell {
   background-color: var(--eggshell, var(--theme-eggshell));
+}
+
+.donors-block.bg-eggShell {
+  background-color: var(--darkcream, var(--theme-darkcream));
 }
 
 .linkedin-block {
