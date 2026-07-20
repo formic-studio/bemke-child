@@ -177,6 +177,7 @@ function bemke_child_allow_donor_stats_echo_function( $function_names = array() 
 		'bemke_child_get_donor_video_source_for_bricks',
 		'bemke_child_get_donor_video_file_for_bricks',
 		'bemke_child_get_donor_video_youtube_url_for_bricks',
+		'bemke_child_get_donor_video_url_for_bricks',
 	);
 
 	return array_values(

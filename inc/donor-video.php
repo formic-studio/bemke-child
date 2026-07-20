@@ -195,3 +195,23 @@ function bemke_child_get_donor_video_youtube_url_for_bricks( $post_id = 0 ) {
 		)
 	);
 }
+
+/**
+ * Return the selected donor video URL for a single Bricks Video element.
+ *
+ * @param int|string $post_id Optional donor post ID.
+ * @return string
+ */
+function bemke_child_get_donor_video_url_for_bricks( $post_id = 0 ) {
+	$source = bemke_child_get_donor_video_source_for_bricks( $post_id );
+
+	if ( 'youtube' === $source ) {
+		return bemke_child_get_donor_video_youtube_url_for_bricks( $post_id );
+	}
+
+	if ( 'file' === $source ) {
+		return bemke_child_get_donor_video_file_for_bricks( $post_id );
+	}
+
+	return '';
+}
