@@ -104,7 +104,6 @@ function bemke_child_register_foundation_document_fields() {
 											'bemke-child'
 										)
 									)
-									->set_required( true )
 									->set_width( 65 ),
 								\Carbon_Fields\Field::make(
 									'file',
@@ -112,7 +111,6 @@ function bemke_child_register_foundation_document_fields() {
 									__( 'Plik do pobrania', 'bemke-child' )
 								)
 									->set_value_type( 'id' )
-									->set_required( true )
 									->set_width( 35 ),
 							)
 						),

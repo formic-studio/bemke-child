@@ -194,6 +194,7 @@ Wpisy typu `dokumenty-fundacja` otrzymują cztery niezależne metaboksy:
 
 Każda sekcja pozwala dodać, usunąć i posortować dowolną liczbę dokumentów.
 Pojedyncza pozycja zawiera nazwę dokumentu oraz plik z Biblioteki mediów.
+Oba pola są opcjonalne, aby można było zapisywać również pozycje testowe.
 Dane są wyłącznie zapisywane jako metadane i nie zmieniają automatycznie
 szablonu ani frontendu.
 
