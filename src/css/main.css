@@ -2,7 +2,7 @@
 
 .map-block {
   --campus-map-height: clamp(52rem, 68svh, 86rem);
-  --campus-map-width: 125%;
+  --campus-map-width: 100%;
 
   cursor: grab;
   display: block;
@@ -29,7 +29,7 @@
   max-width: none;
   position: relative;
   touch-action: none;
-  width: var(--campus-map-width, 125%);
+  width: var(--campus-map-width, 100%);
   will-change: transform;
 }
 
@@ -102,7 +102,7 @@
 @media (max-width: 767px) {
   .map-block {
     --campus-map-height: min(62svh, 54rem);
-    --campus-map-width: 185%;
+    --campus-map-width: 240%;
   }
 
   .campus-map__tooltip {
