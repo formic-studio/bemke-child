@@ -34,9 +34,16 @@
 }
 
 .campus-map > img {
-  display: block;
   height: auto;
   width: 100%;
+}
+
+.campus-map > .map-desktop {
+  display: block;
+}
+
+.campus-map > .map-mobile {
+  display: none;
 }
 
 .campus-map__areas {
@@ -108,6 +115,16 @@
   .campus-map__tooltip {
     font-size: var(--size-h4-mobile, 2rem);
     padding: 1.2rem 1.6rem;
+  }
+}
+
+@media (max-width: 991px) {
+  .campus-map > .map-desktop {
+    display: none;
+  }
+
+  .campus-map > .map-mobile {
+    display: block;
   }
 }
 

@@ -1,5 +1,5 @@
 const SVG_NAMESPACE = 'http://www.w3.org/2000/svg';
-const MAP_IMAGE_SELECTOR = '#brxe-hdvixb';
+const MAP_IMAGE_SELECTOR = '.map-desktop, .map-mobile';
 
 const MAP_AREAS = [
   {
@@ -93,7 +93,7 @@ function setTooltipAtArea(wrapper, tooltip, area) {
   );
 }
 
-function initCampusMapPan(viewport, map, image, hideTooltip) {
+function initCampusMapPan(viewport, map, images, hideTooltip) {
   let position = { x: 0, y: 0 };
   let pointerId = null;
   let pointerStart = { x: 0, y: 0 };
@@ -158,7 +158,9 @@ function initCampusMapPan(viewport, map, image, hideTooltip) {
     viewport.classList.remove('is-dragging');
   };
 
-  image.draggable = false;
+  images.forEach((image) => {
+    image.draggable = false;
+  });
   viewport.dataset.bemkeCampusMapPan = '1';
 
   if (!viewport.hasAttribute('tabindex')) {
@@ -235,29 +237,48 @@ function initCampusMapPan(viewport, map, image, hideTooltip) {
   resizeObserver.observe(viewport);
   resizeObserver.observe(map);
 
-  if (image.complete) {
+  if (images.every((image) => image.complete)) {
     requestAnimationFrame(updateDimensions);
   } else {
-    image.addEventListener('load', updateDimensions, { once: true });
+    images.forEach((image) => {
+      if (!image.complete) {
+        image.addEventListener('load', updateDimensions, { once: true });
+      }
+    });
   }
 }
 
 export function initCampusMap() {
-  const image = document.querySelector(MAP_IMAGE_SELECTOR);
+  const firstImage = document.querySelector(MAP_IMAGE_SELECTOR);
 
-  if (!image || image.closest('[data-bemke-campus-map-ready="1"]')) {
+  if (!firstImage) {
     return;
   }
 
-  const viewport = image.closest('.map-block') || image.parentElement;
+  const viewport = firstImage.closest('.map-block') || firstImage.parentElement;
+
+  if (viewport.querySelector('[data-bemke-campus-map-ready="1"]')) {
+    return;
+  }
+
+  const images = Array.from(
+    viewport.querySelectorAll(MAP_IMAGE_SELECTOR),
+  );
+
+  if (!images.length) {
+    return;
+  }
+
   viewport.classList.add('map-block');
 
   const wrapper = document.createElement('div');
   wrapper.className = 'campus-map';
   wrapper.dataset.bemkeCampusMapReady = '1';
 
-  image.parentNode.insertBefore(wrapper, image);
-  wrapper.append(image);
+  firstImage.parentNode.insertBefore(wrapper, firstImage);
+  images.forEach((image) => {
+    wrapper.append(image);
+  });
 
   const overlay = createSvgElement('svg', {
     class: 'campus-map__areas',
@@ -353,7 +374,7 @@ export function initCampusMap() {
   });
 
   wrapper.append(overlay, tooltip);
-  initCampusMapPan(viewport, wrapper, image, hideTooltip);
+  initCampusMapPan(viewport, wrapper, images, hideTooltip);
 
   document.addEventListener('pointerdown', (event) => {
     if (touchArea && !wrapper.contains(event.target)) {
