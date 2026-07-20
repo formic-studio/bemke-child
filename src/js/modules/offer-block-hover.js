@@ -1,5 +1,10 @@
-const BLOCK_SELECTOR = '.offer-block, .linkedin-block, #brxe-ejpmtj .brxe-aepfcc';
-const LINK_SELECTOR = '.offer-link';
+const BLOCK_SELECTOR =
+  '.offer-block, .linkedin-block, .donors-block, #brxe-ejpmtj .brxe-aepfcc';
+const LINK_SELECTORS = [
+  '.offer-link',
+  '.donors-block .brxe-text-link',
+];
+const LINK_SELECTOR = LINK_SELECTORS.join(', ');
 const ACTIVE_CLASS = 'bg-eggShell';
 const BOOT_FLAG = '__bemkeOfferBlockHoverBooted';
 
@@ -8,7 +13,9 @@ function getOfferBlock(target) {
 }
 
 function hasFocusedOfferLink(block) {
-  return Boolean(block?.querySelector(`${LINK_SELECTOR}:focus`));
+  const focusedLink = document.activeElement?.closest?.(LINK_SELECTOR);
+
+  return Boolean(focusedLink && getOfferBlock(focusedLink) === block);
 }
 
 function setOfferBlockActive(block, active) {
@@ -49,7 +56,7 @@ function handleFocusOut(event) {
 }
 
 export function initOfferBlockHover() {
-  if (window[BOOT_FLAG] || !document.querySelector(`${BLOCK_SELECTOR} ${LINK_SELECTOR}`)) {
+  if (window[BOOT_FLAG] || !document.querySelector(LINK_SELECTOR)) {
     return;
   }
 

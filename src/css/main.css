@@ -922,11 +922,13 @@ html[data-contrast]:not([data-contrast="default"])
   scroll-snap-align: start;
 }
 
-.offer-block {
+.offer-block,
+.donors-block {
   transition: background-color 0.28s ease;
 }
 
-.offer-block.bg-eggShell {
+.offer-block.bg-eggShell,
+.donors-block.bg-eggShell {
   background-color: var(--eggshell, var(--theme-eggshell));
 }
 
