@@ -932,7 +932,7 @@ html[data-contrast]:not([data-contrast="default"])
 }
 
 .donors-block.bg-eggShell {
-  background-color: var(--darkcream, var(--theme-darkcream));
+  background-color: var(--darkcream);
 }
 
 .linkedin-block {
