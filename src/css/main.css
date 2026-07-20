@@ -2,7 +2,7 @@
 
 .map-block {
   --campus-map-height: clamp(52rem, 68svh, 86rem);
-  --campus-map-width: 100%;
+  --campus-map-width: 110%;
 
   cursor: grab;
   display: block;
@@ -29,7 +29,7 @@
   max-width: none;
   position: relative;
   touch-action: none;
-  width: var(--campus-map-width, 100%);
+  width: var(--campus-map-width, 110%);
   will-change: transform;
 }
 
@@ -102,12 +102,18 @@
 @media (max-width: 767px) {
   .map-block {
     --campus-map-height: min(62svh, 54rem);
-    --campus-map-width: 240%;
+    --campus-map-width: 260%;
   }
 
   .campus-map__tooltip {
     font-size: var(--size-h4-mobile, 2rem);
     padding: 1.2rem 1.6rem;
+  }
+}
+
+@media (max-width: 478px) {
+  .map-block {
+    --campus-map-width: 320%;
   }
 }
 
