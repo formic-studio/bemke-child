@@ -56,20 +56,26 @@ function createSvgElement(name, attributes = {}) {
 
 function setTooltipPosition(wrapper, tooltip, clientX, clientY) {
   const wrapperRect = wrapper.getBoundingClientRect();
-  const localX = clientX - wrapperRect.left;
+  const viewportRect =
+    wrapper.closest('.map-block')?.getBoundingClientRect() || wrapperRect;
   const localY = clientY - wrapperRect.top;
   const tooltipWidth = tooltip.offsetWidth;
   const tooltipHeight = tooltip.offsetHeight;
   const horizontalMargin = 8;
   const verticalOffset = 12;
 
-  const minX = tooltipWidth / 2 + horizontalMargin;
-  const maxX = wrapperRect.width - tooltipWidth / 2 - horizontalMargin;
-  const x =
-    minX > maxX
-      ? wrapperRect.width / 2
-      : Math.min(Math.max(localX, minX), maxX);
-  const placeBelow = localY < tooltipHeight + verticalOffset + horizontalMargin;
+  const minClientX =
+    viewportRect.left + tooltipWidth / 2 + horizontalMargin;
+  const maxClientX =
+    viewportRect.right - tooltipWidth / 2 - horizontalMargin;
+  const tooltipClientX =
+    minClientX > maxClientX
+      ? viewportRect.left + viewportRect.width / 2
+      : Math.min(Math.max(clientX, minClientX), maxClientX);
+  const x = tooltipClientX - wrapperRect.left;
+  const placeBelow =
+    clientY <
+    viewportRect.top + tooltipHeight + verticalOffset + horizontalMargin;
 
   tooltip.style.left = `${x}px`;
   tooltip.style.top = `${localY}px`;
@@ -87,6 +93,155 @@ function setTooltipAtArea(wrapper, tooltip, area) {
   );
 }
 
+function initCampusMapPan(viewport, map, image, hideTooltip) {
+  let position = { x: 0, y: 0 };
+  let pointerId = null;
+  let pointerStart = { x: 0, y: 0 };
+  let positionStart = { x: 0, y: 0 };
+  let hasDragged = false;
+  let isInitialPosition = true;
+
+  const getBounds = () => ({
+    minX: Math.min(0, viewport.clientWidth - map.offsetWidth),
+    minY: Math.min(0, viewport.clientHeight - map.offsetHeight),
+  });
+
+  const clampPosition = (nextPosition) => {
+    const { minX, minY } = getBounds();
+
+    return {
+      x: Math.min(0, Math.max(minX, nextPosition.x)),
+      y: Math.min(0, Math.max(minY, nextPosition.y)),
+    };
+  };
+
+  const renderPosition = () => {
+    map.style.transform = `translate3d(${position.x}px, ${position.y}px, 0)`;
+  };
+
+  const setPosition = (nextPosition) => {
+    position = clampPosition(nextPosition);
+    renderPosition();
+  };
+
+  const updateDimensions = () => {
+    if (isInitialPosition) {
+      position = clampPosition({
+        x: viewport.clientWidth / 2 - map.offsetWidth * 0.64,
+        y: viewport.clientHeight / 2 - map.offsetHeight * 0.44,
+      });
+      isInitialPosition = false;
+    } else {
+      position = clampPosition(position);
+    }
+
+    renderPosition();
+  };
+
+  const finishDrag = (event) => {
+    if (pointerId === null || event.pointerId !== pointerId) {
+      return;
+    }
+
+    if (viewport.hasPointerCapture(pointerId)) {
+      viewport.releasePointerCapture(pointerId);
+    }
+
+    if (hasDragged) {
+      map.dataset.dragged = '1';
+      window.setTimeout(() => {
+        delete map.dataset.dragged;
+      }, 100);
+    }
+
+    pointerId = null;
+    viewport.classList.remove('is-dragging');
+  };
+
+  image.draggable = false;
+  viewport.dataset.bemkeCampusMapPan = '1';
+
+  if (!viewport.hasAttribute('tabindex')) {
+    viewport.tabIndex = 0;
+  }
+
+  viewport.setAttribute('role', 'region');
+  viewport.setAttribute(
+    'aria-label',
+    'Interaktywna mapa Campus Bemke. Przeciągnij mapę lub użyj klawiszy strzałek.',
+  );
+
+  viewport.addEventListener('pointerdown', (event) => {
+    if (!event.isPrimary || (event.pointerType === 'mouse' && event.button !== 0)) {
+      return;
+    }
+
+    pointerId = event.pointerId;
+    pointerStart = { x: event.clientX, y: event.clientY };
+    positionStart = { ...position };
+    hasDragged = false;
+    viewport.setPointerCapture(pointerId);
+    viewport.classList.add('is-dragging');
+  });
+
+  viewport.addEventListener('pointermove', (event) => {
+    if (pointerId === null || event.pointerId !== pointerId) {
+      return;
+    }
+
+    const deltaX = event.clientX - pointerStart.x;
+    const deltaY = event.clientY - pointerStart.y;
+
+    if (!hasDragged && Math.hypot(deltaX, deltaY) > 4) {
+      hasDragged = true;
+      hideTooltip();
+    }
+
+    if (hasDragged) {
+      event.preventDefault();
+      setPosition({
+        x: positionStart.x + deltaX,
+        y: positionStart.y + deltaY,
+      });
+    }
+  });
+
+  viewport.addEventListener('pointerup', finishDrag);
+  viewport.addEventListener('pointercancel', finishDrag);
+
+  viewport.addEventListener('keydown', (event) => {
+    const step = event.shiftKey ? 120 : 48;
+    const directions = {
+      ArrowLeft: { x: step, y: 0 },
+      ArrowRight: { x: -step, y: 0 },
+      ArrowUp: { x: 0, y: step },
+      ArrowDown: { x: 0, y: -step },
+    };
+    const direction = directions[event.key];
+
+    if (!direction) {
+      return;
+    }
+
+    event.preventDefault();
+    hideTooltip();
+    setPosition({
+      x: position.x + direction.x,
+      y: position.y + direction.y,
+    });
+  });
+
+  const resizeObserver = new ResizeObserver(updateDimensions);
+  resizeObserver.observe(viewport);
+  resizeObserver.observe(map);
+
+  if (image.complete) {
+    requestAnimationFrame(updateDimensions);
+  } else {
+    image.addEventListener('load', updateDimensions, { once: true });
+  }
+}
+
 export function initCampusMap() {
   const image = document.querySelector(MAP_IMAGE_SELECTOR);
 
@@ -97,6 +252,9 @@ export function initCampusMap() {
   ) {
     return;
   }
+
+  const viewport = image.closest('.map-block') || image.parentElement;
+  viewport.classList.add('map-block');
 
   const wrapper = document.createElement('div');
   wrapper.className = 'campus-map';
@@ -172,6 +330,11 @@ export function initCampusMap() {
     area.addEventListener('blur', hideTooltip);
 
     area.addEventListener('click', (event) => {
+      if (wrapper.dataset.dragged === '1') {
+        event.preventDefault();
+        return;
+      }
+
       if (!window.matchMedia('(hover: none)').matches) {
         return;
       }
@@ -194,6 +357,7 @@ export function initCampusMap() {
   });
 
   wrapper.append(overlay, tooltip);
+  initCampusMapPan(viewport, wrapper, image, hideTooltip);
 
   document.addEventListener('pointerdown', (event) => {
     if (touchArea && !wrapper.contains(event.target)) {

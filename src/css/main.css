@@ -1,9 +1,36 @@
 @import "./modules/thinktank-slider.css";
 
-.campus-map {
-  isolation: isolate;
+.map-block {
+  --campus-map-height: clamp(52rem, 68svh, 86rem);
+  --campus-map-width: 125%;
+
+  cursor: grab;
+  display: block;
+  height: var(--campus-map-height);
+  overflow: hidden;
   position: relative;
+  touch-action: none;
+  user-select: none;
   width: 100%;
+}
+
+.map-block.is-dragging {
+  cursor: grabbing;
+}
+
+.map-block:focus-visible {
+  outline: 2px solid var(--theme-brown, rgba(27, 5, 8, 1));
+  outline-offset: 4px;
+}
+
+.campus-map {
+  flex: none;
+  isolation: isolate;
+  max-width: none;
+  position: relative;
+  touch-action: none;
+  width: var(--campus-map-width, 125%);
+  will-change: transform;
 }
 
 .campus-map > img {
@@ -22,7 +49,7 @@
 }
 
 .campus-map__area {
-  cursor: pointer;
+  cursor: inherit;
   fill: transparent;
   outline: none;
   pointer-events: all;
@@ -73,6 +100,11 @@
 }
 
 @media (max-width: 767px) {
+  .map-block {
+    --campus-map-height: min(62svh, 54rem);
+    --campus-map-width: 185%;
+  }
+
   .campus-map__tooltip {
     font-size: var(--size-h4-mobile, 2rem);
     padding: 1.2rem 1.6rem;
