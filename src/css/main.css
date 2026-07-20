@@ -931,8 +931,8 @@ html[data-contrast]:not([data-contrast="default"])
   background-color: var(--eggshell, var(--theme-eggshell));
 }
 
-.donors-block.bg-eggShell {
-  background: rgba(255, 243, 224, 1) !important;
+.donors-block.is-darkcream-hover {
+  background-color: var(--darkcream);
 }
 
 .linkedin-block {

@@ -1,11 +1,9 @@
 const BLOCK_SELECTOR =
   '.offer-block, .linkedin-block, .donors-block, #brxe-ejpmtj .brxe-aepfcc';
-const LINK_SELECTORS = [
-  '.offer-link',
-  '.donors-block .brxe-text-link',
-];
+const LINK_SELECTORS = ['.offer-link', '.donors-block .brxe-text-link'];
 const LINK_SELECTOR = LINK_SELECTORS.join(', ');
-const ACTIVE_CLASS = 'bg-eggShell';
+const DEFAULT_ACTIVE_CLASS = 'bg-eggShell';
+const DONORS_ACTIVE_CLASS = 'is-darkcream-hover';
 const BOOT_FLAG = '__bemkeOfferBlockHoverBooted';
 
 function getOfferBlock(target) {
@@ -23,7 +21,11 @@ function setOfferBlockActive(block, active) {
     return;
   }
 
-  block.classList.toggle(ACTIVE_CLASS, active);
+  const activeClass = block.matches('.donors-block')
+    ? DONORS_ACTIVE_CLASS
+    : DEFAULT_ACTIVE_CLASS;
+
+  block.classList.toggle(activeClass, active);
 }
 
 function handlePointerOver(event) {
