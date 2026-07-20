@@ -109,7 +109,7 @@
 @media (max-width: 767px) {
   .map-block {
     --campus-map-height: min(62svh, 54rem);
-    --campus-map-width: 156%;
+    --campus-map-width: 187%;
   }
 
   .campus-map__tooltip {
@@ -130,7 +130,7 @@
 
 @media (max-width: 478px) {
   .map-block {
-    --campus-map-width: 192%;
+    --campus-map-width: 230%;
   }
 }
 
