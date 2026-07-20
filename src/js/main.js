@@ -28,6 +28,7 @@ import { initAccessibilitySwitches } from './modules/accessibility-switches.js';
 import { initMotionPreference } from './modules/motion-preference.js';
 import { initHeroIntro } from './modules/hero-intro.js';
 import { initHeaderIntro } from './modules/header-intro.js';
+import { initCampusMap } from './modules/campus-map.js';
 
 function initApp() {
   initMotionPreference();
@@ -35,6 +36,7 @@ function initApp() {
   initMegaMenu();
   initMobileMenu();
   initHeaderIntro();
+  initCampusMap();
   initHeroIntro();
   initAccordionControls();
   initDecorativeVideoControls();

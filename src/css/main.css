@@ -1,5 +1,88 @@
 @import "./modules/thinktank-slider.css";
 
+.campus-map {
+  isolation: isolate;
+  position: relative;
+  width: 100%;
+}
+
+.campus-map > img {
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
+.campus-map__areas {
+  height: 100%;
+  inset: 0;
+  overflow: visible;
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+}
+
+.campus-map__area {
+  cursor: pointer;
+  fill: rgba(249, 187, 89, 0);
+  outline: none;
+  pointer-events: all;
+  stroke: rgba(249, 187, 89, 0);
+  stroke-width: 4;
+  transition:
+    fill 0.25s ease,
+    stroke 0.25s ease;
+  vector-effect: non-scaling-stroke;
+}
+
+.campus-map__area:is(:hover, :focus-visible, .is-active) {
+  fill: rgba(249, 187, 89, 0.3);
+  stroke: var(--theme-yellow, rgba(249, 187, 89, 1));
+}
+
+.campus-map__tooltip {
+  background: var(--theme-wine, rgba(80, 24, 25, 1));
+  border-radius: 4px;
+  color: var(--theme-darkcream, rgba(255, 243, 224, 1));
+  font-size: var(--size-caption, 1.5rem);
+  left: 0;
+  line-height: 1.2;
+  max-width: min(28rem, calc(100% - 16px));
+  opacity: 0;
+  padding: 0.8rem 1.2rem;
+  pointer-events: none;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  transform: translate(-50%, calc(-100% - 12px)) scale(0.96);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+  visibility: hidden;
+  width: max-content;
+  z-index: 2;
+}
+
+.campus-map__tooltip[data-placement="below"] {
+  transform: translate(-50%, 12px) scale(0.96);
+}
+
+.campus-map__tooltip[data-visible="true"] {
+  opacity: 1;
+  transform: translate(-50%, calc(-100% - 12px)) scale(1);
+  visibility: visible;
+}
+
+.campus-map__tooltip[data-visible="true"][data-placement="below"] {
+  transform: translate(-50%, 12px) scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .campus-map__area,
+  .campus-map__tooltip {
+    transition: none;
+  }
+}
+
 :root {
   --a11y-font-scale: 1;
 
