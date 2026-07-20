@@ -27,7 +27,7 @@ function bemke_child_register_donor_video_fields() {
 
 	\Carbon_Fields\Container::make(
 		'post_meta',
-		__( 'Darczyńcy – video (Carbon Fields)', 'bemke-child' )
+		__( 'Darczyńcy – video', 'bemke-child' )
 	)
 		->where( 'post_type', '=', 'darczynca' )
 		->set_context( 'normal' )
@@ -90,4 +90,108 @@ function bemke_child_register_donor_video_fields() {
 					),
 			)
 		);
+}
+
+/**
+ * Resolve the donor post used by Bricks dynamic data.
+ *
+ * @param int|string $post_id Optional donor post ID.
+ * @return int
+ */
+function bemke_child_get_donor_video_post_id( $post_id = 0 ) {
+	$post_id = absint( $post_id );
+
+	if ( $post_id && 'darczynca' === get_post_type( $post_id ) ) {
+		return $post_id;
+	}
+
+	$queried_post_id = get_queried_object_id();
+
+	if (
+		$queried_post_id &&
+		'darczynca' === get_post_type( $queried_post_id )
+	) {
+		return $queried_post_id;
+	}
+
+	return 0;
+}
+
+/**
+ * Return the selected donor video source for Bricks.
+ *
+ * @param int|string $post_id Optional donor post ID.
+ * @return string
+ */
+function bemke_child_get_donor_video_source_for_bricks( $post_id = 0 ) {
+	if ( ! function_exists( 'carbon_get_post_meta' ) ) {
+		return '';
+	}
+
+	$post_id = bemke_child_get_donor_video_post_id( $post_id );
+
+	if ( ! $post_id ) {
+		return '';
+	}
+
+	$source = sanitize_key(
+		(string) carbon_get_post_meta(
+			$post_id,
+			'bemke_donor_video_source'
+		)
+	);
+
+	return in_array( $source, array( 'file', 'youtube' ), true )
+		? $source
+		: 'file';
+}
+
+/**
+ * Return the donor video file URL for Bricks.
+ *
+ * @param int|string $post_id Optional donor post ID.
+ * @return string
+ */
+function bemke_child_get_donor_video_file_for_bricks( $post_id = 0 ) {
+	if ( ! function_exists( 'carbon_get_post_meta' ) ) {
+		return '';
+	}
+
+	$post_id = bemke_child_get_donor_video_post_id( $post_id );
+
+	if ( ! $post_id ) {
+		return '';
+	}
+
+	return esc_url_raw(
+		(string) carbon_get_post_meta(
+			$post_id,
+			'bemke_donor_video_file'
+		)
+	);
+}
+
+/**
+ * Return the donor YouTube URL for Bricks.
+ *
+ * @param int|string $post_id Optional donor post ID.
+ * @return string
+ */
+function bemke_child_get_donor_video_youtube_url_for_bricks( $post_id = 0 ) {
+	if ( ! function_exists( 'carbon_get_post_meta' ) ) {
+		return '';
+	}
+
+	$post_id = bemke_child_get_donor_video_post_id( $post_id );
+
+	if ( ! $post_id ) {
+		return '';
+	}
+
+	return esc_url_raw(
+		(string) carbon_get_post_meta(
+			$post_id,
+			'bemke_donor_video_youtube_url'
+		)
+	);
 }

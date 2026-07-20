@@ -163,12 +163,24 @@ function bemke_child_register_donor_quote_fields() {
 /**
  * Allow Bricks to call donor data providers through echo tags.
  *
+ * @param mixed $function_names Function names already allowed by Bricks.
  * @return array<int, string>
  */
-function bemke_child_allow_donor_stats_echo_function() {
-	return array(
+function bemke_child_allow_donor_stats_echo_function( $function_names = array() ) {
+	if ( ! is_array( $function_names ) ) {
+		$function_names = array();
+	}
+
+	$donor_function_names = array(
 		'bemke_child_get_donor_stats_for_bricks',
 		'bemke_child_get_donor_quotes_for_bricks',
+		'bemke_child_get_donor_video_source_for_bricks',
+		'bemke_child_get_donor_video_file_for_bricks',
+		'bemke_child_get_donor_video_youtube_url_for_bricks',
+	);
+
+	return array_values(
+		array_unique( array_merge( $function_names, $donor_function_names ) )
 	);
 }
 
