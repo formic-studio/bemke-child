@@ -245,11 +245,7 @@ function initCampusMapPan(viewport, map, image, hideTooltip) {
 export function initCampusMap() {
   const image = document.querySelector(MAP_IMAGE_SELECTOR);
 
-  if (
-    !image ||
-    image.closest('[data-bemke-campus-map-ready="1"]') ||
-    !(image.currentSrc || image.src).includes('bemke-maps')
-  ) {
+  if (!image || image.closest('[data-bemke-campus-map-ready="1"]')) {
     return;
   }
 
