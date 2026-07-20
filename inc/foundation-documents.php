@@ -216,6 +216,8 @@ function bemke_child_get_foundation_documents_for_bricks(
 		return array();
 	}
 
+	$documents = array_reverse( $documents );
+
 	return array_values(
 		array_map(
 			function ( $document ) {

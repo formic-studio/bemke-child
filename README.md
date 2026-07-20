@@ -196,7 +196,8 @@ Każda sekcja pozwala dodać, usunąć i posortować dowolną liczbę dokumentó
 Pojedyncza pozycja zawiera nazwę dokumentu oraz plik z Biblioteki mediów.
 Oba pola są opcjonalne, aby można było zapisywać również pozycje testowe.
 Dane są wyłącznie zapisywane jako metadane i nie zmieniają automatycznie
-szablonu ani frontendu.
+szablonu ani frontendu. W Array Query dokumenty są zwracane od najpóźniej
+dodanej pozycji do najwcześniejszej.
 
 Provider Bricks korzysta z bieżącego wpisu `dokumenty-fundacja`, a na zwykłej
 stronie, np. `/fundacja-bemke`, automatycznie używa ostatnio zmodyfikowanego
