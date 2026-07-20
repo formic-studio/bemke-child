@@ -27,6 +27,7 @@ html {
   font-size: calc(
     (var(--base) * 1rem + var(--coefficient) * 1vw) * var(--a11y-font-scale)
   );
+  overscroll-behavior-y: none;
 }
 
 html.bemke-scroll-expand-active {
