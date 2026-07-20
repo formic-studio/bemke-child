@@ -13,6 +13,14 @@ add_action(
 	'carbon_fields_register_fields',
 	'bemke_child_register_donor_video_fields'
 );
+add_action(
+	'load-post.php',
+	'bemke_child_migrate_donor_video_file_to_attachment_id'
+);
+add_filter(
+	'body_class',
+	'bemke_child_add_donor_video_body_class'
+);
 
 /**
  * Register an independent donor video metabox.
@@ -58,7 +66,7 @@ function bemke_child_register_donor_video_fields() {
 					__( 'Plik wideo', 'bemke-child' )
 				)
 					->set_type( 'video' )
-					->set_value_type( 'url' )
+					->set_value_type( 'id' )
 					->set_conditional_logic(
 						array(
 							array(
@@ -90,6 +98,55 @@ function bemke_child_register_donor_video_fields() {
 					),
 			)
 		);
+}
+
+/**
+ * Convert the previously stored file URL to an attachment ID.
+ *
+ * Carbon Fields needs the attachment ID to restore the selected file in the
+ * post editor. Existing URL values are migrated when a donor is opened.
+ */
+function bemke_child_migrate_donor_video_file_to_attachment_id() {
+	if (
+		! function_exists( 'carbon_get_post_meta' ) ||
+		! function_exists( 'carbon_set_post_meta' )
+	) {
+		return;
+	}
+
+	$post_id = isset( $_GET['post'] )
+		? absint( wp_unslash( $_GET['post'] ) )
+		: 0;
+
+	if (
+		! $post_id ||
+		'darczynca' !== get_post_type( $post_id ) ||
+		! current_user_can( 'edit_post', $post_id )
+	) {
+		return;
+	}
+
+	$stored_value = carbon_get_post_meta(
+		$post_id,
+		'bemke_donor_video_file'
+	);
+
+	if (
+		! is_string( $stored_value ) ||
+		! wp_http_validate_url( $stored_value )
+	) {
+		return;
+	}
+
+	$attachment_id = attachment_url_to_postid( $stored_value );
+
+	if ( $attachment_id ) {
+		carbon_set_post_meta(
+			$post_id,
+			'bemke_donor_video_file',
+			$attachment_id
+		);
+	}
 }
 
 /**
@@ -163,12 +220,16 @@ function bemke_child_get_donor_video_file_for_bricks( $post_id = 0 ) {
 		return '';
 	}
 
-	return esc_url_raw(
-		(string) carbon_get_post_meta(
-			$post_id,
-			'bemke_donor_video_file'
-		)
+	$file_value = carbon_get_post_meta(
+		$post_id,
+		'bemke_donor_video_file'
 	);
+
+	if ( is_numeric( $file_value ) ) {
+		$file_value = wp_get_attachment_url( absint( $file_value ) );
+	}
+
+	return esc_url_raw( (string) $file_value );
 }
 
 /**
@@ -214,4 +275,28 @@ function bemke_child_get_donor_video_url_for_bricks( $post_id = 0 ) {
 	}
 
 	return '';
+}
+
+/**
+ * Hide an empty donor video block on the frontend without relying on JS.
+ *
+ * @param array<int, string> $classes Current body classes.
+ * @return array<int, string>
+ */
+function bemke_child_add_donor_video_body_class( $classes ) {
+	if (
+		! is_singular( 'darczynca' ) ||
+		(
+			function_exists( 'bemke_child_is_bricks_builder_request' ) &&
+			bemke_child_is_bricks_builder_request()
+		)
+	) {
+		return $classes;
+	}
+
+	if ( '' === bemke_child_get_donor_video_url_for_bricks() ) {
+		$classes[] = 'bemke-donor-video-empty';
+	}
+
+	return $classes;
 }

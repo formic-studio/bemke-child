@@ -935,6 +935,10 @@ html[data-contrast]:not([data-contrast="default"])
   background-color: var(--darkcream);
 }
 
+.single-darczynca.bemke-donor-video-empty .video-block {
+  display: none !important;
+}
+
 .linkedin-block {
   transition: background-color 0.28s ease;
 }
