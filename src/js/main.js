@@ -17,6 +17,7 @@ import { initLinkedinPostNumbers } from './modules/linkedin-post-numbers.js';
 import { initTeamPopups } from './modules/team-popup.js';
 import { initSlideTittleContrastFix } from './modules/slide-tittle-contrast-fix.js';
 import { initCurrentPageLinks } from './modules/current-page-links.js';
+import { initPageInfoHover } from './modules/page-info-hover.js';
 import { initInfinityLoop } from './modules/infinity-loop.js';
 import { initMobileMenu } from './modules/mobile-menu.js';
 import { initScrollExpandImages } from './modules/scroll-expand-images.js';
@@ -52,6 +53,7 @@ function initApp() {
   initTeamPopups();
   initSlideTittleContrastFix();
   initCurrentPageLinks();
+  initPageInfoHover();
   initInfinityLoop();
   initScrollExpandImages();
   initStickyImages();

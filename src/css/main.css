@@ -1385,6 +1385,19 @@ html[data-contrast]:not([data-contrast="default"])
   display: none !important;
 }
 
+.page-info > a[href] {
+  transition: color 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html:not([data-contrast])
+  .page-info[data-bemke-page-info-hover-ready="1"]
+  > a[href]:is(:hover, :focus-visible),
+html[data-contrast="default"]
+  .page-info[data-bemke-page-info-hover-ready="1"]
+  > a[href]:is(:hover, :focus-visible) {
+  color: var(--bemke-page-info-active-color) !important;
+}
+
 html[data-bemke-frontend="true"]
   #brx-header:not([data-bemke-mega-menu-ready="1"])
   #brxe-vhhhdt
