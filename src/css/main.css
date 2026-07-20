@@ -939,6 +939,19 @@ html[data-contrast]:not([data-contrast="default"])
   display: none !important;
 }
 
+.single-darczynca.bricks-is-frontend
+  .social-block
+  .social-link:is(:not([href]), [href=""], [href="#"]) {
+  display: none !important;
+}
+
+.single-darczynca.bricks-is-frontend
+  .social-block:not(
+    :has(.social-link[href]:not([href=""]):not([href="#"]))
+  ) {
+  display: none !important;
+}
+
 .linkedin-block {
   transition: background-color 0.28s ease;
 }
