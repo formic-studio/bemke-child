@@ -24,6 +24,7 @@ add_filter( 'submenu_file', 'bemke_child_set_slider_admin_submenu' );
 function bemke_child_get_slider_admin_post_types() {
 	return array(
 		'strategia-2050' => __( 'Strategia 2050', 'bemke-child' ),
+		'slider-home'    => __( 'Slider Home', 'bemke-child' ),
 	);
 }
 
@@ -40,15 +41,22 @@ function bemke_child_register_slider_admin_menu() {
 		$first_post_type
 	);
 
-	add_menu_page(
+	$menu_hook = add_menu_page(
 		__( 'Slidery', 'bemke-child' ),
 		__( 'Slidery', 'bemke-child' ),
 		$capability,
 		'bemke-sliders',
-		'bemke_child_render_slider_admin_page',
+		'__return_null',
 		'dashicons-images-alt2',
 		27
 	);
+
+	if ( $menu_hook ) {
+		add_action(
+			'load-' . $menu_hook,
+			'bemke_child_redirect_slider_admin_page'
+		);
+	}
 
 	foreach ( $slider_post_types as $post_type => $menu_label ) {
 		$post_type_object = get_post_type_object( $post_type );
@@ -105,37 +113,35 @@ function bemke_child_get_slider_admin_capability( $post_type ) {
 }
 
 /**
- * Render a compact landing page for the Slidery menu.
+ * Open the first available slider when the parent menu is clicked.
  */
-function bemke_child_render_slider_admin_page() {
+function bemke_child_redirect_slider_admin_page() {
 	$slider_post_types = bemke_child_get_slider_admin_post_types();
-	?>
-	<div class="wrap">
-		<h1><?php esc_html_e( 'Slidery', 'bemke-child' ); ?></h1>
-		<p><?php esc_html_e( 'Wybierz slider, którym chcesz zarządzać.', 'bemke-child' ); ?></p>
-		<ul>
-			<?php foreach ( $slider_post_types as $post_type => $menu_label ) : ?>
-				<?php
-				$post_type_object = get_post_type_object( $post_type );
 
-				if (
-					! $post_type_object ||
-					! current_user_can(
-						bemke_child_get_slider_admin_capability( $post_type )
-					)
-				) {
-					continue;
-				}
-				?>
-				<li>
-					<a class="button button-primary" href="<?php echo esc_url( admin_url( 'edit.php?post_type=' . $post_type ) ); ?>">
-						<?php echo esc_html( $menu_label ); ?>
-					</a>
-				</li>
-			<?php endforeach; ?>
-		</ul>
-	</div>
-	<?php
+	foreach ( array_keys( $slider_post_types ) as $post_type ) {
+		$post_type_object = get_post_type_object( $post_type );
+
+		if (
+			! $post_type_object ||
+			! current_user_can(
+				bemke_child_get_slider_admin_capability( $post_type )
+			)
+		) {
+			continue;
+		}
+
+		wp_safe_redirect(
+			admin_url( 'edit.php?post_type=' . $post_type )
+		);
+		exit;
+	}
+
+	wp_die(
+		esc_html__(
+			'Nie masz uprawnień do zarządzania sliderami.',
+			'bemke-child'
+		)
+	);
 }
 
 /**
