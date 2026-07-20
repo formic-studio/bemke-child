@@ -7,6 +7,7 @@ require_once get_stylesheet_directory() . '/inc/linkedin-posts.php';
 require_once get_stylesheet_directory() . '/inc/instagram-feed.php';
 require_once get_stylesheet_directory() . '/inc/getresponse.php';
 require_once get_stylesheet_directory() . '/inc/donor-stats.php';
+require_once get_stylesheet_directory() . '/inc/foundation-documents.php';
 
 add_action( 'wp_head', 'bemke_child_print_motion_preference', 1 );
 add_action( 'wp_head', 'bemke_child_preload_critical_fonts', 2 );

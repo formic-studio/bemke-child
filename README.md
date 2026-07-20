@@ -183,6 +183,20 @@ Można w nim dodać i sortować do 6 zestawów zawierających:
 Oba rodzaje danych są dostępne dla Bricks jako Array Query przez dedykowane,
 tylko odczytujące funkcje.
 
+## Dokumenty Fundacji – powtarzalne pliki
+
+Wpisy typu `dokumenty-fundacja` otrzymują cztery niezależne metaboksy:
+
+- Statut i pozostałe dokumenty,
+- Sprawozdania merytoryczne,
+- Sprawozdania finansowe,
+- Listy darczyńców.
+
+Każda sekcja pozwala dodać, usunąć i posortować dowolną liczbę dokumentów.
+Pojedyncza pozycja zawiera nazwę dokumentu oraz plik z Biblioteki mediów.
+Dane są wyłącznie zapisywane jako metadane i nie zmieniają automatycznie
+szablonu ani frontendu.
+
 ## Ważne
 
 - `dist/` musi być commitowany do repo (to pliki produkcyjne pobierane przez WordPress).
