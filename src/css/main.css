@@ -23,32 +23,22 @@
 
 .campus-map__area {
   cursor: pointer;
-  fill: rgba(249, 187, 89, 0);
+  fill: transparent;
   outline: none;
   pointer-events: all;
-  stroke: rgba(249, 187, 89, 0);
-  stroke-width: 4;
-  transition:
-    fill 0.25s ease,
-    stroke 0.25s ease;
-  vector-effect: non-scaling-stroke;
-}
-
-.campus-map__area:is(:hover, :focus-visible, .is-active) {
-  fill: rgba(249, 187, 89, 0.3);
-  stroke: var(--theme-yellow, rgba(249, 187, 89, 1));
 }
 
 .campus-map__tooltip {
-  background: var(--theme-wine, rgba(80, 24, 25, 1));
-  border-radius: 4px;
-  color: var(--theme-darkcream, rgba(255, 243, 224, 1));
-  font-size: var(--size-caption, 1.5rem);
+  background: var(--theme-darkcream, rgba(255, 243, 224, 1));
+  border-radius: 8px;
+  color: var(--theme-brown, rgba(27, 5, 8, 1));
+  font-family: "Season Mix", serif;
+  font-size: var(--size-h4, 2rem);
   left: 0;
-  line-height: 1.2;
-  max-width: min(28rem, calc(100% - 16px));
+  line-height: 1.07;
+  max-width: calc(100% - 16px);
   opacity: 0;
-  padding: 0.8rem 1.2rem;
+  padding: 1.6rem 3.2rem;
   pointer-events: none;
   position: absolute;
   text-align: center;
@@ -77,9 +67,15 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .campus-map__area,
   .campus-map__tooltip {
     transition: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .campus-map__tooltip {
+    font-size: var(--size-h4-mobile, 2rem);
+    padding: 1.2rem 1.6rem;
   }
 }
 
