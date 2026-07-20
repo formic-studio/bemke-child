@@ -27,8 +27,15 @@ add_filter( 'submenu_file', 'bemke_child_set_slider_admin_submenu', 999 );
  */
 function bemke_child_get_slider_admin_post_types() {
 	return array(
-		'strategia-2050' => __( 'Strategia 2050', 'bemke-child' ),
-		'slider-home'    => __( 'Slider Home', 'bemke-child' ),
+		'strategia-2050'       => __( 'Strategia 2050', 'bemke-child' ),
+		'slider-home'          => __( 'Slider Home', 'bemke-child' ),
+		'slider-fundacja-bemk' => __( 'Slider Fundacja Bemke', 'bemke-child' ),
+		'slider-taekwondo'     => __( 'Slider Taekwondo', 'bemke-child' ),
+		'slider-galeria'       => __( 'Slider Usługi – galeria', 'bemke-child' ),
+		'slider-przestrzenie'  => __( 'Slider Usługi – przestrzenie', 'bemke-child' ),
+		'slider-nauczyciele'   => __( 'Slider Warsztaty dla nauczycieli', 'bemke-child' ),
+		'slider-dla-szkol'     => __( 'Slider Warsztaty dla szkół', 'bemke-child' ),
+		'slider-warsztaty-cyk' => __( 'Slider Warsztaty cykliczne', 'bemke-child' ),
 	);
 }
 
