@@ -198,6 +198,10 @@ Oba pola są opcjonalne, aby można było zapisywać również pozycje testowe.
 Dane są wyłącznie zapisywane jako metadane i nie zmieniają automatycznie
 szablonu ani frontendu.
 
+Provider Bricks korzysta z bieżącego wpisu `dokumenty-fundacja`, a na zwykłej
+stronie, np. `/fundacja-bemke`, automatycznie używa ostatnio zmodyfikowanego
+opublikowanego wpisu tego typu.
+
 ## Ważne
 
 - `dist/` musi być commitowany do repo (to pliki produkcyjne pobierane przez WordPress).

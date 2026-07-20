@@ -157,7 +157,23 @@ function bemke_child_resolve_foundation_document_post_id( $post_id = 0 ) {
 		return absint( $queried_post_id );
 	}
 
-	return 0;
+	$fallback_post_ids = get_posts(
+		array(
+			'post_type'              => 'dokumenty-fundacja',
+			'post_status'            => 'publish',
+			'posts_per_page'         => 1,
+			'orderby'                => 'modified',
+			'order'                  => 'DESC',
+			'fields'                 => 'ids',
+			'no_found_rows'          => true,
+			'update_post_meta_cache' => false,
+			'update_post_term_cache' => false,
+		)
+	);
+
+	return isset( $fallback_post_ids[0] )
+		? absint( $fallback_post_ids[0] )
+		: 0;
 }
 
 /**
