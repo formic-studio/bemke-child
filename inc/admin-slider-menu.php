@@ -10,6 +10,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 add_action( 'admin_menu', 'bemke_child_register_slider_admin_menu', 99 );
+add_action(
+	'admin_footer',
+	'bemke_child_print_slider_admin_menu_toggle'
+);
 add_filter( 'parent_file', 'bemke_child_set_slider_admin_parent' );
 add_filter( 'submenu_file', 'bemke_child_set_slider_admin_submenu' );
 
@@ -41,7 +45,7 @@ function bemke_child_register_slider_admin_menu() {
 		$first_post_type
 	);
 
-	$menu_hook = add_menu_page(
+	add_menu_page(
 		__( 'Slidery', 'bemke-child' ),
 		__( 'Slidery', 'bemke-child' ),
 		$capability,
@@ -50,13 +54,6 @@ function bemke_child_register_slider_admin_menu() {
 		'dashicons-images-alt2',
 		27
 	);
-
-	if ( $menu_hook ) {
-		add_action(
-			'load-' . $menu_hook,
-			'bemke_child_redirect_slider_admin_page'
-		);
-	}
 
 	foreach ( $slider_post_types as $post_type => $menu_label ) {
 		$post_type_object = get_post_type_object( $post_type );
@@ -113,35 +110,73 @@ function bemke_child_get_slider_admin_capability( $post_type ) {
 }
 
 /**
- * Open the first available slider when the parent menu is clicked.
+ * Make the Slidery parent item toggle its submenu without navigating.
  */
-function bemke_child_redirect_slider_admin_page() {
-	$slider_post_types = bemke_child_get_slider_admin_post_types();
+function bemke_child_print_slider_admin_menu_toggle() {
+	?>
+	<script id="bemke-slider-admin-menu-script">
+		(function () {
+			var menuItem = document.getElementById('toplevel_page_bemke-sliders');
 
-	foreach ( array_keys( $slider_post_types ) as $post_type ) {
-		$post_type_object = get_post_type_object( $post_type );
+			if (!menuItem) {
+				return;
+			}
 
-		if (
-			! $post_type_object ||
-			! current_user_can(
-				bemke_child_get_slider_admin_capability( $post_type )
-			)
-		) {
-			continue;
-		}
+			var trigger = menuItem.querySelector(':scope > a.menu-top');
 
-		wp_safe_redirect(
-			admin_url( 'edit.php?post_type=' . $post_type )
-		);
-		exit;
-	}
+			if (!trigger) {
+				return;
+			}
 
-	wp_die(
-		esc_html__(
-			'Nie masz uprawnień do zarządzania sliderami.',
-			'bemke-child'
-		)
-	);
+			var isCurrent = menuItem.classList.contains('wp-has-current-submenu');
+
+			trigger.setAttribute('aria-haspopup', 'true');
+			trigger.setAttribute('aria-expanded', isCurrent ? 'true' : 'false');
+
+			function setOpen(open) {
+				menuItem.classList.toggle('bemke-slider-menu-open', open);
+				menuItem.classList.toggle('wp-has-current-submenu', open);
+				menuItem.classList.toggle('wp-not-current-submenu', !open);
+				menuItem.classList.toggle('wp-menu-open', open);
+				trigger.classList.toggle('wp-has-current-submenu', open);
+				trigger.classList.toggle('wp-not-current-submenu', !open);
+				trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+			}
+
+			trigger.addEventListener('click', function (event) {
+				event.preventDefault();
+				event.stopPropagation();
+
+				if (isCurrent) {
+					return;
+				}
+
+				setOpen(
+					!menuItem.classList.contains('bemke-slider-menu-open')
+				);
+			});
+
+			document.addEventListener('click', function (event) {
+				if (
+					menuItem.classList.contains('bemke-slider-menu-open') &&
+					!menuItem.contains(event.target)
+				) {
+					setOpen(false);
+				}
+			});
+
+			document.addEventListener('keydown', function (event) {
+				if (
+					event.key === 'Escape' &&
+					menuItem.classList.contains('bemke-slider-menu-open')
+				) {
+					setOpen(false);
+					trigger.focus();
+				}
+			});
+		})();
+	</script>
+	<?php
 }
 
 /**
