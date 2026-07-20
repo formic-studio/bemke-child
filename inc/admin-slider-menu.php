@@ -14,8 +14,8 @@ add_action(
 	'admin_footer',
 	'bemke_child_print_slider_admin_menu_toggle'
 );
-add_filter( 'parent_file', 'bemke_child_set_slider_admin_parent' );
-add_filter( 'submenu_file', 'bemke_child_set_slider_admin_submenu' );
+add_filter( 'parent_file', 'bemke_child_set_slider_admin_parent', 999 );
+add_filter( 'submenu_file', 'bemke_child_set_slider_admin_submenu', 999 );
 
 /**
  * Return post types displayed under the Slidery admin menu.
@@ -128,10 +128,12 @@ function bemke_child_print_slider_admin_menu_toggle() {
 				return;
 			}
 
-			var isCurrent = menuItem.classList.contains('wp-has-current-submenu');
+			var isSliderScreen = <?php echo bemke_child_is_slider_admin_screen() ? 'true' : 'false'; ?>;
+			var isCurrent =
+				isSliderScreen ||
+				menuItem.classList.contains('wp-has-current-submenu');
 
 			trigger.setAttribute('aria-haspopup', 'true');
-			trigger.setAttribute('aria-expanded', isCurrent ? 'true' : 'false');
 
 			function setOpen(open) {
 				menuItem.classList.toggle('bemke-slider-menu-open', open);
@@ -142,6 +144,18 @@ function bemke_child_print_slider_admin_menu_toggle() {
 				trigger.classList.toggle('wp-not-current-submenu', !open);
 				trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
 			}
+
+			if (isSliderScreen) {
+				menuItem.classList.add(
+					'wp-has-current-submenu',
+					'wp-menu-open'
+				);
+				menuItem.classList.remove('wp-not-current-submenu');
+				trigger.classList.add('wp-has-current-submenu');
+				trigger.classList.remove('wp-not-current-submenu');
+			}
+
+			trigger.setAttribute('aria-expanded', isCurrent ? 'true' : 'false');
 
 			trigger.addEventListener('click', function (event) {
 				event.preventDefault();
@@ -180,22 +194,32 @@ function bemke_child_print_slider_admin_menu_toggle() {
 }
 
 /**
+ * Check whether the current admin screen belongs to a grouped slider.
+ *
+ * @return bool
+ */
+function bemke_child_is_slider_admin_screen() {
+	$screen = get_current_screen();
+
+	return (
+		$screen &&
+		! empty( $screen->post_type ) &&
+		in_array(
+			$screen->post_type,
+			array_keys( bemke_child_get_slider_admin_post_types() ),
+			true
+		)
+	);
+}
+
+/**
  * Keep the Slidery parent menu active on grouped post type screens.
  *
  * @param string $parent_file Current admin parent file.
  * @return string
  */
 function bemke_child_set_slider_admin_parent( $parent_file ) {
-	$screen = get_current_screen();
-
-	if (
-		$screen &&
-		in_array(
-			$screen->post_type,
-			array_keys( bemke_child_get_slider_admin_post_types() ),
-			true
-		)
-	) {
+	if ( bemke_child_is_slider_admin_screen() ) {
 		return 'bemke-sliders';
 	}
 
@@ -211,14 +235,7 @@ function bemke_child_set_slider_admin_parent( $parent_file ) {
 function bemke_child_set_slider_admin_submenu( $submenu_file ) {
 	$screen = get_current_screen();
 
-	if (
-		$screen &&
-		in_array(
-			$screen->post_type,
-			array_keys( bemke_child_get_slider_admin_post_types() ),
-			true
-		)
-	) {
+	if ( bemke_child_is_slider_admin_screen() ) {
 		return 'edit.php?post_type=' . $screen->post_type;
 	}
 
