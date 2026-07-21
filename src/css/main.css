@@ -1168,7 +1168,7 @@ html[data-contrast]:not([data-contrast="default"])
   background: transparent;
   border: 0;
   border-radius: 50%;
-  bottom: 4rem;
+  bottom: 2rem;
   cursor: pointer;
   display: flex;
   height: 4.2rem;
