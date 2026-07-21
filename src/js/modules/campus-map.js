@@ -93,6 +93,68 @@ function setTooltipAtArea(wrapper, tooltip, area) {
   );
 }
 
+function createMapControls() {
+  const controls = document.createElement('div');
+  controls.className = 'campus-map__controls';
+  controls.setAttribute('role', 'group');
+  controls.setAttribute('aria-label', 'Sterowanie mapą');
+
+  const directions = [
+    { direction: 'up', label: 'Przesuń widok mapy w górę' },
+    { direction: 'left', label: 'Przesuń widok mapy w lewo' },
+    { direction: 'right', label: 'Przesuń widok mapy w prawo' },
+    { direction: 'down', label: 'Przesuń widok mapy w dół' },
+  ];
+
+  directions.forEach(({ direction, label }) => {
+    const button = document.createElement('button');
+    button.className = 'campus-map__control';
+    button.type = 'button';
+    button.dataset.direction = direction;
+    button.setAttribute('aria-label', label);
+
+    const icon = createSvgElement('svg', {
+      width: '22',
+      height: '22',
+      viewBox: '0 0 22 22',
+      fill: 'none',
+      'aria-hidden': 'true',
+      focusable: 'false',
+    });
+    const background = createSvgElement('rect', {
+      x: '0.340427',
+      y: '0.340427',
+      width: '21.1065',
+      height: '21.1065',
+      rx: '3.7447',
+      fill: '#F6BA62',
+      'fill-opacity': '0.7',
+    });
+    const border = createSvgElement('rect', {
+      x: '0.340427',
+      y: '0.340427',
+      width: '21.1065',
+      height: '21.1065',
+      rx: '3.7447',
+      stroke: '#E0A545',
+      'stroke-width': '0.680855',
+    });
+    const arrow = createSvgElement('path', {
+      d: 'M6.88976 12.5554L10.8941 8.55108L14.8984 12.5554',
+      stroke: '#1B0508',
+      'stroke-width': '1.36171',
+      'stroke-linecap': 'round',
+      'stroke-linejoin': 'round',
+    });
+
+    icon.append(background, border, arrow);
+    button.append(icon);
+    controls.append(button);
+  });
+
+  return controls;
+}
+
 function initCampusMapPan(viewport, map, images, hideTooltip) {
   let position = { x: 0, y: 0 };
   let pointerId = null;
@@ -122,6 +184,26 @@ function initCampusMapPan(viewport, map, images, hideTooltip) {
   const setPosition = (nextPosition) => {
     position = clampPosition(nextPosition);
     renderPosition();
+  };
+
+  const moveInDirection = (direction, step = 48) => {
+    const directions = {
+      left: { x: step, y: 0 },
+      right: { x: -step, y: 0 },
+      up: { x: 0, y: step },
+      down: { x: 0, y: -step },
+    };
+    const delta = directions[direction];
+
+    if (!delta) {
+      return;
+    }
+
+    hideTooltip();
+    setPosition({
+      x: position.x + delta.x,
+      y: position.y + delta.y,
+    });
   };
 
   const updateDimensions = () => {
@@ -173,8 +255,26 @@ function initCampusMapPan(viewport, map, images, hideTooltip) {
     'Interaktywna mapa Campus Bemke. Przeciągnij mapę lub użyj klawiszy strzałek.',
   );
 
+  const controls = createMapControls();
+  viewport.append(controls);
+
+  controls.addEventListener('click', (event) => {
+    const button = event.target.closest('.campus-map__control');
+
+    if (!button) {
+      return;
+    }
+
+    event.preventDefault();
+    moveInDirection(button.dataset.direction);
+  });
+
   viewport.addEventListener('pointerdown', (event) => {
-    if (!event.isPrimary || (event.pointerType === 'mouse' && event.button !== 0)) {
+    if (
+      event.target.closest('.campus-map__controls') ||
+      !event.isPrimary ||
+      (event.pointerType === 'mouse' && event.button !== 0)
+    ) {
       return;
     }
 
@@ -214,10 +314,10 @@ function initCampusMapPan(viewport, map, images, hideTooltip) {
   viewport.addEventListener('keydown', (event) => {
     const step = event.shiftKey ? 120 : 48;
     const directions = {
-      ArrowLeft: { x: step, y: 0 },
-      ArrowRight: { x: -step, y: 0 },
-      ArrowUp: { x: 0, y: step },
-      ArrowDown: { x: 0, y: -step },
+      ArrowLeft: 'left',
+      ArrowRight: 'right',
+      ArrowUp: 'up',
+      ArrowDown: 'down',
     };
     const direction = directions[event.key];
 
@@ -226,11 +326,7 @@ function initCampusMapPan(viewport, map, images, hideTooltip) {
     }
 
     event.preventDefault();
-    hideTooltip();
-    setPosition({
-      x: position.x + direction.x,
-      y: position.y + direction.y,
-    });
+    moveInDirection(direction, step);
   });
 
   const resizeObserver = new ResizeObserver(updateDimensions);

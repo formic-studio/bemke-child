@@ -62,6 +62,79 @@
   pointer-events: all;
 }
 
+.campus-map__controls {
+  bottom: 3.2rem;
+  display: grid;
+  gap: 0.4rem;
+  grid-template-columns: repeat(3, 4.4rem);
+  grid-template-rows: repeat(3, 4.4rem);
+  position: absolute;
+  right: 3.2rem;
+  z-index: 3;
+}
+
+.campus-map__control {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-radius: 0.8rem;
+  cursor: pointer;
+  display: block;
+  height: 4.4rem;
+  margin: 0;
+  padding: 0;
+  touch-action: manipulation;
+  width: 4.4rem;
+}
+
+.campus-map__control[data-direction="up"] {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.campus-map__control[data-direction="left"] {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.campus-map__control[data-direction="right"] {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.campus-map__control[data-direction="down"] {
+  grid-column: 2;
+  grid-row: 3;
+}
+
+.campus-map__control svg {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.campus-map__control[data-direction="left"] svg {
+  transform: rotate(-90deg);
+}
+
+.campus-map__control[data-direction="right"] svg {
+  transform: rotate(90deg);
+}
+
+.campus-map__control[data-direction="down"] svg {
+  transform: rotate(180deg);
+}
+
+.campus-map__control:hover svg rect:first-child,
+.campus-map__control:focus-visible svg rect:first-child {
+  fill-opacity: 1;
+}
+
+.campus-map__control:focus-visible {
+  outline: 2px solid var(--brown, var(--theme-brown, rgba(27, 5, 8, 1)));
+  outline-offset: 2px;
+}
+
 .campus-map__tooltip {
   background: var(--theme-darkcream, rgba(255, 243, 224, 1));
   border-radius: 8px;
@@ -119,6 +192,10 @@
 }
 
 @media (max-width: 991px) {
+  .campus-map__controls {
+    display: none;
+  }
+
   .campus-map > .map-desktop {
     display: none;
   }
