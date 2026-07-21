@@ -2942,6 +2942,11 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
   z-index: 2147483001 !important;
 }
 
+.bemke-team-popup:focus {
+  outline: 2px solid var(--wine, var(--theme-wine, rgba(80, 24, 25, 1)));
+  outline-offset: 2px;
+}
+
 @media (max-width: 767px) {
   .bemke-team-popup {
     box-sizing: border-box;
