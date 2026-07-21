@@ -802,6 +802,31 @@ html[data-contrast]:not([data-contrast="default"]) textarea {
   transform: scale(1.02);
 }
 
+@media (max-width: 767px) {
+  [data-bemke-explore-card-scroll="1"] {
+    -webkit-overflow-scrolling: touch;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    max-width: 100%;
+    overflow-x: auto !important;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    touch-action: pan-x pan-y;
+    width: 100%;
+  }
+
+  [data-bemke-explore-card-scroll="1"] > .card {
+    flex: none;
+    scroll-snap-align: start;
+  }
+
+  [data-bemke-explore-card-scroll="1"]:focus-visible {
+    outline: 2px solid var(--wine, var(--theme-wine, rgba(80, 24, 25, 1)));
+    outline-offset: 2px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .img-link-block img,
   .card-image-clip img {
