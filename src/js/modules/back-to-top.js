@@ -12,7 +12,9 @@ export function initBackToTop() {
 
   const button = document.createElement('button');
   let animationFrame = null;
+  let releaseSuppressionTimer = null;
   let scrollToTopFrame = null;
+  let visibilitySuppressed = false;
 
   button.className = BUTTON_CLASS;
   button.type = 'button';
@@ -34,7 +36,8 @@ export function initBackToTop() {
       1,
       window.innerHeight || document.documentElement.clientHeight,
     );
-    const isVisible = getScrollTop() >= viewportHeight;
+    const isVisible =
+      !visibilitySuppressed && getScrollTop() >= viewportHeight;
     const surfaceColor = isVisible ? getSurfaceColor(button) : null;
 
     button.classList.toggle(VISIBLE_CLASS, isVisible);
@@ -72,6 +75,19 @@ export function initBackToTop() {
     const reducedMotion = isReducedMotion();
     const monitorStartedAt = window.performance.now();
 
+    visibilitySuppressed = true;
+    button.blur();
+    updateVisibility();
+
+    if (releaseSuppressionTimer !== null) {
+      window.clearTimeout(releaseSuppressionTimer);
+    }
+
+    releaseSuppressionTimer = window.setTimeout(() => {
+      visibilitySuppressed = false;
+      releaseSuppressionTimer = null;
+    }, 4000);
+
     window.scrollTo({
       behavior: reducedMotion ? 'auto' : 'smooth',
       left: 0,
@@ -106,6 +122,27 @@ export function initBackToTop() {
     passive: true,
   });
   window.addEventListener('resize', scheduleVisibilityUpdate);
+
+  const releaseVisibilitySuppression = (event) => {
+    if (!visibilitySuppressed || button.contains(event.target)) {
+      return;
+    }
+
+    visibilitySuppressed = false;
+
+    if (releaseSuppressionTimer !== null) {
+      window.clearTimeout(releaseSuppressionTimer);
+      releaseSuppressionTimer = null;
+    }
+  };
+
+  window.addEventListener('pointerdown', releaseVisibilitySuppression, {
+    passive: true,
+  });
+  window.addEventListener('keydown', releaseVisibilitySuppression);
+  window.addEventListener('wheel', releaseVisibilitySuppression, {
+    passive: true,
+  });
 }
 
 function getScrollTop() {
