@@ -1186,14 +1186,8 @@ html[data-contrast]:not([data-contrast="default"])
   z-index: 900;
 }
 
-@supports (mix-blend-mode: difference) {
-  .bemke-back-to-top {
-    mix-blend-mode: difference;
-  }
-}
-
 .bemke-back-to-top.is-visible {
-  opacity: 0.84;
+  opacity: 0.94;
   pointer-events: auto;
   transform: translateY(0);
 }
@@ -1211,6 +1205,28 @@ html[data-contrast]:not([data-contrast="default"])
   display: block;
   height: 100%;
   width: 100%;
+}
+
+.bemke-back-to-top__surface {
+  fill: var(--wine, var(--theme-wine, #501819));
+}
+
+.bemke-back-to-top__border {
+  fill: none;
+  stroke: var(--brown, var(--theme-brown, #1b0508));
+}
+
+.bemke-back-to-top__arrow {
+  fill: none;
+  stroke: var(--lightyellow, var(--theme-lightyellow, #f6cc8a));
+}
+
+.bemke-back-to-top.is-inverted .bemke-back-to-top__surface {
+  fill: var(--yellow, var(--theme-yellow, #f9bb59));
+}
+
+.bemke-back-to-top.is-inverted .bemke-back-to-top__arrow {
+  stroke: var(--brown, var(--theme-brown, #1b0508));
 }
 
 @media (prefers-reduced-motion: reduce) {

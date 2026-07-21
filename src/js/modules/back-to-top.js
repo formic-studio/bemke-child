@@ -2,6 +2,8 @@ import { isReducedMotion } from './motion-preference.js';
 
 const BUTTON_CLASS = 'bemke-back-to-top';
 const VISIBLE_CLASS = 'is-visible';
+const INVERTED_CLASS = 'is-inverted';
+const WINE_RGB = [80, 24, 25];
 
 export function initBackToTop() {
   if (!document.body || document.querySelector(`.${BUTTON_CLASS}`)) {
@@ -18,9 +20,9 @@ export function initBackToTop() {
   button.setAttribute('aria-label', 'Wróć na górę strony');
   button.innerHTML = `
     <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-      <rect x="0.250002" y="41.75" width="41.5" height="41.5" rx="20.75" transform="rotate(-90 0.250002 41.75)" fill="#501819"/>
-      <rect x="0.250002" y="41.75" width="41.5" height="41.5" rx="20.75" transform="rotate(-90 0.250002 41.75)" stroke="#1B0508" stroke-width="0.5"/>
-      <path d="M28.0711 22.9998L21 15.9287L13.9289 22.9998" stroke="#F6BA62" stroke-width="2"/>
+      <rect class="bemke-back-to-top__surface" x="0.250002" y="41.75" width="41.5" height="41.5" rx="20.75" transform="rotate(-90 0.250002 41.75)"/>
+      <rect class="bemke-back-to-top__border" x="0.250002" y="41.75" width="41.5" height="41.5" rx="20.75" transform="rotate(-90 0.250002 41.75)" stroke-width="0.5"/>
+      <path class="bemke-back-to-top__arrow" d="M28.0711 22.9998L21 15.9287L13.9289 22.9998" stroke-width="2"/>
     </svg>
   `;
 
@@ -34,6 +36,10 @@ export function initBackToTop() {
     const isVisible = window.scrollY >= viewportHeight;
 
     button.classList.toggle(VISIBLE_CLASS, isVisible);
+    button.classList.toggle(
+      INVERTED_CLASS,
+      isVisible && isOverWineSurface(button),
+    );
     button.tabIndex = isVisible ? 0 : -1;
     button.setAttribute('aria-hidden', isVisible ? 'false' : 'true');
   };
@@ -61,4 +67,42 @@ export function initBackToTop() {
     passive: true,
   });
   window.addEventListener('resize', scheduleVisibilityUpdate);
+}
+
+function isOverWineSurface(button) {
+  const rect = button.getBoundingClientRect();
+  const centerX = rect.left + rect.width / 2;
+  const centerY = rect.top + rect.height / 2;
+  const elements = document.elementsFromPoint(centerX, centerY);
+
+  for (const element of elements) {
+    if (element === button || button.contains(element)) {
+      continue;
+    }
+
+    const color = parseRgb(window.getComputedStyle(element).backgroundColor);
+
+    if (!color || color.alpha <= 0.05) {
+      continue;
+    }
+
+    return WINE_RGB.every(
+      (channel, index) => Math.abs(channel - color.channels[index]) <= 2,
+    );
+  }
+
+  return false;
+}
+
+function parseRgb(value) {
+  const values = value.match(/[\d.]+/g)?.map(Number);
+
+  if (!values || values.length < 3) {
+    return null;
+  }
+
+  return {
+    alpha: values.length > 3 ? values[3] : 1,
+    channels: values.slice(0, 3),
+  };
 }
