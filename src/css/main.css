@@ -66,10 +66,10 @@
   bottom: 3.2rem;
   display: grid;
   gap: 0.4rem;
-  grid-template-columns: repeat(3, 4.4rem);
-  grid-template-rows: repeat(3, 4.4rem);
+  grid-template-columns: repeat(3, 2.1rem);
+  grid-template-rows: repeat(3, 2.1rem);
+  left: 3.2rem;
   position: absolute;
-  right: 3.2rem;
   z-index: 3;
 }
 
@@ -80,11 +80,11 @@
   border-radius: 0.8rem;
   cursor: pointer;
   display: block;
-  height: 4.4rem;
+  height: 2.1rem;
   margin: 0;
   padding: 0;
   touch-action: manipulation;
-  width: 4.4rem;
+  width: 2.1rem;
 }
 
 .campus-map__control[data-direction="up"] {
