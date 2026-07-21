@@ -2942,6 +2942,19 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
   z-index: 2147483001 !important;
 }
 
+@media (max-width: 767px) {
+  .bemke-team-popup {
+    box-sizing: border-box;
+    max-height: calc(100vh - 3.2rem);
+    max-height: calc(100dvh - 3.2rem);
+    max-width: calc(100vw - 3.2rem);
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
 html.is-team-popup-open,
 body.is-team-popup-open {
   overflow: hidden;
