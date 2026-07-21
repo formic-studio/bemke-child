@@ -325,14 +325,16 @@ html[data-bemke-frontend="true"]:not(
   }
 }
 
-html[data-bemke-frontend="true"]:not(
-    [data-bemke-reduced-motion="true"]
-  )
-  body.home
-  #brx-header:not([data-bemke-header-intro-ready="1"]) {
-  animation: bemke-header-intro-failsafe 0.01s linear 3s forwards;
-  opacity: 0;
-  visibility: hidden;
+@media (min-width: 992px) {
+  html[data-bemke-frontend="true"]:not(
+      [data-bemke-reduced-motion="true"]
+    )
+    body.home
+    #brx-header:not([data-bemke-header-intro-ready="1"]) {
+    animation: bemke-header-intro-failsafe 0.01s linear 3s forwards;
+    opacity: 0;
+    visibility: hidden;
+  }
 }
 
 @media screen and (max-width: 1920px) {
