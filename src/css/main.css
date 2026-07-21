@@ -1355,6 +1355,21 @@ html[data-contrast]:not([data-contrast="default"])
   }
 }
 
+@media screen and (max-width: 767px) {
+  .slider:not(.slider-thinktank)[data-bemke-slider-ready="1"] {
+    margin-inline-start: calc(50% - 50vw) !important;
+    max-width: none !important;
+    width: 100vw !important;
+  }
+
+  .slider:not(.slider-thinktank)[data-bemke-slider-ready="1"] .slide {
+    --bemke-home-slide-width: min(
+      clamp(280px, 72vw, 360px),
+      calc(100vw - 32px)
+    );
+  }
+}
+
 .slider:not(.slider-thinktank)[data-bemke-slider-ready="1"]
   .slider-wrapper.is-dragging,
 .slider:not(.slider-thinktank)[data-bemke-slider-ready="1"].is-resetting
