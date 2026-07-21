@@ -234,15 +234,19 @@
   --base: calc((var(--font-from) - var(--vw-from) * var(--coefficient)) / 16);
 }
 
-html {
+html,
+body {
   background-color: var(--yellow, var(--theme-yellow, #f9bb59));
+}
+
+html {
   font-size: calc(
     (var(--base) * 1rem + var(--coefficient) * 1vw) * var(--a11y-font-scale)
   );
   overscroll-behavior-y: none;
 }
 
-body {
+#brx-content {
   background-color: var(--white, #fff);
 }
 
