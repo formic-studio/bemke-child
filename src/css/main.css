@@ -3314,6 +3314,80 @@ body.is-team-popup-open {
   background-position: 0 0;
 }
 
+.btn-wine {
+  --btn-wine-bg: var(--wine, var(--theme-wine, rgba(80, 24, 25, 1)));
+  --btn-wine-bg-hover: var(--yellow, var(--theme-yellow, rgba(249, 187, 89, 1)));
+  --btn-wine-text: var(--cream, var(--theme-cream, rgba(255, 249, 244, 1)));
+  --btn-wine-text-hover: var(--brown, var(--theme-brown, rgba(27, 5, 8, 1)));
+  --btn-wine-text-steps: 12;
+
+  position: relative;
+  isolation: isolate;
+  z-index: 0;
+  overflow: hidden;
+  background: var(--btn-wine-bg) !important;
+  color: var(--btn-wine-text) !important;
+  transition:
+    background-color 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    color 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.btn-wine::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--btn-wine-bg-hover);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.btn-wine .brxe-text,
+.btn-wine > span,
+.btn-wine > div {
+  color: transparent !important;
+  position: relative;
+  z-index: 1;
+  background-image: linear-gradient(
+    to right,
+    var(--btn-wine-text-hover) 50%,
+    var(--btn-wine-text) 50%
+  );
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  background-repeat: no-repeat;
+  background-clip: text;
+  -webkit-background-clip: text;
+  transition: background-position 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-timing-function: steps(var(--btn-wine-text-steps), end);
+  -webkit-text-fill-color: transparent;
+}
+
+.btn-wine:hover::before,
+.btn-wine:focus-visible::before {
+  transform: scaleX(1);
+}
+
+.btn-wine:hover,
+.btn-wine:focus-visible {
+  background: var(--btn-wine-bg) !important;
+  background-color: var(--btn-wine-bg) !important;
+  color: var(--btn-wine-text-hover) !important;
+}
+
+.btn-wine:hover,
+.btn-wine:focus-visible,
+.btn-wine:hover .brxe-text,
+.btn-wine:hover > span,
+.btn-wine:hover > div,
+.btn-wine:focus-visible .brxe-text,
+.btn-wine:focus-visible > span,
+.btn-wine:focus-visible > div {
+  background-position: 0 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .btn-yellow-hover,
   .btn-yellow-hover::before,
@@ -3344,7 +3418,12 @@ body.is-team-popup-open {
   .btn-red-yellow-hover::before,
   .btn-red-yellow-hover .brxe-text,
   .btn-red-yellow-hover > span,
-  .btn-red-yellow-hover > div {
+  .btn-red-yellow-hover > div,
+  .btn-wine,
+  .btn-wine::before,
+  .btn-wine .brxe-text,
+  .btn-wine > span,
+  .btn-wine > div {
     transition: none;
   }
 }
