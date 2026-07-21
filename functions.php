@@ -12,11 +12,21 @@ require_once get_stylesheet_directory() . '/inc/foundation-documents.php';
 require_once get_stylesheet_directory() . '/inc/admin-slider-menu.php';
 require_once get_stylesheet_directory() . '/inc/slider-galleries.php';
 
+add_action( 'wp_head', 'bemke_child_print_theme_color', 0 );
 add_action( 'wp_head', 'bemke_child_print_motion_preference', 1 );
 add_action( 'wp_head', 'bemke_child_preload_critical_fonts', 2 );
 add_action( 'wp_enqueue_scripts', 'bemke_child_enqueue_assets', 20 );
 add_action( 'template_redirect', 'bemke_child_start_frontend_optimization_buffer', 0 );
 add_filter( 'wp_get_attachment_image_attributes', 'bemke_child_optimize_below_fold_images', 100, 3 );
+
+function bemke_child_print_theme_color() {
+	if ( bemke_child_is_bricks_builder_request() ) {
+		return;
+	}
+	?>
+	<meta name="theme-color" content="#f9bb59">
+	<?php
+}
 
 function bemke_child_print_motion_preference() {
 	if ( bemke_child_is_bricks_builder_request() ) {

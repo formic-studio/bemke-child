@@ -235,10 +235,15 @@
 }
 
 html {
+  background-color: var(--yellow, var(--theme-yellow, #f9bb59));
   font-size: calc(
     (var(--base) * 1rem + var(--coefficient) * 1vw) * var(--a11y-font-scale)
   );
   overscroll-behavior-y: none;
+}
+
+body {
+  background-color: var(--white, #fff);
 }
 
 html.bemke-scroll-expand-active {
