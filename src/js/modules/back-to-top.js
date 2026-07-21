@@ -12,6 +12,7 @@ export function initBackToTop() {
 
   const button = document.createElement('button');
   let animationFrame = null;
+  let scrollToTopFrame = null;
 
   button.className = BUTTON_CLASS;
   button.type = 'button';
@@ -33,7 +34,7 @@ export function initBackToTop() {
       1,
       window.innerHeight || document.documentElement.clientHeight,
     );
-    const isVisible = window.scrollY >= viewportHeight;
+    const isVisible = getScrollTop() >= viewportHeight;
     const surfaceColor = isVisible ? getSurfaceColor(button) : null;
 
     button.classList.toggle(VISIBLE_CLASS, isVisible);
@@ -68,11 +69,34 @@ export function initBackToTop() {
   };
 
   button.addEventListener('click', () => {
+    const reducedMotion = isReducedMotion();
+    const monitorStartedAt = window.performance.now();
+
     window.scrollTo({
-      behavior: isReducedMotion() ? 'auto' : 'smooth',
+      behavior: reducedMotion ? 'auto' : 'smooth',
       left: 0,
       top: 0,
     });
+
+    if (scrollToTopFrame !== null) {
+      window.cancelAnimationFrame(scrollToTopFrame);
+    }
+
+    const monitorScrollToTop = (timestamp) => {
+      updateVisibility();
+
+      if (
+        getScrollTop() <= 1 ||
+        timestamp - monitorStartedAt >= 3000
+      ) {
+        scrollToTopFrame = null;
+        return;
+      }
+
+      scrollToTopFrame = window.requestAnimationFrame(monitorScrollToTop);
+    };
+
+    scrollToTopFrame = window.requestAnimationFrame(monitorScrollToTop);
   });
 
   document.body.appendChild(button);
@@ -82,6 +106,15 @@ export function initBackToTop() {
     passive: true,
   });
   window.addEventListener('resize', scheduleVisibilityUpdate);
+}
+
+function getScrollTop() {
+  const scrollingElement = document.scrollingElement;
+
+  return Math.max(
+    0,
+    scrollingElement?.scrollTop ?? window.scrollY ?? window.pageYOffset ?? 0,
+  );
 }
 
 function getSurfaceColor(button) {
