@@ -10,6 +10,7 @@ import {
 
 const HEADER_SELECTOR = '#brx-header';
 const HERO_SELECTOR = '.section_hero';
+const HOME_BODY_CLASS = 'home';
 const HERO_COMPLETE_ATTR = 'data-bemke-hero-intro-complete';
 const READY_ATTR = 'data-bemke-header-intro-ready';
 const COMPLETE_ATTR = 'data-bemke-header-intro-complete';
@@ -19,6 +20,11 @@ const headerStates = new Map();
 let lifecycleBound = false;
 
 export function initHeaderIntro() {
+  if (!document.body.classList.contains(HOME_BODY_CLASS)) {
+    document.querySelectorAll(HEADER_SELECTOR).forEach(showHeaderImmediately);
+    return;
+  }
+
   bindLifecycle();
 
   document.querySelectorAll(HEADER_SELECTOR).forEach((header) => {
@@ -54,6 +60,15 @@ export function initHeaderIntro() {
       revealHeader(state, true);
     }
   });
+}
+
+function showHeaderImmediately(header) {
+  gsap.killTweensOf(header);
+  gsap.killTweensOf(header.children);
+  gsap.set(header, { clearProps: 'opacity,visibility' });
+  gsap.set(header.children, { clearProps: 'transform,transition' });
+  header.setAttribute(READY_ATTR, '1');
+  header.setAttribute(COMPLETE_ATTR, '1');
 }
 
 function bindLifecycle() {
