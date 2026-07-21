@@ -25,6 +25,7 @@ import { initStickyImages } from './modules/sticky-images.js';
 import { initNumberCounters } from './modules/number-counter.js';
 import { initCardImageHover } from './modules/card-image-hover.js';
 import { initBemkeExploreCardScroll } from './modules/bemke-explore-card-scroll.js';
+import { initHorizontalScrollGutters } from './modules/horizontal-scroll-gutters.js';
 import { initAccessibilitySwitches } from './modules/accessibility-switches.js';
 import { initMotionPreference } from './modules/motion-preference.js';
 import { initHeroIntro } from './modules/hero-intro.js';
@@ -63,6 +64,7 @@ function initApp() {
   initNumberCounters();
   initCardImageHover();
   initBemkeExploreCardScroll();
+  initHorizontalScrollGutters();
 }
 
 if (document.readyState === 'loading') {

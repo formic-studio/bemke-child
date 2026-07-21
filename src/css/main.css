@@ -1159,6 +1159,30 @@ html[data-contrast]:not([data-contrast="default"])
   scroll-snap-align: start;
 }
 
+@media (max-width: 767px) {
+  [data-bemke-horizontal-scroll-gutters="1"] {
+    box-sizing: border-box !important;
+    margin-inline-start: calc(var(--bemke-scroll-bleed-start) * -1) !important;
+    max-width: none !important;
+    padding-inline-start: var(--bemke-scroll-content-start) !important;
+    padding-inline-end: 0 !important;
+    scroll-padding-inline-start: var(--bemke-scroll-content-start);
+    scroll-padding-inline-end: var(--bemke-scroll-content-end);
+    width: calc(
+      100% + var(--bemke-scroll-bleed-start) + var(--bemke-scroll-bleed-end)
+    ) !important;
+  }
+
+  [data-bemke-horizontal-scroll-gutters="1"]::after {
+    align-self: stretch;
+    content: "";
+    flex: 0 0 var(--bemke-scroll-content-end);
+    inline-size: var(--bemke-scroll-content-end);
+    margin-inline-start: calc(var(--bemke-scroll-gap) * -1);
+    pointer-events: none;
+  }
+}
+
 .offer-block,
 .donors-block {
   transition: background-color 0.28s ease;
