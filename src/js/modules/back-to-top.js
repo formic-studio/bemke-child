@@ -2,8 +2,8 @@ import { isReducedMotion } from './motion-preference.js';
 
 const BUTTON_CLASS = 'bemke-back-to-top';
 const VISIBLE_CLASS = 'is-visible';
-const INVERTED_CLASS = 'is-inverted';
-const WINE_RGB = [80, 24, 25];
+const DARK_SURFACE_CLASS = 'is-on-dark-surface';
+const DARK_LUMINANCE_THRESHOLD = 0.21;
 
 export function initBackToTop() {
   if (!document.body || document.querySelector(`.${BUTTON_CLASS}`)) {
@@ -34,12 +34,27 @@ export function initBackToTop() {
       window.innerHeight || document.documentElement.clientHeight,
     );
     const isVisible = window.scrollY >= viewportHeight;
+    const surfaceColor = isVisible ? getSurfaceColor(button) : null;
 
     button.classList.toggle(VISIBLE_CLASS, isVisible);
     button.classList.toggle(
-      INVERTED_CLASS,
-      isVisible && isOverWineSurface(button),
+      DARK_SURFACE_CLASS,
+      Boolean(
+        surfaceColor &&
+          getRelativeLuminance(surfaceColor.channels) <
+            DARK_LUMINANCE_THRESHOLD,
+      ),
     );
+
+    if (surfaceColor) {
+      button.style.setProperty(
+        '--bemke-back-to-top-underlay',
+        surfaceColor.css,
+      );
+    } else {
+      button.style.removeProperty('--bemke-back-to-top-underlay');
+    }
+
     button.tabIndex = isVisible ? 0 : -1;
     button.setAttribute('aria-hidden', isVisible ? 'false' : 'true');
   };
@@ -69,11 +84,12 @@ export function initBackToTop() {
   window.addEventListener('resize', scheduleVisibilityUpdate);
 }
 
-function isOverWineSurface(button) {
+function getSurfaceColor(button) {
   const rect = button.getBoundingClientRect();
   const centerX = rect.left + rect.width / 2;
   const centerY = rect.top + rect.height / 2;
   const elements = document.elementsFromPoint(centerX, centerY);
+  const layers = [];
 
   for (const element of elements) {
     if (element === button || button.contains(element)) {
@@ -86,12 +102,33 @@ function isOverWineSurface(button) {
       continue;
     }
 
-    return WINE_RGB.every(
-      (channel, index) => Math.abs(channel - color.channels[index]) <= 2,
+    layers.push(color);
+
+    if (color.alpha >= 0.99) {
+      break;
+    }
+  }
+
+  if (!layers.length) {
+    return null;
+  }
+
+  let channels = [255, 255, 255];
+
+  for (let index = layers.length - 1; index >= 0; index -= 1) {
+    const layer = layers[index];
+    channels = layer.channels.map(
+      (channel, channelIndex) =>
+        channel * layer.alpha + channels[channelIndex] * (1 - layer.alpha),
     );
   }
 
-  return false;
+  const roundedChannels = channels.map(Math.round);
+
+  return {
+    channels: roundedChannels,
+    css: `rgb(${roundedChannels.join(' ')})`,
+  };
 }
 
 function parseRgb(value) {
@@ -105,4 +142,16 @@ function parseRgb(value) {
     alpha: values.length > 3 ? values[3] : 1,
     channels: values.slice(0, 3),
   };
+}
+
+function getRelativeLuminance(channels) {
+  const [red, green, blue] = channels.map((channel) => {
+    const normalized = channel / 255;
+
+    return normalized <= 0.04045
+      ? normalized / 12.92
+      : ((normalized + 0.055) / 1.055) ** 2.4;
+  });
+
+  return red * 0.2126 + green * 0.7152 + blue * 0.0722;
 }

@@ -1187,7 +1187,7 @@ html[data-contrast]:not([data-contrast="default"])
 }
 
 .bemke-back-to-top.is-visible {
-  opacity: 0.94;
+  opacity: 1;
   pointer-events: auto;
   transform: translateY(0);
 }
@@ -1209,24 +1209,40 @@ html[data-contrast]:not([data-contrast="default"])
 
 .bemke-back-to-top__surface {
   fill: var(--wine, var(--theme-wine, #501819));
+  fill-opacity: 0.94;
+  transition:
+    fill 0.2s ease,
+    fill-opacity 0.2s ease;
 }
 
 .bemke-back-to-top__border {
   fill: none;
   stroke: var(--brown, var(--theme-brown, #1b0508));
+  transition: stroke 0.2s ease;
 }
 
 .bemke-back-to-top__arrow {
   fill: none;
-  stroke: var(--lightyellow, var(--theme-lightyellow, #f6cc8a));
+  stroke: var(
+    --bemke-back-to-top-underlay,
+    var(--darkcream, var(--theme-darkcream, #fff3e0))
+  );
+  transition: stroke 0.2s ease;
 }
 
-.bemke-back-to-top.is-inverted .bemke-back-to-top__surface {
-  fill: var(--yellow, var(--theme-yellow, #f9bb59));
+.bemke-back-to-top.is-on-dark-surface .bemke-back-to-top__surface {
+  fill: var(--darkcream, var(--theme-darkcream, #fff3e0));
 }
 
-.bemke-back-to-top.is-inverted .bemke-back-to-top__arrow {
-  stroke: var(--brown, var(--theme-brown, #1b0508));
+.bemke-back-to-top.is-on-dark-surface .bemke-back-to-top__border {
+  stroke: var(
+    --bemke-back-to-top-underlay,
+    var(--brown, var(--theme-brown, #1b0508))
+  );
+}
+
+.bemke-back-to-top:is(:hover, :focus-visible) .bemke-back-to-top__surface {
+  fill-opacity: 1;
 }
 
 @media (prefers-reduced-motion: reduce) {
