@@ -2480,7 +2480,7 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     > li
     > .brx-submenu-toggle
     > a {
-    color: var(--mustard, var(--theme-mustard, #ae6b00));
+    color: var(--brown, var(--theme-brown, #1b0508));
     flex: 1 1 auto;
     font-family: "Season Mix", serif;
     font-size: clamp(1.8rem, 2.2vw, 2.1rem);
@@ -2489,6 +2489,21 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     line-height: 1.15 !important;
     padding: 1.8rem 0 !important;
     text-transform: uppercase;
+    transition: color 0.2s ease;
+  }
+
+  #brx-header
+    #brxe-vhhhdt
+    .bricks-mobile-menu.bemke-mobile-menu--has-open-submenu
+    > li:not(.open)
+    > a,
+  #brx-header
+    #brxe-vhhhdt
+    .bricks-mobile-menu.bemke-mobile-menu--has-open-submenu
+    > li:not(.open)
+    > .brx-submenu-toggle
+    > a {
+    color: var(--mustard, var(--theme-mustard, #ae6b00));
   }
 
   #brx-header
@@ -2677,6 +2692,20 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     > li.bemke-mobile-menu__nested-branch
     > .sub-menu {
     display: block !important;
+    pointer-events: auto !important;
+    visibility: visible !important;
+  }
+
+  #brx-header
+    #brxe-vhhhdt
+    .bricks-mobile-menu
+    > li
+    > .sub-menu
+    > li.bemke-mobile-menu__nested-branch
+    > .sub-menu
+    a {
+    pointer-events: auto;
+    touch-action: manipulation;
   }
 
   #brx-header

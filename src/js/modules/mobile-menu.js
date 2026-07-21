@@ -230,10 +230,20 @@ function setupMobileSubmenuAnimation(navigation, mobileMenu, mobileQuery) {
     });
   };
 
+  const syncOpenBranchState = () => {
+    mobileMenu.classList.toggle(
+      'bemke-mobile-menu--has-open-submenu',
+      animatedBranches.some(({ item }) => item.classList.contains('open')),
+    );
+  };
+
   animatedBranches.forEach((branch) => {
     syncBranch(branch, false);
 
-    const itemObserver = new MutationObserver(() => syncBranch(branch, true));
+    const itemObserver = new MutationObserver(() => {
+      syncBranch(branch, true);
+      syncOpenBranchState();
+    });
     itemObserver.observe(branch.item, {
       attributeFilter: ['class'],
       attributes: true,
@@ -242,8 +252,10 @@ function setupMobileSubmenuAnimation(navigation, mobileMenu, mobileQuery) {
 
   const syncAllBranches = () => {
     animatedBranches.forEach((branch) => syncBranch(branch, false));
+    syncOpenBranchState();
   };
 
+  syncOpenBranchState();
   mobileQuery.addEventListener('change', syncAllBranches);
   document.addEventListener(MOTION_CHANGE_EVENT, syncAllBranches);
 }
@@ -492,7 +504,7 @@ function setupAlwaysOpenNestedBranches(mobileMenu) {
       return;
     }
 
-    item.classList.add('bemke-mobile-menu__nested-branch');
+    item.classList.add('bemke-mobile-menu__nested-branch', 'open');
     submenu.setAttribute('aria-hidden', 'false');
 
     if (button) {
