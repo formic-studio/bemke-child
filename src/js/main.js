@@ -31,6 +31,7 @@ import { initMotionPreference } from './modules/motion-preference.js';
 import { initHeroIntro } from './modules/hero-intro.js';
 import { initHeaderIntro } from './modules/header-intro.js';
 import { initCampusMap } from './modules/campus-map.js';
+import { initBackToTop } from './modules/back-to-top.js';
 
 function initApp() {
   initMotionPreference();
@@ -38,6 +39,7 @@ function initApp() {
   initMegaMenu();
   initMobileMenu();
   initHeaderIntro();
+  initBackToTop();
   initCampusMap();
   initHeroIntro();
   initAccordionControls();
