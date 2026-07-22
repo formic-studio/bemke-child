@@ -479,11 +479,42 @@ html[data-bemke-frontend="true"]:not(
 
 #brxe-qcwgax [data-contrast] {
   align-items: center !important;
+  border-style: solid !important;
+  border-width: 1px !important;
   display: inline-flex !important;
   justify-content: center !important;
   line-height: 1 !important;
   text-align: center;
   vertical-align: middle;
+}
+
+#brxe-qcwgax [data-contrast="default"] {
+  background-color: var(--theme-white, #fffdfb) !important;
+  border-color: var(--theme-brown, #1b0508) !important;
+  color: var(--theme-brown, #1b0508) !important;
+}
+
+#brxe-qcwgax [data-contrast="white-black"] {
+  background-color: #000 !important;
+  border-color: #fff !important;
+  color: #fff !important;
+}
+
+#brxe-qcwgax [data-contrast="black-yellow"] {
+  background-color: #ffeb3b !important;
+  border-color: #000 !important;
+  color: #000 !important;
+}
+
+#brxe-qcwgax [data-contrast="yellow-black"] {
+  background-color: #000 !important;
+  border-color: #ffeb3b !important;
+  color: #ffeb3b !important;
+}
+
+#brxe-qcwgax [data-contrast][aria-pressed="true"] {
+  outline: 2px solid var(--a11y-border, var(--theme-brown, #1b0508));
+  outline-offset: 2px;
 }
 
 .lang-switcher-block[data-bemke-switch-ready="1"] {
@@ -1033,6 +1064,37 @@ html[data-contrast]:not([data-contrast="default"])
   svg
   [stroke]:not([stroke="none"]) {
   stroke: currentColor !important;
+}
+
+html[data-contrast]:not([data-contrast="default"])
+  #brx-header
+  #brxe-vhhhdt
+  .brx-submenu-toggle
+  > button
+  svg {
+  background-color: var(--a11y-control-bg) !important;
+  border-radius: 50%;
+  color: var(--a11y-control-text) !important;
+}
+
+html[data-contrast]:not([data-contrast="default"])
+  #brx-header
+  #brxe-vhhhdt
+  .brx-submenu-toggle
+  > button
+  svg
+  rect {
+  fill: var(--a11y-control-bg) !important;
+}
+
+html[data-contrast]:not([data-contrast="default"])
+  #brx-header
+  #brxe-vhhhdt
+  .brx-submenu-toggle
+  > button
+  svg
+  :is(path, line, polyline) {
+  stroke: var(--a11y-control-text) !important;
 }
 
 html[data-contrast]:not([data-contrast="default"])
