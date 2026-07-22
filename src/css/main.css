@@ -3168,6 +3168,45 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
   flex-direction: column;
   min-height: 0;
   overflow: hidden;
+  position: relative;
+}
+
+.bemke-team-popup__content::before,
+.bemke-team-popup__content::after {
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  transition: opacity 0.2s ease;
+  z-index: 2;
+}
+
+.bemke-team-popup__content::before {
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--red, var(--theme-red, #741618)) 76%
+  );
+  content: "";
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 6.4rem;
+}
+
+.bemke-team-popup__content::after {
+  right: 1rem;
+  bottom: 0.6rem;
+  color: var(--cream, var(--theme-cream, #fff9f4));
+  content: "Przewiń \2193";
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.bemke-team-popup__content.is-scrollable:not(.is-at-scroll-end)::before,
+.bemke-team-popup__content.is-scrollable:not(.is-at-scroll-end)::after {
+  opacity: 1;
 }
 
 .bemke-team-popup__description {
@@ -3226,6 +3265,8 @@ html[data-bemke-reduced-motion="true"] .team-link .img-block img {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .bemke-team-popup__content::before,
+  .bemke-team-popup__content::after,
   .team-link .img-block img {
     transition: none;
   }

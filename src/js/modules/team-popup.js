@@ -11,6 +11,9 @@ const POPUP_PORTAL_CLASS = 'bemke-team-popup-portal';
 const POPUP_VISIBLE_CLASS = 'is-visible';
 const POPUP_CONTENT_CLASS = 'bemke-team-popup__content';
 const POPUP_DESCRIPTION_CLASS = 'bemke-team-popup__description';
+const POPUP_SCROLLABLE_CLASS = 'is-scrollable';
+const POPUP_SCROLL_END_CLASS = 'is-at-scroll-end';
+const POPUP_SCROLL_READY_ATTR = 'data-bemke-scroll-indicator-ready';
 const TEAM_CARD_CLASS = TEAM_CARD_SELECTOR.slice(1);
 
 let popupMap = new Map();
@@ -82,9 +85,51 @@ function setupScrollableDescription(popup) {
 
   description.classList.add(POPUP_DESCRIPTION_CLASS);
   description.setAttribute('role', 'region');
-  description.setAttribute('tabindex', '0');
+  const content = description.parentElement;
+  content?.classList.add(POPUP_CONTENT_CLASS);
+
+  if (description.hasAttribute(POPUP_SCROLL_READY_ATTR)) {
+    return;
+  }
+
+  description.setAttribute(POPUP_SCROLL_READY_ATTR, '1');
+  description.addEventListener(
+    'scroll',
+    () => updateScrollableDescription(description),
+    { passive: true },
+  );
+}
+
+function updateScrollableDescription(description) {
+  if (!description) {
+    return;
+  }
+
+  const content = description.closest(`.${POPUP_CONTENT_CLASS}`);
+  if (!content) {
+    return;
+  }
+
+  const isScrollable = description.scrollHeight > description.clientHeight + 2;
+  const isAtEnd =
+    !isScrollable ||
+    description.scrollTop + description.clientHeight >=
+      description.scrollHeight - 2;
+
+  content.classList.toggle(POPUP_SCROLLABLE_CLASS, isScrollable);
+  content.classList.toggle(POPUP_SCROLL_END_CLASS, isAtEnd);
+
+  if (isScrollable) {
+    description.setAttribute('tabindex', '0');
+    description.setAttribute(
+      'aria-label',
+      'Opis członka zespołu, treść przewijana',
+    );
+    return;
+  }
+
+  description.removeAttribute('tabindex');
   description.setAttribute('aria-label', 'Opis członka zespołu');
-  description.parentElement?.classList.add(POPUP_CONTENT_CLASS);
 }
 
 function setupTeamCards(scope) {
@@ -113,10 +158,21 @@ function setupTeamPopupLifecycle() {
   const rerun = debounce(() => {
     setupTeamPopupElements();
   }, 90);
+  const refreshScrollableDescription = debounce(() => {
+    const description = activePopup?.querySelector(
+      `.${POPUP_DESCRIPTION_CLASS}`,
+    );
+    updateScrollableDescription(description);
+  }, 90);
 
   rerun();
 
   window.addEventListener('load', rerun);
+  window.addEventListener('resize', refreshScrollableDescription);
+  window.visualViewport?.addEventListener(
+    'resize',
+    refreshScrollableDescription,
+  );
   document.addEventListener('bricks/ajax/end', rerun);
   document.addEventListener('click', handleTeamPopupClick);
   document.addEventListener('keydown', handleTeamPopupKeydown);
@@ -235,6 +291,14 @@ function openTeamPopup(popup, trigger) {
   popupOverlay.classList.add(OVERLAY_VISIBLE_CLASS);
   document.documentElement.classList.add('is-team-popup-open');
   document.body.classList.add('is-team-popup-open');
+
+  const description = popup.querySelector(`.${POPUP_DESCRIPTION_CLASS}`);
+  if (description) {
+    description.scrollTop = 0;
+    window.requestAnimationFrame(() => {
+      updateScrollableDescription(description);
+    });
+  }
 
   popup.focus({
     preventScroll: true,
