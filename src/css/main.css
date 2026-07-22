@@ -3188,20 +3188,27 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
   );
   content: "";
   right: 0;
-  bottom: 0;
+  bottom: 2.7rem;
   left: 0;
   height: 6.4rem;
 }
 
 .bemke-team-popup__content::after {
-  right: 2.6rem;
-  bottom: 0.6rem;
+  align-self: flex-start;
+  display: none;
+  flex: 0 0 auto;
+  margin-top: 1.6rem;
   color: var(--cream, var(--theme-cream, #fff9f4));
   content: "Przewiń \2193";
   font-size: 1.1rem;
   letter-spacing: 0.08em;
   line-height: 1;
+  position: static;
   text-transform: uppercase;
+}
+
+.bemke-team-popup__content.is-scrollable::after {
+  display: block;
 }
 
 .bemke-team-popup__content.is-scrollable:not(.is-at-scroll-end)::before,
@@ -3222,7 +3229,6 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
 
 .bemke-team-popup__content.is-scrollable .bemke-team-popup__description {
   padding-right: 1.6rem;
-  padding-bottom: 3.2rem;
   scrollbar-gutter: stable;
 }
 
@@ -3238,13 +3244,32 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
 
 @media (max-width: 767px) {
   .bemke-team-popup {
-    height: calc(100dvh - 3.2rem);
+    height: auto;
     max-height: calc(100vh - 3.2rem);
     max-height: calc(100dvh - 3.2rem);
     max-width: calc(100vw - 3.2rem);
     overflow-x: hidden;
-    overflow-y: hidden;
+    overflow-y: auto;
     overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .bemke-team-popup__content {
+    min-height: auto;
+    overflow: visible;
+  }
+
+  .bemke-team-popup__content::before,
+  .bemke-team-popup__content::after {
+    display: none !important;
+  }
+
+  .bemke-team-popup__description,
+  .bemke-team-popup__content.is-scrollable .bemke-team-popup__description {
+    flex: none;
+    overflow: visible;
+    padding-right: 0;
+    scrollbar-gutter: auto;
   }
 }
 
