@@ -34,7 +34,7 @@
 .slider-thinktank .slider-wrapper {
   position: relative;
   width: 100%;
-  height: 50rem;
+  height: 500px;
   overflow: hidden;
   perspective: var(--tt-perspective);
   perspective-origin: center center;
@@ -249,6 +249,21 @@
 .slider-thinktank .slider-paggination .arrow.is-disabled {
   opacity: 0.42;
   cursor: default;
+}
+
+@media (min-width: 1441px) {
+  .slider-thinktank .slide-thinktank {
+    aspect-ratio: 712 / 1024;
+    height: min(100%, 500px) !important;
+    width: auto !important;
+    max-width: none !important;
+  }
+
+  .slider-thinktank .slide-thinktank .slide-tittle {
+    line-height: 0.98;
+    max-width: 86%;
+    white-space: normal;
+  }
 }
 
 @media (max-width: 1199px) {
