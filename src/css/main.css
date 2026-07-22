@@ -3965,6 +3965,70 @@ html[data-bemke-reduced-motion="true"] .team-link .img-block img {
   background-position: 0 0;
 }
 
+html[data-contrast]:not([data-contrast="default"])
+  .brx-body
+  :is(
+    .btn-yellow-hover,
+    .btn-yellow-light-hover,
+    .btn-egg-hover,
+    .btn-red-hover,
+    .btn-mustard-hover,
+    .btn-red-yellow-hover,
+    .btn-wine
+  ):not([data-a11y-contrast-fixed]) {
+  background: var(--a11y-control-bg) !important;
+  border-color: var(--a11y-control-border) !important;
+  color: var(--a11y-control-text) !important;
+}
+
+html[data-contrast]:not([data-contrast="default"])
+  .brx-body
+  :is(
+    .btn-yellow-hover,
+    .btn-yellow-light-hover,
+    .btn-egg-hover,
+    .btn-red-hover,
+    .btn-mustard-hover,
+    .btn-red-yellow-hover,
+    .btn-wine
+  ):not([data-a11y-contrast-fixed])::before {
+  background: var(--a11y-control-text) !important;
+  transition: none !important;
+}
+
+html[data-contrast]:not([data-contrast="default"])
+  .brx-body
+  :is(
+    .btn-yellow-hover,
+    .btn-yellow-light-hover,
+    .btn-egg-hover,
+    .btn-red-hover,
+    .btn-mustard-hover,
+    .btn-red-yellow-hover,
+    .btn-wine
+  ):not([data-a11y-contrast-fixed]):is(:hover, :focus-visible) {
+  background: var(--a11y-control-bg) !important;
+  color: var(--a11y-control-bg) !important;
+}
+
+html[data-contrast]:not([data-contrast="default"])
+  .brx-body
+  :is(
+    .btn-yellow-hover,
+    .btn-yellow-light-hover,
+    .btn-egg-hover,
+    .btn-red-hover,
+    .btn-mustard-hover,
+    .btn-red-yellow-hover,
+    .btn-wine
+  ):not([data-a11y-contrast-fixed])
+  :is(.brxe-text, span, div) {
+  background-image: none !important;
+  color: inherit !important;
+  transition: none !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .btn-yellow-hover,
   .btn-yellow-hover::before,
