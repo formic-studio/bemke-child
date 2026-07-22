@@ -541,6 +541,19 @@ html[data-bemke-frontend="true"]:not(
   transition: background-color 0.2s ease;
 }
 
+html[data-contrast]:not([data-contrast="default"])
+  :is(.animation-switcher, .lang-switcher) {
+  background-color: var(--a11y-control-bg) !important;
+  border: 1px solid var(--a11y-control-border) !important;
+}
+
+html[data-contrast]:not([data-contrast="default"])
+  :is(.animation-switcher, .lang-switcher)
+  .switch-block {
+  background-color: var(--a11y-control-text) !important;
+  border: 0 !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animation-switcher,
   .lang-switcher {
@@ -1050,7 +1063,7 @@ html[data-contrast]:not([data-contrast="default"])
   > button
   svg
   [fill]:not([fill="none"]) {
-  fill: currentColor !important;
+  fill: var(--a11y-control-bg) !important;
 }
 
 html[data-contrast]:not([data-contrast="default"])
@@ -1063,7 +1076,7 @@ html[data-contrast]:not([data-contrast="default"])
   > button
   svg
   [stroke]:not([stroke="none"]) {
-  stroke: currentColor !important;
+  stroke: var(--a11y-control-text) !important;
 }
 
 html[data-contrast]:not([data-contrast="default"])
