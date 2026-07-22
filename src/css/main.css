@@ -3151,7 +3151,7 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
 .bemke-team-popup {
   box-sizing: border-box;
   width: min(98rem, calc(100vw - 3.2rem));
-  height: min(36rem, calc(100dvh - 3.2rem));
+  height: min(38rem, calc(100dvh - 3.2rem));
   min-height: 0;
   max-height: calc(100dvh - 3.2rem);
   overflow: hidden;
@@ -3194,7 +3194,7 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
 }
 
 .bemke-team-popup__content::after {
-  right: 1rem;
+  right: 2.6rem;
   bottom: 0.6rem;
   color: var(--cream, var(--theme-cream, #fff9f4));
   content: "Przewiń \2193";
@@ -3218,6 +3218,12 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
   scrollbar-color: var(--cream, var(--theme-cream, #fff9f4)) transparent;
   scrollbar-width: thin;
   -webkit-overflow-scrolling: touch;
+}
+
+.bemke-team-popup__content.is-scrollable .bemke-team-popup__description {
+  padding-right: 1.6rem;
+  padding-bottom: 3.2rem;
+  scrollbar-gutter: stable;
 }
 
 .bemke-team-popup__description:focus-visible {
