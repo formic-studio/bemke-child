@@ -1947,7 +1947,8 @@ html[data-bemke-frontend="true"]
       > .brx-submenu-toggle
       > a,
     #brx-footer a[href]:not(:has(img, svg)),
-    footer a[href]:not(:has(img, svg))
+    footer a[href]:not(:has(img, svg)),
+    .link-underline
   ):not(.brxe-button):not(.btn):not([data-contrast]) {
   background-image: linear-gradient(currentColor, currentColor);
   background-position: 0 100%;
@@ -1972,7 +1973,8 @@ html[data-bemke-frontend="true"]
       > .brx-submenu-toggle
       > a,
     #brx-footer a[href]:not(:has(img, svg)),
-    footer a[href]:not(:has(img, svg))
+    footer a[href]:not(:has(img, svg)),
+    .link-underline
   ):not(.brxe-button):not(.btn):not([data-contrast]):is(
     :hover,
     :focus-visible,
@@ -3213,7 +3215,8 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
         > .brx-submenu-toggle
         > a,
       #brx-footer a[href]:not(:has(img, svg)),
-      footer a[href]:not(:has(img, svg))
+      footer a[href]:not(:has(img, svg)),
+      .link-underline
     ):not(.brxe-button):not(.btn):not([data-contrast]) {
     transition: none !important;
   }
