@@ -355,10 +355,14 @@ function createSlider(root) {
   });
 
   const textTrack = setupTextTrack(textWrap, textSlides);
+  fitSlideTitles(slides);
   updateTextHeight(textWrap, textSlides);
 
   if (document.fonts?.ready) {
-    document.fonts.ready.then(() => updateTextHeight(textWrap, textSlides));
+    document.fonts.ready.then(() => {
+      fitSlideTitles(slides);
+      updateTextHeight(textWrap, textSlides);
+    });
   }
 
   bindControls(controls, {
@@ -404,6 +408,7 @@ function createSlider(root) {
     "resize",
     debounce(() => {
       queue.length = 0;
+      fitSlideTitles(slides);
       updateTextHeight(textWrap, textSlides);
       render(activeIndex, activeIndex, 0, true);
     }, 120),
@@ -411,6 +416,7 @@ function createSlider(root) {
 
   root.__bemkeThinktankRefresh = () => {
     queue.length = 0;
+    fitSlideTitles(slides);
     updateTextHeight(textWrap, textSlides);
     render(activeIndex, activeIndex, 0, true);
   };
@@ -927,6 +933,46 @@ function updateTextHeight(textWrap, textSlides) {
   if (maxHeight > 0) {
     textWrap.style.setProperty("--tt-text-height", `${Math.ceil(maxHeight)}px`);
   }
+}
+
+function fitSlideTitles(slides) {
+  slides.forEach((slide) => {
+    const title = slide.querySelector(SELECTORS.title);
+
+    if (!title) {
+      return;
+    }
+
+    title.style.removeProperty("font-size");
+
+    const naturalFontSize = Number.parseFloat(
+      window.getComputedStyle(title).fontSize,
+    );
+    const maxTitleHeight = slide.clientHeight * 0.78;
+
+    if (!Number.isFinite(naturalFontSize) || maxTitleHeight <= 0) {
+      return;
+    }
+
+    let fittedFontSize = naturalFontSize;
+    const minimumFontSize = 18;
+    let attempts = 0;
+
+    while (
+      attempts < 40 &&
+      fittedFontSize > minimumFontSize &&
+      (title.scrollWidth > title.clientWidth + 1 ||
+        title.scrollHeight > maxTitleHeight)
+    ) {
+      fittedFontSize = Math.max(minimumFontSize, fittedFontSize - 1);
+      title.style.setProperty(
+        "font-size",
+        `${fittedFontSize}px`,
+        "important",
+      );
+      attempts += 1;
+    }
+  });
 }
 
 function applyState(slide, state, immediate) {
