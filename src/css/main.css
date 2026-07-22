@@ -3149,11 +3149,41 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
 }
 
 .bemke-team-popup {
+  box-sizing: border-box;
+  width: min(98rem, calc(100vw - 3.2rem));
+  height: min(36rem, calc(100dvh - 3.2rem));
+  min-height: 0;
+  max-height: calc(100dvh - 3.2rem);
+  overflow: hidden;
   position: fixed !important;
   top: 50% !important;
   left: 50% !important;
   transform: translate(-50%, -50%);
   z-index: 2147483001 !important;
+}
+
+.bemke-team-popup__content {
+  align-self: stretch !important;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.bemke-team-popup__description {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-color: var(--cream, var(--theme-cream, #fff9f4)) transparent;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+}
+
+.bemke-team-popup__description:focus-visible {
+  outline: 2px solid var(--cream, var(--theme-cream, #fff9f4));
+  outline-offset: 2px;
 }
 
 .bemke-team-popup:focus {
@@ -3163,14 +3193,13 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
 
 @media (max-width: 767px) {
   .bemke-team-popup {
-    box-sizing: border-box;
+    height: calc(100dvh - 3.2rem);
     max-height: calc(100vh - 3.2rem);
     max-height: calc(100dvh - 3.2rem);
     max-width: calc(100vw - 3.2rem);
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: hidden;
     overscroll-behavior: contain;
-    -webkit-overflow-scrolling: touch;
   }
 }
 

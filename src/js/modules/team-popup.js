@@ -9,6 +9,8 @@ const OVERLAY_VISIBLE_CLASS = 'is-visible';
 const POPUP_CLASS = 'bemke-team-popup';
 const POPUP_PORTAL_CLASS = 'bemke-team-popup-portal';
 const POPUP_VISIBLE_CLASS = 'is-visible';
+const POPUP_CONTENT_CLASS = 'bemke-team-popup__content';
+const POPUP_DESCRIPTION_CLASS = 'bemke-team-popup__description';
 const TEAM_CARD_CLASS = TEAM_CARD_SELECTOR.slice(1);
 
 let popupMap = new Map();
@@ -47,6 +49,7 @@ function setupTeamPopupElements(scope = document) {
     popup.setAttribute(TEAM_POPUP_READY_ATTR, '1');
     popup.setAttribute('role', 'dialog');
     popup.setAttribute('tabindex', '-1');
+    setupScrollableDescription(popup);
 
     if (popup.getAttribute('aria-label') === null) {
       popup.setAttribute('aria-label', `Zespół: ${number}`);
@@ -68,6 +71,20 @@ function setupTeamPopupElements(scope = document) {
   });
 
   setupTeamCards(scope);
+}
+
+function setupScrollableDescription(popup) {
+  const description = popup.querySelector('.font-size-body-xs');
+
+  if (!description) {
+    return;
+  }
+
+  description.classList.add(POPUP_DESCRIPTION_CLASS);
+  description.setAttribute('role', 'region');
+  description.setAttribute('tabindex', '0');
+  description.setAttribute('aria-label', 'Opis członka zespołu');
+  description.parentElement?.classList.add(POPUP_CONTENT_CLASS);
 }
 
 function setupTeamCards(scope) {
