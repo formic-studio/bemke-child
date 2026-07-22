@@ -512,11 +512,6 @@ html[data-bemke-frontend="true"]:not(
   color: #ffeb3b !important;
 }
 
-#brxe-qcwgax [data-contrast][aria-pressed="true"] {
-  outline: 2px solid var(--a11y-border, var(--theme-brown, #1b0508));
-  outline-offset: 2px;
-}
-
 .lang-switcher-block[data-bemke-switch-ready="1"] {
   cursor: pointer;
 }
