@@ -7,6 +7,7 @@ import {
   MOTION_CHANGE_EVENT,
   isReducedMotion,
 } from "./motion-preference.js";
+import { FONT_SCALE_CHANGE_EVENT } from "./font-size-controls.js";
 
 const SELECTORS = {
   root: ".slider-thinktank",
@@ -139,6 +140,7 @@ function setupThinktankLifecycle() {
   document.addEventListener("bricks/ajax/end", rerunInit);
   document.addEventListener("bricks/popup/open", rerunInit);
   document.addEventListener("bricks/popup/close", rerunInit);
+  document.addEventListener(FONT_SCALE_CHANGE_EVENT, rerunInit);
 
   window.setTimeout(rerunInit, 200);
   window.setTimeout(rerunInit, 800);

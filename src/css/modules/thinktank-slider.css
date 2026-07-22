@@ -34,7 +34,7 @@
 .slider-thinktank .slider-wrapper {
   position: relative;
   width: 100%;
-  height: clamp(360px, 38vw, 500px);
+  height: 50rem;
   overflow: hidden;
   perspective: var(--tt-perspective);
   perspective-origin: center center;
