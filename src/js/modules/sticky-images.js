@@ -4,6 +4,7 @@ import {
   MOTION_CHANGE_EVENT,
   isReducedMotion,
 } from "./motion-preference.js";
+import { FONT_SCALE_CHANGE_EVENT } from "./font-size-controls.js";
 
 const WRAPPER_SELECTOR = ".sticky-wrapper";
 const STICKY_SELECTOR = ".sticky";
@@ -19,6 +20,7 @@ export function initStickyImages() {
 
   const desktopQuery = window.matchMedia(DESKTOP_QUERY);
   let stickyTriggers = [];
+  let refreshFrame = null;
 
   const stopSticky = () => {
     stickyTriggers.forEach((trigger) => trigger.kill());
@@ -92,6 +94,29 @@ export function initStickyImages() {
     stopSticky();
     syncSticky();
   };
+
+  const refreshAfterFontScaleChange = () => {
+    if (refreshFrame !== null) {
+      window.cancelAnimationFrame(refreshFrame);
+    }
+
+    refreshFrame = window.requestAnimationFrame(() => {
+      refreshFrame = window.requestAnimationFrame(() => {
+        refreshFrame = null;
+
+        if (stickyTriggers.length) {
+          ScrollTrigger.refresh();
+        } else {
+          syncSticky();
+        }
+      });
+    });
+  };
+
+  document.addEventListener(
+    FONT_SCALE_CHANGE_EVENT,
+    refreshAfterFontScaleChange,
+  );
 
   if (typeof desktopQuery.addEventListener === "function") {
     desktopQuery.addEventListener("change", rebuildSticky);

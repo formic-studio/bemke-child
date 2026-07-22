@@ -2,6 +2,8 @@ const STORAGE_KEY = 'bemke_a11y_font_scale';
 const CONTROLS_CONTAINER_ID = 'brxe-kecesp';
 const BOOT_FLAG = '__bemkeFontSizeControlsBooted';
 
+export const FONT_SCALE_CHANGE_EVENT = 'bemke:font-scale-change';
+
 const SCALE_CONTROLS = [
   {
     id: 'brxe-qmbqwm',
@@ -34,7 +36,20 @@ function getInteractiveControls() {
 }
 
 function applyFontScale(scale) {
-  document.documentElement.style.setProperty('--a11y-font-scale', String(scale));
+  const root = document.documentElement;
+  const previousScale = Number.parseFloat(
+    root.style.getPropertyValue('--a11y-font-scale')
+  );
+
+  root.style.setProperty('--a11y-font-scale', String(scale));
+
+  if (!Number.isFinite(previousScale) || previousScale !== scale) {
+    document.dispatchEvent(
+      new CustomEvent(FONT_SCALE_CHANGE_EVENT, {
+        detail: { scale },
+      })
+    );
+  }
 }
 
 function getSavedScale() {
