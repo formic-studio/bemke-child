@@ -3222,9 +3222,25 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: contain;
-  scrollbar-color: var(--cream, var(--theme-cream, #fff9f4)) transparent;
+  scrollbar-color: var(--wine, var(--theme-wine, #501819)) transparent;
   scrollbar-width: thin;
   -webkit-overflow-scrolling: touch;
+}
+
+.bemke-team-popup__description::-webkit-scrollbar,
+.bemke-team-popup::-webkit-scrollbar {
+  width: 0.8rem;
+}
+
+.bemke-team-popup__description::-webkit-scrollbar-track,
+.bemke-team-popup::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.bemke-team-popup__description::-webkit-scrollbar-thumb,
+.bemke-team-popup::-webkit-scrollbar-thumb {
+  background-color: var(--wine, var(--theme-wine, #501819));
+  border-radius: 999px;
 }
 
 .bemke-team-popup__content.is-scrollable .bemke-team-popup__description {
@@ -3251,6 +3267,8 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     overflow-x: hidden;
     overflow-y: auto;
     overscroll-behavior: contain;
+    scrollbar-color: var(--wine, var(--theme-wine, #501819)) transparent;
+    scrollbar-width: thin;
     -webkit-overflow-scrolling: touch;
   }
 
