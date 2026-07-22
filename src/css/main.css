@@ -626,6 +626,15 @@ html[data-contrast]:not([data-contrast="default"])
   color: var(--a11y-text) !important;
 }
 
+html[data-contrast]:not([data-contrast="default"])
+  .bemke-a11y-translucent-surface {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  background-color: var(--a11y-surface) !important;
+  background-image: none !important;
+  color: var(--a11y-text) !important;
+}
+
 html[data-contrast]:not([data-contrast="default"]) .brxe-heading,
 html[data-contrast]:not([data-contrast="default"]) .brxe-text-basic,
 html[data-contrast]:not([data-contrast="default"]) .brxe-text-link,

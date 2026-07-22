@@ -1,6 +1,7 @@
 const STORAGE_KEY = 'bemke_a11y_contrast_mode';
 const CONTROLS_CONTAINER_ID = 'brxe-qcwgax';
 const BOOT_FLAG = '__bemkeContrastControlsBooted';
+const TRANSLUCENT_SURFACE_CLASS = 'bemke-a11y-translucent-surface';
 
 const CONTRAST_MODES = new Map([
   ['default', 'Domyślny kontrast'],
@@ -60,6 +61,23 @@ function decorateControls() {
   });
 }
 
+function decorateTranslucentSurfaces(scope = document) {
+  scope.querySelectorAll('.brxe-block, .brxe-container').forEach((element) => {
+    if (element.classList.contains(TRANSLUCENT_SURFACE_CLASS)) {
+      return;
+    }
+
+    const styles = window.getComputedStyle(element);
+    const backdropFilter =
+      styles.backdropFilter ||
+      styles.getPropertyValue('-webkit-backdrop-filter');
+
+    if (backdropFilter && backdropFilter !== 'none') {
+      element.classList.add(TRANSLUCENT_SURFACE_CLASS);
+    }
+  });
+}
+
 function activateMode(mode) {
   const normalizedMode = normalizeMode(mode);
   applyContrastMode(normalizedMode);
@@ -110,6 +128,7 @@ export function initContrastControls() {
   }
 
   decorateControls();
+  decorateTranslucentSurfaces();
 
   const initialMode = getSavedMode() ?? 'default';
   activateMode(initialMode);
@@ -121,4 +140,7 @@ export function initContrastControls() {
   window[BOOT_FLAG] = true;
   document.addEventListener('click', handleClick);
   document.addEventListener('keydown', handleKeydown);
+  document.addEventListener('bricks/ajax/end', () => {
+    decorateTranslucentSurfaces();
+  });
 }
