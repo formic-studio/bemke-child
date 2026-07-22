@@ -1343,6 +1343,39 @@ html[data-contrast]:not([data-contrast="default"])
   );
 }
 
+html[data-contrast]:not([data-contrast="default"]) .bemke-back-to-top {
+  background: transparent !important;
+  border: 0 !important;
+  color: var(--a11y-control-text) !important;
+}
+
+html[data-contrast]:not([data-contrast="default"])
+  .bemke-back-to-top__surface,
+html[data-contrast]:not([data-contrast="default"])
+  .bemke-back-to-top.is-on-dark-surface
+  .bemke-back-to-top__surface {
+  fill: var(--a11y-control-bg) !important;
+  fill-opacity: 1;
+}
+
+html[data-contrast]:not([data-contrast="default"])
+  .bemke-back-to-top__border,
+html[data-contrast]:not([data-contrast="default"])
+  .bemke-back-to-top.is-on-dark-surface
+  .bemke-back-to-top__border {
+  stroke: var(--a11y-control-border) !important;
+}
+
+html[data-contrast]:not([data-contrast="default"])
+  .bemke-back-to-top__arrow {
+  stroke: var(--a11y-control-text) !important;
+}
+
+html[data-contrast]:not([data-contrast="default"])
+  .bemke-back-to-top:focus-visible {
+  outline-color: var(--a11y-border) !important;
+}
+
 .bemke-back-to-top:is(:hover, :focus-visible) .bemke-back-to-top__surface {
   fill-opacity: 1;
 }
