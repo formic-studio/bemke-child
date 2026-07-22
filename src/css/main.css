@@ -3179,6 +3179,29 @@ body.is-team-popup-open {
   overflow: hidden;
 }
 
+.team-link {
+  cursor: pointer;
+}
+
+.team-link .img-block img {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.team-link:hover .img-block img,
+.team-link:focus-within .img-block img {
+  transform: scale(1.02);
+}
+
+html[data-bemke-reduced-motion="true"] .team-link .img-block img {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .team-link .img-block img {
+    transition: none;
+  }
+}
+
 .btn-yellow-hover {
   --btn-yellow-bg: var(--yellow, var(--theme-yellow, #f9bb59));
   --btn-yellow-bg-hover: var(--theme-red, #741618);

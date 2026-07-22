@@ -1,5 +1,6 @@
 const TEAM_POPUP_SELECTOR = '.popup-team[data-number]';
 const TEAM_LINK_SELECTOR = '[data-number]:not(.popup-team)';
+const TEAM_CARD_SELECTOR = '.team-link';
 const TEAM_EXIT_SELECTOR = '.exit-button';
 const TEAM_POPUP_READY_ATTR = 'data-bemke-team-popup-ready';
 const TEAM_POPUP_BOOTED_FLAG = '__bemkeTeamPopupBooted';
@@ -8,6 +9,7 @@ const OVERLAY_VISIBLE_CLASS = 'is-visible';
 const POPUP_CLASS = 'bemke-team-popup';
 const POPUP_PORTAL_CLASS = 'bemke-team-popup-portal';
 const POPUP_VISIBLE_CLASS = 'is-visible';
+const TEAM_CARD_CLASS = TEAM_CARD_SELECTOR.slice(1);
 
 let popupMap = new Map();
 let activePopup = null;
@@ -63,6 +65,24 @@ function setupTeamPopupElements(scope = document) {
     }
 
     addPopupByNumber(number, popup);
+  });
+
+  setupTeamCards(scope);
+}
+
+function setupTeamCards(scope) {
+  scope.querySelectorAll(TEAM_LINK_SELECTOR).forEach((link) => {
+    if (link.closest(TEAM_POPUP_SELECTOR)) {
+      return;
+    }
+
+    const number = normalizeNumber(link.dataset.number);
+    if (!getPopupByNumber(number)) {
+      return;
+    }
+
+    const card = link.closest(TEAM_CARD_SELECTOR) ?? link.parentElement;
+    card?.classList.add(TEAM_CARD_CLASS);
   });
 }
 
@@ -123,7 +143,9 @@ function setupTeamPopupLifecycle() {
 }
 
 function handleTeamPopupClick(event) {
+  const card = event.target.closest(TEAM_CARD_SELECTOR);
   const link = event.target.closest(TEAM_LINK_SELECTOR);
+  const trigger = card ?? link;
   const isCloseButton = event.target.closest(TEAM_EXIT_SELECTOR);
 
   if (isCloseButton) {
@@ -136,18 +158,21 @@ function handleTeamPopupClick(event) {
     return;
   }
 
-  if (!link) {
+  if (!trigger) {
     return;
   }
 
-  const number = normalizeNumber(link.dataset.number);
+  const numberSource = trigger.matches(TEAM_LINK_SELECTOR)
+    ? trigger
+    : trigger.querySelector(TEAM_LINK_SELECTOR);
+  const number = normalizeNumber(numberSource?.dataset.number);
   const popup = getPopupByNumber(number);
 
   if (!popup) {
     return;
   }
 
-  if (link.closest('.' + POPUP_CLASS)) {
+  if (trigger.closest('.' + POPUP_CLASS)) {
     return;
   }
 
@@ -159,7 +184,7 @@ function handleTeamPopupClick(event) {
     return;
   }
 
-  openTeamPopup(popup, link);
+  openTeamPopup(popup, trigger);
 }
 
 function handleTeamPopupKeydown(event) {
