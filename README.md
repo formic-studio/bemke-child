@@ -181,8 +181,9 @@ Można w nim dodać i sortować do 6 zestawów zawierających:
 - zdjęcie.
 
 Oba rodzaje danych są dostępne dla Bricks jako Array Query przez dedykowane,
-tylko odczytujące funkcje. Jeśli bieżący darczyńca nie ma żadnego cytatu,
-frontend automatycznie ukrywa `.donners-quote-heading` oraz `.quote-grid`.
+tylko odczytujące funkcje. Jeśli bieżący darczyńca nie ma żadnych liczb ani
+statystyk, frontend automatycznie ukrywa `.donners-number-wrapper`. Przy braku
+cytatów ukrywane są `.donners-quote-heading` oraz `.quote-grid`.
 
 ## Dokumenty Fundacji – powtarzalne pliki
 

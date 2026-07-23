@@ -1447,6 +1447,10 @@ html[data-contrast]:not([data-contrast="default"])
   display: none !important;
 }
 
+.single-darczynca.bemke-donor-stats-empty .donners-number-wrapper {
+  display: none !important;
+}
+
 .single-darczynca.bemke-donor-quotes-empty
   :is(.donners-quote-heading, .quote-grid) {
   display: none !important;
