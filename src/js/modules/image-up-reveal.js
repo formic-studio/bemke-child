@@ -43,9 +43,9 @@ export function initImageUpReveal() {
       gsap.fromTo(
         image,
         {
-          opacity: 0.6,
+          opacity: 0.2,
           willChange: "transform, opacity",
-          y: 10,
+          y: 20,
         },
         {
           duration: REVEAL_DURATION,
