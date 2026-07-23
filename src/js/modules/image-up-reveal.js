@@ -45,7 +45,7 @@ export function initImageUpReveal() {
         {
           opacity: 0.2,
           willChange: "transform, opacity",
-          y: 30,
+          y: 50,
         },
         {
           duration: REVEAL_DURATION,
