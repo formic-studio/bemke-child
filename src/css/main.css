@@ -1447,6 +1447,11 @@ html[data-contrast]:not([data-contrast="default"])
   display: none !important;
 }
 
+.single-darczynca.bemke-donor-quotes-empty
+  :is(.donners-quote-heading, .quote-grid) {
+  display: none !important;
+}
+
 .single-darczynca.bricks-is-frontend
   .social-block
   .social-link:is(:not([href]), [href=""], [href="#"]) {

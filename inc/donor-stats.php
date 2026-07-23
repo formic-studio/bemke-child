@@ -12,6 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 add_action( 'carbon_fields_register_fields', 'bemke_child_register_donor_stats_fields' );
 add_action( 'carbon_fields_register_fields', 'bemke_child_register_donor_quote_fields' );
 add_filter( 'bricks/code/echo_function_names', 'bemke_child_allow_donor_stats_echo_function' );
+add_filter( 'body_class', 'bemke_child_add_donor_quotes_body_class' );
 
 /**
  * Register the repeatable statistics metabox for donor posts.
@@ -255,4 +256,33 @@ function bemke_child_get_donor_quotes_for_bricks( $post_id = 0 ) {
 	$quotes = carbon_get_post_meta( $post_id, 'bemke_donor_quotes' );
 
 	return is_array( $quotes ) ? array_values( $quotes ) : array();
+}
+
+/**
+ * Hide the donor quote heading and grid when no quotes have been added.
+ *
+ * Keep both elements visible in the Bricks builder so the template can still
+ * be edited without adding temporary quote data.
+ *
+ * @param array<int, string> $classes Current body classes.
+ * @return array<int, string>
+ */
+function bemke_child_add_donor_quotes_body_class( $classes ) {
+	if (
+		! is_singular( 'darczynca' ) ||
+		(
+			function_exists( 'bemke_child_is_bricks_builder_request' ) &&
+			bemke_child_is_bricks_builder_request()
+		)
+	) {
+		return $classes;
+	}
+
+	$quotes = bemke_child_get_donor_quotes_for_bricks();
+
+	if ( empty( $quotes ) ) {
+		$classes[] = 'bemke-donor-quotes-empty';
+	}
+
+	return $classes;
 }
