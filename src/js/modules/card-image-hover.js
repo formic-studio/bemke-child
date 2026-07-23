@@ -1,4 +1,4 @@
-const CARD_SELECTOR = ".card, .steam-block";
+const CARD_SELECTOR = ".card, .steam-block, .area-block";
 const WRAPPER_CLASS = "card-image-clip";
 
 function wrapCardImage(media) {

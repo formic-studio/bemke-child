@@ -285,7 +285,7 @@ html[data-bemke-reduced-motion="true"]
   :is(.img-link-block:hover, .img-link-block:focus-within)
   img,
 html[data-bemke-reduced-motion="true"]
-  :is(.card, .steam-block):is(:hover, :focus-within)
+  :is(.card, .steam-block, .area-block):is(:hover, :focus-within)
   .card-image-clip
   img {
   transform: none;
@@ -871,8 +871,8 @@ html[data-contrast]:not([data-contrast="default"]) textarea {
   transform-origin: center;
 }
 
-:is(.card, .steam-block):hover .card-image-clip img,
-:is(.card, .steam-block):focus-within .card-image-clip img {
+:is(.card, .steam-block, .area-block):hover .card-image-clip img,
+:is(.card, .steam-block, .area-block):focus-within .card-image-clip img {
   transform: scale(1.02);
 }
 

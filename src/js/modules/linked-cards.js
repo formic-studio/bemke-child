@@ -1,4 +1,4 @@
-const CARD_SELECTOR = ".steam-block, .card";
+const CARD_SELECTOR = ".steam-block, .card, .area-block";
 const CTA_SELECTOR = "a.btn[href]";
 const INTERACTIVE_SELECTOR =
   'a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])';
