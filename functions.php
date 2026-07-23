@@ -143,15 +143,29 @@ function bemke_child_optimize_frontend_markup( $html ) {
 		$html
 	);
 
-	if ( false === stripos( $html, 'Ksztaltuj-przyszlosc-edukacji.mp4' ) ) {
+	$priority_video_pattern = '/<video\b(?=[^>]*Ksztaltuj-przyszlosc-edukacji\.(?:mp4|webm))[^>]*>/i';
+
+	if ( ! preg_match( $priority_video_pattern, $html, $priority_video_match ) ) {
 		return $html;
 	}
 
-	return preg_replace_callback(
-		'/<video\b(?=[^>]*Ksztaltuj-przyszlosc-edukacji\.mp4)[^>]*>/i',
+	$poster_url = '';
+
+	if (
+		preg_match(
+			'/\sposter\s*=\s*(["\'])([^"\']+)\1/i',
+			$priority_video_match[0],
+			$poster_match
+		)
+	) {
+		$poster_url = $poster_match[2];
+	}
+
+	$html = preg_replace_callback(
+		$priority_video_pattern,
 		function ( $matches ) {
 			$tag = preg_replace_callback(
-				'/\ssrc\s*=\s*(["\'])([^"\']*Ksztaltuj-przyszlosc-edukacji\.mp4[^"\']*)\1/i',
+				'/\ssrc\s*=\s*(["\'])([^"\']*Ksztaltuj-przyszlosc-edukacji\.(?:mp4|webm)[^"\']*)\1/i',
 				function ( $source_matches ) {
 					return ' data-bemke-src="' . esc_url( $source_matches[2] ) . '"';
 				},
@@ -180,10 +194,33 @@ function bemke_child_optimize_frontend_markup( $html ) {
 				$tag = preg_replace( '/>$/', ' data-bemke-autoplay="true">', $tag );
 			}
 
+			if ( false === stripos( $tag, 'data-bemke-priority=' ) ) {
+				$tag = preg_replace( '/>$/', ' data-bemke-priority="high">', $tag );
+			}
+
 			return $tag;
 		},
 		$html
 	);
+
+	if (
+		$poster_url &&
+		false === strpos( $html, 'href="' . esc_url( $poster_url ) . '"' )
+	) {
+		$poster_preload = sprintf(
+			'<link rel="preload" href="%s" as="image" fetchpriority="high">',
+			esc_url( $poster_url )
+		);
+
+		$html = preg_replace(
+			'/<\/head>/i',
+			$poster_preload . "\n</head>",
+			$html,
+			1
+		);
+	}
+
+	return $html;
 }
 
 function bemke_child_optimize_below_fold_images( $attr, $attachment, $size ) {

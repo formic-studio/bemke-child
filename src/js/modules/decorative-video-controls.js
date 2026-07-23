@@ -9,6 +9,7 @@ const videoStates = new WeakMap();
 const decorativeVideos = new Set();
 const VIDEO_START_DELAY_MS = 150;
 const VIDEO_IDLE_TIMEOUT_MS = 800;
+const HIGH_PRIORITY_VALUE = 'high';
 let activationDelayId = null;
 let activationIdleId = null;
 
@@ -75,10 +76,12 @@ function hydrateDeferredVideo(video) {
   }
 
   const state = rememberVideoState(video);
+  const isHighPriority =
+    video.dataset.bemkePriority === HIGH_PRIORITY_VALUE;
 
+  video.preload = isHighPriority ? 'auto' : 'metadata';
   video.src = source;
   delete video.dataset.bemkeSrc;
-  video.preload = 'metadata';
   video.loop = state.loop;
   video.autoplay = state.autoplay;
   video.load();
@@ -89,6 +92,18 @@ function hydrateDeferredVideo(video) {
   }
 
   return true;
+}
+
+function activateHighPriorityVideos() {
+  if (isReducedMotion()) {
+    return;
+  }
+
+  decorativeVideos.forEach((video) => {
+    if (video.dataset.bemkePriority === HIGH_PRIORITY_VALUE) {
+      hydrateDeferredVideo(video);
+    }
+  });
 }
 
 function activateDeferredVideos() {
@@ -180,6 +195,7 @@ function decorateVideo(root) {
 
 export function initDecorativeVideoControls() {
   getDecorativeVideoRoots().forEach(decorateVideo);
+  activateHighPriorityVideos();
   scheduleDeferredVideoActivation();
 
   document.addEventListener(MOTION_CHANGE_EVENT, (event) => {
@@ -194,6 +210,7 @@ export function initDecorativeVideoControls() {
       return;
     }
 
+    activateHighPriorityVideos();
     scheduleDeferredVideoActivation();
   });
 }
