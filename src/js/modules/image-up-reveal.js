@@ -7,7 +7,7 @@ import {
 
 const IMAGE_SELECTOR = "[img-up]";
 const SCROLL_START = "top 95%";
-const REVEAL_DURATION = 1.2;
+const REVEAL_DURATION = 1.6;
 const REVEAL_EASE = "power2.out";
 
 export function initImageUpReveal() {
