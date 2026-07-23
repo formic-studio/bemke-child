@@ -29,6 +29,7 @@ const SNAP_EASE = 'power3.out';
 
 let sliderId = 0;
 const imagePreloads = new Set();
+const pendingImagePreloads = new WeakSet();
 
 export function initProjectSlider() {
   initProjectSliderRoots();
@@ -104,7 +105,7 @@ function createProjectSlider(root) {
   let shouldSuppressClick = false;
 
   root.setAttribute(READY_ATTR, '1');
-  prepareSlides(slides);
+  prepareSlides(slides, activeIndex);
   decorateSlider(root, track, slides);
   bindControls(controls, track, {
     onPause: () => disableAutoplay(),
@@ -291,6 +292,7 @@ function createProjectSlider(root) {
     const distance = getSlideCenter(nextSlide) - getSlideCenter(activeSlide);
     const shouldReduceMotion = isReducedMotion();
 
+    preloadSlideWindow(slides, nextIndex);
     syncSlides(slides, nextIndex);
 
     if (shouldReduceMotion || distance === 0) {
@@ -498,7 +500,7 @@ function createGhostSlide(sourceSlide) {
     node.setAttribute('tabindex', '-1');
   });
 
-  prepareSlideImages(ghost, false);
+  prepareSlideImages(ghost);
 
   return ghost;
 }
@@ -509,11 +511,13 @@ function removeGhostSlides(track) {
   });
 }
 
-function prepareSlides(slides) {
+function prepareSlides(slides, activeIndex) {
   slides.forEach((slide) => {
     rememberFocusableState(slide);
-    prepareSlideImages(slide, true);
+    prepareSlideImages(slide);
   });
+
+  preloadSlideWindow(slides, activeIndex);
 }
 
 function rememberFocusableState(slide) {
@@ -548,28 +552,39 @@ function setSlideInteractivity(slide, isActive) {
   });
 }
 
-function prepareSlideImages(scope, shouldPreload) {
+function prepareSlideImages(scope, shouldPreload = false, isActive = false) {
   scope.querySelectorAll('img').forEach((image) => {
     image.setAttribute('draggable', 'false');
-    image.setAttribute('loading', 'eager');
+    image.setAttribute('loading', shouldPreload ? 'eager' : 'lazy');
     image.setAttribute('decoding', 'async');
+    image.setAttribute('fetchpriority', isActive ? 'auto' : 'low');
     image.draggable = false;
 
     if (shouldPreload) {
-      preloadImage(image);
+      preloadImage(image, isActive ? 'auto' : 'low');
     }
   });
 }
 
-function preloadImage(image) {
+function preloadSlideWindow(slides, activeIndex) {
+  [-1, 0, 1].forEach((offset) => {
+    const slide = slides[wrapIndex(activeIndex + offset, slides.length)];
+
+    if (slide) {
+      prepareSlideImages(slide, true, offset === 0);
+    }
+  });
+}
+
+function preloadImage(image, fetchPriority = 'low') {
   const src = image.currentSrc || image.getAttribute('src') || image.src;
 
-  if (!src || (image.complete && image.naturalWidth > 0)) {
+  if (
+    !src ||
+    pendingImagePreloads.has(image) ||
+    (image.complete && image.naturalWidth > 0)
+  ) {
     return;
-  }
-
-  if (typeof image.decode === 'function') {
-    image.decode().catch(() => {});
   }
 
   const preload = new Image();
@@ -585,8 +600,19 @@ function preloadImage(image) {
   }
 
   preload.decoding = 'async';
-  preload.onload = () => imagePreloads.delete(preload);
-  preload.onerror = () => imagePreloads.delete(preload);
+  preload.fetchPriority = fetchPriority;
+
+  const releasePreload = () => {
+    imagePreloads.delete(preload);
+    pendingImagePreloads.delete(image);
+  };
+
+  preload.onload = () => {
+    releasePreload();
+    image.decode?.().catch(() => {});
+  };
+  preload.onerror = releasePreload;
+  pendingImagePreloads.add(image);
   imagePreloads.add(preload);
   preload.src = src;
 }
