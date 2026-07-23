@@ -1,7 +1,13 @@
 const BLOCK_SELECTOR =
   '.offer-block, .linkedin-block, .donors-block, #brxe-ejpmtj .brxe-aepfcc';
-const LINK_SELECTORS = ['.offer-link', '.donors-block .brxe-text-link'];
+const PRIMARY_LINK_SELECTOR = '.link-block';
+const FALLBACK_LINK_SELECTORS = [
+  '.offer-link',
+  '.donors-block .brxe-text-link',
+];
+const LINK_SELECTORS = [PRIMARY_LINK_SELECTOR, ...FALLBACK_LINK_SELECTORS];
 const LINK_SELECTOR = LINK_SELECTORS.join(', ');
+const FALLBACK_LINK_SELECTOR = FALLBACK_LINK_SELECTORS.join(', ');
 const DEFAULT_ACTIVE_CLASS = 'bg-eggShell';
 const DONORS_ACTIVE_CLASS = 'is-darkcream-hover';
 const BOOT_FLAG = '__bemkeOfferBlockHoverBooted';
@@ -10,8 +16,16 @@ function getOfferBlock(target) {
   return target?.closest?.(BLOCK_SELECTOR) ?? null;
 }
 
+function getOfferLink(target) {
+  return (
+    target?.closest?.(PRIMARY_LINK_SELECTOR) ??
+    target?.closest?.(FALLBACK_LINK_SELECTOR) ??
+    null
+  );
+}
+
 function hasFocusedOfferLink(block) {
-  const focusedLink = document.activeElement?.closest?.(LINK_SELECTOR);
+  const focusedLink = getOfferLink(document.activeElement);
 
   return Boolean(focusedLink && getOfferBlock(focusedLink) === block);
 }
@@ -29,12 +43,12 @@ function setOfferBlockActive(block, active) {
 }
 
 function handlePointerOver(event) {
-  const link = event.target?.closest?.(LINK_SELECTOR);
+  const link = getOfferLink(event.target);
   setOfferBlockActive(getOfferBlock(link), Boolean(link));
 }
 
 function handlePointerOut(event) {
-  const link = event.target?.closest?.(LINK_SELECTOR);
+  const link = getOfferLink(event.target);
   const block = getOfferBlock(link);
 
   if (!block || link.contains(event.relatedTarget) || hasFocusedOfferLink(block)) {
@@ -45,7 +59,7 @@ function handlePointerOut(event) {
 }
 
 function handleFocusIn(event) {
-  const link = event.target?.closest?.(LINK_SELECTOR);
+  const link = getOfferLink(event.target);
   setOfferBlockActive(getOfferBlock(link), Boolean(link));
 }
 
