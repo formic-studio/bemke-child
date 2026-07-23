@@ -39,6 +39,7 @@ function setupTeamPopupElements(scope = document) {
   ensurePopupOverlay();
   ensurePopupPortal();
   restoreContentLeakedIntoPopups(popups);
+  normalizePopupExitButtons(popups);
   movePopupsToPortal(popups);
 
   popups.forEach((popup) => {
@@ -418,6 +419,20 @@ function restoreContentLeakedIntoPopups(popups) {
         sourceParent.insertBefore(element, sourceAnchor);
       });
     });
+  });
+}
+
+function normalizePopupExitButtons(popups) {
+  popups.forEach((popup) => {
+    const exitButton = Array.from(
+      popup.querySelectorAll(TEAM_EXIT_SELECTOR),
+    ).find((button) => button.closest(TEAM_POPUP_SELECTOR) === popup);
+
+    if (!exitButton || exitButton.parentElement === popup) {
+      return;
+    }
+
+    popup.appendChild(exitButton);
   });
 }
 
