@@ -13,7 +13,14 @@ const DONORS_ACTIVE_CLASS = 'is-darkcream-hover';
 const BOOT_FLAG = '__bemkeOfferBlockHoverBooted';
 
 function getOfferBlock(target) {
-  return target?.closest?.(BLOCK_SELECTOR) ?? null;
+  const closestBlock = target?.closest?.(BLOCK_SELECTOR);
+
+  if (closestBlock) {
+    return closestBlock;
+  }
+
+  const linkBlock = target?.closest?.(PRIMARY_LINK_SELECTOR);
+  return linkBlock?.querySelector?.(BLOCK_SELECTOR) ?? null;
 }
 
 function getOfferLink(target) {

@@ -11,8 +11,44 @@ add_action( 'admin_init', 'bemke_handle_linkedin_settings_save' );
 add_action( 'add_meta_boxes', 'bemke_add_linkedin_post_details_meta_box' );
 add_filter( 'manage_linkedin_post_posts_columns', 'bemke_filter_linkedin_post_admin_columns' );
 add_action( 'manage_linkedin_post_posts_custom_column', 'bemke_render_linkedin_post_admin_column', 10, 2 );
+add_filter( 'bricks/element/render_attributes', 'bemke_add_linkedin_loop_link_url', 10, 3 );
 
 const BEMKE_LINKEDIN_WEBHOOK_TOKEN_HASH_OPTION = 'bemke_linkedin_webhook_token_hash';
+
+/**
+ * Restore the LinkedIn URL on the homepage query-loop link.
+ *
+ * The Bricks loop element is an anchor with the ID "xhnjja". When its dynamic
+ * URL setting is empty or cannot resolve the native post meta, Bricks renders
+ * the anchor without an href. The current loop post is available through the
+ * global post object while the element attributes are being rendered.
+ */
+function bemke_add_linkedin_loop_link_url( $attributes, $key, $element ) {
+	if (
+		'_root' !== $key ||
+		! isset( $element->id ) ||
+		'xhnjja' !== $element->id
+	) {
+		return $attributes;
+	}
+
+	global $post;
+
+	if ( ! $post instanceof WP_Post || 'linkedin_post' !== $post->post_type ) {
+		return $attributes;
+	}
+
+	$post_url = esc_url( (string) get_post_meta( $post->ID, 'li_post_url', true ) );
+
+	if ( '' === $post_url ) {
+		return $attributes;
+	}
+
+	$attributes[ $key ]['href'] = $post_url;
+	$attributes[ $key ]['rel']  = 'noopener noreferrer';
+
+	return $attributes;
+}
 
 function bemke_register_linkedin_posts_cpt() {
 	register_post_type(
