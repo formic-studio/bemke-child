@@ -55,7 +55,7 @@ function formatScaleLabel(amount, useMillions = amount >= 1000000) {
 
   if (useMillions) {
     const millions = new Intl.NumberFormat("pl-PL", {
-      maximumFractionDigits: 2,
+      maximumFractionDigits: 0,
     }).format(amount / 1000000);
 
     return `${millions} mln PLN`;
