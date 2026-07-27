@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'BEMKE_FOUNDERS_CAMPAIGN_GOAL', 200000000 );
+define( 'BEMKE_FOUNDERS_CAMPAIGN_DEFAULT_GOAL', 200000000 );
 define( 'BEMKE_FOUNDERS_CAMPAIGN_DEFAULT_AMOUNT', 160000000 );
 
 add_action(
@@ -48,27 +48,43 @@ function bemke_child_register_founders_campaign_fields() {
 				)
 					->set_attribute( 'type', 'number' )
 					->set_attribute( 'min', '0' )
-					->set_attribute(
-						'max',
-						(string) BEMKE_FOUNDERS_CAMPAIGN_GOAL
-					)
 					->set_attribute( 'step', '1' )
 					->set_default_value(
 						(string) BEMKE_FOUNDERS_CAMPAIGN_DEFAULT_AMOUNT
 					)
 					->set_help_text(
 						__(
-							'Wpisz pełną kwotę w złotówkach, bez spacji i skrótu „mln”, np. 160000000. Pasek jest liczony względem stałego celu 200 000 000 PLN.',
+							'Wpisz pełną kwotę w złotówkach, bez spacji i skrótu „mln”, np. 160000000.',
 							'bemke-child'
 						)
 					)
+					->set_width( 50 )
+					->set_required( true ),
+				\Carbon_Fields\Field::make(
+					'text',
+					'bemke_founders_campaign_goal',
+					__( 'Kwota docelowa (PLN)', 'bemke-child' )
+				)
+					->set_attribute( 'type', 'number' )
+					->set_attribute( 'min', '1' )
+					->set_attribute( 'step', '1' )
+					->set_default_value(
+						(string) BEMKE_FOUNDERS_CAMPAIGN_DEFAULT_GOAL
+					)
+					->set_help_text(
+						__(
+							'Wpisz pełną kwotę celu w złotówkach, np. 200000000. Ta wartość odpowiada 100% skali.',
+							'bemke-child'
+						)
+					)
+					->set_width( 50 )
 					->set_required( true ),
 			)
 		);
 }
 
 /**
- * Return the saved amount, constrained to the campaign scale.
+ * Return the saved collected amount.
  *
  * @return int
  */
@@ -85,10 +101,28 @@ function bemke_child_get_founders_campaign_amount() {
 		}
 	}
 
-	return min(
-		BEMKE_FOUNDERS_CAMPAIGN_GOAL,
-		max( 0, $amount )
-	);
+	return max( 0, $amount );
+}
+
+/**
+ * Return the saved campaign goal.
+ *
+ * @return int
+ */
+function bemke_child_get_founders_campaign_goal() {
+	$goal = BEMKE_FOUNDERS_CAMPAIGN_DEFAULT_GOAL;
+
+	if ( function_exists( 'carbon_get_theme_option' ) ) {
+		$saved_goal = carbon_get_theme_option(
+			'bemke_founders_campaign_goal'
+		);
+
+		if ( is_numeric( $saved_goal ) && (float) $saved_goal > 0 ) {
+			$goal = (int) round( (float) $saved_goal );
+		}
+	}
+
+	return max( 1, $goal );
 }
 
 /**
@@ -104,7 +138,7 @@ function bemke_child_add_founders_campaign_frontend_data() {
 		'bemkeFoundersCampaign',
 		array(
 			'currentAmount' => bemke_child_get_founders_campaign_amount(),
-			'goalAmount'    => BEMKE_FOUNDERS_CAMPAIGN_GOAL,
+			'goalAmount'    => bemke_child_get_founders_campaign_goal(),
 		)
 	);
 }

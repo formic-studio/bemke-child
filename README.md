@@ -207,15 +207,15 @@ opublikowanego wpisu tego typu.
 
 ## Kampania Założycielska – postęp zbiórki
 
-Aktualną zebraną kwotę ustawia się w panelu WordPress w:
-`Ustawienia → Kampania Założycielska`. W polu należy wpisać pełną kwotę w PLN,
-bez spacji i skrótu `mln`, np. `160000000`.
+Aktualną zebraną kwotę i cel zbiórki ustawia się w panelu WordPress w:
+`Ustawienia → Kampania Założycielska`. W obu polach należy wpisać pełne kwoty
+w PLN, bez spacji i skrótu `mln`, np. `160000000` oraz `200000000`.
 
-Cel skali jest stały i wynosi `200000000` PLN. Pasek oraz kropka na stronie
-kampanii zaczynają od 0 i animują się do procentu wynikającego z zapisanej
-kwoty. Wartości poniżej 0 i powyżej celu są automatycznie ograniczane do
-zakresu skali. Przy włączonym ograniczeniu ruchu od razu pokazywany jest stan
-końcowy.
+Pasek oraz kropka na stronie kampanii zaczynają od 0 i animują się do procentu
+wynikającego z relacji zebranej kwoty do celu. Pasek nie przekracza 100%, także
+gdy zebrana kwota jest większa niż cel. Przy włączonym ograniczeniu ruchu od
+razu pokazywany jest stan końcowy. Prawa etykieta skali jest automatycznie
+aktualizowana zgodnie z ustawionym celem.
 
 ## Ważne
 

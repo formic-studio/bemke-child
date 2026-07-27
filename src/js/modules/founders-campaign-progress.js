@@ -9,6 +9,8 @@ const WRAPPER_SELECTOR = ".book-money-animation .loading-wrapper";
 const PROGRESS_SELECTOR = ".loading-progress";
 const BAR_SELECTOR = ".progress-bar";
 const DOT_SELECTOR = ".progress-dot";
+const GOAL_LABEL_SELECTOR =
+  ".loading-progress + .brxe-block > .font-size-h4:last-child";
 const PROGRESS_PROPERTY = "--bemke-campaign-progress";
 const SCROLL_START = "top 90%";
 const ANIMATION_DURATION = 2.2;
@@ -33,7 +35,7 @@ function getCampaignAmounts() {
   }
 
   return {
-    currentAmount: clamp(currentAmount, 0, goalAmount),
+    currentAmount: Math.max(currentAmount, 0),
     goalAmount,
   };
 }
@@ -42,6 +44,18 @@ function formatAmount(amount) {
   return new Intl.NumberFormat("pl-PL", {
     maximumFractionDigits: 0,
   }).format(amount);
+}
+
+function formatGoalLabel(amount) {
+  if (amount >= 1000000) {
+    const millions = new Intl.NumberFormat("pl-PL", {
+      maximumFractionDigits: 2,
+    }).format(amount / 1000000);
+
+    return `${millions} mln PLN`;
+  }
+
+  return `${formatAmount(amount)} PLN`;
 }
 
 function setProgress(progressElement, percent) {
@@ -57,13 +71,14 @@ export function initFoundersCampaignProgress() {
   if (!amounts) return;
 
   const { currentAmount, goalAmount } = amounts;
-  const targetPercent = (currentAmount / goalAmount) * 100;
+  const targetPercent = clamp((currentAmount / goalAmount) * 100, 0, 100);
   const entries = [];
 
   document.querySelectorAll(WRAPPER_SELECTOR).forEach((wrapper) => {
     const progressElement = wrapper.querySelector(PROGRESS_SELECTOR);
     const bar = progressElement?.querySelector(BAR_SELECTOR);
     const dot = progressElement?.querySelector(DOT_SELECTOR);
+    const goalLabel = wrapper.querySelector(GOAL_LABEL_SELECTOR);
 
     if (!progressElement || !bar || !dot) return;
 
@@ -90,11 +105,18 @@ export function initFoundersCampaignProgress() {
     );
     progressElement.setAttribute("aria-valuemin", "0");
     progressElement.setAttribute("aria-valuemax", String(goalAmount));
-    progressElement.setAttribute("aria-valuenow", String(currentAmount));
+    progressElement.setAttribute(
+      "aria-valuenow",
+      String(Math.min(currentAmount, goalAmount)),
+    );
     progressElement.setAttribute(
       "aria-valuetext",
       `Zebrano ${formatAmount(currentAmount)} PLN z ${formatAmount(goalAmount)} PLN (${roundedPercent}%)`,
     );
+
+    if (goalLabel) {
+      goalLabel.textContent = formatGoalLabel(goalAmount);
+    }
 
     setProgress(progressElement, 0);
     entries.push(entry);
