@@ -205,6 +205,18 @@ Provider Bricks korzysta z bieżącego wpisu `dokumenty-fundacja`, a na zwykłej
 stronie, np. `/fundacja-bemke`, automatycznie używa ostatnio zmodyfikowanego
 opublikowanego wpisu tego typu.
 
+## Kampania Założycielska – postęp zbiórki
+
+Aktualną zebraną kwotę ustawia się w panelu WordPress w:
+`Ustawienia → Kampania Założycielska`. W polu należy wpisać pełną kwotę w PLN,
+bez spacji i skrótu `mln`, np. `160000000`.
+
+Cel skali jest stały i wynosi `200000000` PLN. Pasek oraz kropka na stronie
+kampanii zaczynają od 0 i animują się do procentu wynikającego z zapisanej
+kwoty. Wartości poniżej 0 i powyżej celu są automatycznie ograniczane do
+zakresu skali. Przy włączonym ograniczeniu ruchu od razu pokazywany jest stan
+końcowy.
+
 ## Ważne
 
 - `dist/` musi być commitowany do repo (to pliki produkcyjne pobierane przez WordPress).

@@ -258,6 +258,19 @@ html[data-bemke-reduced-motion="true"] {
   scroll-behavior: auto !important;
 }
 
+.loading-progress[data-bemke-campaign-progress="ready"] {
+  --bemke-campaign-progress: 0%;
+}
+
+.loading-progress[data-bemke-campaign-progress="ready"] .progress-bar {
+  width: var(--bemke-campaign-progress) !important;
+}
+
+.loading-progress[data-bemke-campaign-progress="ready"] .progress-dot {
+  left: var(--bemke-campaign-progress) !important;
+  transform: translateX(-50%);
+}
+
 html[data-bemke-reduced-motion="true"] *,
 html[data-bemke-reduced-motion="true"] *::before,
 html[data-bemke-reduced-motion="true"] *::after {

@@ -34,6 +34,7 @@ import { initCampusMap } from './modules/campus-map.js';
 import { initBackToTop } from './modules/back-to-top.js';
 import { initImageUpReveal } from './modules/image-up-reveal.js';
 import { initLinkedCards } from './modules/linked-cards.js';
+import { initFoundersCampaignProgress } from './modules/founders-campaign-progress.js';
 
 function initApp() {
   initMotionPreference();
@@ -44,6 +45,7 @@ function initApp() {
   initBackToTop();
   initImageUpReveal();
   initLinkedCards();
+  initFoundersCampaignProgress();
   initCampusMap();
   initHeroIntro();
   initAccordionControls();
