@@ -215,7 +215,8 @@ Pasek oraz kropka na stronie kampanii zaczynają od 0 i animują się do procent
 wynikającego z relacji zebranej kwoty do celu. Pasek nie przekracza 100%, także
 gdy zebrana kwota jest większa niż cel. Przy włączonym ograniczeniu ruchu od
 razu pokazywany jest stan końcowy. Prawa etykieta skali jest automatycznie
-aktualizowana zgodnie z ustawionym celem.
+aktualizowana zgodnie z ustawionym celem. Lewa etykieta animuje się równolegle
+z paskiem od `0 PLN` do aktualnie zebranej kwoty.
 
 ## Ważne
 
