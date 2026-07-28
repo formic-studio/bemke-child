@@ -148,12 +148,6 @@ function createProjectSlider(root) {
       lockedAxis: null,
       dragged: false,
     };
-
-    try {
-      track.setPointerCapture(event.pointerId);
-    } catch {
-      // setPointerCapture can fail when the pointer is already released.
-    }
   });
 
   track.addEventListener('pointermove', (event) => {
@@ -175,6 +169,15 @@ function createProjectSlider(root) {
     }
 
     event.preventDefault();
+
+    if (!track.hasPointerCapture(event.pointerId)) {
+      try {
+        track.setPointerCapture(event.pointerId);
+      } catch {
+        // setPointerCapture can fail when the pointer is already released.
+      }
+    }
+
     pointerState.dragged = true;
     track.classList.add(DRAGGING_CLASS);
     applyOffset(track, pointerState.offset + dx * 0.36);
