@@ -4,6 +4,7 @@ import {
   MOTION_CHANGE_EVENT,
   isReducedMotion,
 } from './motion-preference.js';
+import { FONT_SCALE_CHANGE_EVENT } from './font-size-controls.js';
 
 const ROOT_SELECTOR = '.slider-block';
 const TRACK_SELECTOR = '.slide-wrapper';
@@ -19,6 +20,7 @@ const RESETTING_CLASS = 'is-resetting';
 const DRAGGING_CLASS = 'is-dragging';
 const GHOST_CLASS = 'is-ghost';
 const ORIGINAL_TABINDEX_ATTR = 'data-bemke-original-tabindex';
+const SLIDE_HEIGHT_PROPERTY = '--bemke-project-slide-height';
 
 const ANIMATION_DURATION = 0.9;
 const SNAP_DURATION = 0.45;
@@ -103,6 +105,15 @@ function createProjectSlider(root) {
   let movementTween = null;
   let pointerState = null;
   let shouldSuppressClick = false;
+  let heightFrameId = null;
+
+  const syncSlideHeights = () => {
+    window.cancelAnimationFrame(heightFrameId);
+    heightFrameId = window.requestAnimationFrame(() => {
+      heightFrameId = null;
+      equalizeSlideHeights(root, slides);
+    });
+  };
 
   root.setAttribute(READY_ATTR, '1');
   prepareSlides(slides, activeIndex);
@@ -232,6 +243,7 @@ function createProjectSlider(root) {
       arrangeSlides(track, slides, activeIndex);
       syncSlides(slides, activeIndex);
       currentOffset = recenterActive(root, track, slides[activeIndex], currentOffset);
+      syncSlideHeights();
     }, 120),
   );
 
@@ -240,12 +252,21 @@ function createProjectSlider(root) {
     arrangeSlides(track, slides, activeIndex);
     syncSlides(slides, activeIndex);
     currentOffset = recenterActive(root, track, slides[activeIndex], currentOffset);
+    syncSlideHeights();
   };
 
   arrangeSlides(track, slides, activeIndex);
   syncSlides(slides, activeIndex);
   currentOffset = recenterActive(root, track, slides[activeIndex], currentOffset);
   updateControlsState(controls, isPlaying);
+  syncSlideHeights();
+  root.__bemkeProjectSliderHeightObserver = observeSlideContent(
+    slides,
+    syncSlideHeights,
+  );
+
+  document.fonts?.ready.then(syncSlideHeights).catch(() => {});
+  document.addEventListener(FONT_SCALE_CHANGE_EVENT, syncSlideHeights);
 
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
@@ -378,6 +399,36 @@ function createProjectSlider(root) {
     window.clearInterval(autoplayTimerId);
     autoplayTimerId = null;
   }
+}
+
+function equalizeSlideHeights(root, slides) {
+  root.style.setProperty(SLIDE_HEIGHT_PROPERTY, '0px');
+
+  const maxHeight = slides.reduce(
+    (height, slide) => Math.max(height, slide.getBoundingClientRect().height),
+    0,
+  );
+
+  if (maxHeight > 0) {
+    root.style.setProperty(SLIDE_HEIGHT_PROPERTY, `${Math.ceil(maxHeight)}px`);
+    return;
+  }
+
+  root.style.removeProperty(SLIDE_HEIGHT_PROPERTY);
+}
+
+function observeSlideContent(slides, onResize) {
+  if (!window.ResizeObserver) {
+    return null;
+  }
+
+  const observer = new ResizeObserver(onResize);
+
+  slides.forEach((slide) => {
+    Array.from(slide.children).forEach((child) => observer.observe(child));
+  });
+
+  return observer;
 }
 
 function decorateSlider(root, track, slides) {

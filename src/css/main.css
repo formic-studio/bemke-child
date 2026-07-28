@@ -1717,6 +1717,7 @@ html[data-contrast]:not([data-contrast="default"])
 .slider-block[data-bemke-project-slider-ready="1"] .slide-project {
   flex: 0 0 100%;
   max-width: 100%;
+  min-height: var(--bemke-project-slide-height, auto);
   width: 100%;
 }
 
