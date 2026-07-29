@@ -6,6 +6,8 @@ import {
 } from "./motion-preference.js";
 
 const WRAPPER_SELECTOR = ".section_book-money .loading-wrapper";
+const CAMPAIGN_SECTION_SELECTOR = ".section_book-money";
+const VIDEO_SELECTOR = ".video-book video, video.video-book";
 const PROGRESS_SELECTOR = ".loading-progress";
 const BAR_SELECTOR = ".progress-bar";
 const DOT_SELECTOR = ".progress-dot";
@@ -71,6 +73,31 @@ function setProgress(progressElement, percent) {
   );
 }
 
+function resetVideo(video) {
+  try {
+    video.currentTime = 0;
+  } catch {
+    // The video metadata may not be available yet.
+  }
+}
+
+function prepareCampaignVideo(video) {
+  if (!video) return;
+
+  video.autoplay = false;
+  video.removeAttribute("autoplay");
+  video.pause();
+  resetVideo(video);
+}
+
+function playCampaignVideo(video) {
+  if (!video || isReducedMotion()) return;
+
+  resetVideo(video);
+  const playPromise = video.play();
+  playPromise?.catch?.(() => {});
+}
+
 export function initFoundersCampaignProgress() {
   const amounts = getCampaignAmounts();
 
@@ -86,8 +113,13 @@ export function initFoundersCampaignProgress() {
     const dot = progressElement?.querySelector(DOT_SELECTOR);
     const currentLabel = wrapper.querySelector(CURRENT_LABEL_SELECTOR);
     const goalLabel = wrapper.querySelector(GOAL_LABEL_SELECTOR);
+    const video = wrapper
+      .closest(CAMPAIGN_SECTION_SELECTOR)
+      ?.querySelector(VIDEO_SELECTOR);
 
     if (!progressElement || !bar || !dot) return;
+
+    prepareCampaignVideo(video);
 
     const roundedPercent = Math.round(targetPercent * 10) / 10;
     const state = { amount: 0, percent: 0 };
@@ -96,6 +128,7 @@ export function initFoundersCampaignProgress() {
       progressElement,
       state,
       tween: null,
+      video,
     };
 
     const renderState = () => {
@@ -165,6 +198,7 @@ export function initFoundersCampaignProgress() {
           return;
         }
 
+        playCampaignVideo(entry.video);
         entry.tween = gsap.to(entry.state, {
           amount: currentAmount,
           percent: targetPercent,
@@ -189,6 +223,7 @@ export function initFoundersCampaignProgress() {
     entries.forEach((entry) => {
       entry.tween?.kill();
       entry.tween = null;
+      entry.video?.pause();
       entry.showFinalState();
     });
   });
