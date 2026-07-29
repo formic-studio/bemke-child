@@ -5,7 +5,7 @@ import {
   isReducedMotion,
 } from "./motion-preference.js";
 
-const WRAPPER_SELECTOR = ".book-money-animation .loading-wrapper";
+const WRAPPER_SELECTOR = ".section_book-money .loading-wrapper";
 const PROGRESS_SELECTOR = ".loading-progress";
 const BAR_SELECTOR = ".progress-bar";
 const DOT_SELECTOR = ".progress-dot";
