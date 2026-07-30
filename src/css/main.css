@@ -2827,6 +2827,11 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     list-style: none;
   }
 
+  /* Flex links discard whitespace between Bricks' split label nodes. */
+  #brx-header #brxe-vhhhdt .bricks-mobile-menu a {
+    display: block;
+  }
+
   #brx-header #brxe-vhhhdt .bricks-mobile-menu > li {
     border-bottom: 1px solid
       color-mix(
@@ -2842,11 +2847,21 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     #brxe-vhhhdt
     .bricks-mobile-menu
     > li
-    > :is(.brx-submenu-toggle, a) {
+    > .brx-submenu-toggle {
     align-items: center;
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
+    min-height: 7rem;
+    width: 100%;
+  }
+
+  #brx-header
+    #brxe-vhhhdt
+    .bricks-mobile-menu
+    > li
+    > a {
+    box-sizing: border-box;
     min-height: 7rem;
     width: 100%;
   }
