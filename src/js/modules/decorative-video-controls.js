@@ -10,8 +10,12 @@ const decorativeVideos = new Set();
 const VIDEO_START_DELAY_MS = 150;
 const VIDEO_IDLE_TIMEOUT_MS = 800;
 const HIGH_PRIORITY_VALUE = 'high';
+const MOBILE_QUERY = '(max-width: 767px)';
+const MOBILE_ACTIVATION_EVENTS = ['pointerdown', 'touchstart', 'keydown'];
+const mobileQuery = window.matchMedia(MOBILE_QUERY);
 let activationDelayId = null;
 let activationIdleId = null;
+let mobileActivationArmed = false;
 
 function rememberVideoState(video) {
   if (videoStates.has(video)) {
@@ -163,6 +167,76 @@ function cancelDeferredVideoActivation() {
   }
 }
 
+function hasConstrainedConnection() {
+  const connection =
+    navigator.connection ||
+    navigator.mozConnection ||
+    navigator.webkitConnection;
+
+  return (
+    connection?.saveData ||
+    connection?.effectiveType === 'slow-2g' ||
+    connection?.effectiveType === '2g'
+  );
+}
+
+function removeMobileActivationListeners() {
+  if (!mobileActivationArmed) {
+    return;
+  }
+
+  mobileActivationArmed = false;
+  MOBILE_ACTIVATION_EVENTS.forEach((eventName) => {
+    window.removeEventListener(eventName, activateMobileVideos);
+  });
+}
+
+function activateMobileVideos() {
+  removeMobileActivationListeners();
+
+  if (
+    !mobileQuery.matches ||
+    isReducedMotion() ||
+    hasConstrainedConnection()
+  ) {
+    return;
+  }
+
+  activateHighPriorityVideos();
+  scheduleDeferredVideoActivation();
+}
+
+function armMobileVideoActivation() {
+  if (
+    mobileActivationArmed ||
+    isReducedMotion() ||
+    hasConstrainedConnection() ||
+    !Array.from(decorativeVideos).some((video) => video.dataset.bemkeSrc)
+  ) {
+    return;
+  }
+
+  mobileActivationArmed = true;
+  MOBILE_ACTIVATION_EVENTS.forEach((eventName) => {
+    window.addEventListener(eventName, activateMobileVideos, {
+      once: true,
+      passive: true,
+    });
+  });
+}
+
+function startVideoActivation() {
+  if (mobileQuery.matches) {
+    cancelDeferredVideoActivation();
+    armMobileVideoActivation();
+    return;
+  }
+
+  removeMobileActivationListeners();
+  activateHighPriorityVideos();
+  scheduleDeferredVideoActivation();
+}
+
 function getDecorativeVideoRoots() {
   return Array.from(document.querySelectorAll(ROOT_SELECTOR));
 }
@@ -195,8 +269,7 @@ function decorateVideo(root) {
 
 export function initDecorativeVideoControls() {
   getDecorativeVideoRoots().forEach(decorateVideo);
-  activateHighPriorityVideos();
-  scheduleDeferredVideoActivation();
+  startVideoActivation();
 
   document.addEventListener(MOTION_CHANGE_EVENT, (event) => {
     const reduced = Boolean(event.detail?.reduced);
@@ -207,10 +280,14 @@ export function initDecorativeVideoControls() {
 
     if (reduced) {
       cancelDeferredVideoActivation();
+      removeMobileActivationListeners();
       return;
     }
 
-    activateHighPriorityVideos();
-    scheduleDeferredVideoActivation();
+    startVideoActivation();
+  });
+
+  mobileQuery.addEventListener('change', () => {
+    startVideoActivation();
   });
 }

@@ -80,8 +80,8 @@ function bemke_child_preload_critical_fonts() {
 	$uploads  = wp_get_upload_dir();
 	$font_url = trailingslashit( $uploads['baseurl'] ) . '2026/05/';
 	$fonts    = array(
+		'SeasonMix-RegularItalic.woff2',
 		'SeasonSans-Regular.woff2',
-		'SeasonSans-Medium.woff2',
 	);
 
 	foreach ( $fonts as $font ) {
@@ -145,17 +145,15 @@ function bemke_child_start_frontend_optimization_buffer() {
 }
 
 function bemke_child_optimize_frontend_markup( $html ) {
-	$html = str_replace(
-		array(
-			'font-family:"Season Sans";font-weight:400;font-display:swap;',
-			'font-family:"Season Sans";font-weight:500;font-display:swap;',
-		),
-		array(
-			'font-family:"Season Sans";font-weight:400;font-display:block;',
-			'font-family:"Season Sans";font-weight:500;font-display:block;',
-		),
+	$optimized_html = preg_replace(
+		'/background-image\s*:\s*url\([^)]*FotoFullScreen-scaled\.webp[^)]*\)\s*;?/i',
+		'',
 		$html
 	);
+
+	if ( null !== $optimized_html ) {
+		$html = $optimized_html;
+	}
 
 	$priority_video_pattern = '/<video\b(?=[^>]*Ksztaltuj-przyszlosc-edukacji\.(?:mp4|webm))[^>]*>/i';
 

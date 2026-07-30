@@ -65,6 +65,12 @@ function setupHeroIntro(hero) {
   const supplementary = getSupplementaryText(heading);
   const elements = [heading, supplementary].filter(Boolean);
   const isMobile = window.matchMedia(MOBILE_QUERY).matches;
+
+  if (isMobile) {
+    markHeroComplete(hero);
+    return;
+  }
+
   const state = {
     elements,
     finished: false,

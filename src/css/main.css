@@ -310,20 +310,22 @@ html[data-bemke-reduced-motion="true"]
   }
 }
 
-html[data-bemke-frontend="true"]:not(
-    [data-bemke-reduced-motion="true"]
-  )
-  .section_hero:not([data-bemke-hero-intro-ready="1"])
-  h1,
-html[data-bemke-frontend="true"]:not(
-    [data-bemke-reduced-motion="true"]
-  )
-  .section_hero:not([data-bemke-hero-intro-ready="1"])
-  .brxe-container
-  .padding-global
-  > .brxe-text-basic {
-  animation: bemke-hero-intro-failsafe 0.01s linear 2.5s forwards;
-  opacity: 0;
+@media (min-width: 768px) {
+  html[data-bemke-frontend="true"]:not(
+      [data-bemke-reduced-motion="true"]
+    )
+    .section_hero:not([data-bemke-hero-intro-ready="1"])
+    h1,
+  html[data-bemke-frontend="true"]:not(
+      [data-bemke-reduced-motion="true"]
+    )
+    .section_hero:not([data-bemke-hero-intro-ready="1"])
+    .brxe-container
+    .padding-global
+    > .brxe-text-basic {
+    animation: bemke-hero-intro-failsafe 0.01s linear 2.5s forwards;
+    opacity: 0;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
