@@ -1868,6 +1868,18 @@ html[data-contrast]:not([data-contrast="default"])
 }
 
 @media screen and (max-width: 767px) {
+  .slider-block[data-bemke-team-slider-ready="1"] {
+    margin-inline-start: calc(50% - 50vw) !important;
+    max-width: none !important;
+    width: 100vw !important;
+  }
+
+  .slider-block[data-bemke-team-slider-ready="1"] > .slider-wrapper {
+    box-sizing: border-box;
+    padding-inline-start: var(--padding-vertical-mobile, 3.2rem) !important;
+    padding-inline-end: var(--padding-vertical-mobile, 3.2rem) !important;
+  }
+
   .slider-block[data-bemke-team-slider-ready="1"]
     > .slider-wrapper
     > .team-link {
