@@ -20,6 +20,18 @@ add_action( 'wp_head', 'bemke_child_preload_critical_fonts', 2 );
 add_action( 'wp_enqueue_scripts', 'bemke_child_enqueue_assets', 20 );
 add_action( 'template_redirect', 'bemke_child_start_frontend_optimization_buffer', 0 );
 add_filter( 'wp_get_attachment_image_attributes', 'bemke_child_optimize_below_fold_images', 100, 3 );
+add_filter( 'nav_menu_item_title', 'bemke_child_normalize_nav_menu_item_title' );
+
+/**
+ * Replace Unicode line/paragraph separators pasted into menu labels.
+ *
+ * Safari on iOS can render these separators without any visible spacing.
+ */
+function bemke_child_normalize_nav_menu_item_title( $title ) {
+	$normalized_title = preg_replace( '/[\x{2028}\x{2029}]+/u', ' ', $title );
+
+	return null === $normalized_title ? $title : $normalized_title;
+}
 
 function bemke_child_print_theme_color() {
 	if ( bemke_child_is_bricks_builder_request() ) {
