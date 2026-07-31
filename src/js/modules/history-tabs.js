@@ -128,6 +128,7 @@ function createHistoryTabs(root, tabsBlock) {
   updateHeights(slideWrapper, slides, imageWrapper, images);
 
   root.setAttribute(READY_ATTR, '1');
+  updateTablistRightBleed(tabsBlock);
   sync(activeNumber, 1, true);
 
   tabs.forEach((tab) => {
@@ -158,12 +159,14 @@ function createHistoryTabs(root, tabsBlock) {
   window.addEventListener(
     'resize',
     debounce(() => {
+      updateTablistRightBleed(tabsBlock);
       updateHeights(slideWrapper, slides, imageWrapper, images);
       sync(activeNumber, 1, true);
     }, 120),
   );
 
   root.__bemkeHistoryTabsRefresh = () => {
+    updateTablistRightBleed(tabsBlock);
     updateHeights(slideWrapper, slides, imageWrapper, images);
     sync(activeNumber, 1, true);
   };
@@ -205,6 +208,20 @@ function createHistoryTabs(root, tabsBlock) {
       arrangeActiveItems(imageTrack, images, nextNumber, true);
     }, ANIMATION_MS + 80);
   }
+}
+
+function updateTablistRightBleed(tablist) {
+  tablist.style.setProperty('--history-tabs-right-bleed', '0px');
+
+  const viewportWidth =
+    document.documentElement.clientWidth || window.innerWidth;
+  const rightEdge = tablist.getBoundingClientRect().right;
+  const rightBleed = Math.max(0, Math.floor(viewportWidth - rightEdge));
+
+  tablist.style.setProperty(
+    '--history-tabs-right-bleed',
+    `${rightBleed}px`,
+  );
 }
 
 function setupScrollableTabList(tablist) {

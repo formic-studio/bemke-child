@@ -1951,11 +1951,22 @@ html[data-contrast]:not([data-contrast="default"])
 }
 
 [data-bemke-history-tabs-ready="1"] .tabs-block[role="tablist"] {
+  -ms-overflow-style: none;
   -webkit-overflow-scrolling: touch;
+  max-width: none !important;
   overflow-x: auto !important;
   overflow-y: hidden !important;
   overscroll-behavior-inline: contain;
+  scrollbar-width: none;
   touch-action: pan-x pan-y;
+  width: calc(100% + var(--history-tabs-right-bleed, 0px)) !important;
+}
+
+[data-bemke-history-tabs-ready="1"]
+  .tabs-block[role="tablist"]::-webkit-scrollbar {
+  display: none;
+  height: 0;
+  width: 0;
 }
 
 [data-bemke-history-tabs-ready="1"]
@@ -1986,8 +1997,6 @@ html[data-contrast]:not([data-contrast="default"])
 
   [data-bemke-history-tabs-ready="1"] .tabs-block[role="tablist"] {
     contain: inline-size;
-    max-width: 100% !important;
-    width: 100% !important;
   }
 
   [data-bemke-history-tabs-ready="1"]
