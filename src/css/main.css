@@ -1489,6 +1489,14 @@ html[data-contrast]:not([data-contrast="default"])
   .brx-grid > :nth-child(even) > .donors-block.link-block {
     background-color: var(--darkcream, #fff3e0) !important;
   }
+
+  .link-block:nth-of-type(odd) > .linkedin-block {
+    background-color: var(--white, #fffdfb) !important;
+  }
+
+  .link-block:nth-of-type(even) > .linkedin-block {
+    background-color: var(--darkcream, #fff3e0) !important;
+  }
 }
 
 @media screen and (max-width: 767px) and (hover: hover) and (pointer: fine) {
@@ -1496,6 +1504,10 @@ html[data-contrast]:not([data-contrast="default"])
     > :nth-child(odd)
     > .donors-block.link-block.is-darkcream-hover {
     background-color: var(--darkcream, #fff3e0) !important;
+  }
+
+  .link-block > .linkedin-block.bg-eggShell {
+    background-color: var(--eggshell, #ffe9c6) !important;
   }
 }
 
