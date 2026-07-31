@@ -1514,6 +1514,37 @@ html[data-contrast]:not([data-contrast="default"])
     position: absolute;
     z-index: -1;
   }
+
+  .brx-grid > :nth-child(n) > .donors-block.link-block,
+  .link-block > .linkedin-block {
+    position: relative;
+  }
+
+  .brx-grid
+    > :nth-child(n):has(> .donors-block.link-block)
+    > .divider-thin
+    .line,
+  .link-block > .linkedin-block {
+    border-top-color: transparent !important;
+  }
+
+  .brx-grid > :nth-child(n) > .donors-block.link-block::after,
+  .link-block > .linkedin-block::after {
+    content: "";
+    inset-inline: calc(50% - 50vw);
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+  }
+
+  .brx-grid > :nth-child(n) > .donors-block.link-block::after {
+    border-top: 1px solid var(--yellow, #f9bb59);
+  }
+
+  .link-block > .linkedin-block::after {
+    border-top: 0.5px solid var(--yellow, #f9bb59);
+  }
 }
 
 @media screen and (max-width: 767px) and (hover: hover) and (pointer: fine) {
