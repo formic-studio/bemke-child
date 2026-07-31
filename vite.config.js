@@ -14,9 +14,14 @@ export default defineConfig(({ mode }) => {
       lib: {
         entry: resolve(__dirname, 'src/js/main.js'),
         name: 'BemkeChild',
-        formats: ['iife'],
+        formats: ['es'],
         fileName: () => 'main.min.js',
         cssFileName: 'main.min',
+      },
+      rollupOptions: {
+        output: {
+          chunkFileNames: 'chunks/[name]-[hash].js',
+        },
       },
     },
   };

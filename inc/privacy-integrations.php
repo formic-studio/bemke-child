@@ -15,12 +15,22 @@ add_filter( 'script_loader_tag', 'bemke_child_apply_cookiebot_script_markup', 10
 function bemke_child_apply_cookiebot_script_markup( $tag, $handle, $src = '' ) {
 	$original_tag = $tag;
 
-	if ( ! bemke_child_cookiebot_is_active() ) {
+	if ( 'bemke-child-main' === $handle ) {
+		$tag = bemke_child_set_script_type( $tag, 'module' );
+
+		if ( bemke_child_cookiebot_is_active() ) {
+			$tag = bemke_child_add_script_data_attribute(
+				$tag,
+				'data-cookieconsent',
+				'ignore'
+			);
+		}
+
 		return $tag;
 	}
 
-	if ( 'bemke-child-main' === $handle ) {
-		return bemke_child_add_script_data_attribute( $tag, 'data-cookieconsent', 'ignore' );
+	if ( ! bemke_child_cookiebot_is_active() ) {
+		return $tag;
 	}
 
 	$is_google_maps = 'bricks-google-maps' === $handle
@@ -54,6 +64,28 @@ function bemke_child_apply_cookiebot_script_markup( $tag, $handle, $src = '' ) {
 	);
 
 	return preg_replace( '/<script\b/i', '<script type="text/plain"', $tag, 1 ) ?: $tag;
+}
+
+function bemke_child_set_script_type( $tag, $type ) {
+	$updated_tag = preg_replace(
+		'/\s+type\s*=\s*(?:"[^"]*"|\'[^\']*\'|[^\s>]+)/i',
+		'',
+		$tag,
+		1
+	);
+
+	if ( null === $updated_tag ) {
+		return $tag;
+	}
+
+	$updated_tag = preg_replace(
+		'/<script\b/i',
+		'<script type="' . esc_attr( $type ) . '"',
+		$updated_tag,
+		1
+	);
+
+	return null === $updated_tag ? $tag : $updated_tag;
 }
 
 function bemke_child_cookiebot_is_active() {

@@ -25,6 +25,8 @@ bemke-child/
 │   └── css/main.css
 ├── dist/
 │   ├── main.min.js
+│   ├── chunks/
+│   │   └── *.js
 │   └── main.min.css
 ├── package.json
 └── vite.config.js
@@ -53,7 +55,23 @@ npm run build
 `functions.php` ładuje:
 
 - `dist/main.min.css`
-- `dist/main.min.js` (`defer`)
+- `dist/main.min.js` jako moduł ES (`type="module"`)
+
+`main.min.js` zawiera tylko kod wspólny dla każdej podstrony. Pozostałe
+funkcje są budowane do `dist/chunks/` i pobierane dopiero wtedy, gdy na bieżącej
+stronie istnieje obsługiwany komponent. Dotyczy to m.in. sliderów, tabsów,
+map, formularzy, popupów zespołu, liczników i animacji GSAP. Wybrane moduły są
+dodatkowo ograniczone breakpointem, np. menu desktopowe nie jest pobierane na
+telefonie.
+
+Podział jest oparty przede wszystkim na obecności komponentu w DOM, a nie na
+sztywnej liście adresów URL. Dzięki temu ten sam komponent działa również po
+przeniesieniu go na inną stronę w Bricks. Błąd pojedynczego opcjonalnego modułu
+jest izolowany i nie zatrzymuje pozostałych funkcji strony.
+
+Przy każdym wdrożeniu trzeba przesłać **cały katalog `dist/`**, łącznie z
+`dist/chunks/`. Sam plik `main.min.js` nie wystarczy, ponieważ nazwy chunków
+zawierają hash aktualnego buildu.
 
 ## Cookiebot – ręczne blokowanie
 
@@ -245,5 +263,6 @@ z paskiem od `0 PLN` do aktualnie zebranej kwoty.
 ## Ważne
 
 - `dist/` musi być commitowany do repo (to pliki produkcyjne pobierane przez WordPress).
+- Nie wolno pomijać `dist/chunks/` podczas aktualizacji motywu.
 - `Template: bricks` w `style.css` musi odpowiadać nazwie folderu parent theme.
  
