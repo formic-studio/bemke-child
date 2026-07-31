@@ -1514,10 +1514,13 @@ html[data-contrast]:not([data-contrast="default"])
           .tabs-block[role="tablist"]
         )
     ) {
-    align-self: center !important;
-    justify-self: center !important;
-    margin-inline: auto !important;
+    align-self: flex-start !important;
+    inset-inline-start: 50%;
+    justify-self: start !important;
+    margin-inline: 0 !important;
     max-width: calc(100vw - (2 * var(--padding-vertical-mobile, 3.2rem)));
+    position: relative;
+    translate: -50% 0;
   }
 }
 
