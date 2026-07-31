@@ -1480,38 +1480,27 @@ html[data-contrast]:not([data-contrast="default"])
     pointer-events: none;
   }
 
-  /* Keep section titles centred while only the adjacent scroller goes full bleed. */
+  /* Keep text above full-bleed sliders centred inside the mobile viewport. */
   main
-    :is(.brxe-block, .brxe-container):has(
-      > :is(
+    :is(.brxe-block, .brxe-container)
+    > :is(h1, h2, h3, h4, h5, h6, .brxe-heading, .brxe-text-basic):has(
+      ~ :is(
           [data-bemke-horizontal-scroll-gutters="1"],
           .slider:not(.slider-thinktank)[data-bemke-slider-ready="1"],
           .slider-block[data-bemke-team-slider-ready="1"],
           .tabs-block[role="tablist"]
         )
-    )
-    > :is(
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6,
-        .brxe-heading,
-        .brxe-text-basic:is(
-            .font-size-display,
-            .font-size-h1,
-            .font-size-h2,
-            .font-size-h3,
-            .font-size-h4
-          )
-      ) {
+    ) {
     align-self: stretch !important;
     box-sizing: border-box;
-    margin-inline: auto !important;
-    max-width: 100% !important;
+    margin-inline: calc(50% - 50vw) !important;
+    max-width: 100vw !important;
+    overflow-wrap: anywhere;
+    padding-inline: var(--padding-vertical-mobile, 3.2rem);
     text-align: center !important;
-    width: 100% !important;
+    text-wrap: balance;
+    white-space: normal !important;
+    width: 100vw !important;
   }
 }
 
