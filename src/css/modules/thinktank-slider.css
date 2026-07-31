@@ -383,7 +383,7 @@
   }
 
   .slider-thinktank .slider-wrapper {
-    height: clamp(360px, 122vw, 470px);
+    height: 340px;
     perspective: none;
   }
 
