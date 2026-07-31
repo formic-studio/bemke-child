@@ -1951,6 +1951,10 @@ html[data-contrast]:not([data-contrast="default"])
 }
 
 [data-bemke-history-tabs-ready="1"] .tabs-block[role="tablist"] {
+  --history-tabs-right-bleed: calc(
+    var(--padding-vertical, 4rem) +
+      max(0px, calc(50vw - 960px))
+  );
   -ms-overflow-style: none;
   -webkit-overflow-scrolling: touch;
   max-width: none !important;
@@ -2003,6 +2007,12 @@ html[data-contrast]:not([data-contrast="default"])
     .tabs-block[role="tablist"]
     > .tab[role="tab"] {
     padding: 8px 24px !important;
+  }
+}
+
+@media (max-width: 767px) {
+  [data-bemke-history-tabs-ready="1"] .tabs-block[role="tablist"] {
+    --history-tabs-right-bleed: var(--padding-vertical-mobile, 3.2rem);
   }
 }
 
