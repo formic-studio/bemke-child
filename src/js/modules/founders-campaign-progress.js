@@ -7,7 +7,8 @@ import {
 
 const WRAPPER_SELECTOR = ".section_book-money .loading-wrapper";
 const CAMPAIGN_SECTION_SELECTOR = ".section_book-money";
-const VIDEO_SELECTOR = ".video-book video, video.video-book";
+const VIDEO_SELECTOR =
+  ".book-money-animation video, .video-book video, video.video-book";
 const PROGRESS_SELECTOR = ".loading-progress";
 const BAR_SELECTOR = ".progress-bar";
 const DOT_SELECTOR = ".progress-dot";

@@ -92,14 +92,12 @@ function bemke_child_preload_critical_fonts() {
 }
 
 function bemke_child_enqueue_assets() {
-	$css_rel_path             = '/dist/main.min.css';
-	$js_rel_path              = '/dist/main.min.js';
-	$campaign_ios_img_rel_path = '/src/media/campaign-book-ios.png';
+	$css_rel_path = '/dist/main.min.css';
+	$js_rel_path  = '/dist/main.min.js';
 
-	$css_abs_path              = get_stylesheet_directory() . $css_rel_path;
-	$js_abs_path               = get_stylesheet_directory() . $js_rel_path;
-	$campaign_ios_img_abs_path = get_stylesheet_directory() . $campaign_ios_img_rel_path;
-	$is_builder                = bemke_child_is_bricks_builder_request();
+	$css_abs_path = get_stylesheet_directory() . $css_rel_path;
+	$js_abs_path  = get_stylesheet_directory() . $js_rel_path;
+	$is_builder   = bemke_child_is_bricks_builder_request();
 
 	if ( file_exists( $css_abs_path ) ) {
 		wp_enqueue_style(
@@ -108,19 +106,6 @@ function bemke_child_enqueue_assets() {
 			array(),
 			filemtime( $css_abs_path )
 		);
-
-		if ( file_exists( $campaign_ios_img_abs_path ) ) {
-			$campaign_ios_img_url = add_query_arg(
-				'ver',
-				filemtime( $campaign_ios_img_abs_path ),
-				get_stylesheet_directory_uri() . $campaign_ios_img_rel_path
-			);
-
-			wp_add_inline_style(
-				'bemke-child-main',
-				':root{--bemke-campaign-book-ios:url(' . wp_json_encode( $campaign_ios_img_url ) . ');}'
-			);
-		}
 
 		if ( $is_builder ) {
 			wp_add_inline_style(
@@ -181,6 +166,63 @@ function bemke_child_optimize_frontend_markup( $html ) {
 
 		if ( null !== $updated_html ) {
 			$html = $updated_html;
+		}
+	}
+
+	if ( is_page( 'kampania-zalozycielska' ) ) {
+		$campaign_alpha_rel_path = '/src/media/campaign-book-ios.mov';
+		$campaign_alpha_abs_path = get_stylesheet_directory() . $campaign_alpha_rel_path;
+
+		if ( file_exists( $campaign_alpha_abs_path ) ) {
+			$campaign_alpha_url = add_query_arg(
+				'ver',
+				filemtime( $campaign_alpha_abs_path ),
+				get_stylesheet_directory_uri() . $campaign_alpha_rel_path
+			);
+
+			$campaign_video_pattern = '/<video\b(?=[^>]*\bsrc\s*=\s*(["\'])[^"\']*Comp-6\.webm[^"\']*\1)[^>]*>/i';
+			$updated_html           = preg_replace_callback(
+				$campaign_video_pattern,
+				function ( $matches ) use ( $campaign_alpha_url ) {
+					$video_tag = $matches[0];
+
+					if (
+						! preg_match(
+							'/\ssrc\s*=\s*(["\'])([^"\']*Comp-6\.webm[^"\']*)\1/i',
+							$video_tag,
+							$webm_source
+						)
+					) {
+						return $video_tag;
+					}
+
+					$video_tag = preg_replace(
+						'/\ssrc\s*=\s*(["\'])[^"\']*Comp-6\.webm[^"\']*\1/i',
+						'',
+						$video_tag,
+						1
+					);
+
+					$video_tag = preg_replace(
+						'/>$/',
+						' data-bemke-alpha-sources="ready">',
+						$video_tag,
+						1
+					);
+
+					return $video_tag . sprintf(
+						'<source src="%1$s" type="video/quicktime; codecs=hvc1"><source src="%2$s" type="video/webm; codecs=vp9">',
+						esc_url( $campaign_alpha_url ),
+						esc_url( $webm_source[2] )
+					);
+				},
+				$html,
+				1
+			);
+
+			if ( null !== $updated_html ) {
+				$html = $updated_html;
+			}
 		}
 	}
 
