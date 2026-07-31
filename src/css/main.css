@@ -1480,6 +1480,25 @@ html[data-contrast]:not([data-contrast="default"])
   background-color: var(--darkcream);
 }
 
+/* Alternate download-card backgrounds on both mobile breakpoints. */
+@media screen and (max-width: 767px) {
+  .brx-grid > :nth-child(odd) > .donors-block.link-block {
+    background-color: var(--white, #fffdfb) !important;
+  }
+
+  .brx-grid > :nth-child(even) > .donors-block.link-block {
+    background-color: var(--darkcream, #fff3e0) !important;
+  }
+}
+
+@media screen and (max-width: 767px) and (hover: hover) and (pointer: fine) {
+  .brx-grid
+    > :nth-child(odd)
+    > .donors-block.link-block.is-darkcream-hover {
+    background-color: var(--darkcream, #fff3e0) !important;
+  }
+}
+
 .single-darczynca.bemke-donor-video-empty .video-block {
   display: none !important;
 }
