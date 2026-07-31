@@ -1659,6 +1659,38 @@ html[data-contrast]:not([data-contrast="default"])
     position: relative;
     translate: -50% 0;
   }
+
+  /* A full-bleed image slider may be followed by a centred copy block. Bricks
+     can give that block `align-self: center !important`, which offsets a
+     100%-wide flex item by half of the mobile gutter. Keep the copy inside the
+     regular padding instead. */
+  main#brx-content
+    .padding-global
+    > .brxe-block:has(> .slider > .slider-wrapper)
+    + .brxe-block {
+    align-self: stretch !important;
+    margin-inline: 0 !important;
+    max-width: 100% !important;
+    width: auto !important;
+  }
+}
+
+/* In a two-column copy grid, keep a divider placed between two text blocks in
+   the same (content) column instead of letting grid auto-placement move it to
+   the empty column on the left. */
+@media (min-width: 768px) {
+  .grid-2x1:has(> .brxe-divider:nth-child(3):nth-last-child(2))
+    > .brxe-divider:nth-child(3) {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .grid-2x1:has(> .brxe-divider:nth-child(3):nth-last-child(2))
+    > .brxe-divider:nth-child(3)
+    + * {
+    grid-column: 2;
+    grid-row: 3;
+  }
 }
 
 .offer-block,
