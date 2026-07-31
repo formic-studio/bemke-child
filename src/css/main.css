@@ -1891,6 +1891,35 @@ html[data-contrast]:not([data-contrast="default"])
   }
 }
 
+/*
+ * Keep every mobile slider control the same size as the project-slider
+ * pagination at the bottom of the homepage. Individual slider modules use
+ * smaller responsive sizes, and flex containers may otherwise shrink the
+ * controls when horizontal space is limited.
+ */
+@media screen and (max-width: 767px) {
+  .slider-paggination.brxe-block {
+    flex-wrap: nowrap !important;
+  }
+
+  .slider-paggination.brxe-block .arrow.brxe-block {
+    block-size: 48px !important;
+    box-sizing: border-box;
+    flex: 0 0 48px !important;
+    height: 48px !important;
+    inline-size: 48px !important;
+    max-block-size: 48px !important;
+    max-height: 48px !important;
+    max-inline-size: 48px !important;
+    max-width: 48px !important;
+    min-block-size: 48px !important;
+    min-height: 48px !important;
+    min-inline-size: 48px !important;
+    min-width: 48px !important;
+    width: 48px !important;
+  }
+}
+
 [data-bemke-history-tabs-ready="1"] .history-img-wrapper,
 [data-bemke-history-tabs-ready="1"] .history-slide-wrapper {
   overflow: hidden;
