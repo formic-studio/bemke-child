@@ -16,8 +16,10 @@ const ACTIVE_TAB_CLASS = 'tab-active';
 const ACTIVE_ITEM_CLASS = 'is-active';
 const TRACK_CLASS = 'history-tabs-track';
 const TRACK_IMMEDIATE_CLASS = 'is-immediate';
+const TABLIST_DRAGGING_CLASS = 'is-dragging';
 
 const ANIMATION_MS = 980;
+const TABLIST_DRAG_THRESHOLD = 6;
 
 let instanceId = 0;
 const imagePreloads = new Set();
@@ -121,6 +123,7 @@ function createHistoryTabs(root, tabsBlock) {
   resetAnimatedItems(images);
   decorateTabs(tabsBlock, tabs, tabsByNumber, slidesByNumber, numbers, instanceId);
   decoratePanels(slides, images, instanceId);
+  setupScrollableTabList(tabsBlock);
   updateHeights(slideWrapper, slides, imageWrapper, images);
 
   root.setAttribute(READY_ATTR, '1');
@@ -184,6 +187,11 @@ function createHistoryTabs(root, tabsBlock) {
   function sync(nextNumber, direction, instant, previousNumber = nextNumber) {
     window.clearTimeout(transitionTimerId);
     syncTabs(tabs, nextNumber);
+    revealActiveTab(
+      tabsBlock,
+      tabsByNumber.get(nextNumber)?.[0],
+      instant || isReducedMotion(),
+    );
     syncTrack(slideTrack, slides, previousNumber, nextNumber, direction, instant);
     syncTrack(imageTrack, images, previousNumber, nextNumber, direction, instant);
 
@@ -196,6 +204,173 @@ function createHistoryTabs(root, tabsBlock) {
       arrangeActiveItems(imageTrack, images, nextNumber, true);
     }, ANIMATION_MS + 80);
   }
+}
+
+function setupScrollableTabList(tablist) {
+  let pointerState = null;
+  let ignoreClickUntil = 0;
+
+  const hasHorizontalOverflow = () =>
+    tablist.scrollWidth > tablist.clientWidth + 1;
+
+  const finishDrag = (event) => {
+    if (!pointerState || event.pointerId !== pointerState.id) {
+      return;
+    }
+
+    const wasDragged = pointerState.dragged;
+
+    if (tablist.hasPointerCapture?.(event.pointerId)) {
+      tablist.releasePointerCapture(event.pointerId);
+    }
+
+    pointerState = null;
+    tablist.classList.remove(TABLIST_DRAGGING_CLASS);
+
+    if (wasDragged) {
+      ignoreClickUntil = Date.now() + 300;
+    }
+  };
+
+  tablist.addEventListener('pointerdown', (event) => {
+    if (
+      event.pointerType !== 'mouse' ||
+      event.button !== 0 ||
+      !event.isPrimary ||
+      !hasHorizontalOverflow()
+    ) {
+      return;
+    }
+
+    pointerState = {
+      dragged: false,
+      id: event.pointerId,
+      lockedAxis: null,
+      scrollLeft: tablist.scrollLeft,
+      startX: event.clientX,
+      startY: event.clientY,
+    };
+  });
+
+  tablist.addEventListener('pointermove', (event) => {
+    if (!pointerState || event.pointerId !== pointerState.id) {
+      return;
+    }
+
+    const deltaX = event.clientX - pointerState.startX;
+    const deltaY = event.clientY - pointerState.startY;
+    const absX = Math.abs(deltaX);
+    const absY = Math.abs(deltaY);
+
+    if (
+      !pointerState.lockedAxis &&
+      (absX > TABLIST_DRAG_THRESHOLD || absY > TABLIST_DRAG_THRESHOLD)
+    ) {
+      pointerState.lockedAxis = absX > absY ? 'x' : 'y';
+    }
+
+    if (pointerState.lockedAxis !== 'x') {
+      return;
+    }
+
+    event.preventDefault();
+    pointerState.dragged = true;
+    tablist.classList.add(TABLIST_DRAGGING_CLASS);
+
+    if (!tablist.hasPointerCapture(event.pointerId)) {
+      try {
+        tablist.setPointerCapture(event.pointerId);
+      } catch {
+        // Pointer capture can fail when the pointer has already been released.
+      }
+    }
+
+    tablist.scrollLeft = pointerState.scrollLeft - deltaX;
+  });
+
+  tablist.addEventListener('pointerup', finishDrag);
+  tablist.addEventListener('pointercancel', finishDrag);
+
+  tablist.addEventListener(
+    'click',
+    (event) => {
+      if (Date.now() >= ignoreClickUntil) {
+        return;
+      }
+
+      event.preventDefault();
+      event.stopPropagation();
+    },
+    true,
+  );
+
+  tablist.addEventListener(
+    'wheel',
+    (event) => {
+      if (!hasHorizontalOverflow()) {
+        return;
+      }
+
+      const absDeltaX = Math.abs(event.deltaX);
+      const absDeltaY = Math.abs(event.deltaY);
+      const rawDelta =
+        absDeltaX > absDeltaY
+          ? event.deltaX
+          : absDeltaX < 0.5
+            ? event.deltaY
+            : 0;
+      const deltaMultiplier =
+        event.deltaMode === WheelEvent.DOM_DELTA_LINE
+          ? 32
+          : event.deltaMode === WheelEvent.DOM_DELTA_PAGE
+            ? tablist.clientWidth
+            : 1;
+      const delta = rawDelta * deltaMultiplier;
+
+      if (!delta) {
+        return;
+      }
+
+      const maxScrollLeft = tablist.scrollWidth - tablist.clientWidth;
+      const nextScrollLeft = Math.min(
+        maxScrollLeft,
+        Math.max(0, tablist.scrollLeft + delta),
+      );
+
+      if (Math.abs(nextScrollLeft - tablist.scrollLeft) < 1) {
+        return;
+      }
+
+      event.preventDefault();
+      tablist.scrollLeft = nextScrollLeft;
+    },
+    { passive: false },
+  );
+}
+
+function revealActiveTab(tablist, tab, instant) {
+  if (!tab || tablist.scrollWidth <= tablist.clientWidth + 1) {
+    return;
+  }
+
+  const tablistRect = tablist.getBoundingClientRect();
+  const tabRect = tab.getBoundingClientRect();
+  let offset = 0;
+
+  if (tabRect.left < tablistRect.left) {
+    offset = tabRect.left - tablistRect.left;
+  } else if (tabRect.right > tablistRect.right) {
+    offset = tabRect.right - tablistRect.right;
+  }
+
+  if (!offset) {
+    return;
+  }
+
+  tablist.scrollBy({
+    behavior: instant ? 'auto' : 'smooth',
+    left: offset,
+  });
 }
 
 function setupTrack(wrapper, items, modifier) {
@@ -332,6 +507,7 @@ function getRoot(tabsBlock) {
 
 function decorateTabs(tabsBlock, tabs, tabsByNumber, slidesByNumber, numbers, id) {
   tabsBlock.setAttribute('role', 'tablist');
+  tabsBlock.setAttribute('aria-orientation', 'horizontal');
 
   tabs.forEach((tab) => {
     const number = getTabNumber(tab);
