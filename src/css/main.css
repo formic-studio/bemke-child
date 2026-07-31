@@ -271,6 +271,24 @@ html[data-bemke-reduced-motion="true"] {
   transform: translateX(-50%);
 }
 
+/* iOS renders the VP9 alpha channel in the campaign WebM as solid black. */
+@supports (-webkit-touch-callout: none) {
+  @media screen and (max-width: 767px) {
+    .section_book-money {
+      isolation: isolate;
+    }
+
+    .section_book-money .video-book,
+    .section_book-money .video-book video {
+      background-color: transparent !important;
+    }
+
+    .section_book-money .video-book video {
+      mix-blend-mode: lighten;
+    }
+  }
+}
+
 html[data-bemke-reduced-motion="true"] *,
 html[data-bemke-reduced-motion="true"] *::before,
 html[data-bemke-reduced-motion="true"] *::after {
