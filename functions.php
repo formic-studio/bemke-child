@@ -6,6 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 require_once get_stylesheet_directory() . '/inc/linkedin-posts.php';
 require_once get_stylesheet_directory() . '/inc/instagram-feed.php';
 require_once get_stylesheet_directory() . '/inc/getresponse.php';
+require_once get_stylesheet_directory() . '/inc/privacy-integrations.php';
 require_once get_stylesheet_directory() . '/inc/donor-stats.php';
 require_once get_stylesheet_directory() . '/inc/donor-video.php';
 require_once get_stylesheet_directory() . '/inc/foundation-documents.php';
@@ -47,7 +48,7 @@ function bemke_child_print_motion_preference() {
 		return;
 	}
 	?>
-	<script id="bemke-motion-preference">
+	<script id="bemke-motion-preference" data-cookieconsent="ignore">
 		(function () {
 			document.documentElement.setAttribute('data-bemke-frontend', 'true');
 
@@ -145,6 +146,8 @@ function bemke_child_start_frontend_optimization_buffer() {
 }
 
 function bemke_child_optimize_frontend_markup( $html ) {
+	$html = bemke_child_prepare_manual_consent_markup( $html );
+
 	$optimized_html = preg_replace(
 		'/background-image\s*:\s*url\([^)]*FotoFullScreen-scaled\.webp[^)]*\)\s*;?/i',
 		'',

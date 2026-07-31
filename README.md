@@ -55,6 +55,30 @@ npm run build
 - `dist/main.min.css`
 - `dist/main.min.js` (`defer`)
 
+## Cookiebot – ręczne blokowanie
+
+Wtyczka Cookiebot powinna mieć ustawione:
+
+- `Cookie-blocking`: `Manual`,
+- `Cookiebot script tag`: `async`,
+- `Hide cookie popup`: wyłączone.
+
+Child theme ręcznie oznacza Google Maps jako treść `marketing`, pozostawia
+lokalny plakat filmu YouTube widoczny przed zgodą i ładuje odtwarzacz dopiero
+po zgodzie. Adres osadzenia YouTube jest automatycznie zmieniany na
+`youtube-nocookie.com`. Własny bundle `bemke-child-main` jest oznaczony jako
+`data-cookieconsent="ignore"`, ponieważ nie zawiera trackerów i jest potrzebny
+do działania dostępności oraz placeholderów zgody.
+
+Formularz GetResponse nie ładuje kodu GetResponse w przeglądarce. Wysyłka
+odbywa się serwerowo dopiero po wysłaniu formularza i zaakceptowaniu jego pól
+zgody, dlatego formularza nie należy dodatkowo uzależniać od zgody Cookiebota.
+
+Jeśli później zostanie dodany Google Tag Manager, nie należy wklejać drugiego
+niezależnego Cookiebota ani oznaczać całego GTM jako `ignore`. GTM trzeba
+podłączyć przez integrację Cookiebota/Google Consent Mode i ustawić wymagania
+zgody osobno dla poszczególnych tagów.
+
 ## Ograniczenie animacji
 
 Przełącznik „Ogranicz animacje” zapisuje wybór użytkownika w przeglądarce i

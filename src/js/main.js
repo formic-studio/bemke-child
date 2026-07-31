@@ -36,6 +36,7 @@ import { initBackToTop } from './modules/back-to-top.js';
 import { initImageUpReveal } from './modules/image-up-reveal.js';
 import { initLinkedCards } from './modules/linked-cards.js';
 import { initFoundersCampaignProgress } from './modules/founders-campaign-progress.js';
+import { initPrivacyConsentEmbeds } from './modules/consent-embeds.js';
 
 function initApp() {
   initMotionPreference();
@@ -47,6 +48,7 @@ function initApp() {
   initImageUpReveal();
   initLinkedCards();
   initFoundersCampaignProgress();
+  initPrivacyConsentEmbeds();
   initCampusMap();
   initHeroIntro();
   initAccordionControls();
