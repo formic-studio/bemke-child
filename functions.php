@@ -155,6 +155,20 @@ function bemke_child_optimize_frontend_markup( $html ) {
 		$html = $optimized_html;
 	}
 
+	if ( is_page( 'fundacja-campus-bemke' ) ) {
+		$responsive_cta = '<span class="bemke-responsive-label bemke-responsive-label--desktop">Sprawdź możliwości rozwoju</span><span class="bemke-responsive-label bemke-responsive-label--mobile">Możliwości rozwoju</span>';
+		$updated_html   = preg_replace(
+			'/(?<=>)Sprawdź możliwości rozwoju(?=<\/a>)/u',
+			$responsive_cta,
+			$html,
+			1
+		);
+
+		if ( null !== $updated_html ) {
+			$html = $updated_html;
+		}
+	}
+
 	$priority_video_pattern = '/<video\b(?=[^>]*Ksztaltuj-przyszlosc-edukacji\.(?:mp4|webm))[^>]*>/i';
 
 	if ( ! preg_match( $priority_video_pattern, $html, $priority_video_match ) ) {

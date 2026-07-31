@@ -455,6 +455,20 @@ html[data-bemke-reduced-motion="true"]
   width: 1px;
 }
 
+.bemke-responsive-label--mobile {
+  display: none;
+}
+
+@media screen and (max-width: 767px) {
+  .bemke-responsive-label--desktop {
+    display: none;
+  }
+
+  .bemke-responsive-label--mobile {
+    display: inline;
+  }
+}
+
 .slider.slider-text-wrapper[data-bemke-text-slider-ready="1"] {
   overflow: hidden;
 }
