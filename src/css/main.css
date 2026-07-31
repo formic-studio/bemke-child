@@ -271,20 +271,28 @@ html[data-bemke-reduced-motion="true"] {
   transform: translateX(-50%);
 }
 
-/* iOS renders the VP9 alpha channel in the campaign WebM as solid black. */
+/* Safari on iOS renders the campaign WebM's VP9 alpha channel as solid black. */
 @supports (-webkit-touch-callout: none) {
   @media screen and (max-width: 767px) {
-    .section_book-money {
-      isolation: isolate;
-    }
-
-    .section_book-money .video-book,
-    .section_book-money .video-book video {
+    .section_book-money .book-money-animation > .brxe-video {
+      aspect-ratio: 1;
       background-color: transparent !important;
     }
 
-    .section_book-money .video-book video {
-      mix-blend-mode: lighten;
+    .section_book-money .book-money-animation > .brxe-video > video {
+      display: none !important;
+    }
+
+    .section_book-money .book-money-animation > .brxe-video::before {
+      background-color: transparent;
+      background-image: var(--bemke-campaign-book-ios);
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+      content: "";
+      display: block;
+      height: 100%;
+      width: 100%;
     }
   }
 }

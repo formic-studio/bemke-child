@@ -92,12 +92,14 @@ function bemke_child_preload_critical_fonts() {
 }
 
 function bemke_child_enqueue_assets() {
-	$css_rel_path = '/dist/main.min.css';
-	$js_rel_path  = '/dist/main.min.js';
+	$css_rel_path             = '/dist/main.min.css';
+	$js_rel_path              = '/dist/main.min.js';
+	$campaign_ios_img_rel_path = '/src/media/campaign-book-ios.png';
 
-	$css_abs_path = get_stylesheet_directory() . $css_rel_path;
-	$js_abs_path  = get_stylesheet_directory() . $js_rel_path;
-	$is_builder   = bemke_child_is_bricks_builder_request();
+	$css_abs_path              = get_stylesheet_directory() . $css_rel_path;
+	$js_abs_path               = get_stylesheet_directory() . $js_rel_path;
+	$campaign_ios_img_abs_path = get_stylesheet_directory() . $campaign_ios_img_rel_path;
+	$is_builder                = bemke_child_is_bricks_builder_request();
 
 	if ( file_exists( $css_abs_path ) ) {
 		wp_enqueue_style(
@@ -106,6 +108,19 @@ function bemke_child_enqueue_assets() {
 			array(),
 			filemtime( $css_abs_path )
 		);
+
+		if ( file_exists( $campaign_ios_img_abs_path ) ) {
+			$campaign_ios_img_url = add_query_arg(
+				'ver',
+				filemtime( $campaign_ios_img_abs_path ),
+				get_stylesheet_directory_uri() . $campaign_ios_img_rel_path
+			);
+
+			wp_add_inline_style(
+				'bemke-child-main',
+				':root{--bemke-campaign-book-ios:url(' . wp_json_encode( $campaign_ios_img_url ) . ');}'
+			);
+		}
 
 		if ( $is_builder ) {
 			wp_add_inline_style(
