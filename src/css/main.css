@@ -1957,13 +1957,15 @@ html[data-contrast]:not([data-contrast="default"])
   );
   -ms-overflow-style: none;
   -webkit-overflow-scrolling: touch;
+  align-self: stretch;
+  margin-inline-end: calc(0px - var(--history-tabs-right-bleed, 0px));
   max-width: none !important;
   overflow-x: auto !important;
   overflow-y: hidden !important;
   overscroll-behavior-inline: contain;
   scrollbar-width: none;
   touch-action: pan-x pan-y;
-  width: calc(100% + var(--history-tabs-right-bleed, 0px)) !important;
+  width: auto !important;
 }
 
 [data-bemke-history-tabs-ready="1"]
