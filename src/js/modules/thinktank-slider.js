@@ -8,6 +8,7 @@ import {
   isReducedMotion,
 } from "./motion-preference.js";
 import { FONT_SCALE_CHANGE_EVENT } from "./font-size-controls.js";
+import { bindTouchSwipeFallback } from "./touch-swipe-fallback.js";
 
 const SELECTORS = {
   root: ".slider-thinktank",
@@ -438,6 +439,21 @@ function createSlider(root) {
       return;
     }
 
+    const touchSwipeFallback = bindTouchSwipeFallback(surface, {
+      onMove: () => {
+        surface.classList.add("is-dragging");
+      },
+      onSwipe: ({ direction }) => {
+        surface.classList.remove("is-dragging");
+        queueMove(direction, 1, true);
+        ignoreClickUntil = Date.now() + 260;
+      },
+      onCancel: () => {
+        surface.classList.remove("is-dragging");
+      },
+      threshold: 46,
+    });
+
     surface.addEventListener("pointerdown", (event) => {
       if (event.pointerType === "mouse" && event.button !== 0) {
         return;
@@ -492,9 +508,14 @@ function createSlider(root) {
       const shouldMove =
         pointerState.moved && Math.abs(dx) > 46 && Math.abs(dx) > Math.abs(dy);
       const activeSurface = pointerState.surface;
+      const wasMoved = pointerState.moved;
 
       pointerState = null;
       activeSurface.classList.remove("is-dragging");
+
+      if (wasMoved) {
+        touchSwipeFallback.markPointerHandled();
+      }
 
       if (!shouldMove) {
         return;

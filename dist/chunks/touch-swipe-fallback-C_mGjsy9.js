@@ -74,4 +74,75 @@ function c(e) {
 	].filter(Boolean).join(" ").toLowerCase();
 }
 //#endregion
-export { n, t as r, e as t };
+//#region src/js/modules/touch-swipe-fallback.js
+var l = 8, u = 500;
+function d(e, { canStart: t, onCancel: n, onMove: r, onStart: i, onSwipe: a, threshold: o = 46 } = {}) {
+	if (!e) return { markPointerHandled() {} };
+	let s = -Infinity, c = null;
+	return e.addEventListener("touchstart", (e) => {
+		if (c || e.touches.length !== 1 || t?.() === !1) return;
+		let n = e.touches[0];
+		c = {
+			context: i?.(e) ?? null,
+			identifier: n.identifier,
+			lastX: n.clientX,
+			lastY: n.clientY,
+			lockedAxis: null,
+			moved: !1,
+			startX: n.clientX,
+			startY: n.clientY
+		};
+	}, { passive: !0 }), e.addEventListener("touchmove", (e) => {
+		if (!c) return;
+		let t = f(e.touches, c.identifier);
+		if (!t) return;
+		c.lastX = t.clientX, c.lastY = t.clientY;
+		let n = t.clientX - c.startX, i = t.clientY - c.startY, a = Math.abs(n), o = Math.abs(i);
+		!c.lockedAxis && (a > l || o > l) && (c.lockedAxis = a > o ? "x" : "y"), c.lockedAxis === "x" && (e.cancelable && e.preventDefault(), c.moved = !0, r?.({
+			context: c.context,
+			dx: n,
+			dy: i,
+			event: e
+		}));
+	}, { passive: !1 }), e.addEventListener("touchend", (e) => {
+		if (!c) return;
+		let t = f(e.changedTouches, c.identifier) ?? {
+			clientX: c.lastX,
+			clientY: c.lastY
+		}, r = c, i = t.clientX - r.startX, l = t.clientY - r.startY, d = performance.now() - s < u;
+		if (c = null, !d) {
+			if (r.moved && Math.abs(i) > o && Math.abs(i) > Math.abs(l)) {
+				a?.({
+					context: r.context,
+					direction: i < 0 ? 1 : -1,
+					dx: i,
+					dy: l,
+					event: e
+				});
+				return;
+			}
+			n?.({
+				context: r.context,
+				dx: i,
+				dy: l,
+				event: e
+			});
+		}
+	}, { passive: !0 }), e.addEventListener("touchcancel", (e) => {
+		if (!c) return;
+		let t = c;
+		c = null, performance.now() - s >= u && n?.({
+			context: t.context,
+			dx: 0,
+			dy: 0,
+			event: e
+		});
+	}, { passive: !0 }), { markPointerHandled: () => {
+		s = performance.now();
+	} };
+}
+function f(e, t) {
+	return Array.from(e ?? []).find((e) => e.identifier === t);
+}
+//#endregion
+export { t as i, e as n, n as r, d as t };

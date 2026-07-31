@@ -1,5 +1,6 @@
 import { gsap } from 'gsap';
 import { bindSliderControl, getSliderControls } from './slider-controls.js';
+import { bindTouchSwipeFallback } from './touch-swipe-fallback.js';
 import {
   MOTION_CHANGE_EVENT,
   isReducedMotion,
@@ -106,6 +107,33 @@ function createTeamSlider(root, track) {
     onNext: () => queueMove(1, true),
   });
 
+  const touchSwipeFallback = bindTouchSwipeFallback(track, {
+    canStart: () => !isAnimating,
+    onStart: () => {
+      movementTween?.kill();
+      gsap.killTweensOf(track);
+    },
+    onMove: ({ dx }) => {
+      const step = getSlideStep(track);
+      const dragOffset = clamp(dx * 0.5, -step * 0.8, step * 0.8);
+
+      track.classList.add(DRAGGING_CLASS);
+      applyOffset(track, dragOffset);
+    },
+    onSwipe: ({ direction }) => {
+      const dragOffset = getRenderedOffset(track);
+
+      track.classList.remove(DRAGGING_CLASS);
+      shouldSuppressClick = true;
+      queueMove(direction, true, dragOffset);
+    },
+    onCancel: () => {
+      track.classList.remove(DRAGGING_CLASS);
+      snapToStart(track);
+    },
+    threshold: SWIPE_THRESHOLD,
+  });
+
   root.addEventListener('keydown', (event) => {
     if (isFormControl(event.target)) {
       return;
@@ -190,9 +218,14 @@ function createTeamSlider(root, track) {
       Math.abs(dx) > SWIPE_THRESHOLD &&
       Math.abs(dx) > Math.abs(dy);
     const dragOffset = getRenderedOffset(track);
+    const wasDragged = pointerState.dragged;
 
     pointerState = null;
     track.classList.remove(DRAGGING_CLASS);
+
+    if (wasDragged) {
+      touchSwipeFallback.markPointerHandled();
+    }
 
     if (shouldMove) {
       shouldSuppressClick = true;

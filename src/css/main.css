@@ -1826,6 +1826,13 @@ html[data-contrast]:not([data-contrast="default"])
   will-change: transform, opacity;
 }
 
+/* Bricks can emit `.slide.brxe-block { pointer-events: none; }`. The active
+   card must remain a hit target so touch events can bubble to the track. */
+.slider:not(.slider-thinktank)[data-bemke-slider-ready="1"]
+  .slide[aria-hidden="false"]:not(.is-ghost) {
+  pointer-events: auto !important;
+}
+
 .slider:not(.slider-thinktank)[data-bemke-slider-ready="1"]
   .slide[slide-active="1"] {
   opacity: 1;
@@ -1998,6 +2005,14 @@ html[data-contrast]:not([data-contrast="default"])
   max-width: 100%;
   min-height: var(--bemke-project-slide-height, auto);
   width: 100%;
+}
+
+.slider-block[data-bemke-project-slider-ready="1"]
+  .slide-project[aria-hidden="false"]:not(.is-ghost),
+.slider-block[data-bemke-team-slider-ready="1"]
+  > .slider-wrapper
+  > .team-link[aria-hidden="false"] {
+  pointer-events: auto !important;
 }
 
 .slider-block[data-bemke-project-slider-ready="1"] .slide-project img {
