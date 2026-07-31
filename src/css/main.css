@@ -3875,6 +3875,13 @@ html[data-bemke-reduced-motion="true"] .team-link .img-block img {
   }
 }
 
+.brxe-button.btn {
+  align-items: center !important;
+  display: inline-flex;
+  justify-content: center !important;
+  text-align: center;
+}
+
 .btn-yellow-hover {
   --btn-yellow-bg: var(--yellow, var(--theme-yellow, #f9bb59));
   --btn-yellow-bg-hover: var(--theme-red, #741618);
