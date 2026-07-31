@@ -446,11 +446,14 @@ html[data-bemke-reduced-motion="true"]
 }
 
 .bemke-sr-only {
+  border: 0;
   clip: rect(0 0 0 0);
   clip-path: inset(50%);
   height: 1px;
+  margin: -1px;
   overflow: hidden;
-  position: absolute;
+  padding: 0;
+  position: absolute !important;
   white-space: nowrap;
   width: 1px;
 }
@@ -3873,13 +3876,6 @@ html[data-bemke-reduced-motion="true"] .team-link .img-block img {
   .team-link .img-block img {
     transition: none;
   }
-}
-
-.brxe-button.btn {
-  align-items: center !important;
-  display: inline-flex;
-  justify-content: center !important;
-  text-align: center;
 }
 
 .btn-yellow-hover {
