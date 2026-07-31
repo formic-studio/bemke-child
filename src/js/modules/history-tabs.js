@@ -17,6 +17,7 @@ const ACTIVE_ITEM_CLASS = 'is-active';
 const TRACK_CLASS = 'history-tabs-track';
 const TRACK_IMMEDIATE_CLASS = 'is-immediate';
 const TABLIST_DRAGGING_CLASS = 'is-dragging';
+const CONTENT_CLASS = 'history-tabs-content';
 
 const ANIMATION_MS = 980;
 const TABLIST_DRAG_THRESHOLD = 6;
@@ -508,6 +509,7 @@ function getRoot(tabsBlock) {
 function decorateTabs(tabsBlock, tabs, tabsByNumber, slidesByNumber, numbers, id) {
   tabsBlock.setAttribute('role', 'tablist');
   tabsBlock.setAttribute('aria-orientation', 'horizontal');
+  tabsBlock.parentElement?.classList.add(CONTENT_CLASS);
 
   tabs.forEach((tab) => {
     const number = getTabNumber(tab);

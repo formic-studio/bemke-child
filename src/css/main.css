@@ -1952,23 +1952,49 @@ html[data-contrast]:not([data-contrast="default"])
 
 [data-bemke-history-tabs-ready="1"] .tabs-block[role="tablist"] {
   -webkit-overflow-scrolling: touch;
-  flex-wrap: nowrap !important;
-  justify-content: flex-start !important;
-  max-width: 100%;
-  min-width: 0;
   overflow-x: auto !important;
   overflow-y: hidden !important;
   overscroll-behavior-inline: contain;
   touch-action: pan-x pan-y;
-  width: 100%;
 }
 
 [data-bemke-history-tabs-ready="1"]
   .tabs-block[role="tablist"]
   > .tab[role="tab"] {
   flex-shrink: 0 !important;
-  min-width: max-content;
   white-space: nowrap;
+}
+
+@media (max-width: 991px) {
+  .section_history {
+    overflow-x: clip;
+  }
+
+  .section_history .brx-grid,
+  .section_history .brx-grid > * {
+    min-width: 0 !important;
+  }
+
+  .section_history .brx-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    padding-bottom: 0 !important;
+  }
+
+  .section_history .history-tabs-content {
+    row-gap: 9.6rem !important;
+  }
+
+  [data-bemke-history-tabs-ready="1"] .tabs-block[role="tablist"] {
+    contain: inline-size;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  [data-bemke-history-tabs-ready="1"]
+    .tabs-block[role="tablist"]
+    > .tab[role="tab"] {
+    padding: 8px 24px !important;
+  }
 }
 
 [data-bemke-history-tabs-ready="1"]
