@@ -383,14 +383,16 @@
   }
 
   .slider-thinktank .slider-wrapper {
-    height: 340px;
+    box-sizing: border-box;
+    height: calc(340px + 2.4rem);
+    padding-block: 1.2rem;
     perspective: none;
   }
 
   .slider-thinktank .slide-thinktank {
     width: min(86vw, 360px) !important;
     max-width: min(86vw, 360px) !important;
-    height: 100% !important;
+    height: 340px !important;
     transform-style: flat;
   }
 
