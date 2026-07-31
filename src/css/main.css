@@ -1502,6 +1502,23 @@ html[data-contrast]:not([data-contrast="default"])
     white-space: normal !important;
     width: 100vw !important;
   }
+
+  /* Keep compact CTA buttons above those sliders centred without stretching them. */
+  main
+    :is(.brxe-block, .brxe-container)
+    > :is(.brxe-button, .bricks-button, .btn):has(
+      ~ :is(
+          [data-bemke-horizontal-scroll-gutters="1"],
+          .slider:not(.slider-thinktank)[data-bemke-slider-ready="1"],
+          .slider-block[data-bemke-team-slider-ready="1"],
+          .tabs-block[role="tablist"]
+        )
+    ) {
+    align-self: center !important;
+    justify-self: center !important;
+    margin-inline: auto !important;
+    max-width: calc(100vw - (2 * var(--padding-vertical-mobile, 3.2rem)));
+  }
 }
 
 .offer-block,

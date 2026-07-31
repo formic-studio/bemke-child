@@ -7,6 +7,7 @@ const CANDIDATE_SELECTOR = [
 ].join(', ');
 const SCROLL_VALUES = new Set(['auto', 'scroll']);
 const FLEX_VALUES = new Set(['flex', 'inline-flex']);
+const LAYOUT_WRAPPER_SELECTOR = '.padding-global, .brxe-container';
 
 let resizeTimer = null;
 
@@ -26,6 +27,7 @@ function resetScroller(scroller) {
 
 function isHorizontalFlexScroller(scroller, styles) {
   return (
+    !scroller.matches(LAYOUT_WRAPPER_SELECTOR) &&
     FLEX_VALUES.has(styles.display) &&
     !styles.flexDirection.startsWith('column') &&
     SCROLL_VALUES.has(styles.overflowX) &&
