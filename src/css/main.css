@@ -1479,6 +1479,40 @@ html[data-contrast]:not([data-contrast="default"])
     margin-inline-start: calc(var(--bemke-scroll-gap) * -1);
     pointer-events: none;
   }
+
+  /* Keep section titles centred while only the adjacent scroller goes full bleed. */
+  main
+    :is(.brxe-block, .brxe-container):has(
+      > :is(
+          [data-bemke-horizontal-scroll-gutters="1"],
+          .slider:not(.slider-thinktank)[data-bemke-slider-ready="1"],
+          .slider-block[data-bemke-team-slider-ready="1"],
+          .tabs-block[role="tablist"]
+        )
+    )
+    > :is(
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        .brxe-heading,
+        .brxe-text-basic:is(
+            .font-size-display,
+            .font-size-h1,
+            .font-size-h2,
+            .font-size-h3,
+            .font-size-h4
+          )
+      ) {
+    align-self: stretch !important;
+    box-sizing: border-box;
+    margin-inline: auto !important;
+    max-width: 100% !important;
+    text-align: center !important;
+    width: 100% !important;
+  }
 }
 
 .offer-block,
