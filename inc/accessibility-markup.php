@@ -162,15 +162,7 @@ function bemke_child_repair_footer_social_links( $html ) {
 				array( 'href', 'target', 'rel', 'role', 'tabindex', 'aria-label' )
 			);
 			$inner_link         = $matches[3];
-			$label              = '';
-
-			if ( false !== stripos( $inner_link, 'instagram.com' ) ) {
-				$label = 'Profil Bemke na Instagramie';
-			} elseif ( false !== stripos( $inner_link, 'linkedin.com' ) ) {
-				$label = 'Profil Bemke na LinkedInie';
-			} elseif ( false !== stripos( $inner_link, 'facebook.com' ) ) {
-				$label = 'Profil Bemke na Facebooku';
-			}
+			$label              = bemke_child_get_social_link_label( $inner_link );
 
 			if ( '' !== $label ) {
 				$inner_link = preg_replace_callback(
@@ -193,7 +185,57 @@ function bemke_child_repair_footer_social_links( $html ) {
 		$html
 	);
 
+	if ( null !== $updated_html ) {
+		$html = $updated_html;
+	}
+
+	/*
+	 * Current Bricks markup uses one social-link anchor containing an SVG. Give
+	 * that link an accessible name directly in the initial server response.
+	 */
+	$single_link_pattern = '/<a\b(?=[^>]*\bclass\s*=\s*(?:"[^"]*\bsocial-link\b[^"]*"|\'[^\']*\bsocial-link\b[^\']*\'))([^>]*)>/is';
+	$updated_html        = preg_replace_callback(
+		$single_link_pattern,
+		static function ( $matches ) {
+			$label = bemke_child_get_social_link_label( $matches[0] );
+
+			if ( '' === $label ) {
+				return $matches[0];
+			}
+
+			$link_attributes = bemke_child_remove_html_attributes(
+				$matches[1],
+				array( 'aria-label', 'rel' )
+			);
+
+			return '<a' . $link_attributes . ' aria-label="' . esc_attr( $label ) . '" rel="noopener noreferrer">';
+		},
+		$html
+	);
+
 	return null === $updated_html ? $html : $updated_html;
+}
+
+/**
+ * Resolve the Polish accessible name for a supported social network link.
+ *
+ * @param string $markup Link tag or markup containing its URL.
+ * @return string
+ */
+function bemke_child_get_social_link_label( $markup ) {
+	if ( false !== stripos( $markup, 'instagram.com' ) ) {
+		return 'Profil Bemke na Instagramie';
+	}
+
+	if ( false !== stripos( $markup, 'linkedin.com' ) ) {
+		return 'Profil Bemke na LinkedInie';
+	}
+
+	if ( false !== stripos( $markup, 'facebook.com' ) ) {
+		return 'Profil Bemke na Facebooku';
+	}
+
+	return '';
 }
 
 /**
