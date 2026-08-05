@@ -174,10 +174,7 @@ function G(t) {
 		X(s);
 		return;
 	}
-	let c = {
-		opacity: 0,
-		y: L
-	};
+	let c = { y: L };
 	o || (c.filter = `blur(${R}px)`), n.set(a, c), t.setAttribute(A, "1"), K(s, o);
 }
 async function K(t, r) {
@@ -192,23 +189,17 @@ async function K(t, r) {
 			X(t);
 			return;
 		}
-		let s = {
-			opacity: 1,
-			y: 0
-		}, c = {
-			opacity: 0,
-			willChange: "transform, opacity",
+		let s = { y: 0 }, c = {
+			willChange: "transform",
 			y: L
 		};
-		r || (s.filter = "none", c.filter = `blur(${R}px)`, c.willChange = "transform, opacity, filter"), n.set(t.elements, s), n.set(o, c);
+		r || (s.filter = "none", c.filter = `blur(${R}px)`, c.willChange = "transform, filter"), n.set(t.elements, s), n.set(o, c);
 		let l = {
 			duration: r ? .66 : .78,
-			opacity: 1,
 			stagger: z,
 			y: 0
 		}, u = {
 			duration: r ? .54 : .66,
-			opacity: 1,
 			stagger: z,
 			y: 0
 		};

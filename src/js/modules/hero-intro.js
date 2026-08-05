@@ -92,7 +92,6 @@ function setupHeroIntro(hero) {
   }
 
   const initialState = {
-    opacity: 0,
     y: START_Y,
   };
 
@@ -131,19 +130,17 @@ async function animateHeroLines(state, isMobile) {
     }
 
     const parentFinalState = {
-      opacity: 1,
       y: 0,
     };
     const lineInitialState = {
-      opacity: 0,
-      willChange: 'transform, opacity',
+      willChange: 'transform',
       y: START_Y,
     };
 
     if (!isMobile) {
       parentFinalState.filter = 'none';
       lineInitialState.filter = `blur(${DESKTOP_BLUR}px)`;
-      lineInitialState.willChange = 'transform, opacity, filter';
+      lineInitialState.willChange = 'transform, filter';
     }
 
     gsap.set(state.elements, parentFinalState);
@@ -151,13 +148,11 @@ async function animateHeroLines(state, isMobile) {
 
     const headingTween = {
       duration: isMobile ? 0.66 : 0.78,
-      opacity: 1,
       stagger: LINE_STAGGER,
       y: 0,
     };
     const supplementaryTween = {
       duration: isMobile ? 0.54 : 0.66,
-      opacity: 1,
       stagger: LINE_STAGGER,
       y: 0,
     };
@@ -217,9 +212,9 @@ async function waitForFonts() {
 }
 
 /*
- * SplitText keeps every line in its normal document flow. Only opacity,
- * filter and translateY are animated, so Bricks remains responsible for
- * the final alignment and position.
+ * SplitText keeps every line in its normal document flow. Only filter and
+ * translateY are animated, so the text keeps its full contrast throughout
+ * the intro and Bricks remains responsible for its final position.
  */
 
 function getSupplementaryText(heading) {
