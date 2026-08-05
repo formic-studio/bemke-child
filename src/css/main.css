@@ -592,6 +592,41 @@ html[data-bemke-reduced-motion="true"]
   width: 1px;
 }
 
+.bemke-skip-link {
+  background: var(--yellow, var(--theme-yellow, #f9bb59));
+  border: 2px solid var(--brown, var(--theme-brown, #1b0508));
+  border-radius: 0.4rem;
+  color: var(--brown, var(--theme-brown, #1b0508));
+  font-family: "Season Sans", sans-serif;
+  font-size: max(1.6rem, 16px);
+  font-weight: 500;
+  left: 1.6rem;
+  line-height: 1.25;
+  padding: 1.2rem 1.6rem;
+  position: fixed;
+  text-decoration: none;
+  top: 1.6rem;
+  transform: translateY(calc(-100% - 3.2rem));
+  transition: transform 0.15s ease-out;
+  z-index: 100000;
+}
+
+.bemke-skip-link:is(:focus, :focus-visible, :active) {
+  outline: 3px solid var(--brown, var(--theme-brown, #1b0508));
+  outline-offset: 3px;
+  transform: translateY(0);
+}
+
+#brx-content[tabindex="-1"]:focus {
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bemke-skip-link {
+    transition: none;
+  }
+}
+
 .bemke-responsive-label--mobile {
   display: none;
 }

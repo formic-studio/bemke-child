@@ -18,6 +18,7 @@ require_once get_stylesheet_directory() . '/inc/image-optimization.php';
 add_action( 'wp_head', 'bemke_child_print_theme_color', 0 );
 add_action( 'wp_head', 'bemke_child_print_motion_preference', 1 );
 add_action( 'wp_head', 'bemke_child_preload_critical_fonts', 2 );
+add_action( 'wp_body_open', 'bemke_child_print_skip_link', 1 );
 add_action( 'wp_enqueue_scripts', 'bemke_child_enqueue_assets', 20 );
 add_action( 'template_redirect', 'bemke_child_start_frontend_optimization_buffer', 0 );
 add_filter( 'wp_get_attachment_image_attributes', 'bemke_child_optimize_below_fold_images', 100, 3 );
@@ -40,6 +41,22 @@ function bemke_child_print_theme_color() {
 	}
 	?>
 	<meta name="theme-color" content="#f9bb59">
+	<?php
+}
+
+/**
+ * Print the first keyboard-focusable control on every frontend page.
+ *
+ * Bricks renders the primary page landmark as <main id="brx-content">.
+ */
+function bemke_child_print_skip_link() {
+	if ( bemke_child_is_bricks_builder_request() ) {
+		return;
+	}
+	?>
+	<a class="bemke-skip-link" href="#brx-content">
+		<?php esc_html_e( 'Przejdź do treści głównej', 'bemke-child' ); ?>
+	</a>
 	<?php
 }
 
@@ -147,6 +164,7 @@ function bemke_child_start_frontend_optimization_buffer() {
 
 function bemke_child_optimize_frontend_markup( $html ) {
 	$html = bemke_child_prepare_manual_consent_markup( $html );
+	$html = bemke_child_prepare_main_content_focus_target( $html );
 
 	$optimized_html = preg_replace(
 		'/background-image\s*:\s*url\([^)]*FotoFullScreen-scaled\.webp[^)]*\)\s*;?/i',
@@ -307,6 +325,37 @@ function bemke_child_optimize_frontend_markup( $html ) {
 	}
 
 	return $html;
+}
+
+/**
+ * Make the Bricks main landmark a reliable fragment-navigation focus target.
+ *
+ * @param string $html Complete frontend response markup.
+ * @return string
+ */
+function bemke_child_prepare_main_content_focus_target( $html ) {
+	$updated_html = preg_replace_callback(
+		'/<main\b([^>]*)>/i',
+		static function ( $matches ) {
+			$attributes = $matches[1];
+
+			if (
+				! preg_match(
+					'/\bid\s*=\s*(["\'])brx-content\1/i',
+					$attributes
+				) ||
+				preg_match( '/\btabindex\s*=/i', $attributes )
+			) {
+				return $matches[0];
+			}
+
+			return '<main' . $attributes . ' tabindex="-1">';
+		},
+		$html,
+		1
+	);
+
+	return null === $updated_html ? $html : $updated_html;
 }
 
 function bemke_child_optimize_below_fold_images( $attr, $attachment, $size ) {

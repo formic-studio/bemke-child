@@ -2,6 +2,14 @@ const TEAM_POPUP_SELECTOR = '.popup-team[data-number]';
 const TEAM_LINK_SELECTOR = '[data-number]:not(.popup-team)';
 const TEAM_CARD_SELECTOR = '.team-link';
 const TEAM_EXIT_SELECTOR = '.exit-button';
+const FOCUSABLE_SELECTOR = [
+  'a[href]',
+  'button:not([disabled])',
+  'input:not([disabled])',
+  'select:not([disabled])',
+  'textarea:not([disabled])',
+  '[tabindex]:not([tabindex="-1"])',
+].join(', ');
 const TEAM_POPUP_READY_ATTR = 'data-bemke-team-popup-ready';
 const TEAM_POPUP_BOOTED_FLAG = '__bemkeTeamPopupBooted';
 const OVERLAY_CLASS = 'bemke-team-popup-overlay';
@@ -52,12 +60,10 @@ function setupTeamPopupElements(scope = document) {
     popup.classList.add(POPUP_CLASS);
     popup.setAttribute(TEAM_POPUP_READY_ATTR, '1');
     popup.setAttribute('role', 'dialog');
+    popup.setAttribute('aria-modal', 'true');
     popup.setAttribute('tabindex', '-1');
     setupScrollableDescription(popup);
-
-    if (popup.getAttribute('aria-label') === null) {
-      popup.setAttribute('aria-label', `Zespół: ${number}`);
-    }
+    setupPopupAccessibleName(popup, number);
 
     if (
       popup === activePopup &&
@@ -75,6 +81,22 @@ function setupTeamPopupElements(scope = document) {
   });
 
   setupTeamCards(scope);
+}
+
+function setupPopupAccessibleName(popup, number) {
+  if (popup.hasAttribute('aria-label') || popup.hasAttribute('aria-labelledby')) {
+    return;
+  }
+
+  const heading = popup.querySelector('h1, h2, h3, h4, h5, h6');
+
+  if (heading?.textContent?.trim()) {
+    heading.id ||= `bemke-team-popup-title-${number}`;
+    popup.setAttribute('aria-labelledby', heading.id);
+    return;
+  }
+
+  popup.setAttribute('aria-label', `Zespół: ${number}`);
 }
 
 function setupScrollableDescription(popup) {
@@ -262,11 +284,46 @@ function handleTeamPopupClick(event) {
 }
 
 function handleTeamPopupKeydown(event) {
-  if (event.key !== 'Escape' || !activePopup) {
+  if (!activePopup) {
     return;
   }
 
-  closeTeamPopup();
+  if (event.key === 'Escape') {
+    event.preventDefault();
+    closeTeamPopup();
+    return;
+  }
+
+  if (event.key === 'Tab') {
+    trapPopupFocus(event, activePopup);
+  }
+}
+
+function trapPopupFocus(event, popup) {
+  const focusableElements = Array.from(
+    popup.querySelectorAll(FOCUSABLE_SELECTOR),
+  ).filter((element) => element.getClientRects().length > 0);
+
+  if (!focusableElements.length) {
+    event.preventDefault();
+    popup.focus({ preventScroll: true });
+    return;
+  }
+
+  const firstElement = focusableElements[0];
+  const lastElement = focusableElements[focusableElements.length - 1];
+  const focusIsOutside = !popup.contains(document.activeElement);
+
+  if (event.shiftKey && (document.activeElement === firstElement || focusIsOutside)) {
+    event.preventDefault();
+    lastElement.focus({ preventScroll: true });
+    return;
+  }
+
+  if (!event.shiftKey && (document.activeElement === lastElement || focusIsOutside)) {
+    event.preventDefault();
+    firstElement.focus({ preventScroll: true });
+  }
 }
 
 function openTeamPopup(popup, trigger) {
@@ -278,7 +335,7 @@ function openTeamPopup(popup, trigger) {
     return;
   }
 
-  closeTeamPopup();
+  closeTeamPopup({ restoreFocus: false });
   activePopup = popup;
   activeTrigger = trigger;
 
@@ -306,7 +363,7 @@ function openTeamPopup(popup, trigger) {
   });
 }
 
-function closeTeamPopup() {
+function closeTeamPopup({ restoreFocus = true } = {}) {
   if (!activePopup && popupOverlay) {
     popupOverlay.classList.remove(OVERLAY_VISIBLE_CLASS);
     document.documentElement.classList.remove('is-team-popup-open');
@@ -325,12 +382,18 @@ function closeTeamPopup() {
   document.documentElement.classList.remove('is-team-popup-open');
   document.body.classList.remove('is-team-popup-open');
 
-  if (activeTrigger) {
-    activeTrigger.setAttribute('aria-expanded', 'false');
-    activeTrigger = null;
+  const triggerToRestore = activeTrigger;
+
+  if (triggerToRestore) {
+    triggerToRestore.setAttribute('aria-expanded', 'false');
   }
 
+  activeTrigger = null;
   activePopup = null;
+
+  if (restoreFocus && triggerToRestore?.isConnected) {
+    triggerToRestore.focus({ preventScroll: true });
+  }
 }
 
 function ensurePopupOverlay() {
