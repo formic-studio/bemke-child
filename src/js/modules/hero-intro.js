@@ -18,6 +18,8 @@ const HEADER_REVEAL_PROGRESS = 0.7;
 const MOBILE_QUERY = '(max-width: 767px)';
 const START_Y = 10;
 const DESKTOP_BLUR = 8;
+const HIDDEN_CLIP = 'inset(100% 0 0 0)';
+const VISIBLE_CLIP = 'inset(0% 0 0 0)';
 const LINE_STAGGER = 0.12;
 const FONT_WAIT_MS = 1000;
 
@@ -92,6 +94,7 @@ function setupHeroIntro(hero) {
   }
 
   const initialState = {
+    clipPath: HIDDEN_CLIP,
     y: START_Y,
   };
 
@@ -130,28 +133,32 @@ async function animateHeroLines(state, isMobile) {
     }
 
     const parentFinalState = {
+      clipPath: VISIBLE_CLIP,
       y: 0,
     };
     const lineInitialState = {
-      willChange: 'transform',
+      clipPath: HIDDEN_CLIP,
+      willChange: 'clip-path, transform',
       y: START_Y,
     };
 
     if (!isMobile) {
       parentFinalState.filter = 'none';
       lineInitialState.filter = `blur(${DESKTOP_BLUR}px)`;
-      lineInitialState.willChange = 'transform, filter';
+      lineInitialState.willChange = 'clip-path, transform, filter';
     }
 
     gsap.set(state.elements, parentFinalState);
     gsap.set(lines, lineInitialState);
 
     const headingTween = {
+      clipPath: VISIBLE_CLIP,
       duration: isMobile ? 0.66 : 0.78,
       stagger: LINE_STAGGER,
       y: 0,
     };
     const supplementaryTween = {
+      clipPath: VISIBLE_CLIP,
       duration: isMobile ? 0.54 : 0.66,
       stagger: LINE_STAGGER,
       y: 0,
@@ -212,9 +219,10 @@ async function waitForFonts() {
 }
 
 /*
- * SplitText keeps every line in its normal document flow. Only filter and
- * translateY are animated, so the text keeps its full contrast throughout
- * the intro and Bricks remains responsible for its final position.
+ * SplitText keeps every line in its normal document flow. Clip-path reveals
+ * each line while filter and translateY preserve the original intro feel.
+ * The text keeps full opacity, so automated contrast checks see its real
+ * foreground colour throughout the animation.
  */
 
 function getSupplementaryText(heading) {

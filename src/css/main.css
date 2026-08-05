@@ -440,6 +440,8 @@ html[data-bemke-reduced-motion="true"]
 
 @keyframes bemke-hero-intro-failsafe {
   to {
+    -webkit-clip-path: inset(0 0 0 0);
+    clip-path: inset(0 0 0 0);
     filter: none;
     transform: none;
   }
@@ -459,6 +461,8 @@ html[data-bemke-reduced-motion="true"]
     .padding-global
     > .brxe-text-basic {
     animation: bemke-hero-intro-failsafe 0.01s linear 2.5s forwards;
+    -webkit-clip-path: inset(100% 0 0 0);
+    clip-path: inset(100% 0 0 0);
     filter: blur(8px);
     transform: translateY(10px);
   }
@@ -474,6 +478,8 @@ html[data-bemke-reduced-motion="true"]
     .padding-global
     > .brxe-text-basic {
     animation: none;
+    -webkit-clip-path: none;
+    clip-path: none;
     filter: none;
     transform: none;
   }
