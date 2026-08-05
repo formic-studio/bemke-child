@@ -681,6 +681,7 @@ html[data-bemke-reduced-motion="true"]
   min-height: 3.2rem;
   min-width: 3.2rem;
   padding: 0.4rem;
+  text-transform: uppercase;
 }
 
 #brxe-kecesp :is(a, button):focus-visible {
