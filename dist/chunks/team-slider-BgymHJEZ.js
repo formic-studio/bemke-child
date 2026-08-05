@@ -1,6 +1,6 @@
 import { r as e, t } from "./motion-preference-Bn10ge8D.js";
-import { t as n } from "./gsap-0BK4_Us1.js";
-import { i as r, r as i, t as a } from "./touch-swipe-fallback-C_mGjsy9.js";
+import { t as n } from "./gsap-BlCrb88B.js";
+import { i as r, r as i, t as a } from "./touch-swipe-fallback-D2n6TRec.js";
 //#region src/js/modules/team-slider.js
 var o = ".slider-block", s = ":scope > .slider-wrapper", c = ":scope > .slider-paggination", l = "[data-number]:not(.popup-team)", u = "a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]", d = "data-bemke-team-slider-ready", f = "slide-active", p = "data-bemke-team-original-tabindex", m = "__bemkeTeamSliderBooted", h = "is-dragging", g = "is-resetting", _ = .8, v = .35, y = 3500, b = 46, x = "power3.inOut", S = "power3.out", C = 0;
 function w() {

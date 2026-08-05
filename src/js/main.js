@@ -4,6 +4,7 @@ import { initBackToTop } from './modules/back-to-top.js';
 import { initContrastControls } from './modules/contrast-controls.js';
 import { initFontSizeControls } from './modules/font-size-controls.js';
 import { initMotionPreference } from './modules/motion-preference.js';
+import { initNavigationAccessibility } from './modules/navigation-accessibility.js';
 
 const featureModules = [
   {
@@ -342,6 +343,7 @@ function initApp() {
   initAccessibilitySwitches();
   initContrastControls();
   initFontSizeControls();
+  initNavigationAccessibility();
   initBackToTop();
   scanFeatureModules();
 

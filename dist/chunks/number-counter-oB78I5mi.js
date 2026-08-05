@@ -1,6 +1,6 @@
 import { r as e, t } from "./motion-preference-Bn10ge8D.js";
-import { t as n } from "./gsap-0BK4_Us1.js";
-import { t as r } from "./ScrollTrigger-BeYzJT_T.js";
+import { t as n } from "./gsap-BlCrb88B.js";
+import { t as r } from "./ScrollTrigger-BDm4Kmox.js";
 //#region src/js/modules/number-counter.js
 var i = ".number-counter", a = "top 98%", o = 1.8, s = "power2.out";
 function c(e) {

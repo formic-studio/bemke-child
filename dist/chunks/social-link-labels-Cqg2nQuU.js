@@ -22,23 +22,29 @@ function r() {
 	}));
 }
 function i(t = document) {
-	(typeof t?.querySelectorAll == "function" ? t : document).querySelectorAll("a[href]").forEach((t) => {
+	let n = typeof t?.querySelectorAll == "function" ? t : document;
+	a(n), n.querySelectorAll("a[href]").forEach((t) => {
 		if (t.getAttribute(e) === "1") return;
-		let n = s(t.getAttribute("href"));
-		n && (t.setAttribute(e, "1"), a(t, n), o(t));
+		let n = c(t.getAttribute("href"));
+		n && (t.setAttribute(e, "1"), o(t, n), s(t));
 	});
 }
-function a(e, t) {
-	!c(e.getAttribute("aria-label")) && !c(e.textContent) && e.setAttribute("aria-label", t);
+function a(e) {
+	e.querySelectorAll("#brx-footer a.social-link[href]").forEach((e) => {
+		l(e.textContent) || e.querySelector("img, svg, picture, video") || e.remove();
+	});
 }
-function o(e) {
+function o(e, t) {
+	!l(e.getAttribute("aria-label")) && !l(e.textContent) && e.setAttribute("aria-label", t);
+}
+function s(e) {
 	e.querySelectorAll("svg").forEach((e) => {
 		e.setAttribute("aria-hidden", "true"), e.setAttribute("focusable", "false");
 	}), e.querySelectorAll("img").forEach((e) => {
-		c(e.getAttribute("alt")) || e.setAttribute("alt", "");
-	});
+		l(e.getAttribute("alt")) || e.setAttribute("alt", "");
+	}), e.target === "_blank" && (e.rel = "noopener noreferrer");
 }
-function s(e) {
+function c(e) {
 	if (!e) return null;
 	try {
 		let t = new URL(e, window.location.href).hostname.toLowerCase();
@@ -47,7 +53,7 @@ function s(e) {
 		return null;
 	}
 }
-function c(e) {
+function l(e) {
 	return (e || "").replace(/\s+/g, " ").trim();
 }
 //#endregion

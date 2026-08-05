@@ -1,7 +1,7 @@
 import { r as e, t } from "./motion-preference-Bn10ge8D.js";
-import { t as n } from "./font-size-controls-hQ8NHYJR.js";
-import { t as r } from "./gsap-0BK4_Us1.js";
-import { i, r as a, t as o } from "./touch-swipe-fallback-C_mGjsy9.js";
+import { t as n } from "./font-size-controls-DUBBhJnJ.js";
+import { t as r } from "./gsap-BlCrb88B.js";
+import { i, r as a, t as o } from "./touch-swipe-fallback-D2n6TRec.js";
 //#region src/js/modules/project-slider.js
 var s = ".slider-block", c = ".slide-wrapper", l = ".slide-project", u = ".slider-paggination", d = "a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]", f = "data-bemke-project-slider-ready", p = "slide-active", m = "__bemkeProjectSliderBooted", h = "is-resetting", g = "is-dragging", _ = "is-ghost", v = "data-bemke-original-tabindex", y = "--bemke-project-slide-height", ee = .9, b = .45, te = 3500, x = 46, ne = "power3.inOut", S = "power3.out", C = 0, w = /* @__PURE__ */ new Set(), T = /* @__PURE__ */ new WeakSet();
 function E() {

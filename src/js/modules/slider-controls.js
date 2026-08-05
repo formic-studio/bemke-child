@@ -1,3 +1,5 @@
+import { ensureButtonElement } from './semantic-button.js';
+
 export const SLIDER_CONTROL_SELECTOR = '.arrow, .yellow-arrow, .play-btn, .arrow-right';
 
 export function getSliderControls(
@@ -6,7 +8,11 @@ export function getSliderControls(
   controlSelector = SLIDER_CONTROL_SELECTOR,
 ) {
   const controlsWrap = root.querySelector(controlsSelector);
-  const controls = controlsWrap ? Array.from(controlsWrap.querySelectorAll(controlSelector)) : [];
+  const controls = controlsWrap
+    ? Array.from(controlsWrap.querySelectorAll(controlSelector))
+        .map(ensureButtonElement)
+        .filter(Boolean)
+    : [];
   const hasAutoplayControls =
     controls.length >= 4 || controls.some(isPlayControl) || controls.some(isPauseControl);
 
@@ -60,8 +66,6 @@ export function bindSliderControl(control, { label, controlsId, handler }) {
   }
 
   control.classList.remove('bricks-lazy-hidden');
-  control.setAttribute('role', 'button');
-  control.setAttribute('tabindex', '0');
   control.setAttribute('aria-label', label);
 
   if (controlsId) {
@@ -75,14 +79,11 @@ export function bindSliderControl(control, { label, controlsId, handler }) {
 
   control.addEventListener('click', (event) => {
     event.preventDefault();
-    handler();
-  });
-  control.addEventListener('keydown', (event) => {
-    if (event.key !== 'Enter' && event.key !== ' ') {
+
+    if (control.getAttribute('aria-disabled') === 'true') {
       return;
     }
 
-    event.preventDefault();
     handler();
   });
 }

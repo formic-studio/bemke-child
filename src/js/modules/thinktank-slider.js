@@ -315,6 +315,13 @@ function createSlider(root) {
   let ignoreClickUntil = 0;
   const queue = [];
 
+  root.setAttribute("role", "region");
+  root.setAttribute("aria-roledescription", "karuzela");
+
+  if (!root.hasAttribute("aria-label") && !root.hasAttribute("aria-labelledby")) {
+    root.setAttribute("aria-label", "Aktualności Think Tanku");
+  }
+
   slides.forEach((slide, index) => {
     slide.classList.remove("bricks-lazy-hidden");
     slide
@@ -328,27 +335,18 @@ function createSlider(root) {
       slide.appendChild(overlay);
     }
 
-    if (!slide.hasAttribute("tabindex")) {
-      slide.setAttribute("tabindex", "0");
-    }
+    const title = slide
+      .querySelector(SELECTORS.title)
+      ?.textContent?.replace(/\s+/g, " ")
+      .trim();
 
-    slide.addEventListener("click", () => {
-      if (Date.now() < ignoreClickUntil) {
-        return;
-      }
-
-      const distance = signedCircularDistance(
-        activeIndex,
-        index,
-        slides.length,
-      );
-
-      if (distance === 0) {
-        return;
-      }
-
-      queueMove(distance > 0 ? 1 : -1, Math.abs(distance), true);
-    });
+    slide.removeAttribute("tabindex");
+    slide.setAttribute("role", "group");
+    slide.setAttribute("aria-roledescription", "slajd");
+    slide.setAttribute(
+      "aria-label",
+      `${title ? `${title}, ` : ""}slajd ${index + 1} z ${slides.length}`,
+    );
   });
 
   textSlides.forEach((textSlide) => {
@@ -699,6 +697,16 @@ function createSlider(root) {
         slide.classList.toggle("is-center", toDistance === 0);
         slide.classList.toggle("is-visible", toState.opacity > 0.01);
         slide.style.pointerEvents = toDistance === 0 ? "auto" : "none";
+      }
+
+      const isActive = toDistance === 0;
+      slide.setAttribute("aria-hidden", isActive ? "false" : "true");
+      slide.toggleAttribute("inert", !isActive);
+
+      if (isActive) {
+        slide.setAttribute("aria-current", "true");
+      } else {
+        slide.removeAttribute("aria-current");
       }
     });
 
@@ -1129,21 +1137,6 @@ function getCssNumber(element, propertyName, fallback) {
 
 function circularDistance(index, activeIndex, total) {
   let distance = index - activeIndex;
-  const half = total / 2;
-
-  if (distance > half) {
-    distance -= total;
-  }
-
-  if (distance < -half) {
-    distance += total;
-  }
-
-  return distance;
-}
-
-function signedCircularDistance(from, to, total) {
-  let distance = to - from;
   const half = total / 2;
 
   if (distance > half) {

@@ -42,6 +42,8 @@ export function initSocialLinkLabels() {
 function labelSocialLinks(root = document) {
   const scope = typeof root?.querySelectorAll === 'function' ? root : document;
 
+  removeEmptyFooterSocialLinks(scope);
+
   scope.querySelectorAll('a[href]').forEach((link) => {
     if (link.getAttribute(READY_ATTR) === '1') {
       return;
@@ -56,6 +58,18 @@ function labelSocialLinks(root = document) {
     link.setAttribute(READY_ATTR, '1');
     ensureLinkLabel(link, label);
     hideDecorativeMedia(link);
+  });
+}
+
+function removeEmptyFooterSocialLinks(scope) {
+  scope.querySelectorAll('#brx-footer a.social-link[href]').forEach((link) => {
+    const hasContent =
+      normalizeText(link.textContent) ||
+      link.querySelector('img, svg, picture, video');
+
+    if (!hasContent) {
+      link.remove();
+    }
   });
 }
 
@@ -76,6 +90,10 @@ function hideDecorativeMedia(link) {
       image.setAttribute('alt', '');
     }
   });
+
+  if (link.target === '_blank') {
+    link.rel = 'noopener noreferrer';
+  }
 }
 
 function getSocialLabel(href) {

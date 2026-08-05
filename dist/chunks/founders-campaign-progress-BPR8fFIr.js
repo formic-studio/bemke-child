@@ -1,6 +1,6 @@
 import { r as e, t } from "./motion-preference-Bn10ge8D.js";
-import { t as n } from "./gsap-0BK4_Us1.js";
-import { t as r } from "./ScrollTrigger-BeYzJT_T.js";
+import { t as n } from "./gsap-BlCrb88B.js";
+import { t as r } from "./ScrollTrigger-BDm4Kmox.js";
 //#region src/js/modules/founders-campaign-progress.js
 var i = ".section_book-money .loading-wrapper", a = ".section_book-money", o = ".book-money-animation video, .video-book video, video.video-book", s = ".loading-progress", c = ".progress-bar", l = ".progress-dot", u = ".loading-progress + .brxe-block > .font-size-h4:first-child", d = ".loading-progress + .brxe-block > .font-size-h4:last-child", f = "--bemke-campaign-progress", p = "top 90%", m = 2.2, h = "power2.out";
 function g(e, t, n) {

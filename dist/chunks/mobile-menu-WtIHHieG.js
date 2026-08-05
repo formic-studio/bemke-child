@@ -1,5 +1,5 @@
 import { r as e, t } from "./motion-preference-Bn10ge8D.js";
-import { t as n } from "./gsap-0BK4_Us1.js";
+import { t as n } from "./gsap-BlCrb88B.js";
 //#region src/js/modules/mobile-menu.js
 var r = "#brx-header", i = "#brxe-vhhhdt", a = "#brxe-spklen", o = ".bricks-mobile-menu-wrapper", s = ".bricks-mobile-menu", c = ".bricks-mobile-menu-toggle", l = ".section_wcag", u = "(max-width: 991px)", d = "data-bemke-mobile-menu-ready";
 function f() {
@@ -69,6 +69,7 @@ function g(r, i, a) {
 	let o = Array.from(i.children).filter((e) => e.matches("li")).map((e) => ({
 		item: e,
 		link: e.querySelector(":scope > .brx-submenu-toggle > a"),
+		button: e.querySelector(":scope > .brx-submenu-toggle > button"),
 		submenu: e.querySelector(":scope > .sub-menu")
 	})).filter(({ link: e, submenu: t }) => e && t);
 	if (!o.length) return;
@@ -76,34 +77,34 @@ function g(r, i, a) {
 		let t = e.target.closest(".brx-submenu-toggle > a"), n = t?.closest("li");
 		!t || n?.parentElement !== i || e.stopPropagation();
 	}, !0);
-	let s = ({ item: t, submenu: r }, i = !0) => {
-		let o = t.classList.contains("open");
-		if (n.killTweensOf(r), !i || !a.matches || e()) {
-			n.set(r, {
-				autoAlpha: +!!o,
-				height: o ? "auto" : 0,
-				overflow: o ? "visible" : "hidden"
+	let s = ({ item: t, button: r, submenu: o }, s = !0) => {
+		let c = t.classList.contains("open");
+		if (o.id ||= `bemke-mobile-submenu-${Array.from(i.children).indexOf(t) + 1}`, o.setAttribute("aria-hidden", c ? "false" : "true"), o.toggleAttribute("inert", !c), "inert" in o && (o.inert = !c), r && (r.setAttribute("aria-controls", o.id), r.setAttribute("aria-expanded", c ? "true" : "false")), n.killTweensOf(o), !s || !a.matches || e()) {
+			n.set(o, {
+				autoAlpha: +!!c,
+				height: c ? "auto" : 0,
+				overflow: c ? "visible" : "hidden"
 			});
 			return;
 		}
-		if (o) {
-			n.set(r, {
+		if (c) {
+			n.set(o, {
 				overflow: "hidden",
 				visibility: "visible"
-			}), n.to(r, {
+			}), n.to(o, {
 				autoAlpha: 1,
 				duration: .44,
 				ease: "power2.out",
 				height: "auto",
-				onComplete: () => n.set(r, { overflow: "visible" }),
+				onComplete: () => n.set(o, { overflow: "visible" }),
 				overwrite: !0
 			});
 			return;
 		}
-		n.set(r, {
+		n.set(o, {
 			overflow: "hidden",
 			visibility: "visible"
-		}), n.to(r, {
+		}), n.to(o, {
 			autoAlpha: 0,
 			duration: .34,
 			ease: "power2.inOut",

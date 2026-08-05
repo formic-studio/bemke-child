@@ -6,6 +6,8 @@ const DARK_SURFACE_CLASS = 'is-on-dark-surface';
 const DARK_LUMINANCE_THRESHOLD = 0.21;
 
 export function initBackToTop() {
+  initSkipLinkScrollReset();
+
   if (!document.body || document.querySelector(`.${BUTTON_CLASS}`)) {
     return;
   }
@@ -142,6 +144,23 @@ export function initBackToTop() {
   window.addEventListener('keydown', releaseVisibilitySuppression);
   window.addEventListener('wheel', releaseVisibilitySuppression, {
     passive: true,
+  });
+}
+
+function initSkipLinkScrollReset() {
+  const skipLink = document.querySelector('.bemke-skip-link[href="#brx-content"]');
+
+  if (!skipLink || skipLink.dataset.bemkeScrollReset === '1') {
+    return;
+  }
+
+  skipLink.dataset.bemkeScrollReset = '1';
+  skipLink.addEventListener('focus', () => {
+    if (getScrollTop() <= 1) {
+      return;
+    }
+
+    window.scrollTo({ left: 0, top: 0, behavior: 'auto' });
   });
 }
 

@@ -1,40 +1,39 @@
+import { t as e } from "./semantic-button-VnITRaDl.js";
 //#region src/js/modules/slider-controls.js
-var e = ".arrow, .yellow-arrow, .play-btn, .arrow-right";
-function t(t, n, s = e) {
-	let c = t.querySelector(n), l = c ? Array.from(c.querySelectorAll(s)) : [];
-	if (!(l.length >= 4 || l.some(i) || l.some(r))) return {
+var t = ".arrow, .yellow-arrow, .play-btn, .arrow-right";
+function n(n, r, c = t) {
+	let l = n.querySelector(r), u = l ? Array.from(l.querySelectorAll(c)).map(e).filter(Boolean) : [];
+	if (!(u.length >= 4 || u.some(a) || u.some(i))) return {
 		pause: null,
 		play: null,
-		prev: l.find(a) ?? l[0] ?? null,
-		next: l.find(o) ?? l[1] ?? null
+		prev: u.find(o) ?? u[0] ?? null,
+		next: u.find(s) ?? u[1] ?? null
 	};
-	let u = l.find(r), d = l.find(i), f = u ?? (l.length >= 4 ? l.find((e, t) => t === 0 && e !== d) ?? null : null), p = d ?? (l.length >= 4 ? l.find((e, t) => t === 1 && e !== f) ?? null : null), m = l.find((e) => e !== f && e !== p && o(e)) ?? l[3] ?? null;
+	let d = u.find(i), f = u.find(a), p = d ?? (u.length >= 4 ? u.find((e, t) => t === 0 && e !== f) ?? null : null), m = f ?? (u.length >= 4 ? u.find((e, t) => t === 1 && e !== p) ?? null : null), h = u.find((e) => e !== p && e !== m && s(e)) ?? u[3] ?? null;
 	return {
-		pause: f,
-		play: p,
-		prev: l.find((e) => e !== f && e !== p && e !== m && a(e)) ?? l.find((e, t) => t >= 2 && e !== f && e !== p && e !== m) ?? null,
-		next: m
+		pause: p,
+		play: m,
+		prev: u.find((e) => e !== p && e !== m && e !== h && o(e)) ?? u.find((e, t) => t >= 2 && e !== p && e !== m && e !== h) ?? null,
+		next: h
 	};
 }
-function n(e, { label: t, controlsId: n, handler: r }) {
-	!e || typeof r != "function" || (e.classList.remove("bricks-lazy-hidden"), e.setAttribute("role", "button"), e.setAttribute("tabindex", "0"), e.setAttribute("aria-label", t), n && e.setAttribute("aria-controls", n), e.querySelectorAll("svg").forEach((e) => {
+function r(e, { label: t, controlsId: n, handler: r }) {
+	!e || typeof r != "function" || (e.classList.remove("bricks-lazy-hidden"), e.setAttribute("aria-label", t), n && e.setAttribute("aria-controls", n), e.querySelectorAll("svg").forEach((e) => {
 		e.setAttribute("aria-hidden", "true"), e.setAttribute("focusable", "false");
-	}), e.addEventListener("click", (e) => {
-		e.preventDefault(), r();
-	}), e.addEventListener("keydown", (e) => {
-		e.key !== "Enter" && e.key !== " " || (e.preventDefault(), r());
+	}), e.addEventListener("click", (t) => {
+		t.preventDefault(), e.getAttribute("aria-disabled") !== "true" && r();
 	}));
 }
-function r(e) {
-	return e.classList.contains("pause-btn") || e.classList.contains("stop-btn") || s(e, [
+function i(e) {
+	return e.classList.contains("pause-btn") || e.classList.contains("stop-btn") || c(e, [
 		"pause",
 		"pauza",
 		"stop",
 		"zatrzymaj"
 	]);
 }
-function i(e) {
-	return e.classList.contains("play-btn") || s(e, [
+function a(e) {
+	return e.classList.contains("play-btn") || c(e, [
 		"play",
 		"start",
 		"uruchom",
@@ -42,8 +41,8 @@ function i(e) {
 		"wznow"
 	]);
 }
-function a(e) {
-	return e.classList.contains("arrow-left") || s(e, [
+function o(e) {
+	return e.classList.contains("arrow-left") || c(e, [
 		"prev",
 		"previous",
 		"poprzedni",
@@ -51,8 +50,8 @@ function a(e) {
 		"left"
 	]);
 }
-function o(e) {
-	return e.classList.contains("arrow-right") || s(e, [
+function s(e) {
+	return e.classList.contains("arrow-right") || c(e, [
 		"next",
 		"nastepny",
 		"następny",
@@ -60,11 +59,11 @@ function o(e) {
 		"right"
 	]);
 }
-function s(e, t) {
-	let n = c(e);
+function c(e, t) {
+	let n = l(e);
 	return t.some((e) => n.includes(e));
 }
-function c(e) {
+function l(e) {
 	return [
 		typeof e.className == "string" ? e.className : "",
 		e.getAttribute("aria-label"),
@@ -75,8 +74,8 @@ function c(e) {
 }
 //#endregion
 //#region src/js/modules/touch-swipe-fallback.js
-var l = 8, u = 500;
-function d(e, { canStart: t, onCancel: n, onMove: r, onStart: i, onSwipe: a, threshold: o = 46 } = {}) {
+var u = 8, d = 500;
+function f(e, { canStart: t, onCancel: n, onMove: r, onStart: i, onSwipe: a, threshold: o = 46 } = {}) {
 	if (!e) return { markPointerHandled() {} };
 	let s = -Infinity, c = null;
 	return e.addEventListener("touchstart", (e) => {
@@ -94,11 +93,11 @@ function d(e, { canStart: t, onCancel: n, onMove: r, onStart: i, onSwipe: a, thr
 		};
 	}, { passive: !0 }), e.addEventListener("touchmove", (e) => {
 		if (!c) return;
-		let t = f(e.touches, c.identifier);
+		let t = p(e.touches, c.identifier);
 		if (!t) return;
 		c.lastX = t.clientX, c.lastY = t.clientY;
 		let n = t.clientX - c.startX, i = t.clientY - c.startY, a = Math.abs(n), o = Math.abs(i);
-		!c.lockedAxis && (a > l || o > l) && (c.lockedAxis = a > o ? "x" : "y"), c.lockedAxis === "x" && (e.cancelable && e.preventDefault(), c.moved = !0, r?.({
+		!c.lockedAxis && (a > u || o > u) && (c.lockedAxis = a > o ? "x" : "y"), c.lockedAxis === "x" && (e.cancelable && e.preventDefault(), c.moved = !0, r?.({
 			context: c.context,
 			dx: n,
 			dy: i,
@@ -106,11 +105,11 @@ function d(e, { canStart: t, onCancel: n, onMove: r, onStart: i, onSwipe: a, thr
 		}));
 	}, { passive: !1 }), e.addEventListener("touchend", (e) => {
 		if (!c) return;
-		let t = f(e.changedTouches, c.identifier) ?? {
+		let t = p(e.changedTouches, c.identifier) ?? {
 			clientX: c.lastX,
 			clientY: c.lastY
-		}, r = c, i = t.clientX - r.startX, l = t.clientY - r.startY, d = performance.now() - s < u;
-		if (c = null, !d) {
+		}, r = c, i = t.clientX - r.startX, l = t.clientY - r.startY, u = performance.now() - s < d;
+		if (c = null, !u) {
 			if (r.moved && Math.abs(i) > o && Math.abs(i) > Math.abs(l)) {
 				a?.({
 					context: r.context,
@@ -131,7 +130,7 @@ function d(e, { canStart: t, onCancel: n, onMove: r, onStart: i, onSwipe: a, thr
 	}, { passive: !0 }), e.addEventListener("touchcancel", (e) => {
 		if (!c) return;
 		let t = c;
-		c = null, performance.now() - s >= u && n?.({
+		c = null, performance.now() - s >= d && n?.({
 			context: t.context,
 			dx: 0,
 			dy: 0,
@@ -141,8 +140,8 @@ function d(e, { canStart: t, onCancel: n, onMove: r, onStart: i, onSwipe: a, thr
 		s = performance.now();
 	} };
 }
-function f(e, t) {
+function p(e, t) {
 	return Array.from(e ?? []).find((e) => e.identifier === t);
 }
 //#endregion
-export { t as i, e as n, n as r, d as t };
+export { n as i, t as n, r, f as t };

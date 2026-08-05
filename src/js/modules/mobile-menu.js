@@ -168,6 +168,7 @@ function setupMobileSubmenuAnimation(navigation, mobileMenu, mobileQuery) {
     .map((item) => ({
       item,
       link: item.querySelector(':scope > .brx-submenu-toggle > a'),
+      button: item.querySelector(':scope > .brx-submenu-toggle > button'),
       submenu: item.querySelector(':scope > .sub-menu'),
     }))
     .filter(({ link, submenu }) => link && submenu);
@@ -193,8 +194,21 @@ function setupMobileSubmenuAnimation(navigation, mobileMenu, mobileQuery) {
     true,
   );
 
-  const syncBranch = ({ item, submenu }, animate = true) => {
+  const syncBranch = ({ item, button, submenu }, animate = true) => {
     const isOpen = item.classList.contains('open');
+
+    submenu.id ||= `bemke-mobile-submenu-${Array.from(mobileMenu.children).indexOf(item) + 1}`;
+    submenu.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+    submenu.toggleAttribute('inert', !isOpen);
+
+    if ('inert' in submenu) {
+      submenu.inert = !isOpen;
+    }
+
+    if (button) {
+      button.setAttribute('aria-controls', submenu.id);
+      button.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    }
 
     gsap.killTweensOf(submenu);
 

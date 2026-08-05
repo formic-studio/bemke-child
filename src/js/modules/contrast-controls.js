@@ -1,3 +1,5 @@
+import { ensureButtonElement } from './semantic-button.js';
+
 const STORAGE_KEY = 'bemke_a11y_contrast_mode';
 const CONTROLS_CONTAINER_ID = 'brxe-qcwgax';
 const BOOT_FLAG = '__bemkeContrastControlsBooted';
@@ -46,18 +48,13 @@ function setPressedState(activeMode) {
 function decorateControls() {
   getControls().forEach((element) => {
     const mode = normalizeMode(element.getAttribute('data-contrast'));
+    const button = ensureButtonElement(element);
 
-    if (element.tagName === 'A' && !element.getAttribute('href')) {
-      element.setAttribute('href', '#');
-    }
+    const label = CONTRAST_MODES.get(mode) ?? 'Tryb kontrastu';
 
-    element.setAttribute('role', 'button');
-    element.setAttribute('aria-label', CONTRAST_MODES.get(mode) ?? 'Tryb kontrastu');
-    element.setAttribute('data-a11y-contrast-fixed', 'true');
-
-    if (!element.hasAttribute('tabindex')) {
-      element.setAttribute('tabindex', '0');
-    }
+    button.setAttribute('aria-label', label);
+    button.setAttribute('title', label);
+    button.setAttribute('data-a11y-contrast-fixed', 'true');
   });
 }
 

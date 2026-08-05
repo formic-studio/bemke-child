@@ -1,6 +1,6 @@
 import { r as e, t } from "./motion-preference-Bn10ge8D.js";
-import { t as n } from "./font-size-controls-hQ8NHYJR.js";
-import { i as r, n as i, r as a, t as o } from "./touch-swipe-fallback-C_mGjsy9.js";
+import { t as n } from "./font-size-controls-DUBBhJnJ.js";
+import { i as r, n as i, r as a, t as o } from "./touch-swipe-fallback-D2n6TRec.js";
 //#region src/js/modules/thinktank-slider.js
 var s = {
 	root: ".slider-thinktank",
@@ -149,16 +149,13 @@ function A(n) {
 	let r = n.querySelector(s.track), i = Array.from(n.querySelectorAll(s.slide)), a = n.querySelector(s.textWrap), c = a ? Array.from(a.querySelectorAll(s.textSlide)) : [];
 	if (!r || i.length < 3) return;
 	let l = M(n), d = 0, p = !1, m = null, h = !1, g = null, _ = null, v = 0, y = [];
-	i.forEach((e, t) => {
+	n.setAttribute("role", "region"), n.setAttribute("aria-roledescription", "karuzela"), !n.hasAttribute("aria-label") && !n.hasAttribute("aria-labelledby") && n.setAttribute("aria-label", "Aktualności Think Tanku"), i.forEach((e, t) => {
 		if (e.classList.remove("bricks-lazy-hidden"), e.querySelector(s.title)?.classList.remove("bricks-lazy-hidden"), !e.querySelector(".slide-overlay")) {
 			let t = document.createElement("span");
 			t.className = "slide-overlay", t.setAttribute("aria-hidden", "true"), e.appendChild(t);
 		}
-		e.hasAttribute("tabindex") || e.setAttribute("tabindex", "0"), e.addEventListener("click", () => {
-			if (Date.now() < v) return;
-			let e = ee(d, t, i.length);
-			e !== 0 && S(e > 0 ? 1 : -1, Math.abs(e), !0);
-		});
+		let n = e.querySelector(s.title)?.textContent?.replace(/\s+/g, " ").trim();
+		e.removeAttribute("tabindex"), e.setAttribute("role", "group"), e.setAttribute("aria-roledescription", "slajd"), e.setAttribute("aria-label", `${n ? `${n}, ` : ""}slajd ${t + 1} z ${i.length}`);
 	}), c.forEach((e) => {
 		e.classList.remove("bricks-lazy-hidden");
 	});
@@ -240,7 +237,7 @@ function A(n) {
 		let e = y.shift();
 		if (!e) return;
 		let t = d;
-		d = te(d + e, i.length), O(t, d, e, !1);
+		d = ee(d + e, i.length), O(t, d, e, !1);
 	}
 	function w(e = !1) {
 		p = !0, e && S(1, 1, !1), E(), F(l, p);
@@ -265,6 +262,8 @@ function A(n) {
 			d > 0 ? (m ? j(r, e, v, G(-l - 1, l, u, s), c, -l - 1, l, d) : h && j(r, e, v, G(l + 1, l, u, s), c, l + 1, l, d), W(e, g, !0), J(e, f, l), window.requestAnimationFrame(() => {
 				J(e, p, l), W(e, _, !1), e.classList.toggle("is-center", p === 0), e.classList.toggle("is-visible", _.opacity > .01), e.style.pointerEvents = p === 0 ? "auto" : "none";
 			})) : (J(e, p, l), W(e, _, !1), e.classList.toggle("is-center", p === 0), e.classList.toggle("is-visible", _.opacity > .01), e.style.pointerEvents = p === 0 ? "auto" : "none");
+			let y = p === 0;
+			e.setAttribute("aria-hidden", y ? "false" : "true"), e.toggleAttribute("inert", !y), y ? e.setAttribute("aria-current", "true") : e.removeAttribute("aria-current");
 		}), I(b, c, n, a, d === 0), d > 0 && (g = window.setTimeout(() => {
 			g = null, h = !1, C();
 		}, d + 34)), d === 0 && (h = !1, C());
@@ -415,11 +414,7 @@ function Z(e, t, n) {
 	let r = e - t, i = n / 2;
 	return r > i && (r -= n), r < -i && (r += n), r;
 }
-function ee(e, t, n) {
-	let r = t - e, i = n / 2;
-	return r > i && (r -= n), r < -i && (r += n), r;
-}
-function te(e, t) {
+function ee(e, t) {
 	return (e + t) % t;
 }
 function Q(e, t, n) {

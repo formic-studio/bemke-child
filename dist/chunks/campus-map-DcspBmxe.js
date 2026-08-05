@@ -209,7 +209,7 @@ function c() {
 		preserveAspectRatio: "xMidYMid meet",
 		"aria-label": "Interaktywna mapa Campus Bemke"
 	}), d = document.createElement("div");
-	d.className = "campus-map__tooltip", d.setAttribute("role", "status"), d.setAttribute("aria-live", "polite");
+	d.className = "campus-map__tooltip", d.id = "bemke-campus-map-status", d.setAttribute("role", "status"), d.setAttribute("aria-live", "polite");
 	let f = null, p = () => {
 		d.removeAttribute("data-visible"), f?.classList.remove("is-active"), f = null;
 	}, m = (e, t) => {
@@ -221,7 +221,8 @@ function c() {
 			points: t,
 			role: "button",
 			tabindex: "0",
-			"aria-label": e
+			"aria-label": e,
+			"aria-describedby": d.id
 		}), a = r("title");
 		a.textContent = e, n.append(a), n.addEventListener("pointerenter", (t) => {
 			t.pointerType !== "touch" && (d.textContent = e, d.dataset.visible = "true", i(l, d, t.clientX, t.clientY));
@@ -238,6 +239,14 @@ function c() {
 			}
 			if (window.matchMedia("(hover: none)").matches) {
 				if (t.preventDefault(), f === n) {
+					p();
+					return;
+				}
+				p(), f = n, n.classList.add("is-active"), m(n, e), f = n;
+			}
+		}), n.addEventListener("keydown", (t) => {
+			if (!(t.key !== "Enter" && t.key !== " ")) {
+				if (t.preventDefault(), f === n && d.dataset.visible === "true") {
 					p();
 					return;
 				}

@@ -1,3 +1,5 @@
+import { ensureButtonElement } from './semantic-button.js';
+
 const STORAGE_KEY = 'bemke_a11y_font_scale';
 const CONTROLS_CONTAINER_ID = 'brxe-kecesp';
 const BOOT_FLAG = '__bemkeFontSizeControlsBooted';
@@ -87,17 +89,11 @@ function decorateControls() {
       return;
     }
 
-    if (element.tagName === 'A' && !element.getAttribute('href')) {
-      element.setAttribute('href', '#');
-    }
+    const button = ensureButtonElement(element);
 
-    element.setAttribute('role', 'button');
-    element.setAttribute('aria-label', control.label);
-    element.setAttribute('data-a11y-scale', String(control.scale));
-
-    if (!element.hasAttribute('tabindex')) {
-      element.setAttribute('tabindex', '0');
-    }
+    button.setAttribute('aria-label', control.label);
+    button.setAttribute('title', control.label);
+    button.setAttribute('data-a11y-scale', String(control.scale));
   });
 }
 

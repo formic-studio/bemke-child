@@ -2,6 +2,7 @@ import {
   MOTION_CHANGE_EVENT,
   isReducedMotion,
 } from './motion-preference.js';
+import { ensureButtonElement } from './semantic-button.js';
 
 const ROOT_SELECTOR = '.tabs-block';
 const TAB_SELECTOR = '.tab[tab-number], .tab[data-tab-number]';
@@ -86,7 +87,9 @@ function setupHistoryTabsLifecycle() {
 function createHistoryTabs(root, tabsBlock) {
   const slideWrapper = root.querySelector(SLIDE_WRAPPER_SELECTOR);
   const imageWrapper = root.querySelector(IMAGE_WRAPPER_SELECTOR);
-  const tabs = Array.from(tabsBlock.querySelectorAll(TAB_SELECTOR));
+  const tabs = Array.from(tabsBlock.querySelectorAll(TAB_SELECTOR))
+    .map(prepareTabButton)
+    .filter(Boolean);
   const slides = slideWrapper ? Array.from(slideWrapper.querySelectorAll(SLIDE_SELECTOR)) : [];
   const images = imageWrapper ? Array.from(imageWrapper.querySelectorAll(IMAGE_SELECTOR)) : [];
 
@@ -205,6 +208,27 @@ function createHistoryTabs(root, tabsBlock) {
       arrangeActiveItems(imageTrack, images, nextNumber, true);
     }, ANIMATION_MS + 80);
   }
+}
+
+function prepareTabButton(tab) {
+  const button = ensureButtonElement(tab);
+
+  Array.from(button?.children ?? []).forEach((child) => {
+    if (child.tagName !== 'DIV') {
+      return;
+    }
+
+    const span = document.createElement('span');
+
+    Array.from(child.attributes).forEach(({ name, value }) => {
+      span.setAttribute(name, value);
+    });
+
+    span.append(...Array.from(child.childNodes));
+    child.replaceWith(span);
+  });
+
+  return button;
 }
 
 function setupScrollableTabList(tablist) {

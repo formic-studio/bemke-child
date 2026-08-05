@@ -381,6 +381,7 @@ export function initCampusMap() {
 
   const tooltip = document.createElement("div");
   tooltip.className = "campus-map__tooltip";
+  tooltip.id = "bemke-campus-map-status";
   tooltip.setAttribute("role", "status");
   tooltip.setAttribute("aria-live", "polite");
 
@@ -405,6 +406,7 @@ export function initCampusMap() {
       role: "button",
       tabindex: "0",
       "aria-label": label,
+      "aria-describedby": tooltip.id,
     });
     const title = createSvgElement("title");
     title.textContent = label;
@@ -451,6 +453,25 @@ export function initCampusMap() {
       event.preventDefault();
 
       if (touchArea === area) {
+        hideTooltip();
+        return;
+      }
+
+      hideTooltip();
+      touchArea = area;
+      area.classList.add("is-active");
+      showTooltip(area, label);
+      touchArea = area;
+    });
+
+    area.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") {
+        return;
+      }
+
+      event.preventDefault();
+
+      if (touchArea === area && tooltip.dataset.visible === "true") {
         hideTooltip();
         return;
       }

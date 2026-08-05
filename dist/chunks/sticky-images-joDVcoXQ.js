@@ -1,7 +1,7 @@
 import { r as e, t } from "./motion-preference-Bn10ge8D.js";
-import { t as n } from "./font-size-controls-hQ8NHYJR.js";
-import { t as r } from "./gsap-0BK4_Us1.js";
-import { t as i } from "./ScrollTrigger-BeYzJT_T.js";
+import { t as n } from "./font-size-controls-DUBBhJnJ.js";
+import { t as r } from "./gsap-BlCrb88B.js";
+import { t as i } from "./ScrollTrigger-BDm4Kmox.js";
 //#region src/js/modules/sticky-images.js
 var a = ".sticky-wrapper", o = ".sticky", s = ".brxe-section", c = "(min-width: 992px)";
 function l() {
