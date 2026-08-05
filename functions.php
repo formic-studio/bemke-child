@@ -14,6 +14,7 @@ require_once get_stylesheet_directory() . '/inc/founders-campaign.php';
 require_once get_stylesheet_directory() . '/inc/admin-slider-menu.php';
 require_once get_stylesheet_directory() . '/inc/slider-galleries.php';
 require_once get_stylesheet_directory() . '/inc/image-optimization.php';
+require_once get_stylesheet_directory() . '/inc/accessibility-images.php';
 
 add_action( 'wp_head', 'bemke_child_print_theme_color', 0 );
 add_action( 'wp_head', 'bemke_child_print_motion_preference', 1 );
@@ -165,6 +166,7 @@ function bemke_child_start_frontend_optimization_buffer() {
 function bemke_child_optimize_frontend_markup( $html ) {
 	$html = bemke_child_prepare_manual_consent_markup( $html );
 	$html = bemke_child_prepare_main_content_focus_target( $html );
+	$html = bemke_child_prepare_image_alternatives( $html );
 
 	$optimized_html = preg_replace(
 		'/background-image\s*:\s*url\([^)]*FotoFullScreen-scaled\.webp[^)]*\)\s*;?/i',
