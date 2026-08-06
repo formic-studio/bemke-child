@@ -165,11 +165,13 @@ function bemke_child_get_image_alternatives() {
 		'2025WsparcieRodzin.webp'                      => 'Nauczycielka i dzieci podczas zajęć w szkolnym ogrodzie',
 		'2025WzorowePlacowki.webp'                     => 'Nauczycielka pracująca z uczniami w szkolnej bibliotece',
 		'bemke2050SzkolenieNauczycieli.webp'           => 'Uczestniczki szkolenia dla nauczycieli',
-		'nowyportretdaria.webp'                        => 'Daria Rybińska',
-		'nowyportretkasia.webp'                        => 'Katarzyna Przybył-Tamowicz',
-		'nowyportretprzemek.webp'                      => 'Przemysław Powalacz',
-		'urszula.webp'                                 => 'Urszula Szudarek',
-		'urszula-1.webp'                               => 'Urszula Szudarek',
+		// The person's name and role are already provided immediately beside these portraits.
+		// Empty alternatives prevent screen readers from announcing the same information twice.
+		'nowyportretdaria.webp'                        => '',
+		'nowyportretkasia.webp'                        => '',
+		'nowyportretprzemek.webp'                      => '',
+		'urszula.webp'                                 => '',
+		'urszula-1.webp'                               => '',
 		'kasiabaran.webp'                              => 'Katarzyna Ostrowska, Fundraising Manager',
 		'portret1.webp'                                => 'Olek, uczestnik programu Bemke Explore',
 		'portret3.webp'                                => 'Ania, uczestniczka programu Bemke Explore',

@@ -21,6 +21,8 @@ function bemke_child_prepare_accessibility_markup( $html ) {
 	$html = bemke_child_prepare_accessibility_toolbar_buttons( $html );
 	$html = bemke_child_repair_form_group_labels( $html );
 	$html = bemke_child_repair_footer_social_links( $html );
+	$html = bemke_child_prepare_descriptive_resource_links( $html );
+	$html = bemke_child_prepare_youtube_story_links( $html );
 	$html = bemke_child_prepare_decorative_videos( $html );
 
 	return $html;
@@ -239,13 +241,73 @@ function bemke_child_get_social_link_label( $markup ) {
 }
 
 /**
- * Mark the site's muted looping native videos as decorative from first paint.
+ * Replace generic resource-link wording with a purpose that makes sense out
+ * of context and identifies the file format.
+ *
+ * @param string $html Complete frontend response markup.
+ * @return string
+ */
+function bemke_child_prepare_descriptive_resource_links( $html ) {
+	$pattern = '/(<a\b(?=[^>]*\bhref\s*=\s*(["\'])[^"\']*Regulamin-Rekrutacji_STEAM-Academy_2_pdf\.pdf(?:[?#][^"\']*)?\2)[^>]*>)\s*Link\s*(<\/a>)/iu';
+
+	$updated_html = preg_replace(
+		$pattern,
+		'$1Regulamin rekrutacji (PDF)$3',
+		$html,
+		1
+	);
+
+	return null === $updated_html ? $html : $updated_html;
+}
+
+/**
+ * Give the three Bemke Explore story links unique Polish names while keeping
+ * their visible wording concise. WAVE will still report an informational
+ * YouTube alert because the destination is a video service.
+ *
+ * @param string $html Complete frontend response markup.
+ * @return string
+ */
+function bemke_child_prepare_youtube_story_links( $html ) {
+	$stories = array(
+		'brxe-xoqgdq' => 'Zobacz film — historia Olka w serwisie YouTube (otwiera się w nowej karcie)',
+		'brxe-zrhhrq' => 'Zobacz film — historia Ani w serwisie YouTube (otwiera się w nowej karcie)',
+		'brxe-casnvb' => 'Zobacz film — historia Anity w serwisie YouTube (otwiera się w nowej karcie)',
+	);
+
+	foreach ( $stories as $link_id => $label ) {
+		$pattern      = '/<a\b(?=[^>]*\bid\s*=\s*(["\'])' . preg_quote( $link_id, '/' ) . '\1)([^>]*)>.*?<\/a>/is';
+		$updated_html = preg_replace_callback(
+			$pattern,
+			static function ( $matches ) use ( $label ) {
+				$link_attributes = bemke_child_remove_html_attributes(
+					$matches[2],
+					array( 'aria-label', 'rel' )
+				);
+
+				return '<a' . $link_attributes . ' aria-label="' . esc_attr( $label ) . '" rel="noopener noreferrer">Zobacz film</a>';
+			},
+			$html,
+			1
+		);
+
+		if ( null !== $updated_html ) {
+			$html = $updated_html;
+		}
+	}
+
+	return $html;
+}
+
+/**
+ * Mark muted decorative autoplay videos as non-interactive from first paint.
+ * This includes looping backgrounds and the short campaign-book animation.
  *
  * @param string $html Complete frontend response markup.
  * @return string
  */
 function bemke_child_prepare_decorative_videos( $html ) {
-	$pattern = '/<video\b(?=[^>]*\bmuted\b)(?=[^>]*\bautoplay\b)(?=[^>]*\bloop\b)[^>]*>/i';
+	$pattern = '/<video\b(?=[^>]*\bmuted\b)(?:(?=[^>]*\bautoplay\b)(?=[^>]*\bloop\b)|(?=[^>]*(?:Comp-6\.webm|\bdata-bemke-alpha-sources\b)))[^>]*>/i';
 
 	$updated_html = preg_replace_callback(
 		$pattern,

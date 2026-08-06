@@ -165,14 +165,18 @@
   text-wrap: balance;
   white-space: normal;
   color: #fff !important;
-  opacity: 0;
+  -webkit-clip-path: inset(100% 0 0 0);
+  clip-path: inset(100% 0 0 0);
+  opacity: 1;
   pointer-events: none;
   text-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
   transition:
-    opacity 420ms ease,
-    transform 420ms ease;
+    clip-path 420ms ease,
+    transform 420ms ease,
+    visibility 0s linear 420ms;
   user-select: none;
   -webkit-user-select: none;
+  visibility: hidden;
 }
 
 .slider-thinktank .slider-wrapper.is-dragging,
@@ -184,8 +188,12 @@
 }
 
 .slider-thinktank .slide-thinktank.is-center .slide-tittle {
+  -webkit-clip-path: inset(0 0 0 0);
+  clip-path: inset(0 0 0 0);
   opacity: 1;
   transform: translate(-50%, -50%);
+  transition-delay: 0s;
+  visibility: visible;
 }
 
 .slider-thinktank .slider-text-wrapper {
