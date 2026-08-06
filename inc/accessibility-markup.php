@@ -20,7 +20,8 @@ function bemke_child_prepare_accessibility_markup( $html ) {
 
 	$html = bemke_child_prepare_accessibility_toolbar_buttons( $html );
 	$html = bemke_child_prepare_polish_menu_labels( $html );
-	$html = bemke_child_prepare_multiline_heading_text( $html );
+	$html = bemke_child_replace_legacy_season_mix_font_elements( $html );
+	$html = bemke_child_prepare_styled_heading_text( $html );
 	$html = bemke_child_repair_form_group_labels( $html );
 	$html = bemke_child_prepare_form_accessibility_attributes( $html );
 	$html = bemke_child_repair_footer_social_links( $html );
@@ -132,18 +133,67 @@ function bemke_child_prepare_polish_menu_labels( $html ) {
 }
 
 /**
- * Give visually split Bricks headings one continuous text alternative.
+ * Replace obsolete presentational font elements with neutral styled spans.
  *
- * A line break does not contribute a space to textContent, so combinations
- * such as "kampania założycielska<br><span>to proces</span>" can be exposed
- * inconsistently by browser and screen-reader combinations. Keep the visual
- * break, but hide it from assistive technology and precede it with a real text
- * space. This preserves the heading's native name-from-content behaviour.
+ * WebKit can expose a legacy font element as a separate formatting object.
+ * A plain span keeps the same Season Mix appearance without adding semantics.
  *
  * @param string $html Complete frontend response markup.
  * @return string
  */
-function bemke_child_prepare_multiline_heading_text( $html ) {
+function bemke_child_replace_legacy_season_mix_font_elements( $html ) {
+	$pattern = '/<font\b(?<attributes>(?=[^>]*\bface\s*=\s*(?<quote>["\'])Season Mix\k<quote>)[^>]*)>(?<content>.*?)<\/font>/is';
+
+	$updated_html = preg_replace_callback(
+		$pattern,
+		static function ( $matches ) {
+			$attributes = bemke_child_remove_html_attributes(
+				$matches['attributes'],
+				array( 'face' )
+			);
+
+			if ( preg_match( '/\bclass\s*=\s*(["\'])([^"\']*)\1/i', $attributes ) ) {
+				$attributes = preg_replace_callback(
+					'/\bclass\s*=\s*(["\'])([^"\']*)\1/i',
+					static function ( $class_match ) {
+						$classes = preg_split( '/\s+/', trim( $class_match[2] ) );
+						$classes = is_array( $classes ) ? $classes : array();
+
+						if ( ! in_array( 'font-f-season-mix', $classes, true ) ) {
+							$classes[] = 'font-f-season-mix';
+						}
+
+						return 'class=' . $class_match[1] .
+							implode( ' ', array_filter( $classes ) ) .
+							$class_match[1];
+					},
+					$attributes,
+					1
+				);
+			} else {
+				$attributes .= ' class="font-f-season-mix"';
+			}
+
+			return '<span' . $attributes . '>' . $matches['content'] . '</span>';
+		},
+		$html
+	);
+
+	return null === $updated_html ? $html : $updated_html;
+}
+
+/**
+ * Give visually split or styled Bricks headings one continuous name.
+ *
+ * A line break does not contribute a space to textContent, so combinations
+ * such as "kampania założycielska<br><span>to proces</span>" can be exposed
+ * inconsistently by browser and screen-reader combinations. A single label is
+ * appropriate here because the descendants contain only presentational text.
+ *
+ * @param string $html Complete frontend response markup.
+ * @return string
+ */
+function bemke_child_prepare_styled_heading_text( $html ) {
 	$pattern = '/<h(?<level>[1-6])\b(?<attributes>[^>]*)>(?<content>.*?)<\/h\k<level>>/is';
 
 	$updated_html = preg_replace_callback(
@@ -154,7 +204,8 @@ function bemke_child_prepare_multiline_heading_text( $html ) {
 
 			if (
 				! preg_match( '/\bclass\s*=\s*(["\'])[^"\']*\bbrxe-heading\b[^"\']*\1/i', $attributes ) ||
-				! preg_match( '/<br\b[^>]*>/i', $content )
+				! preg_match( '/<(?:br|span|font|div)\b/i', $content ) ||
+				preg_match( '/<(?:a|button|input|select|textarea)\b/i', $content )
 			) {
 				return $matches[0];
 			}
@@ -177,6 +228,28 @@ function bemke_child_prepare_multiline_heading_text( $html ) {
 
 			if ( null === $updated_content ) {
 				return $matches[0];
+			}
+
+			if ( ! preg_match( '/\baria-(?:label|labelledby)\s*=/i', $attributes ) ) {
+				$label_source = preg_replace(
+					'/<(?:br|\/?(?:div|p))\b[^>]*>/i',
+					' ',
+					$content
+				);
+
+				if ( is_string( $label_source ) ) {
+					$label = html_entity_decode(
+						wp_strip_all_tags( $label_source ),
+						ENT_QUOTES | ENT_HTML5,
+						'UTF-8'
+					);
+					$label = preg_replace( '/\s+/u', ' ', $label );
+					$label = is_string( $label ) ? trim( $label ) : '';
+
+					if ( '' !== $label ) {
+						$attributes .= ' aria-label="' . esc_attr( $label ) . '"';
+					}
+				}
 			}
 
 			return '<h' . $matches['level'] . $attributes . '>' .
