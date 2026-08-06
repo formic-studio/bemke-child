@@ -21,7 +21,7 @@ function bemke_child_prepare_accessibility_markup( $html ) {
 	$html = bemke_child_prepare_accessibility_toolbar_buttons( $html );
 	$html = bemke_child_prepare_polish_menu_labels( $html );
 	$html = bemke_child_repair_form_group_labels( $html );
-	$html = bemke_child_prepare_services_form_fields( $html );
+	$html = bemke_child_prepare_form_accessibility_attributes( $html );
 	$html = bemke_child_repair_footer_social_links( $html );
 	$html = bemke_child_prepare_descriptive_resource_links( $html );
 	$html = bemke_child_prepare_youtube_story_links( $html );
@@ -203,66 +203,79 @@ function bemke_child_repair_form_group_labels( $html ) {
 }
 
 /**
- * Add non-visual accessibility attributes to the services form. Visible field
- * labels remain under Bricks control so this pass cannot alter the design.
+ * Add non-visual accessibility attributes to the homepage and services forms.
+ * Visible field labels remain under Bricks control, so this pass cannot alter
+ * their design.
  *
  * @param string $html Complete frontend response markup.
  * @return string
  */
-function bemke_child_prepare_services_form_fields( $html ) {
-	$form_pattern = '/<form\b(?=[^>]*\bid\s*=\s*(["\'])brxe-pvoywb\1)[^>]*>.*?<\/form>/is';
-	$autocomplete_fields = array(
-		'form-field-cd9802' => 'name',
-		'form-field-57b3cb' => 'email',
+function bemke_child_prepare_form_accessibility_attributes( $html ) {
+	$forms = array(
+		'brxe-afpmhc' => array(
+			'form-field-a4f8b2' => 'name',
+			'form-field-dba4f2' => 'email',
+		),
+		'brxe-pvoywb' => array(
+			'form-field-cd9802' => 'name',
+			'form-field-57b3cb' => 'email',
+		),
 	);
 
-	$updated_html = preg_replace_callback(
-		$form_pattern,
-		static function ( $form_matches ) use ( $autocomplete_fields ) {
-			$form_markup = $form_matches[0];
+	foreach ( $forms as $form_id => $autocomplete_fields ) {
+		$form_pattern = '/<form\b(?=[^>]*\bid\s*=\s*(["\'])' . preg_quote( $form_id, '/' ) . '\1)[^>]*>.*?<\/form>/is';
+		$updated_html = preg_replace_callback(
+			$form_pattern,
+			static function ( $form_matches ) use ( $autocomplete_fields ) {
+				$form_markup = $form_matches[0];
 
-			// Every group in this form contains one labelled control, so group
-			// semantics would add noise without conveying a real relationship.
-			$form_markup = preg_replace_callback(
-				'/<div\b(?=[^>]*\bclass\s*=\s*(["\'])[^"\']*\bform-group\b[^"\']*\1)[^>]*>/i',
-				static function ( $group_matches ) {
-					return bemke_child_remove_html_attributes(
-						$group_matches[0],
-						array( 'role', 'aria-label', 'aria-labelledby' )
-					);
-				},
-				$form_markup
-			) ?? $form_markup;
-
-			foreach ( $autocomplete_fields as $field_id => $autocomplete ) {
-				$field_pattern = '/<input\b(?=[^>]*\bid\s*=\s*(["\'])' . preg_quote( $field_id, '/' ) . '\1)[^>]*>/i';
-				$form_markup   = preg_replace_callback(
-					$field_pattern,
-					static function ( $field_matches ) use ( $autocomplete ) {
-						$field_tag = bemke_child_remove_html_attributes(
-							$field_matches[0],
-							array( 'autocomplete' )
+				// Every group in these forms contains one labelled control, so group
+				// semantics add noise without conveying a real relationship.
+				$form_markup = preg_replace_callback(
+					'/<div\b(?=[^>]*\bclass\s*=\s*(["\'])[^"\']*\bform-group\b[^"\']*\1)[^>]*>/i',
+					static function ( $group_matches ) {
+						return bemke_child_remove_html_attributes(
+							$group_matches[0],
+							array( 'role', 'aria-label', 'aria-labelledby' )
 						);
-
-						return preg_replace(
-							'/\s*\/?>$/',
-							' autocomplete="' . esc_attr( $autocomplete ) . '">',
-							$field_tag,
-							1
-						) ?? $field_tag;
 					},
-					$form_markup,
-					1
+					$form_markup
 				) ?? $form_markup;
-			}
 
-			return $form_markup;
-		},
-		$html,
-		1
-	);
+				foreach ( $autocomplete_fields as $field_id => $autocomplete ) {
+					$field_pattern = '/<input\b(?=[^>]*\bid\s*=\s*(["\'])' . preg_quote( $field_id, '/' ) . '\1)[^>]*>/i';
+					$form_markup   = preg_replace_callback(
+						$field_pattern,
+						static function ( $field_matches ) use ( $autocomplete ) {
+							$field_tag = bemke_child_remove_html_attributes(
+								$field_matches[0],
+								array( 'autocomplete' )
+							);
 
-	return null === $updated_html ? $html : $updated_html;
+							return preg_replace(
+								'/\s*\/?>$/',
+								' autocomplete="' . esc_attr( $autocomplete ) . '">',
+								$field_tag,
+								1
+							) ?? $field_tag;
+						},
+						$form_markup,
+						1
+					) ?? $form_markup;
+				}
+
+				return $form_markup;
+			},
+			$html,
+			1
+		);
+
+		if ( null !== $updated_html ) {
+			$html = $updated_html;
+		}
+	}
+
+	return $html;
 }
 
 /**
