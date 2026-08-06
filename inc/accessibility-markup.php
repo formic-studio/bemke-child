@@ -20,6 +20,7 @@ function bemke_child_prepare_accessibility_markup( $html ) {
 
 	$html = bemke_child_prepare_accessibility_toolbar_buttons( $html );
 	$html = bemke_child_prepare_polish_menu_labels( $html );
+	$html = bemke_child_prepare_multiline_heading_text( $html );
 	$html = bemke_child_repair_form_group_labels( $html );
 	$html = bemke_child_prepare_form_accessibility_attributes( $html );
 	$html = bemke_child_repair_footer_social_links( $html );
@@ -123,6 +124,64 @@ function bemke_child_prepare_polish_menu_labels( $html ) {
 				$button,
 				1
 			) ?? $matches[0];
+		},
+		$html
+	);
+
+	return null === $updated_html ? $html : $updated_html;
+}
+
+/**
+ * Give visually split Bricks headings one continuous text alternative.
+ *
+ * A line break does not contribute a space to textContent, so combinations
+ * such as "kampania założycielska<br><span>to proces</span>" can be exposed
+ * inconsistently by browser and screen-reader combinations. Keep the visual
+ * break, but hide it from assistive technology and precede it with a real text
+ * space. This preserves the heading's native name-from-content behaviour.
+ *
+ * @param string $html Complete frontend response markup.
+ * @return string
+ */
+function bemke_child_prepare_multiline_heading_text( $html ) {
+	$pattern = '/<h(?<level>[1-6])\b(?<attributes>[^>]*)>(?<content>.*?)<\/h\k<level>>/is';
+
+	$updated_html = preg_replace_callback(
+		$pattern,
+		static function ( $matches ) {
+			$attributes = $matches['attributes'];
+			$content    = $matches['content'];
+
+			if (
+				! preg_match( '/\bclass\s*=\s*(["\'])[^"\']*\bbrxe-heading\b[^"\']*\1/i', $attributes ) ||
+				! preg_match( '/<br\b[^>]*>/i', $content )
+			) {
+				return $matches[0];
+			}
+
+			$updated_content = preg_replace_callback(
+				'/<br\b[^>]*>/i',
+				static function ( $line_break ) {
+					$tag = bemke_child_remove_html_attributes(
+						$line_break[0],
+						array( 'aria-hidden' )
+					);
+					$tag = preg_replace( '/\s*\/?>$/', '', $tag );
+
+					return null === $tag
+						? $line_break[0]
+						: ' ' . $tag . ' aria-hidden="true">';
+				},
+				$content
+			);
+
+			if ( null === $updated_content ) {
+				return $matches[0];
+			}
+
+			return '<h' . $matches['level'] . $attributes . '>' .
+				$updated_content .
+				'</h' . $matches['level'] . '>';
 		},
 		$html
 	);
