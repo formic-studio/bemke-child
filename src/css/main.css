@@ -2587,7 +2587,18 @@ html[data-contrast]:not([data-contrast="default"])
 }
 
 .page-info > a[href] {
-  transition: color 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0 0.08em;
+  text-decoration: none;
+  transition:
+    background-size 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+    color 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.page-info > a[href]:is(:hover, :focus-visible) {
+  background-size: 100% 0.08em;
 }
 
 html:not([data-contrast])
