@@ -1,7 +1,6 @@
 const FORM_SELECTOR = '.brxe-form';
 const ARIA_REFERENCE_ATTRS = ['aria-labelledby', 'aria-describedby'];
 const HIDDEN_LABEL_CLASS = 'bemke-sr-only';
-const FIELD_LABEL_CLASS = 'bemke-field-label';
 const FIELD_ERROR_CLASS = 'bemke-field-error';
 const STATUS_CLASS = 'bemke-form-status';
 const READY_ATTR = 'data-bemke-accessible-form-ready';
@@ -58,10 +57,7 @@ function enhanceAccessibleForms(root = document) {
     form.setAttribute(READY_ATTR, '1');
     form.addEventListener(
       'invalid',
-      (event) => {
-        event.preventDefault();
-        handleInvalidField(form, event.target);
-      },
+      (event) => handleInvalidField(form, event.target),
       true,
     );
     form.addEventListener('input', (event) => clearValidFieldError(event.target));
@@ -82,50 +78,8 @@ function prepareFormFields(form) {
       group.removeAttribute('aria-labelledby');
     }
 
-    controls.forEach((control) => {
-      applyAutocomplete(control);
-
-      if (!supportsPersistentLabel(control)) {
-        return;
-      }
-
-      const controlId = ensureControlId(control);
-      const existingLabel = Array.from(group.querySelectorAll('label[for]')).find(
-        (label) => label.htmlFor === controlId,
-      );
-
-      if (existingLabel) {
-        control.removeAttribute('aria-label');
-        return;
-      }
-
-      const labelText = getControlLabel(control);
-
-      if (!labelText) {
-        return;
-      }
-
-      const label = document.createElement('label');
-      label.className = FIELD_LABEL_CLASS;
-      label.htmlFor = controlId;
-      label.textContent = labelText;
-      group.insertBefore(label, control);
-      control.removeAttribute('aria-label');
-    });
+    controls.forEach(applyAutocomplete);
   });
-}
-
-function supportsPersistentLabel(control) {
-  if (control.matches('select, textarea')) {
-    return true;
-  }
-
-  return (
-    control.matches('input') &&
-    !['button', 'checkbox', 'file', 'hidden', 'image', 'radio', 'reset', 'submit'].includes(
-      control.type,
-    )
-  );
 }
 
 function ensureControlId(control) {
@@ -256,7 +210,7 @@ function showFieldError(field, message) {
   if (!error) {
     error = document.createElement('span');
     error.id = errorId;
-    error.className = FIELD_ERROR_CLASS;
+    error.className = `${FIELD_ERROR_CLASS} ${HIDDEN_LABEL_CLASS}`;
     (field.closest('.form-group') || field.parentElement)?.append(error);
   }
 

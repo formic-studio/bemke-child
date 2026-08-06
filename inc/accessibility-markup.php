@@ -149,33 +149,22 @@ function bemke_child_repair_form_group_labels( $html ) {
 }
 
 /**
- * Add persistent labels and autofill tokens to the services form without
- * changing its outer dimensions. Bricks stores these fields in page content,
- * so the final-markup pass keeps the accessibility fix in the child theme.
+ * Add non-visual accessibility attributes to the services form. Visible field
+ * labels remain under Bricks control so this pass cannot alter the design.
  *
  * @param string $html Complete frontend response markup.
  * @return string
  */
 function bemke_child_prepare_services_form_fields( $html ) {
 	$form_pattern = '/<form\b(?=[^>]*\bid\s*=\s*(["\'])brxe-pvoywb\1)[^>]*>.*?<\/form>/is';
-	$field_labels = array(
-		'form-field-6a241c' => array(
-			'label'        => 'Temat',
-			'autocomplete' => '',
-		),
-		'form-field-cd9802' => array(
-			'label'        => 'Imię i nazwisko',
-			'autocomplete' => 'name',
-		),
-		'form-field-57b3cb' => array(
-			'label'        => 'E-mail',
-			'autocomplete' => 'email',
-		),
+	$autocomplete_fields = array(
+		'form-field-cd9802' => 'name',
+		'form-field-57b3cb' => 'email',
 	);
 
 	$updated_html = preg_replace_callback(
 		$form_pattern,
-		static function ( $form_matches ) use ( $field_labels ) {
+		static function ( $form_matches ) use ( $autocomplete_fields ) {
 			$form_markup = $form_matches[0];
 
 			// Every group in this form contains one labelled control, so group
@@ -191,29 +180,22 @@ function bemke_child_prepare_services_form_fields( $html ) {
 				$form_markup
 			) ?? $form_markup;
 
-			foreach ( $field_labels as $field_id => $field_data ) {
-				$field_pattern = '/<(input|select|textarea)\b(?=[^>]*\bid\s*=\s*(["\'])' . preg_quote( $field_id, '/' ) . '\2)[^>]*>/i';
+			foreach ( $autocomplete_fields as $field_id => $autocomplete ) {
+				$field_pattern = '/<input\b(?=[^>]*\bid\s*=\s*(["\'])' . preg_quote( $field_id, '/' ) . '\1)[^>]*>/i';
 				$form_markup   = preg_replace_callback(
 					$field_pattern,
-					static function ( $field_matches ) use ( $field_id, $field_data ) {
+					static function ( $field_matches ) use ( $autocomplete ) {
 						$field_tag = bemke_child_remove_html_attributes(
 							$field_matches[0],
-							array( 'aria-label', 'autocomplete' )
+							array( 'autocomplete' )
 						);
 
-						if ( '' !== $field_data['autocomplete'] ) {
-							$field_tag = preg_replace(
-								'/\s*\/?>$/',
-								' autocomplete="' . esc_attr( $field_data['autocomplete'] ) . '">',
-								$field_tag,
-								1
-							) ?? $field_tag;
-						}
-
-						return '<label class="bemke-field-label" for="' . esc_attr( $field_id ) . '">'
-							. esc_html( $field_data['label'] )
-							. '</label>'
-							. $field_tag;
+						return preg_replace(
+							'/\s*\/?>$/',
+							' autocomplete="' . esc_attr( $autocomplete ) . '">',
+							$field_tag,
+							1
+						) ?? $field_tag;
 					},
 					$form_markup,
 					1
