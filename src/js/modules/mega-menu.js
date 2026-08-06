@@ -226,6 +226,7 @@ function setupEntries(entries) {
     if (entry.button) {
       entry.button.setAttribute('aria-controls', entry.submenu.id);
       entry.button.setAttribute('aria-expanded', 'false');
+      updateSubmenuButtonLabel(entry, false);
       entry.button.setAttribute('aria-hidden', 'true');
       entry.button.setAttribute('tabindex', '-1');
     }
@@ -245,7 +246,25 @@ function setEntryOpen(entry, isOpen) {
   entry.submenu.toggleAttribute('inert', !isOpen);
   entry.link.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
   entry.button?.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  updateSubmenuButtonLabel(entry, isOpen);
   setSubmenuFocusable(entry.submenu, isOpen);
+}
+
+function updateSubmenuButtonLabel(entry, isOpen) {
+  if (!entry.button) {
+    return;
+  }
+
+  const itemLabel = entry.link.textContent.replace(/\s+/g, ' ').trim();
+
+  if (!itemLabel) {
+    return;
+  }
+
+  entry.button.setAttribute(
+    'aria-label',
+    `${isOpen ? 'Zamknij' : 'Otwórz'} podmenu: ${itemLabel}`,
+  );
 }
 
 function setSubmenuFocusable(submenu, isEnabled) {

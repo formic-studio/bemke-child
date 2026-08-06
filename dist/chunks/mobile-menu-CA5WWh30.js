@@ -241,10 +241,10 @@ function x(e) {
 	});
 }
 function S(e, t, n) {
-	window.bricksData?.i18n && (window.bricksData.i18n.openMobileMenu = "Otwórz menu", window.bricksData.i18n.closeMobileMenu = "Zamknij menu");
+	window.bricksData?.i18n && (window.bricksData.i18n.openMobileMenu = "Otwórz menu główne", window.bricksData.i18n.closeMobileMenu = "Zamknij menu główne");
 	let r = () => {
 		let e = t.getAttribute("aria-expanded") === "true";
-		t.setAttribute("aria-label", e ? "Zamknij menu" : "Otwórz menu");
+		t.setAttribute("aria-label", e ? "Zamknij menu główne" : "Otwórz menu główne");
 	};
 	r(), new MutationObserver(r).observe(t, {
 		attributeFilter: ["aria-expanded"],
@@ -252,7 +252,7 @@ function S(e, t, n) {
 	}), n.querySelectorAll(".brx-submenu-toggle > button").forEach((e) => {
 		let t = () => {
 			let t = e.parentElement?.querySelector(":scope > a")?.textContent.trim(), n = e.getAttribute("aria-expanded") === "true";
-			t && e.setAttribute("aria-label", `${n ? "Zwiń" : "Rozwiń"} podmenu: ${t}`);
+			t && e.setAttribute("aria-label", `${n ? "Zamknij" : "Otwórz"} podmenu: ${t}`);
 		};
 		t(), new MutationObserver(t).observe(e, {
 			attributeFilter: ["aria-expanded"],

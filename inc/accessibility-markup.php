@@ -19,6 +19,7 @@ function bemke_child_prepare_accessibility_markup( $html ) {
 	}
 
 	$html = bemke_child_prepare_accessibility_toolbar_buttons( $html );
+	$html = bemke_child_prepare_polish_menu_labels( $html );
 	$html = bemke_child_repair_form_group_labels( $html );
 	$html = bemke_child_prepare_services_form_fields( $html );
 	$html = bemke_child_repair_footer_social_links( $html );
@@ -74,6 +75,59 @@ function bemke_child_prepare_accessibility_toolbar_buttons( $html ) {
 	}
 
 	return $html;
+}
+
+/**
+ * Replace Bricks' initial English menu-control names before first paint. The
+ * frontend menu modules keep these labels synchronized with aria-expanded.
+ *
+ * @param string $html Complete frontend response markup.
+ * @return string
+ */
+function bemke_child_prepare_polish_menu_labels( $html ) {
+	$mobile_toggle_pattern = '/<button\b(?=[^>]*\bclass\s*=\s*(["\'])[^"\']*\bbricks-mobile-menu-toggle\b[^"\']*\1)[^>]*>/i';
+	$updated_html          = preg_replace_callback(
+		$mobile_toggle_pattern,
+		static function ( $matches ) {
+			$button = bemke_child_remove_html_attributes( $matches[0], array( 'aria-label' ) );
+			$label  = preg_match( '/\baria-expanded\s*=\s*(["\'])true\1/i', $button )
+				? 'Zamknij menu główne'
+				: 'Otwórz menu główne';
+
+			return preg_replace(
+				'/>$/',
+				' aria-label="' . esc_attr( $label ) . '">',
+				$button,
+				1
+			) ?? $matches[0];
+		},
+		$html
+	);
+
+	if ( null !== $updated_html ) {
+		$html = $updated_html;
+	}
+
+	$submenu_pattern = '/<button\b(?=[^>]*\baria-label\s*=\s*(["\'])([^"\']+?)\s+Sub menu\1)[^>]*>/iu';
+	$updated_html    = preg_replace_callback(
+		$submenu_pattern,
+		static function ( $matches ) {
+			$button     = bemke_child_remove_html_attributes( $matches[0], array( 'aria-label' ) );
+			$is_open    = (bool) preg_match( '/\baria-expanded\s*=\s*(["\'])true\1/i', $button );
+			$item_label = trim( wp_strip_all_tags( html_entity_decode( $matches[2], ENT_QUOTES, 'UTF-8' ) ) );
+			$label      = ( $is_open ? 'Zamknij podmenu: ' : 'Otwórz podmenu: ' ) . $item_label;
+
+			return preg_replace(
+				'/>$/',
+				' aria-label="' . esc_attr( $label ) . '">',
+				$button,
+				1
+			) ?? $matches[0];
+		},
+		$html
+	);
+
+	return null === $updated_html ? $html : $updated_html;
 }
 
 /**

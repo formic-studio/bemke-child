@@ -57,6 +57,11 @@ function setupNavigation(navigation) {
       mobileToggle.setAttribute('aria-expanded', expanded);
     }
 
+    mobileToggle.setAttribute(
+      'aria-label',
+      isOpen ? 'Zamknij menu główne' : 'Otwórz menu główne',
+    );
+
     if (wasMobileMenuOpen && !isOpen && mobileWrapper.contains(document.activeElement)) {
       mobileToggle.focus({ preventScroll: true });
     }

@@ -532,13 +532,16 @@ function setupAlwaysOpenNestedBranches(mobileMenu) {
 
 function setupPolishMenuLabels(navigation, mobileToggle, mobileWrapper) {
   if (window.bricksData?.i18n) {
-    window.bricksData.i18n.openMobileMenu = 'Otwórz menu';
-    window.bricksData.i18n.closeMobileMenu = 'Zamknij menu';
+    window.bricksData.i18n.openMobileMenu = 'Otwórz menu główne';
+    window.bricksData.i18n.closeMobileMenu = 'Zamknij menu główne';
   }
 
   const updateMenuToggleLabel = () => {
     const isOpen = mobileToggle.getAttribute('aria-expanded') === 'true';
-    mobileToggle.setAttribute('aria-label', isOpen ? 'Zamknij menu' : 'Otwórz menu');
+    mobileToggle.setAttribute(
+      'aria-label',
+      isOpen ? 'Zamknij menu główne' : 'Otwórz menu główne',
+    );
   };
 
   updateMenuToggleLabel();
@@ -557,7 +560,7 @@ function setupPolishMenuLabels(navigation, mobileToggle, mobileWrapper) {
       if (itemLabel) {
         button.setAttribute(
           'aria-label',
-          `${isOpen ? 'Zwiń' : 'Rozwiń'} podmenu: ${itemLabel}`,
+          `${isOpen ? 'Zamknij' : 'Otwórz'} podmenu: ${itemLabel}`,
         );
       }
     };
