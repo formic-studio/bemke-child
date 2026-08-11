@@ -17,9 +17,9 @@ const READY_ATTR = 'data-bemke-team-slider-ready';
 const ACTIVE_ATTR = 'slide-active';
 const VISIBLE_ATTR = 'data-bemke-team-slide-visible';
 const ORIGINAL_TABINDEX_ATTR = 'data-bemke-team-original-tabindex';
+const STATUS_CLASS = 'bemke-team-slider-status';
 const BOOT_FLAG = '__bemkeTeamSliderBooted';
 const DRAGGING_CLASS = 'is-dragging';
-const RESETTING_CLASS = 'is-resetting';
 
 const ANIMATION_DURATION = 0.8;
 const SNAP_DURATION = 0.35;
@@ -96,6 +96,7 @@ function createTeamSlider(root, track) {
   let movementTween = null;
   let pointerState = null;
   let shouldSuppressClick = false;
+  let currentPosition = 0;
 
   slides.forEach((slide) => slide.classList.add('team-link'));
   root.setAttribute(READY_ATTR, '1');
@@ -119,7 +120,10 @@ function createTeamSlider(root, track) {
       const dragOffset = clamp(dx * 0.5, -step * 0.8, step * 0.8);
 
       track.classList.add(DRAGGING_CLASS);
-      applyOffset(track, dragOffset);
+      applyOffset(
+        track,
+        getPositionOffset(track, currentPosition) + dragOffset,
+      );
     },
     onSwipe: ({ direction }) => {
       const dragOffset = getRenderedOffset(track);
@@ -130,7 +134,7 @@ function createTeamSlider(root, track) {
     },
     onCancel: () => {
       track.classList.remove(DRAGGING_CLASS);
-      snapToStart(track);
+      snapToPosition(track, currentPosition);
     },
     threshold: SWIPE_THRESHOLD,
   });
@@ -141,6 +145,10 @@ function createTeamSlider(root, track) {
     }
 
     if (event.key === 'ArrowLeft') {
+      if (currentPosition <= 0) {
+        return;
+      }
+
       event.preventDefault();
       focusControl(controls.prev);
       queueMove(-1, true);
@@ -148,6 +156,10 @@ function createTeamSlider(root, track) {
     }
 
     if (event.key === 'ArrowRight') {
+      if (currentPosition >= getMaxPosition(root, track)) {
+        return;
+      }
+
       event.preventDefault();
       focusControl(controls.next);
       queueMove(1, true);
@@ -165,9 +177,17 @@ function createTeamSlider(root, track) {
       return;
     }
 
+    const slideIndex = slides.indexOf(slide);
+    const visibleCount = getVisibleSlideCount(root, track);
+    const nextPosition =
+      slideIndex < currentPosition
+        ? slideIndex
+        : slideIndex - visibleCount + 1;
+
     // Keep every profile available to assistive technology. When keyboard
-    // focus reaches an off-screen card, rotate it into the visible window.
-    queueMove(1, true);
+    // focus reaches an off-screen card, move the finite track just far enough
+    // to reveal it without changing the DOM or looping back to the beginning.
+    moveToPosition(nextPosition, true);
   });
 
   track.addEventListener('pointerdown', (event) => {
@@ -182,6 +202,7 @@ function createTeamSlider(root, track) {
       id: event.pointerId,
       startX: event.clientX,
       startY: event.clientY,
+      startOffset: getPositionOffset(track, currentPosition),
       lockedAxis: null,
       dragged: false,
     };
@@ -220,7 +241,7 @@ function createTeamSlider(root, track) {
 
     pointerState.dragged = true;
     track.classList.add(DRAGGING_CLASS);
-    applyOffset(track, dragOffset);
+    applyOffset(track, pointerState.startOffset + dragOffset);
   });
 
   track.addEventListener('pointerup', (event) => {
@@ -250,13 +271,13 @@ function createTeamSlider(root, track) {
       return;
     }
 
-    snapToStart(track);
+    snapToPosition(track, currentPosition);
   });
 
   track.addEventListener('pointercancel', () => {
     pointerState = null;
     track.classList.remove(DRAGGING_CLASS);
-    snapToStart(track);
+    snapToPosition(track, currentPosition);
   });
 
   track.addEventListener(
@@ -275,16 +296,40 @@ function createTeamSlider(root, track) {
 
   const refresh = debounce(() => {
     cancelMovement();
-    applyOffset(track, 0);
-    syncSlides(root, track);
+    currentPosition = clamp(
+      currentPosition,
+      0,
+      getMaxPosition(root, track),
+    );
+    applyOffset(track, getPositionOffset(track, currentPosition));
+    syncSlides(root, track, currentPosition);
+    updateControlsState(
+      controls,
+      isPlaying,
+      currentPosition,
+      getMaxPosition(root, track),
+    );
   }, 120);
 
   window.addEventListener('resize', refresh);
   root.__bemkeTeamSliderRefresh = refresh;
 
   applyOffset(track, 0);
-  updateControlsState(controls, isPlaying);
-  window.requestAnimationFrame(() => syncSlides(root, track));
+  updateControlsState(
+    controls,
+    isPlaying,
+    currentPosition,
+    getMaxPosition(root, track),
+  );
+  window.requestAnimationFrame(() => {
+    syncSlides(root, track, currentPosition);
+    updateControlsState(
+      controls,
+      isPlaying,
+      currentPosition,
+      getMaxPosition(root, track),
+    );
+  });
 
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
@@ -301,72 +346,114 @@ function createTeamSlider(root, track) {
     }
 
     cancelMovement();
-    applyOffset(track, 0);
-    syncSlides(root, track);
+    currentPosition = clamp(
+      currentPosition,
+      0,
+      getMaxPosition(root, track),
+    );
+    applyOffset(track, getPositionOffset(track, currentPosition));
+    syncSlides(root, track, currentPosition);
+    updateControlsState(
+      controls,
+      isPlaying,
+      currentPosition,
+      getMaxPosition(root, track),
+    );
   });
 
   function queueMove(direction, restartTimer = false, dragOffset = null) {
     const normalizedDirection = direction < 0 ? -1 : 1;
-
-    if (restartTimer && isPlaying) {
-      startAutoplay();
-    }
 
     if (isAnimating) {
       queuedDirection = normalizedDirection;
       return;
     }
 
-    move(normalizedDirection, dragOffset);
+    moveToPosition(
+      currentPosition + normalizedDirection,
+      restartTimer,
+      dragOffset,
+    );
   }
 
-  function move(direction, dragOffset = null) {
-    const currentSlides = getTeamSlides(track);
+  function moveToPosition(
+    requestedPosition,
+    restartTimer = false,
+    renderedOffset = null,
+  ) {
+    const maxPosition = getMaxPosition(root, track);
+    const nextPosition = clamp(requestedPosition, 0, maxPosition);
     const step = getSlideStep(track);
 
-    if (currentSlides.length < 2 || step <= 0) {
-      applyOffset(track, 0);
+    if (restartTimer && isPlaying) {
+      startAutoplay();
+    }
+
+    if (nextPosition === currentPosition || step <= 0) {
+      snapToPosition(track, currentPosition);
+
+      if (isPlaying && currentPosition >= maxPosition) {
+        disableAutoplay();
+      } else {
+        updateControlsState(
+          controls,
+          isPlaying,
+          currentPosition,
+          maxPosition,
+        );
+      }
+
       return;
     }
 
+    currentPosition = nextPosition;
+    const targetOffset = getPositionOffset(track, currentPosition);
+
+    if (Number.isFinite(renderedOffset)) {
+      applyOffset(track, renderedOffset);
+    }
+
     if (isReducedMotion()) {
-      rotateSlides(track, currentSlides, direction);
-      applyOffset(track, 0);
-      syncSlides(root, track);
+      applyOffset(track, targetOffset);
+      syncSlides(root, track, currentPosition);
+      finishPositionChange();
       flushQueuedMove();
       return;
     }
 
     isAnimating = true;
-
-    if (direction > 0) {
-      if (Number.isFinite(dragOffset)) {
-        applyOffset(track, dragOffset);
-      }
-
-      movementTween = animateOffset(track, -step, () => {
-        rotateSlides(track, currentSlides, direction);
-        finishMove();
-      });
-      return;
-    }
-
-    const currentOffset = Number.isFinite(dragOffset) ? dragOffset : 0;
-    rotateSlides(track, currentSlides, direction);
-    applyOffset(track, currentOffset - step);
-    track.offsetHeight;
-    movementTween = animateOffset(track, 0, finishMove);
+    updateControlsState(
+      controls,
+      isPlaying,
+      currentPosition,
+      maxPosition,
+    );
+    movementTween = animateOffset(track, targetOffset, finishMove);
   }
 
   function finishMove() {
     movementTween = null;
-    root.classList.add(RESETTING_CLASS);
-    applyOffset(track, 0);
-    track.offsetHeight;
-    root.classList.remove(RESETTING_CLASS);
     isAnimating = false;
-    syncSlides(root, track);
+    applyOffset(track, getPositionOffset(track, currentPosition));
+    syncSlides(root, track, currentPosition);
+    finishPositionChange();
     flushQueuedMove();
+  }
+
+  function finishPositionChange() {
+    const maxPosition = getMaxPosition(root, track);
+
+    if (isPlaying && currentPosition >= maxPosition) {
+      disableAutoplay();
+      return;
+    }
+
+    updateControlsState(
+      controls,
+      isPlaying,
+      currentPosition,
+      maxPosition,
+    );
   }
 
   function cancelMovement() {
@@ -384,10 +471,20 @@ function createTeamSlider(root, track) {
 
     const direction = queuedDirection;
     queuedDirection = 0;
-    move(direction);
+    queueMove(direction);
   }
 
   function enableAutoplay(shouldAdvance = false) {
+    if (currentPosition >= getMaxPosition(root, track)) {
+      updateControlsState(
+        controls,
+        false,
+        currentPosition,
+        getMaxPosition(root, track),
+      );
+      return;
+    }
+
     isPlaying = true;
 
     if (shouldAdvance) {
@@ -395,13 +492,23 @@ function createTeamSlider(root, track) {
     }
 
     startAutoplay();
-    updateControlsState(controls, isPlaying);
+    updateControlsState(
+      controls,
+      isPlaying,
+      currentPosition,
+      getMaxPosition(root, track),
+    );
   }
 
   function disableAutoplay() {
     isPlaying = false;
     stopAutoplay();
-    updateControlsState(controls, isPlaying);
+    updateControlsState(
+      controls,
+      isPlaying,
+      currentPosition,
+      getMaxPosition(root, track),
+    );
   }
 
   function startAutoplay() {
@@ -429,15 +536,6 @@ function getTeamSlides(track) {
   );
 }
 
-function rotateSlides(track, slides, direction) {
-  if (direction > 0) {
-    track.appendChild(slides[0]);
-    return;
-  }
-
-  track.prepend(slides[slides.length - 1]);
-}
-
 function decorateSlider(root, track, slides) {
   sliderId += 1;
 
@@ -459,8 +557,10 @@ function decorateSlider(root, track, slides) {
     root.setAttribute('tabindex', '0');
   }
 
-  track.setAttribute('aria-live', 'polite');
+  track.setAttribute('aria-live', 'off');
   track.setAttribute('aria-atomic', 'false');
+
+  ensureSliderStatus(root);
 
   slides.forEach((slide, index) => {
     const name = slide
@@ -496,7 +596,7 @@ function prepareSlides(slides) {
   });
 }
 
-function syncSlides(root, track) {
+function syncSlides(root, track, currentPosition = 0) {
   const rootRect = root.getBoundingClientRect();
   const slides = getTeamSlides(track);
 
@@ -507,7 +607,7 @@ function syncSlides(root, track) {
       Math.min(rect.right, rootRect.right) - Math.max(rect.left, rootRect.left),
     );
     const isVisible = rect.width > 0 && overlap >= Math.min(rect.width * 0.5, 80);
-    const isCurrent = index === 0;
+    const isCurrent = index === currentPosition;
 
     slide.setAttribute(ACTIVE_ATTR, isCurrent ? '1' : '0');
     slide.setAttribute(VISIBLE_ATTR, isVisible ? 'true' : 'false');
@@ -521,6 +621,40 @@ function syncSlides(root, track) {
 
     restoreSlideInteractivity(slide);
   });
+
+  updateSliderStatus(root, currentPosition, slides.length, track);
+}
+
+function ensureSliderStatus(root) {
+  const existingStatus = root.querySelector(`:scope > .${STATUS_CLASS}`);
+
+  if (existingStatus) {
+    return existingStatus;
+  }
+
+  const status = document.createElement('p');
+  status.className = `${STATUS_CLASS} bemke-sr-only`;
+  status.setAttribute('role', 'status');
+  status.setAttribute('aria-live', 'polite');
+  status.setAttribute('aria-atomic', 'true');
+  root.appendChild(status);
+
+  return status;
+}
+
+function updateSliderStatus(root, currentPosition, total, track) {
+  const status = ensureSliderStatus(root);
+  const visibleCount = getVisibleSlideCount(root, track);
+  const first = Math.min(total, currentPosition + 1);
+  const last = Math.min(total, currentPosition + visibleCount);
+  const message =
+    first === last
+      ? `Wyświetlana osoba ${first} z ${total}.`
+      : `Wyświetlane osoby ${first}–${last} z ${total}.`;
+
+  if (status.textContent !== message) {
+    status.textContent = message;
+  }
 }
 
 function restoreSlideInteractivity(slide) {
@@ -565,16 +699,61 @@ function bindControls(controls, track, handlers) {
   });
 }
 
-function updateControlsState(controls, isPlaying) {
-  if (controls.play) {
-    controls.play.classList.toggle('is-disabled', isPlaying);
-    controls.play.setAttribute('aria-disabled', isPlaying ? 'true' : 'false');
+function updateControlsState(
+  controls,
+  isPlaying,
+  currentPosition,
+  maxPosition,
+) {
+  setControlDisabled(controls.prev, currentPosition <= 0);
+  setControlDisabled(controls.next, currentPosition >= maxPosition);
+  setControlDisabled(
+    controls.play,
+    isPlaying || currentPosition >= maxPosition,
+  );
+  setControlDisabled(controls.pause, !isPlaying);
+}
+
+function setControlDisabled(control, disabled) {
+  if (!control) {
+    return;
   }
 
-  if (controls.pause) {
-    controls.pause.classList.toggle('is-disabled', !isPlaying);
-    controls.pause.setAttribute('aria-disabled', !isPlaying ? 'true' : 'false');
+  control.classList.toggle('is-disabled', disabled);
+  control.setAttribute('aria-disabled', disabled ? 'true' : 'false');
+}
+
+function getVisibleSlideCount(root, track) {
+  const slides = getTeamSlides(track);
+  const firstRect = slides[0]?.getBoundingClientRect();
+  const step = getSlideStep(track);
+  const rootWidth = root.getBoundingClientRect().width;
+
+  if (!firstRect?.width || step <= 0 || rootWidth <= 0) {
+    return 1;
   }
+
+  const gap = Math.max(0, step - firstRect.width);
+
+  return clamp(
+    Math.floor((rootWidth + gap + 1) / step),
+    1,
+    slides.length,
+  );
+}
+
+function getMaxPosition(root, track) {
+  return Math.max(
+    0,
+    getTeamSlides(track).length - getVisibleSlideCount(root, track),
+  );
+}
+
+function getPositionOffset(track, position) {
+  return (
+    -clamp(position, 0, getTeamSlides(track).length - 1) *
+    getSlideStep(track)
+  );
 }
 
 function getSlideStep(track) {
@@ -609,14 +788,16 @@ function animateOffset(track, offset, onComplete) {
   });
 }
 
-function snapToStart(track) {
+function snapToPosition(track, position) {
+  const targetOffset = getPositionOffset(track, position);
+
   if (isReducedMotion()) {
-    applyOffset(track, 0);
+    applyOffset(track, targetOffset);
     return;
   }
 
   gsap.to(track, {
-    x: 0,
+    x: targetOffset,
     duration: SNAP_DURATION,
     ease: SNAP_EASE,
     force3D: true,
