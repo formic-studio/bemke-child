@@ -19,23 +19,43 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function bemke_child_prepare_image_alternatives( $html ) {
 	$alternatives = bemke_child_get_image_alternatives();
+	$donor_name   = '';
+
+	if ( is_singular( 'darczynca' ) ) {
+		$donor_id   = get_queried_object_id();
+		$donor_name = $donor_id ? get_the_title( $donor_id ) : '';
+		$donor_name = trim( wp_strip_all_tags( $donor_name ) );
+	}
 
 	$updated_html = preg_replace_callback(
 		'/<img\b[^>]*>/i',
-		static function ( $matches ) use ( $alternatives ) {
+		static function ( $matches ) use ( $alternatives, $donor_name ) {
 			$image_tag = $matches[0];
+			$alt_text  = '';
 
-			if ( ! preg_match( '/\ssrc\s*=\s*(["\'])([^"\']+)\1/i', $image_tag, $source_match ) ) {
-				return $image_tag;
+			if (
+				'' !== $donor_name &&
+				preg_match( '/\bid\s*=\s*(["\'])brxe-vvqtfa\1/i', $image_tag ) &&
+				! preg_match( '/\balt\s*=\s*(["\'])[^"\']+\1/i', $image_tag )
+			) {
+				$alt_text = sprintf( '%s, darczyńca Campusu Bemke', $donor_name );
 			}
 
-			$filename = bemke_child_get_canonical_image_filename( $source_match[2] );
+			if ( '' === $alt_text ) {
+				if ( ! preg_match( '/\ssrc\s*=\s*(["\'])([^"\']+)\1/i', $image_tag, $source_match ) ) {
+					return $image_tag;
+				}
 
-			if ( ! isset( $alternatives[ $filename ] ) ) {
-				return $image_tag;
+				$filename = bemke_child_get_canonical_image_filename( $source_match[2] );
+
+				if ( ! isset( $alternatives[ $filename ] ) ) {
+					return $image_tag;
+				}
+
+				$alt_text = $alternatives[ $filename ];
 			}
 
-			$alt_attribute = 'alt="' . esc_attr( $alternatives[ $filename ] ) . '"';
+			$alt_attribute = 'alt="' . esc_attr( $alt_text ) . '"';
 
 			if ( preg_match( '/\salt\s*=\s*(["\'])[^"\']*\1/i', $image_tag ) ) {
 				$updated_tag = preg_replace(

@@ -27,6 +27,7 @@ function bemke_child_prepare_accessibility_markup( $html ) {
 	$html = bemke_child_repair_footer_social_links( $html );
 	$html = bemke_child_prepare_descriptive_resource_links( $html );
 	$html = bemke_child_prepare_youtube_story_links( $html );
+	$html = bemke_child_prepare_donor_youtube_iframes( $html );
 	$html = bemke_child_prepare_video_overlay_controls( $html );
 	$html = bemke_child_prepare_decorative_videos( $html );
 
@@ -621,6 +622,46 @@ function bemke_child_prepare_youtube_story_links( $html ) {
 	}
 
 	return $html;
+}
+
+/**
+ * Give embedded donor videos a title that identifies their subject.
+ *
+ * @param string $html Complete frontend response markup.
+ * @return string
+ */
+function bemke_child_prepare_donor_youtube_iframes( $html ) {
+	if ( ! is_singular( 'darczynca' ) ) {
+		return $html;
+	}
+
+	$donor_id   = get_queried_object_id();
+	$donor_name = $donor_id ? get_the_title( $donor_id ) : '';
+	$donor_name = trim( wp_strip_all_tags( $donor_name ) );
+
+	if ( '' === $donor_name ) {
+		return $html;
+	}
+
+	$iframe_title = sprintf( 'Film o darczyńcy: %s', $donor_name );
+	$pattern      = '/<iframe\b(?=[^>]*youtube(?:-nocookie)?\.com\/embed\/)[^>]*>/i';
+
+	$updated_html = preg_replace_callback(
+		$pattern,
+		static function ( $matches ) use ( $iframe_title ) {
+			$iframe = bemke_child_remove_html_attributes( $matches[0], array( 'title' ) );
+
+			return preg_replace(
+				'/>$/',
+				' title="' . esc_attr( $iframe_title ) . '">',
+				$iframe,
+				1
+			) ?? $matches[0];
+		},
+		$html
+	);
+
+	return null === $updated_html ? $html : $updated_html;
 }
 
 /**
