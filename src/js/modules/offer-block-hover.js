@@ -11,6 +11,30 @@ const FALLBACK_LINK_SELECTOR = FALLBACK_LINK_SELECTORS.join(', ');
 const DEFAULT_ACTIVE_CLASS = 'bg-eggShell';
 const DONORS_ACTIVE_CLASS = 'is-darkcream-hover';
 const BOOT_FLAG = '__bemkeOfferBlockHoverBooted';
+const JOB_OFFER_LINK_SELECTOR = '.offer-block a.offer-link[href]';
+
+function normalizeText(value) {
+  return String(value ?? '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function prepareJobOfferLinkLabels(scope = document) {
+  scope.querySelectorAll(JOB_OFFER_LINK_SELECTOR).forEach((link) => {
+    if (!/^poznaj\s+szczegóły$/iu.test(normalizeText(link.textContent))) {
+      return;
+    }
+
+    const block = link.closest('.offer-block');
+    const title = normalizeText(
+      block?.querySelector('.font-size-caption-big')?.textContent,
+    );
+
+    if (title) {
+      link.setAttribute('aria-label', `Poznaj szczegóły oferty: ${title}`);
+    }
+  });
+}
 
 function getOfferBlock(target) {
   const closestBlock = target?.closest?.(BLOCK_SELECTOR);
@@ -79,6 +103,8 @@ function handleFocusOut(event) {
 }
 
 export function initOfferBlockHover() {
+  prepareJobOfferLinkLabels();
+
   if (window[BOOT_FLAG] || !document.querySelector(LINK_SELECTOR)) {
     return;
   }
@@ -88,4 +114,7 @@ export function initOfferBlockHover() {
   document.addEventListener('pointerout', handlePointerOut);
   document.addEventListener('focusin', handleFocusIn);
   document.addEventListener('focusout', handleFocusOut);
+  document.addEventListener('bricks/ajax/end', () => {
+    prepareJobOfferLinkLabels();
+  });
 }

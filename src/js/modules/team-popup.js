@@ -1,3 +1,5 @@
+import { ensureButtonElement } from './semantic-button.js';
+
 const TEAM_POPUP_SELECTOR = '.popup-team[data-number]';
 const TEAM_LINK_SELECTOR = '[data-number]:not(.popup-team)';
 const TEAM_CARD_SELECTOR = '.team-link';
@@ -23,6 +25,12 @@ const POPUP_SCROLLABLE_CLASS = 'is-scrollable';
 const POPUP_SCROLL_END_CLASS = 'is-at-scroll-end';
 const POPUP_SCROLL_READY_ATTR = 'data-bemke-scroll-indicator-ready';
 const TEAM_CARD_CLASS = TEAM_CARD_SELECTOR.slice(1);
+const TEAM_TRIGGER_LABELS = new Map([
+  ['01', 'Więcej o Przemysławie Powalaczu'],
+  ['02', 'Więcej o Katarzynie Przybył-Tamowicz'],
+  ['03', 'Więcej o Darii Rybińskiej'],
+  ['04', 'Więcej o Urszuli Szudarek'],
+]);
 
 let popupMap = new Map();
 let activePopup = null;
@@ -58,6 +66,7 @@ function setupTeamPopupElements(scope = document) {
     }
 
     popup.classList.add(POPUP_CLASS);
+    popup.id ||= `bemke-team-popup-${number}`;
     popup.setAttribute(TEAM_POPUP_READY_ATTR, '1');
     popup.setAttribute('role', 'dialog');
     popup.setAttribute('aria-modal', 'true');
@@ -162,13 +171,40 @@ function setupTeamCards(scope) {
     }
 
     const number = normalizeNumber(link.dataset.number);
-    if (!getPopupByNumber(number)) {
+    const popup = getPopupByNumber(number);
+    if (!popup) {
       return;
     }
 
     const card = link.closest(TEAM_CARD_SELECTOR) ?? link.parentElement;
+    const trigger = ensureButtonElement(link);
+    const name = normalizeText(
+      card?.querySelector('.font-size-caption-big')?.textContent,
+    );
+
+    if (!trigger) {
+      return;
+    }
+
+    trigger.setAttribute(
+      'aria-label',
+      TEAM_TRIGGER_LABELS.get(number) ||
+        (name ? `Więcej o osobie: ${name}` : 'Więcej o członku zespołu'),
+    );
+    trigger.setAttribute('aria-haspopup', 'dialog');
+    trigger.setAttribute(
+      'aria-expanded',
+      activePopup === popup ? 'true' : 'false',
+    );
+    trigger.setAttribute('aria-controls', popup.id);
     card?.classList.add(TEAM_CARD_CLASS);
   });
+}
+
+function normalizeText(value) {
+  return String(value ?? '')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 function setupTeamPopupLifecycle() {
@@ -241,7 +277,7 @@ function setupTeamPopupLifecycle() {
 function handleTeamPopupClick(event) {
   const card = event.target.closest(TEAM_CARD_SELECTOR);
   const link = event.target.closest(TEAM_LINK_SELECTOR);
-  const trigger = card ?? link;
+  const trigger = link ?? card?.querySelector(TEAM_LINK_SELECTOR) ?? card;
   const isCloseButton = event.target.closest(TEAM_EXIT_SELECTOR);
 
   if (isCloseButton) {

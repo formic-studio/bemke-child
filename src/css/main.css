@@ -4143,6 +4143,29 @@ body.is-team-popup-open {
   cursor: pointer;
 }
 
+.team-link button[data-number] {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  line-height: inherit;
+  margin: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+  padding-left: 0;
+  text-align: inherit;
+}
+
+html[data-contrast]:not([data-contrast="default"])
+  .team-link
+  button[data-number] {
+  background: transparent !important;
+  border: 0 !important;
+  color: var(--a11y-text) !important;
+}
+
 .team-link .img-block img {
   transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }

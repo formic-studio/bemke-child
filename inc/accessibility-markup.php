@@ -19,6 +19,8 @@ function bemke_child_prepare_accessibility_markup( $html ) {
 	}
 
 	$html = bemke_child_prepare_accessibility_toolbar_buttons( $html );
+	$html = bemke_child_prepare_team_popup_triggers( $html );
+	$html = bemke_child_prepare_job_offer_link_labels( $html );
 	$html = bemke_child_prepare_polish_menu_labels( $html );
 	$html = bemke_child_replace_legacy_season_mix_font_elements( $html );
 	$html = bemke_child_prepare_styled_heading_text( $html );
@@ -32,6 +34,102 @@ function bemke_child_prepare_accessibility_markup( $html ) {
 	$html = bemke_child_prepare_decorative_videos( $html );
 
 	return $html;
+}
+
+/**
+ * Convert team profile links into named buttons that open dialogs.
+ *
+ * @param string $html Complete frontend response markup.
+ * @return string
+ */
+function bemke_child_prepare_team_popup_triggers( $html ) {
+	$profiles = array(
+		'01' => 'Więcej o Przemysławie Powalaczu',
+		'02' => 'Więcej o Katarzynie Przybył-Tamowicz',
+		'03' => 'Więcej o Darii Rybińskiej',
+		'04' => 'Więcej o Urszuli Szudarek',
+	);
+
+	foreach ( $profiles as $number => $label ) {
+		$pattern      = '/<a\b(?=[^>]*\bdata-number\s*=\s*(["\'])' . preg_quote( $number, '/' ) . '\1)([^>]*)>(.*?)<\/a>/is';
+		$updated_html = preg_replace_callback(
+			$pattern,
+			static function ( $matches ) use ( $label ) {
+				$attributes = bemke_child_remove_html_attributes(
+					$matches[2],
+					array( 'href', 'target', 'rel', 'role', 'tabindex', 'type', 'aria-label', 'aria-haspopup', 'aria-expanded', 'aria-controls' )
+				);
+
+				return sprintf(
+					'<button type="button"%1$s aria-label="%2$s" aria-haspopup="dialog" aria-expanded="false">%3$s</button>',
+					$attributes,
+					esc_attr( $label ),
+					$matches[3]
+				);
+			},
+			$html
+		);
+
+		if ( null !== $updated_html ) {
+			$html = $updated_html;
+		}
+	}
+
+	return $html;
+}
+
+/**
+ * Add the job title to the accessible name of repeated offer links.
+ *
+ * @param string $html Complete frontend response markup.
+ * @return string
+ */
+function bemke_child_prepare_job_offer_link_labels( $html ) {
+	$pattern      = '/<a\b(?=[^>]*\bclass\s*=\s*(["\'])[^"\']*\boffer-link\b[^"\']*\1)([^>]*)>(.*?)<\/a>/is';
+	$updated_html = preg_replace_callback(
+		$pattern,
+		static function ( $matches ) {
+			$link_text = wp_strip_all_tags( html_entity_decode( $matches[3], ENT_QUOTES | ENT_HTML5, 'UTF-8' ) );
+			$link_text = preg_replace( '/\s+/u', ' ', $link_text );
+			$link_text = is_string( $link_text ) ? trim( $link_text ) : '';
+
+			if ( ! preg_match( '/^poznaj\s+szczegóły$/iu', $link_text ) ) {
+				return $matches[0];
+			}
+
+			if ( ! preg_match( '/\bhref\s*=\s*(["\'])(.*?)\1/is', $matches[2], $href_match ) ) {
+				return $matches[0];
+			}
+
+			$url     = html_entity_decode( $href_match[2], ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+			$post_id = url_to_postid( $url );
+
+			if ( ! $post_id ) {
+				$path = wp_parse_url( $url, PHP_URL_PATH );
+				$slug = is_string( $path ) ? basename( untrailingslashit( $path ) ) : '';
+				$post = $slug ? get_page_by_path( $slug, OBJECT, 'oferta-pracy' ) : null;
+				$post_id = $post instanceof WP_Post ? $post->ID : 0;
+			}
+
+			$title = $post_id ? trim( wp_strip_all_tags( get_the_title( $post_id ) ) ) : '';
+
+			if ( '' === $title ) {
+				return $matches[0];
+			}
+
+			$attributes = bemke_child_remove_html_attributes( $matches[2], array( 'aria-label' ) );
+
+			return sprintf(
+				'<a%1$s aria-label="%2$s">%3$s</a>',
+				$attributes,
+				esc_attr( 'Poznaj szczegóły oferty: ' . $title ),
+				$matches[3]
+			);
+		},
+		$html
+	);
+
+	return null === $updated_html ? $html : $updated_html;
 }
 
 /**
