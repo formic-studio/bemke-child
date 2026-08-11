@@ -34,12 +34,12 @@ function O() {
 }
 function k(a, s) {
 	let c = A(s), u = i(a, l), d = !1, p = 0, h = !1, g = null, _ = null, y = null, b = !1, C = 0;
-	c.forEach((e) => e.classList.add("team-link")), a.setAttribute(f, "1"), j(a, s, c), N(c), R(u, s, {
-		onPause: () => L(),
-		onPlay: () => I(!0),
+	c.forEach((e) => e.classList.add("team-link")), a.setAttribute(f, "1"), ee(a, s, c), M(c), L(u, s, {
+		onPause: () => I(),
+		onPlay: () => F(!0),
 		onPrev: () => E(-1, !0),
 		onNext: () => E(1, !0)
-	});
+	}), a.addEventListener("scroll", () => U(a), { passive: !0 });
 	let w = o(s, {
 		canStart: () => !d,
 		onStart: () => {
@@ -47,7 +47,7 @@ function k(a, s) {
 		},
 		onMove: ({ dx: e }) => {
 			let t = W(s), n = Q(e * .5, -t * .8, t * .8);
-			s.classList.add(v), G(s, U(s, C) + n);
+			s.classList.add(v), G(s, H(s, C) + n);
 		},
 		onSwipe: ({ direction: e }) => {
 			let t = J(s);
@@ -66,21 +66,22 @@ function k(a, s) {
 				return;
 			}
 			if (e.key === "ArrowRight") {
-				if (C >= H(a, s)) return;
+				if (C >= V(a, s)) return;
 				e.preventDefault(), X(u.next), E(1, !0);
 			}
 		}
 	}), a.addEventListener("focusin", (e) => {
+		U(a), window.requestAnimationFrame(() => U(a));
 		let t = e.target.closest?.(".team-link");
 		if (!t || t.parentElement !== s || t.getAttribute(m) !== "false") return;
-		let n = c.indexOf(t), r = V(a, s);
+		let n = c.indexOf(t), r = B(a, s);
 		D(n < C ? n : n - r + 1, !0);
 	}), s.addEventListener("pointerdown", (e) => {
 		d || e.pointerType === "mouse" && e.button !== 0 || (_?.kill(), n.killTweensOf(s), y = {
 			id: e.pointerId,
 			startX: e.clientX,
 			startY: e.clientY,
-			startOffset: U(s, C),
+			startOffset: H(s, C),
 			lockedAxis: null,
 			dragged: !1
 		});
@@ -107,18 +108,18 @@ function k(a, s) {
 		b && (b = !1, e.preventDefault(), e.stopPropagation());
 	}, !0);
 	let T = $(() => {
-		M(), C = Q(C, 0, H(a, s)), G(s, U(s, C)), P(a, s, C), z(u, h, C, H(a, s));
+		j(), C = Q(C, 0, V(a, s)), G(s, H(s, C)), N(a, s, C), R(u, h, C, V(a, s));
 	}, 120);
-	window.addEventListener("resize", T), a.__bemkeTeamSliderRefresh = T, G(s, 0), z(u, h, C, H(a, s)), window.requestAnimationFrame(() => {
-		P(a, s, C), z(u, h, C, H(a, s));
+	window.addEventListener("resize", T), a.__bemkeTeamSliderRefresh = T, G(s, 0), R(u, h, C, V(a, s)), window.requestAnimationFrame(() => {
+		N(a, s, C), R(u, h, C, V(a, s));
 	}), document.addEventListener("visibilitychange", () => {
 		if (document.hidden) {
 			Y();
 			return;
 		}
-		B();
+		z();
 	}), document.addEventListener(t, (e) => {
-		e.detail?.reduced && (M(), C = Q(C, 0, H(a, s)), G(s, U(s, C)), P(a, s, C), z(u, h, C, H(a, s)));
+		e.detail?.reduced && (j(), C = Q(C, 0, V(a, s)), G(s, H(s, C)), N(a, s, C), R(u, h, C, V(a, s)));
 	});
 	function E(e, t = !1, n = null) {
 		let r = e < 0 ? -1 : 1;
@@ -129,49 +130,49 @@ function k(a, s) {
 		D(C + r, t, n);
 	}
 	function D(t, n = !1, r = null) {
-		let i = H(a, s), o = Q(t, 0, i), c = W(s);
-		if (n && h && B(), o === C || c <= 0) {
-			q(s, C), h && C >= i ? L() : z(u, h, C, i);
+		let i = V(a, s), o = Q(t, 0, i), c = W(s);
+		if (n && h && z(), o === C || c <= 0) {
+			q(s, C), h && C >= i ? I() : R(u, h, C, i);
 			return;
 		}
 		C = o;
-		let l = U(s, C);
-		if (Number.isFinite(r) && G(s, r), e()) {
-			G(s, l), P(a, s, C), k(), F();
+		let l = H(s, C);
+		if (U(a), Number.isFinite(r) && G(s, r), e()) {
+			G(s, l), N(a, s, C), k(), P();
 			return;
 		}
-		d = !0, z(u, h, C, i), _ = K(s, l, O);
+		d = !0, R(u, h, C, i), _ = K(s, l, O);
 	}
 	function O() {
-		_ = null, d = !1, G(s, U(s, C)), P(a, s, C), k(), F();
+		_ = null, d = !1, G(s, H(s, C)), U(a), N(a, s, C), k(), P();
 	}
 	function k() {
-		let e = H(a, s);
+		let e = V(a, s);
 		if (h && C >= e) {
-			L();
+			I();
 			return;
 		}
-		z(u, h, C, e);
+		R(u, h, C, e);
 	}
-	function M() {
+	function j() {
 		_?.kill(), _ = null, n.killTweensOf(s), d = !1, p = 0;
 	}
-	function F() {
+	function P() {
 		if (!p) return;
 		let e = p;
 		p = 0, E(e);
 	}
-	function I(e = !1) {
-		if (C >= H(a, s)) {
-			z(u, !1, C, H(a, s));
+	function F(e = !1) {
+		if (C >= V(a, s)) {
+			R(u, !1, C, V(a, s));
 			return;
 		}
-		h = !0, e && E(1), B(), z(u, h, C, H(a, s));
+		h = !0, e && E(1), z(), R(u, h, C, V(a, s));
 	}
-	function L() {
-		h = !1, Y(), z(u, h, C, H(a, s));
+	function I() {
+		h = !1, Y(), R(u, h, C, V(a, s));
 	}
-	function B() {
+	function z() {
 		h && (Y(), g = window.setInterval(() => E(1), x));
 	}
 	function Y() {
@@ -181,16 +182,16 @@ function k(a, s) {
 function A(e) {
 	return Array.from(e?.children ?? []).filter((e) => e.querySelector(u));
 }
-function j(e, t, n) {
-	T += 1, t.id ||= `bemke-team-slider-track-${T}`, e.hasAttribute("role") || e.setAttribute("role", "region"), e.setAttribute("aria-roledescription", "karuzela"), !e.hasAttribute("aria-label") && !e.hasAttribute("aria-labelledby") && e.setAttribute("aria-label", Y(e)), e.hasAttribute("tabindex") || e.setAttribute("tabindex", "0"), t.setAttribute("aria-live", "off"), t.setAttribute("aria-atomic", "false"), F(e), n.forEach((e, t) => {
+function ee(e, t, n) {
+	T += 1, t.id ||= `bemke-team-slider-track-${T}`, e.hasAttribute("role") || e.setAttribute("role", "region"), e.setAttribute("aria-roledescription", "karuzela"), !e.hasAttribute("aria-label") && !e.hasAttribute("aria-labelledby") && e.setAttribute("aria-label", Y(e)), e.hasAttribute("tabindex") || e.setAttribute("tabindex", "0"), t.setAttribute("aria-live", "off"), t.setAttribute("aria-atomic", "false"), P(e), n.forEach((e, t) => {
 		let r = e.querySelector(".font-size-h4")?.textContent?.replace(/\s+/g, " ").trim();
-		e.setAttribute("role", "group"), e.setAttribute("aria-roledescription", "slajd"), e.setAttribute("aria-label", `${r ? `${r}, ` : ""}osoba ${t + 1} z ${n.length}`), M(e);
+		e.setAttribute("role", "group"), e.setAttribute("aria-roledescription", "slajd"), e.setAttribute("aria-label", `${r ? `${r}, ` : ""}osoba ${t + 1} z ${n.length}`), j(e);
 	});
 }
-function M(e) {
+function j(e) {
 	Array.from(e.children).find((e) => /^0*\d+$/u.test(e.textContent?.trim() ?? ""))?.setAttribute("aria-hidden", "true");
 }
-function N(e) {
+function M(e) {
 	e.forEach((e) => {
 		e.querySelectorAll(d).forEach((e) => {
 			e.hasAttribute(h) || e.setAttribute(h, e.getAttribute("tabindex") ?? "");
@@ -199,24 +200,24 @@ function N(e) {
 		});
 	});
 }
-function P(e, t, n = 0) {
+function N(e, t, n = 0) {
 	let r = e.getBoundingClientRect(), i = A(t);
 	i.forEach((e, t) => {
 		let i = e.getBoundingClientRect(), a = Math.max(0, Math.min(i.right, r.right) - Math.max(i.left, r.left)), o = i.width > 0 && a >= Math.min(i.width * .5, 80), s = t === n;
-		e.setAttribute(p, s ? "1" : "0"), e.setAttribute(m, o ? "true" : "false"), e.removeAttribute("aria-hidden"), s ? e.setAttribute("aria-current", "true") : e.removeAttribute("aria-current"), L(e);
-	}), I(e, n, i.length, t);
+		e.setAttribute(p, s ? "1" : "0"), e.setAttribute(m, o ? "true" : "false"), e.removeAttribute("aria-hidden"), s ? e.setAttribute("aria-current", "true") : e.removeAttribute("aria-current"), I(e);
+	}), F(e, n, i.length, t);
 }
-function F(e) {
+function P(e) {
 	let t = e.querySelector(`:scope > .${g}`);
 	if (t) return t;
 	let n = document.createElement("p");
 	return n.className = `${g} bemke-sr-only`, n.setAttribute("role", "status"), n.setAttribute("aria-live", "polite"), n.setAttribute("aria-atomic", "true"), e.appendChild(n), n;
 }
-function I(e, t, n, r) {
-	let i = F(e), a = V(e, r), o = Math.min(n, t + 1), s = Math.min(n, t + a), c = o === s ? `Wyświetlana osoba ${o} z ${n}.` : `Wyświetlane osoby ${o}–${s} z ${n}.`;
+function F(e, t, n, r) {
+	let i = P(e), a = B(e, r), o = Math.min(n, t + 1), s = Math.min(n, t + a), c = o === s ? `Wyświetlana osoba ${o} z ${n}.` : `Wyświetlane osoby ${o}–${s} z ${n}.`;
 	i.textContent !== c && (i.textContent = c);
 }
-function L(e) {
+function I(e) {
 	"inert" in e && (e.inert = !1), e.removeAttribute("inert"), e.querySelectorAll(d).forEach((e) => {
 		let t = e.getAttribute(h);
 		if (t) {
@@ -226,7 +227,7 @@ function L(e) {
 		e.removeAttribute("tabindex");
 	});
 }
-function R(e, t, n) {
+function L(e, t, n) {
 	a(e.pause, {
 		label: "Pauza autoplay",
 		controlsId: t.id,
@@ -245,23 +246,26 @@ function R(e, t, n) {
 		handler: n.onNext
 	});
 }
-function z(e, t, n, r) {
-	B(e.prev, n <= 0), B(e.next, n >= r), B(e.play, t || n >= r), B(e.pause, !t);
+function R(e, t, n, r) {
+	z(e.prev, n <= 0), z(e.next, n >= r), z(e.play, t || n >= r), z(e.pause, !t);
 }
-function B(e, t) {
+function z(e, t) {
 	e && (e.classList.toggle("is-disabled", t), e.setAttribute("aria-disabled", t ? "true" : "false"));
 }
-function V(e, t) {
+function B(e, t) {
 	let n = A(t), r = n[0]?.getBoundingClientRect(), i = W(t), a = e.getBoundingClientRect().width;
 	if (!r?.width || i <= 0 || a <= 0) return 1;
 	let o = Math.max(0, i - r.width);
 	return Q(Math.floor((a + o + 1) / i), 1, n.length);
 }
-function H(e, t) {
-	return Math.max(0, A(t).length - V(e, t));
+function V(e, t) {
+	return Math.max(0, A(t).length - B(e, t));
 }
-function U(e, t) {
+function H(e, t) {
 	return -Q(t, 0, A(e).length - 1) * W(e);
+}
+function U(e) {
+	e.scrollLeft !== 0 && (e.scrollLeft = 0);
 }
 function W(e) {
 	let t = A(e), n = t[0]?.getBoundingClientRect(), r = t[1]?.getBoundingClientRect();
@@ -289,7 +293,7 @@ function K(e, t, r) {
 	});
 }
 function q(t, r) {
-	let i = U(t, r);
+	let i = H(t, r);
 	if (e()) {
 		G(t, i);
 		return;

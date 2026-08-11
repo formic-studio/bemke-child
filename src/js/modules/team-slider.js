@@ -113,6 +113,12 @@ function createTeamSlider(root, track) {
     onNext: () => queueMove(1, true),
   });
 
+  root.addEventListener(
+    'scroll',
+    () => resetNativeSliderScroll(root),
+    { passive: true },
+  );
+
   const touchSwipeFallback = bindTouchSwipeFallback(track, {
     canStart: () => !isAnimating,
     onStart: () => {
@@ -171,6 +177,9 @@ function createTeamSlider(root, track) {
   });
 
   root.addEventListener('focusin', (event) => {
+    resetNativeSliderScroll(root);
+    window.requestAnimationFrame(() => resetNativeSliderScroll(root));
+
     const slide = event.target.closest?.('.team-link');
 
     if (
@@ -413,6 +422,8 @@ function createTeamSlider(root, track) {
     currentPosition = nextPosition;
     const targetOffset = getPositionOffset(track, currentPosition);
 
+    resetNativeSliderScroll(root);
+
     if (Number.isFinite(renderedOffset)) {
       applyOffset(track, renderedOffset);
     }
@@ -439,6 +450,7 @@ function createTeamSlider(root, track) {
     movementTween = null;
     isAnimating = false;
     applyOffset(track, getPositionOffset(track, currentPosition));
+    resetNativeSliderScroll(root);
     syncSlides(root, track, currentPosition);
     finishPositionChange();
     flushQueuedMove();
@@ -768,6 +780,12 @@ function getPositionOffset(track, position) {
     -clamp(position, 0, getTeamSlides(track).length - 1) *
     getSlideStep(track)
   );
+}
+
+function resetNativeSliderScroll(root) {
+  if (root.scrollLeft !== 0) {
+    root.scrollLeft = 0;
+  }
 }
 
 function getSlideStep(track) {
