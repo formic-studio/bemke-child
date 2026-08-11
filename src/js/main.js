@@ -241,6 +241,14 @@ const featureModules = [
       ),
   },
   {
+    name: 'numbered-card-positions',
+    selector: '.card',
+    load: () =>
+      import('./modules/numbered-card-positions.js').then(
+        ({ initNumberedCardPositions }) => initNumberedCardPositions(),
+      ),
+  },
+  {
     name: 'bemke-explore-card-scroll',
     selector: '.card',
     predicate: () =>
