@@ -15,6 +15,7 @@ const FOCUSABLE_SELECTOR =
 
 const READY_ATTR = 'data-bemke-team-slider-ready';
 const ACTIVE_ATTR = 'slide-active';
+const VISIBLE_ATTR = 'data-bemke-team-slide-visible';
 const ORIGINAL_TABINDEX_ATTR = 'data-bemke-team-original-tabindex';
 const BOOT_FLAG = '__bemkeTeamSliderBooted';
 const DRAGGING_CLASS = 'is-dragging';
@@ -151,6 +152,22 @@ function createTeamSlider(root, track) {
       focusControl(controls.next);
       queueMove(1, true);
     }
+  });
+
+  root.addEventListener('focusin', (event) => {
+    const slide = event.target.closest?.('.team-link');
+
+    if (
+      !slide ||
+      slide.parentElement !== track ||
+      slide.getAttribute(VISIBLE_ATTR) !== 'false'
+    ) {
+      return;
+    }
+
+    // Keep every profile available to assistive technology. When keyboard
+    // focus reaches an off-screen card, rotate it into the visible window.
+    queueMove(1, true);
   });
 
   track.addEventListener('pointerdown', (event) => {
@@ -493,7 +510,8 @@ function syncSlides(root, track) {
     const isCurrent = index === 0;
 
     slide.setAttribute(ACTIVE_ATTR, isCurrent ? '1' : '0');
-    slide.setAttribute('aria-hidden', isVisible ? 'false' : 'true');
+    slide.setAttribute(VISIBLE_ATTR, isVisible ? 'true' : 'false');
+    slide.removeAttribute('aria-hidden');
 
     if (isCurrent) {
       slide.setAttribute('aria-current', 'true');
@@ -501,21 +519,18 @@ function syncSlides(root, track) {
       slide.removeAttribute('aria-current');
     }
 
-    setSlideInteractivity(slide, isVisible);
+    restoreSlideInteractivity(slide);
   });
 }
 
-function setSlideInteractivity(slide, isVisible) {
+function restoreSlideInteractivity(slide) {
   if ('inert' in slide) {
-    slide.inert = !isVisible;
+    slide.inert = false;
   }
 
-  slide.querySelectorAll(FOCUSABLE_SELECTOR).forEach((node) => {
-    if (!isVisible) {
-      node.setAttribute('tabindex', '-1');
-      return;
-    }
+  slide.removeAttribute('inert');
 
+  slide.querySelectorAll(FOCUSABLE_SELECTOR).forEach((node) => {
     const originalTabindex = node.getAttribute(ORIGINAL_TABINDEX_ATTR);
 
     if (originalTabindex) {

@@ -2256,7 +2256,7 @@ html[data-contrast]:not([data-contrast="default"])
 
 .slider-block[data-bemke-team-slider-ready="1"]
   > .slider-wrapper
-  > .team-link[aria-hidden="true"] {
+  > .team-link[data-bemke-team-slide-visible="false"] {
   pointer-events: none;
 }
 
