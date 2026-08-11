@@ -27,6 +27,7 @@ function bemke_child_prepare_accessibility_markup( $html ) {
 	$html = bemke_child_repair_footer_social_links( $html );
 	$html = bemke_child_prepare_descriptive_resource_links( $html );
 	$html = bemke_child_prepare_youtube_story_links( $html );
+	$html = bemke_child_prepare_video_overlay_controls( $html );
 	$html = bemke_child_prepare_decorative_videos( $html );
 
 	return $html;
@@ -620,6 +621,33 @@ function bemke_child_prepare_youtube_story_links( $html ) {
 	}
 
 	return $html;
+}
+
+/**
+ * Give Bricks' icon-only video overlay control an accessible name.
+ *
+ * @param string $html Complete frontend response markup.
+ * @return string
+ */
+function bemke_child_prepare_video_overlay_controls( $html ) {
+	$pattern = '/<(?:i|span|button)\b(?=[^>]*\bclass\s*=\s*(["\'])[^"\']*\bbricks-video-overlay-icon\b[^"\']*\1)[^>]*>/i';
+
+	$updated_html = preg_replace_callback(
+		$pattern,
+		static function ( $matches ) {
+			$control = bemke_child_remove_html_attributes( $matches[0], array( 'aria-label' ) );
+
+			return preg_replace(
+				'/>$/',
+				' aria-label="' . esc_attr( 'Odtwórz film o darczyńcach Campusu Bemke' ) . '">',
+				$control,
+				1
+			) ?? $matches[0];
+		},
+		$html
+	);
+
+	return null === $updated_html ? $html : $updated_html;
 }
 
 /**
