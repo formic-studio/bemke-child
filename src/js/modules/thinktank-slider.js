@@ -2,6 +2,7 @@ import {
   SLIDER_CONTROL_SELECTOR,
   bindSliderControl,
   getSliderControls,
+  hasSliderNavigationModifier,
 } from "./slider-controls.js";
 import {
   MOTION_CHANGE_EVENT,
@@ -376,6 +377,10 @@ function createSlider(root) {
   }
 
   root.addEventListener("keydown", (event) => {
+    if (hasSliderNavigationModifier(event)) {
+      return;
+    }
+
     if (event.key === "ArrowLeft") {
       event.preventDefault();
       queueMove(-1, 1, true);

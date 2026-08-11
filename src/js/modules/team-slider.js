@@ -1,5 +1,9 @@
 import { gsap } from 'gsap';
-import { bindSliderControl, getSliderControls } from './slider-controls.js';
+import {
+  bindSliderControl,
+  getSliderControls,
+  hasSliderNavigationModifier,
+} from './slider-controls.js';
 import { bindTouchSwipeFallback } from './touch-swipe-fallback.js';
 import {
   MOTION_CHANGE_EVENT,
@@ -140,7 +144,7 @@ function createTeamSlider(root, track) {
   });
 
   root.addEventListener('keydown', (event) => {
-    if (isFormControl(event.target)) {
+    if (hasSliderNavigationModifier(event) || isFormControl(event.target)) {
       return;
     }
 
@@ -574,7 +578,17 @@ function decorateSlider(root, track, slides) {
       'aria-label',
       `${name ? `${name}, ` : ''}osoba ${index + 1} z ${slides.length}`,
     );
+
+    hideVisualSlideNumber(slide);
   });
+}
+
+function hideVisualSlideNumber(slide) {
+  const visualNumber = Array.from(slide.children).find((element) =>
+    /^0*\d+$/u.test(element.textContent?.trim() ?? ''),
+  );
+
+  visualNumber?.setAttribute('aria-hidden', 'true');
 }
 
 function prepareSlides(slides) {

@@ -2,6 +2,12 @@ import { ensureButtonElement } from './semantic-button.js';
 
 export const SLIDER_CONTROL_SELECTOR = '.arrow, .yellow-arrow, .play-btn, .arrow-right';
 
+export function hasSliderNavigationModifier(event) {
+  return Boolean(
+    event?.altKey || event?.ctrlKey || event?.metaKey || event?.shiftKey,
+  );
+}
+
 export function getSliderControls(
   root,
   controlsSelector,
