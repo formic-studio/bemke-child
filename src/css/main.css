@@ -707,6 +707,15 @@ html[data-bemke-reduced-motion="true"]
   text-underline-offset: 0.2em;
 }
 
+html[data-contrast]:not([data-contrast="default"])
+  #brxe-kecesp
+  :is(a, button) {
+  background: transparent !important;
+  border: 0 !important;
+  color: var(--a11y-text) !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
 #brxe-qcwgax [data-contrast] {
   align-items: center !important;
   border-style: solid !important;
