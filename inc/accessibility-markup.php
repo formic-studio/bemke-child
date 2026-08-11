@@ -411,23 +411,66 @@ function bemke_child_prepare_form_accessibility_attributes( $html ) {
 }
 
 /**
- * Repair invalid nested anchors used by the social icons in the footer.
+ * Repair social links and give donor profiles context-aware names.
+ *
+ * On a single donor page, social links in the main content describe the
+ * current donor. Links outside the main content still describe Bemke.
  *
  * @param string $html Complete frontend response markup.
  * @return string
  */
 function bemke_child_repair_footer_social_links( $html ) {
+	if ( is_singular( 'darczynca' ) ) {
+		$post_id      = get_queried_object_id();
+		$profile_name = $post_id ? get_the_title( $post_id ) : '';
+		$profile_name = trim( wp_strip_all_tags( $profile_name ) );
+
+		if (
+			'' !== $profile_name &&
+			preg_match( '/<main\b[^>]*>.*?<\/main>/is', $html, $main_match, PREG_OFFSET_CAPTURE )
+		) {
+			$main_markup = $main_match[0][0];
+			$main_offset = $main_match[0][1];
+
+			return bemke_child_repair_social_links_in_markup(
+				substr( $html, 0, $main_offset ),
+				'Bemke',
+				false
+			) . bemke_child_repair_social_links_in_markup(
+				$main_markup,
+				$profile_name,
+				true
+			) . bemke_child_repair_social_links_in_markup(
+				substr( $html, $main_offset + strlen( $main_markup ) ),
+				'Bemke',
+				false
+			);
+		}
+	}
+
+	return bemke_child_repair_social_links_in_markup( $html, 'Bemke', false );
+}
+
+/**
+ * Repair invalid nested anchors and label supported social-network links.
+ *
+ * @param string $html          Markup fragment to repair.
+ * @param string $profile_name  Person or organization described by the links.
+ * @param bool   $label_website Whether a non-social link is the profile website.
+ * @return string
+ */
+function bemke_child_repair_social_links_in_markup( $html, $profile_name, $label_website ) {
 	$pattern = '/<a\b([^>]*\bclass\s*=\s*(["\'])[^"\']*\bsocial-link\b[^"\']*\2[^>]*)>\s*(<a\b.*?<\/a>)\s*<\/a>/is';
 
 	$updated_html = preg_replace_callback(
 		$pattern,
-		static function ( $matches ) {
+		static function ( $matches ) use ( $profile_name, $label_website ) {
 			$wrapper_attributes = bemke_child_remove_html_attributes(
 				$matches[1],
 				array( 'href', 'target', 'rel', 'role', 'tabindex', 'aria-label' )
 			);
 			$inner_link         = $matches[3];
-			$label              = bemke_child_get_social_link_label( $inner_link );
+			$label              = bemke_child_get_social_link_label( $inner_link, $profile_name, $label_website );
 
 			if ( '' !== $label ) {
 				$inner_link = preg_replace_callback(
@@ -461,8 +504,8 @@ function bemke_child_repair_footer_social_links( $html ) {
 	$single_link_pattern = '/<a\b(?=[^>]*\bclass\s*=\s*(?:"[^"]*\bsocial-link\b[^"]*"|\'[^\']*\bsocial-link\b[^\']*\'))([^>]*)>/is';
 	$updated_html        = preg_replace_callback(
 		$single_link_pattern,
-		static function ( $matches ) {
-			$label = bemke_child_get_social_link_label( $matches[0] );
+		static function ( $matches ) use ( $profile_name, $label_website ) {
+			$label = bemke_child_get_social_link_label( $matches[0], $profile_name, $label_website );
 
 			if ( '' === $label ) {
 				return $matches[0];
@@ -484,20 +527,37 @@ function bemke_child_repair_footer_social_links( $html ) {
 /**
  * Resolve the Polish accessible name for a supported social network link.
  *
- * @param string $markup Link tag or markup containing its URL.
+ * @param string $markup        Link tag or markup containing its URL.
+ * @param string $profile_name  Person or organization described by the link.
+ * @param bool   $label_website Whether a non-social link is the profile website.
  * @return string
  */
-function bemke_child_get_social_link_label( $markup ) {
+function bemke_child_get_social_link_label( $markup, $profile_name = 'Bemke', $label_website = false ) {
+	$profile_name = trim( wp_strip_all_tags( $profile_name ) );
+
+	if ( '' === $profile_name ) {
+		$profile_name = 'Bemke';
+	}
+
 	if ( false !== stripos( $markup, 'instagram.com' ) ) {
-		return 'Profil Bemke na Instagramie';
+		return sprintf( 'Profil %s na Instagramie', $profile_name );
 	}
 
 	if ( false !== stripos( $markup, 'linkedin.com' ) ) {
-		return 'Profil Bemke na LinkedInie';
+		return sprintf( 'Profil %s na LinkedInie', $profile_name );
 	}
 
 	if ( false !== stripos( $markup, 'facebook.com' ) ) {
-		return 'Profil Bemke na Facebooku';
+		return sprintf( 'Profil %s na Facebooku', $profile_name );
+	}
+
+	if (
+		$label_website &&
+		preg_match( '/\bhref\s*=\s*(["\'])(.*?)\1/is', $markup, $href_match ) &&
+		'' !== trim( $href_match[2] ) &&
+		'#' !== trim( $href_match[2] )
+	) {
+		return sprintf( 'Strona internetowa %s', $profile_name );
 	}
 
 	return '';
