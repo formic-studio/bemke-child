@@ -22,7 +22,10 @@ const HIDDEN_CLIP = 'inset(100% 0 0 0)';
 // Keep the final mask outside the line box so accents and italic overhangs
 // are already fully visible before SplitText restores the original markup.
 const VISIBLE_CLIP = 'inset(-35% -2% -35% -2%)';
-const LINE_STAGGER = 0.12;
+const HEADING_DURATION = 0.92;
+const SUPPLEMENTARY_DURATION = 0.78;
+const LINE_STAGGER = 0.16;
+const ELEMENT_GAP = 0.12;
 const FONT_WAIT_MS = 1000;
 
 const activeStates = new Set();
@@ -155,13 +158,13 @@ async function animateHeroLines(state, isMobile) {
 
     const headingTween = {
       clipPath: VISIBLE_CLIP,
-      duration: isMobile ? 0.66 : 0.78,
+      duration: isMobile ? 0.66 : HEADING_DURATION,
       stagger: LINE_STAGGER,
       y: 0,
     };
     const supplementaryTween = {
       clipPath: VISIBLE_CLIP,
-      duration: isMobile ? 0.54 : 0.66,
+      duration: isMobile ? 0.54 : SUPPLEMENTARY_DURATION,
       stagger: LINE_STAGGER,
       y: 0,
     };
@@ -181,7 +184,7 @@ async function animateHeroLines(state, isMobile) {
     state.timeline = timeline;
     if (supplementaryLines.length) {
       timeline.to(supplementaryLines, supplementaryTween);
-      timeline.to(headingLines, headingTween, '-=0.08');
+      timeline.to(headingLines, headingTween, `+=${ELEMENT_GAP}`);
     } else {
       timeline.to(headingLines, headingTween);
     }

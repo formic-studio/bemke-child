@@ -136,26 +136,26 @@ var r, i, a = typeof Symbol == "function" ? Symbol() : "_split", o, s = () => o 
 	}
 };
 T.version = "3.15.0";
-var E = T, D = ".section_hero", O = "h1", k = ".brxe-text-basic, .brxe-text, p", A = "data-bemke-hero-intro-ready", j = "data-bemke-hero-intro-complete", M = "bemke:hero-intro-complete", N = "bemke:hero-intro-header-reveal", P = "data-bemke-hero-intro-header-reveal", F = .7, I = "(max-width: 767px)", L = 10, R = 8, z = "inset(100% 0 0 0)", B = "inset(-35% -2% -35% -2%)", V = .12, H = 1e3, U = /* @__PURE__ */ new Set(), W = !1;
+var E = T, D = ".section_hero", O = "h1", k = ".brxe-text-basic, .brxe-text, p", A = "data-bemke-hero-intro-ready", j = "data-bemke-hero-intro-complete", M = "bemke:hero-intro-complete", N = "bemke:hero-intro-header-reveal", P = "data-bemke-hero-intro-header-reveal", F = .7, I = "(max-width: 767px)", L = 10, R = 8, z = "inset(100% 0 0 0)", B = "inset(-35% -2% -35% -2%)", V = .92, H = .78, U = .16, W = .12, G = 1e3, K = /* @__PURE__ */ new Set(), q = !1;
 n.registerPlugin(E);
-function G() {
-	K(), document.querySelectorAll(D).forEach((e) => {
-		q(e);
+function J() {
+	Y(), document.querySelectorAll(D).forEach((e) => {
+		ee(e);
 	});
 }
-function K() {
-	W || (W = !0, document.addEventListener(t, (e) => {
-		e.detail?.reduced && Array.from(U).forEach(Z);
+function Y() {
+	q || (q = !0, document.addEventListener(t, (e) => {
+		e.detail?.reduced && Array.from(K).forEach(Z);
 	}));
 }
-function q(t) {
+function ee(t) {
 	if (t.getAttribute(A) === "1") return;
 	let r = t.querySelector(O);
 	if (!r) {
 		Q(t);
 		return;
 	}
-	let i = ee(r), a = [r, i].filter(Boolean), o = window.matchMedia(I).matches;
+	let i = re(r), a = [r, i].filter(Boolean), o = window.matchMedia(I).matches;
 	if (o) {
 		Q(t);
 		return;
@@ -170,7 +170,7 @@ function q(t) {
 		supplementary: i,
 		timeline: null
 	};
-	if (U.add(s), e()) {
+	if (K.add(s), e()) {
 		Z(s);
 		return;
 	}
@@ -178,16 +178,16 @@ function q(t) {
 		clipPath: z,
 		y: L
 	};
-	o || (c.filter = `blur(${R}px)`), n.set(a, c), t.setAttribute(A, "1"), J(s, o);
+	o || (c.filter = `blur(${R}px)`), n.set(a, c), t.setAttribute(A, "1"), te(s, o);
 }
-async function J(t, r) {
+async function te(t, r) {
 	try {
-		if (await X(), t.finished) return;
+		if (await ne(), t.finished) return;
 		if (e()) {
 			Z(t);
 			return;
 		}
-		let i = Y(t, t.heading), a = t.supplementary ? Y(t, t.supplementary) : [], o = [...i, ...a];
+		let i = X(t, t.heading), a = t.supplementary ? X(t, t.supplementary) : [], o = [...i, ...a];
 		if (!i.length) {
 			Z(t);
 			return;
@@ -203,13 +203,13 @@ async function J(t, r) {
 		r || (s.filter = "none", c.filter = `blur(${R}px)`, c.willChange = "clip-path, transform, filter"), n.set(t.elements, s), n.set(o, c);
 		let l = {
 			clipPath: B,
-			duration: r ? .66 : .78,
-			stagger: V,
+			duration: r ? .66 : V,
+			stagger: U,
 			y: 0
 		}, u = {
 			clipPath: B,
-			duration: r ? .54 : .66,
-			stagger: V,
+			duration: r ? .54 : H,
+			stagger: U,
 			y: 0
 		};
 		r || (l.filter = "blur(0px)", u.filter = "blur(0px)");
@@ -217,12 +217,12 @@ async function J(t, r) {
 			defaults: { ease: "power2.out" },
 			onComplete: () => Z(t)
 		});
-		t.timeline = d, a.length ? (d.to(a, u), d.to(i, l, "-=0.08")) : d.to(i, l), d.add(() => $(t.hero), d.duration() * F);
+		t.timeline = d, a.length ? (d.to(a, u), d.to(i, l, `+=${W}`)) : d.to(i, l), d.add(() => $(t.hero), d.duration() * F);
 	} catch {
 		Z(t);
 	}
 }
-function Y(e, t) {
+function X(e, t) {
 	let n = E.create(t, {
 		aria: "auto",
 		linesClass: "bemke-hero-intro-line",
@@ -230,12 +230,12 @@ function Y(e, t) {
 	}), r = n.lines.filter((e) => e.textContent.trim());
 	return e.splits.push(n), r;
 }
-async function X() {
+async function ne() {
 	document.fonts?.ready && await Promise.race([document.fonts.ready, new Promise((e) => {
-		window.setTimeout(e, H);
+		window.setTimeout(e, G);
 	})]);
 }
-function ee(e) {
+function re(e) {
 	let t = e.parentElement;
 	return t ? Array.from(t.children).find((t) => {
 		if (t === e || !t.matches(k) || !t.textContent.trim()) return !1;
@@ -250,10 +250,10 @@ function Z(e) {
 	e.timeline = null, t?.kill(), [...e.splits].reverse().forEach((e) => {
 		e.revert();
 	}), e.splits.length = 0, e.elements.forEach((t) => {
-		te(t, e.originalStyles.get(t));
-	}), Q(e.hero), U.delete(e);
+		ie(t, e.originalStyles.get(t));
+	}), Q(e.hero), K.delete(e);
 }
-function te(e, t) {
+function ie(e, t) {
 	if (t === null) {
 		e.removeAttribute("style");
 		return;
@@ -267,4 +267,4 @@ function $(e) {
 	e.getAttribute(P) !== "1" && (e.setAttribute(P, "1"), document.dispatchEvent(new CustomEvent(N, { detail: { hero: e } })));
 }
 //#endregion
-export { M as HERO_INTRO_COMPLETE_EVENT, N as HERO_INTRO_HEADER_REVEAL_EVENT, G as initHeroIntro };
+export { M as HERO_INTRO_COMPLETE_EVENT, N as HERO_INTRO_HEADER_REVEAL_EVENT, J as initHeroIntro };
