@@ -117,9 +117,15 @@ function getControlLabel(control) {
 }
 
 function applyAutocomplete(control) {
-  const label = `${control.name || ''} ${control.getAttribute('aria-label') || ''} ${
-    control.getAttribute('placeholder') || ''
-  }`.toLocaleLowerCase('pl');
+  const label = [
+    control.name,
+    control.getAttribute('aria-label'),
+    control.getAttribute('placeholder'),
+    getAssociatedLabel(control),
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .toLocaleLowerCase('pl');
 
   if (control.type === 'email' || /\be-?mail\b/i.test(label)) {
     control.setAttribute('autocomplete', 'email');
