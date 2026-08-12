@@ -24,8 +24,7 @@ const HIDDEN_CLIP = 'inset(100% 0 0 0)';
 const VISIBLE_CLIP = 'inset(-35% -2% -35% -2%)';
 const HEADING_DURATION = 1.2;
 const SUPPLEMENTARY_DURATION = 1;
-const LINE_STAGGER = 0.32;
-const ELEMENT_GAP = 0.32;
+const REVEAL_STAGGER = 0.32;
 const FONT_WAIT_MS = 1000;
 
 const activeStates = new Set();
@@ -159,13 +158,13 @@ async function animateHeroLines(state, isMobile) {
     const headingTween = {
       clipPath: VISIBLE_CLIP,
       duration: isMobile ? 0.66 : HEADING_DURATION,
-      stagger: LINE_STAGGER,
+      stagger: REVEAL_STAGGER,
       y: 0,
     };
     const supplementaryTween = {
       clipPath: VISIBLE_CLIP,
       duration: isMobile ? 0.54 : SUPPLEMENTARY_DURATION,
-      stagger: LINE_STAGGER,
+      stagger: REVEAL_STAGGER,
       y: 0,
     };
 
@@ -185,15 +184,21 @@ async function animateHeroLines(state, isMobile) {
     if (!supplementaryLines.length) {
       timeline.to(headingLines, headingTween);
     } else if (document.body.classList.contains('home')) {
-      timeline.to(headingLines, headingTween);
-      timeline.to(
+      addRevealGroups(
+        timeline,
+        headingLines,
+        headingTween,
         supplementaryLines,
         supplementaryTween,
-        `+=${ELEMENT_GAP}`,
       );
     } else {
-      timeline.to(supplementaryLines, supplementaryTween);
-      timeline.to(headingLines, headingTween, `+=${ELEMENT_GAP}`);
+      addRevealGroups(
+        timeline,
+        supplementaryLines,
+        supplementaryTween,
+        headingLines,
+        headingTween,
+      );
     }
 
     timeline.add(
@@ -203,6 +208,22 @@ async function animateHeroLines(state, isMobile) {
   } catch {
     finishHeroIntro(state);
   }
+}
+
+function addRevealGroups(
+  timeline,
+  firstLines,
+  firstTween,
+  secondLines,
+  secondTween,
+) {
+  timeline.to(firstLines, firstTween);
+
+  // Continue the same start-to-start rhythm across element boundaries.
+  // The next group begins one stagger after the final line starts, without
+  // waiting for that line's entire reveal animation to finish.
+  const finalLineStart = timeline.duration() - firstTween.duration;
+  timeline.to(secondLines, secondTween, finalLineStart + REVEAL_STAGGER);
 }
 
 function splitIntoLines(state, element) {
