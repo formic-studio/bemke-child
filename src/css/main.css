@@ -775,10 +775,12 @@ button.tab {
 
 .lang-switcher-block[data-bemke-switch-ready="1"] {
   align-items: center;
+  color: inherit;
   cursor: pointer;
   min-height: 3.2rem;
   min-width: 3.2rem;
   padding-block: 0.4rem;
+  text-decoration: none;
 }
 
 .lang-switcher-block[data-bemke-switch-ready="1"]:focus-visible {
@@ -793,7 +795,20 @@ button.tab {
 }
 
 .lang-switcher-block.is-active .lang-switcher {
-  justify-content: flex-end;
+  justify-content: flex-start;
+}
+
+.lang-switcher-block[data-bemke-switch-ready="1"]
+  .lang-switcher
+  .switch-block {
+  transform: translateX(0);
+  transition: transform 0.2s ease;
+}
+
+.lang-switcher-block[data-bemke-switch-ready="1"].is-active
+  .lang-switcher
+  .switch-block {
+  transform: translateX(100%);
 }
 
 .animation-switcher,
@@ -816,7 +831,8 @@ html[data-contrast]:not([data-contrast="default"])
 
 @media (prefers-reduced-motion: reduce) {
   .animation-switcher,
-  .lang-switcher {
+  .lang-switcher,
+  .lang-switcher .switch-block {
     transition: none;
   }
 }

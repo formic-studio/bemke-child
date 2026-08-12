@@ -23,8 +23,29 @@ add_action( 'wp_head', 'bemke_child_preload_critical_fonts', 2 );
 add_action( 'wp_body_open', 'bemke_child_print_skip_link', 1 );
 add_action( 'wp_enqueue_scripts', 'bemke_child_enqueue_assets', 20 );
 add_action( 'template_redirect', 'bemke_child_start_frontend_optimization_buffer', 0 );
+add_filter( 'language_attributes', 'bemke_child_language_attributes', 10, 2 );
 add_filter( 'wp_get_attachment_image_attributes', 'bemke_child_optimize_below_fold_images', 100, 3 );
 add_filter( 'nav_menu_item_title', 'bemke_child_normalize_nav_menu_item_title' );
+
+/**
+ * Identify the temporary English landing page for assistive technology.
+ */
+function bemke_child_language_attributes( $output, $doctype ) {
+	unset( $doctype );
+
+	if ( ! is_page( 'home-en-404' ) ) {
+		return $output;
+	}
+
+	$updated_output = preg_replace(
+		'/\blang=(["\'])[^"\']*\1/i',
+		'lang="en"',
+		$output,
+		1
+	);
+
+	return null === $updated_output ? $output : $updated_output;
+}
 
 /**
  * Replace Unicode line/paragraph separators pasted into menu labels.
