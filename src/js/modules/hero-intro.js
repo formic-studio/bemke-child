@@ -19,7 +19,9 @@ const MOBILE_QUERY = '(max-width: 767px)';
 const START_Y = 10;
 const DESKTOP_BLUR = 8;
 const HIDDEN_CLIP = 'inset(100% 0 0 0)';
-const VISIBLE_CLIP = 'inset(0% 0 0 0)';
+// Keep the final mask outside the line box so accents and italic overhangs
+// are already fully visible before SplitText restores the original markup.
+const VISIBLE_CLIP = 'inset(-35% -2% -35% -2%)';
 const LINE_STAGGER = 0.12;
 const FONT_WAIT_MS = 1000;
 
@@ -177,10 +179,11 @@ async function animateHeroLines(state, isMobile) {
     });
 
     state.timeline = timeline;
-    timeline.to(headingLines, headingTween);
-
     if (supplementaryLines.length) {
-      timeline.to(supplementaryLines, supplementaryTween, '-=0.08');
+      timeline.to(supplementaryLines, supplementaryTween);
+      timeline.to(headingLines, headingTween, '-=0.08');
+    } else {
+      timeline.to(headingLines, headingTween);
     }
 
     timeline.add(

@@ -440,8 +440,8 @@ html[data-bemke-reduced-motion="true"]
 
 @keyframes bemke-hero-intro-failsafe {
   to {
-    -webkit-clip-path: inset(0 0 0 0);
-    clip-path: inset(0 0 0 0);
+    -webkit-clip-path: inset(-35% -2% -35% -2%);
+    clip-path: inset(-35% -2% -35% -2%);
     filter: none;
     transform: none;
   }

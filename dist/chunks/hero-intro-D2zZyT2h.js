@@ -136,7 +136,7 @@ var r, i, a = typeof Symbol == "function" ? Symbol() : "_split", o, s = () => o 
 	}
 };
 T.version = "3.15.0";
-var E = T, D = ".section_hero", O = "h1", k = ".brxe-text-basic, .brxe-text, p", A = "data-bemke-hero-intro-ready", j = "data-bemke-hero-intro-complete", M = "bemke:hero-intro-complete", N = "bemke:hero-intro-header-reveal", P = "data-bemke-hero-intro-header-reveal", F = .7, I = "(max-width: 767px)", L = 10, R = 8, z = "inset(100% 0 0 0)", B = "inset(0% 0 0 0)", V = .12, H = 1e3, U = /* @__PURE__ */ new Set(), W = !1;
+var E = T, D = ".section_hero", O = "h1", k = ".brxe-text-basic, .brxe-text, p", A = "data-bemke-hero-intro-ready", j = "data-bemke-hero-intro-complete", M = "bemke:hero-intro-complete", N = "bemke:hero-intro-header-reveal", P = "data-bemke-hero-intro-header-reveal", F = .7, I = "(max-width: 767px)", L = 10, R = 8, z = "inset(100% 0 0 0)", B = "inset(-35% -2% -35% -2%)", V = .12, H = 1e3, U = /* @__PURE__ */ new Set(), W = !1;
 n.registerPlugin(E);
 function G() {
 	K(), document.querySelectorAll(D).forEach((e) => {
@@ -217,7 +217,7 @@ async function J(t, r) {
 			defaults: { ease: "power2.out" },
 			onComplete: () => Z(t)
 		});
-		t.timeline = d, d.to(i, l), a.length && d.to(a, u, "-=0.08"), d.add(() => $(t.hero), d.duration() * F);
+		t.timeline = d, a.length ? (d.to(a, u), d.to(i, l, "-=0.08")) : d.to(i, l), d.add(() => $(t.hero), d.duration() * F);
 	} catch {
 		Z(t);
 	}
