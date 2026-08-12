@@ -136,7 +136,7 @@ var r, i, a = typeof Symbol == "function" ? Symbol() : "_split", o, s = () => o 
 	}
 };
 T.version = "3.15.0";
-var E = T, D = ".section_hero", O = "h1", k = ".brxe-text-basic, .brxe-text, p", A = "data-bemke-hero-intro-ready", j = "data-bemke-hero-intro-complete", M = "bemke:hero-intro-complete", N = "bemke:hero-intro-header-reveal", P = "data-bemke-hero-intro-header-reveal", F = .7, I = "(max-width: 767px)", L = 10, R = 8, z = "inset(100% 0 0 0)", B = "inset(-35% -2% -35% -2%)", V = .92, H = .78, U = .16, W = .12, G = 1e3, K = /* @__PURE__ */ new Set(), q = !1;
+var E = T, D = ".section_hero", O = "h1", k = ".brxe-text-basic, .brxe-text, p", A = "data-bemke-hero-intro-ready", j = "data-bemke-hero-intro-complete", M = "bemke:hero-intro-complete", N = "bemke:hero-intro-header-reveal", P = "data-bemke-hero-intro-header-reveal", F = .7, I = "(max-width: 767px)", L = 10, R = 8, z = "inset(100% 0 0 0)", B = "inset(-35% -2% -35% -2%)", V = .92, H = .78, U = .36, W = .12, G = 1e3, K = /* @__PURE__ */ new Set(), q = !1;
 n.registerPlugin(E);
 function J() {
 	Y(), document.querySelectorAll(D).forEach((e) => {

@@ -24,7 +24,7 @@ const HIDDEN_CLIP = 'inset(100% 0 0 0)';
 const VISIBLE_CLIP = 'inset(-35% -2% -35% -2%)';
 const HEADING_DURATION = 0.92;
 const SUPPLEMENTARY_DURATION = 0.78;
-const LINE_STAGGER = 0.16;
+const LINE_STAGGER = 0.36;
 const ELEMENT_GAP = 0.12;
 const FONT_WAIT_MS = 1000;
 
