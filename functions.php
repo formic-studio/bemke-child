@@ -174,6 +174,7 @@ function bemke_child_enqueue_assets() {
 function bemke_child_start_frontend_optimization_buffer() {
 	if (
 		is_admin() ||
+		is_user_logged_in() ||
 		wp_doing_ajax() ||
 		( defined( 'REST_REQUEST' ) && REST_REQUEST ) ||
 		is_feed() ||
