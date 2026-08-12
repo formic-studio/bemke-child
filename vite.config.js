@@ -7,7 +7,9 @@ export default defineConfig(({ mode }) => {
   return {
     build: {
       outDir: 'dist',
-      emptyOutDir: true,
+      // Dynamic chunks are content-hashed and cached for a year by Hostinger.
+      // Keep prior hashes available so cached entry files never point to 404s.
+      emptyOutDir: false,
       sourcemap: isDevWatch,
       minify: isDevWatch ? false : 'oxc',
       cssCodeSplit: false,
