@@ -33,6 +33,9 @@ add_filter( 'attachment_fields_to_edit', 'bemke_child_add_image_alternative_fiel
 add_filter( 'attachment_fields_to_save', 'bemke_child_save_image_alternative_fields', 10, 2 );
 add_filter( 'manage_media_columns', 'bemke_child_add_image_alternative_columns' );
 add_action( 'manage_media_custom_column', 'bemke_child_render_image_alternative_column', 10, 2 );
+add_action( 'admin_head-upload.php', 'bemke_child_print_inline_image_alternative_styles' );
+add_action( 'admin_footer-upload.php', 'bemke_child_print_inline_image_alternative_script' );
+add_action( 'wp_ajax_bemke_child_save_image_alternatives', 'bemke_child_save_inline_image_alternatives' );
 add_filter( 'wp_get_attachment_image_attributes', 'bemke_child_apply_attachment_image_alternative', 80, 3 );
 add_action( 'added_post_meta', 'bemke_child_watch_image_alternative_meta', 10, 4 );
 add_action( 'updated_post_meta', 'bemke_child_watch_image_alternative_meta', 10, 4 );
@@ -224,27 +227,235 @@ function bemke_child_render_image_alternative_column( $column_name, $post_id ) {
 		return;
 	}
 
-	if ( '1' === (string) get_post_meta( $post_id, BEMKE_CHILD_IMAGE_DECORATIVE_META, true ) ) {
-		echo '<em>' . esc_html__( 'Dekoracyjny', 'bemke-child' ) . '</em>';
-		return;
-	}
-
 	$meta_key = 'bemke_alt_en' === $column_name
 		? BEMKE_CHILD_IMAGE_ALT_EN_META
 		: '_wp_attachment_image_alt';
-	$value    = trim( (string) get_post_meta( $post_id, $meta_key, true ) );
+	$value    = (string) get_post_meta( $post_id, $meta_key, true );
+	$label    = 'bemke_alt_en' === $column_name
+		? __( 'ALT EN', 'bemke-child' )
+		: __( 'ALT PL', 'bemke-child' );
+	$title    = trim( wp_strip_all_tags( get_the_title( $post_id ) ) );
 
-	if ( '' !== $value ) {
-		echo esc_html( wp_html_excerpt( $value, 90, '…' ) );
+	printf(
+		'<textarea class="bemke-inline-alt bemke-inline-alt--%1$s" rows="3" data-attachment-id="%2$d" aria-label="%3$s" placeholder="%4$s">%5$s</textarea>',
+		'bemke_alt_en' === $column_name ? 'en' : 'pl',
+		(int) $post_id,
+		esc_attr( sprintf( '%1$s: %2$s', $label, $title ) ),
+		esc_attr(
+			'bemke_alt_en' === $column_name
+				? __( 'Puste pole używa ALT PL', 'bemke-child' )
+				: __( 'Brak opisu', 'bemke-child' )
+		),
+		esc_textarea( $value )
+	);
+
+	if ( 'bemke_alt_en' !== $column_name ) {
 		return;
 	}
 
-	if ( 'bemke_alt_en' === $column_name ) {
-		echo '<em>' . esc_html__( 'Fallback: ALT PL', 'bemke-child' ) . '</em>';
-		return;
+	printf(
+		'<div class="bemke-inline-alt-actions">
+			<label class="bemke-inline-alt-decorative">
+				<input type="checkbox" class="bemke-inline-alt-decorative-input"%1$s>
+				%2$s
+			</label>
+			<button type="button" class="button button-small bemke-inline-alt-save" data-attachment-id="%3$d">%4$s</button>
+			<span class="bemke-inline-alt-status" role="status" aria-live="polite"></span>
+		</div>',
+		checked( '1', (string) get_post_meta( $post_id, BEMKE_CHILD_IMAGE_DECORATIVE_META, true ), false ),
+		esc_html__( 'Dekoracyjny', 'bemke-child' ),
+		(int) $post_id,
+		esc_html__( 'Zapisz', 'bemke-child' )
+	);
+}
+
+/**
+ * Keep the inline alternative editor usable in the Media Library table.
+ */
+function bemke_child_print_inline_image_alternative_styles() {
+	?>
+	<style id="bemke-inline-image-alternative-styles">
+		.column-bemke_alt_pl,
+		.column-bemke_alt_en {
+			width: 20rem;
+		}
+
+		.bemke-inline-alt {
+			box-sizing: border-box;
+			min-width: 15rem;
+			width: 100%;
+			resize: vertical;
+		}
+
+		.bemke-inline-alt-actions {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			gap: 0.5rem 0.75rem;
+			margin-top: 0.5rem;
+		}
+
+		.bemke-inline-alt-decorative {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.25rem;
+		}
+
+		.bemke-inline-alt-status {
+			min-width: 4rem;
+			font-size: 0.8rem;
+		}
+
+		.bemke-inline-alt-status.is-error {
+			color: #b32d2e;
+		}
+
+		.bemke-inline-alt-status.is-success {
+			color: #008a20;
+		}
+	</style>
+	<?php
+}
+
+/**
+ * Print the Media Library inline editor behaviour.
+ */
+function bemke_child_print_inline_image_alternative_script() {
+	$nonce = wp_create_nonce( 'bemke_child_inline_image_alternatives' );
+	?>
+	<script id="bemke-inline-image-alternative-script">
+		(function () {
+			'use strict';
+
+			var nonce = <?php echo wp_json_encode( $nonce ); ?>;
+
+			document.addEventListener('input', function (event) {
+				var row = event.target.closest('tr');
+
+				if (!row || !event.target.matches('.bemke-inline-alt, .bemke-inline-alt-decorative-input')) {
+					return;
+				}
+
+				var status = row.querySelector('.bemke-inline-alt-status');
+
+				if (status) {
+					status.textContent = '';
+					status.classList.remove('is-error', 'is-success');
+				}
+			});
+
+			document.addEventListener('click', function (event) {
+				var button = event.target.closest('.bemke-inline-alt-save');
+
+				if (!button) {
+					return;
+				}
+
+				var row = button.closest('tr');
+				var altPl = row ? row.querySelector('.bemke-inline-alt--pl') : null;
+				var altEn = row ? row.querySelector('.bemke-inline-alt--en') : null;
+				var decorative = row ? row.querySelector('.bemke-inline-alt-decorative-input') : null;
+				var status = row ? row.querySelector('.bemke-inline-alt-status') : null;
+
+				if (!row || !altPl || !altEn || !decorative || !status) {
+					return;
+				}
+
+				button.disabled = true;
+				status.textContent = <?php echo wp_json_encode( __( 'Zapisywanie…', 'bemke-child' ) ); ?>;
+				status.classList.remove('is-error', 'is-success');
+
+				var data = new URLSearchParams();
+				data.set('action', 'bemke_child_save_image_alternatives');
+				data.set('nonce', nonce);
+				data.set('attachment_id', button.dataset.attachmentId);
+				data.set('alt_pl', altPl.value);
+				data.set('alt_en', altEn.value);
+				data.set('decorative', decorative.checked ? '1' : '0');
+
+				window.fetch(window.ajaxurl, {
+					method: 'POST',
+					credentials: 'same-origin',
+					headers: {
+						'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+					},
+					body: data.toString()
+				})
+					.then(function (response) {
+						return response.json();
+					})
+					.then(function (response) {
+						if (!response.success) {
+							throw new Error(response.data && response.data.message ? response.data.message : 'save_failed');
+						}
+
+						status.textContent = <?php echo wp_json_encode( __( 'Zapisano', 'bemke-child' ) ); ?>;
+						status.classList.add('is-success');
+					})
+					.catch(function () {
+						status.textContent = <?php echo wp_json_encode( __( 'Błąd zapisu', 'bemke-child' ) ); ?>;
+						status.classList.add('is-error');
+					})
+					.finally(function () {
+						button.disabled = false;
+					});
+			});
+		})();
+	</script>
+	<?php
+}
+
+/**
+ * Save alternative fields edited directly in the Media Library table.
+ */
+function bemke_child_save_inline_image_alternatives() {
+	check_ajax_referer( 'bemke_child_inline_image_alternatives', 'nonce' );
+
+	$attachment_id = isset( $_POST['attachment_id'] ) ? absint( $_POST['attachment_id'] ) : 0;
+
+	if (
+		! $attachment_id ||
+		! bemke_child_is_image_attachment( $attachment_id ) ||
+		! current_user_can( 'edit_post', $attachment_id )
+	) {
+		wp_send_json_error(
+			array( 'message' => __( 'Nie możesz edytować tego obrazu.', 'bemke-child' ) ),
+			403
+		);
 	}
 
-	echo '<strong>' . esc_html__( 'Brak', 'bemke-child' ) . '</strong>';
+	$alt_pl     = isset( $_POST['alt_pl'] )
+		? sanitize_textarea_field( wp_unslash( $_POST['alt_pl'] ) )
+		: '';
+	$alt_en     = isset( $_POST['alt_en'] )
+		? sanitize_textarea_field( wp_unslash( $_POST['alt_en'] ) )
+		: '';
+	$decorative = ! empty( $_POST['decorative'] );
+
+	update_post_meta( $attachment_id, '_wp_attachment_image_alt', $alt_pl );
+
+	if ( '' === $alt_en ) {
+		delete_post_meta( $attachment_id, BEMKE_CHILD_IMAGE_ALT_EN_META );
+	} else {
+		update_post_meta( $attachment_id, BEMKE_CHILD_IMAGE_ALT_EN_META, $alt_en );
+	}
+
+	if ( $decorative ) {
+		update_post_meta( $attachment_id, BEMKE_CHILD_IMAGE_DECORATIVE_META, '1' );
+	} else {
+		delete_post_meta( $attachment_id, BEMKE_CHILD_IMAGE_DECORATIVE_META );
+	}
+
+	update_post_meta( $attachment_id, BEMKE_CHILD_IMAGE_ALT_MANAGED_META, '1' );
+	bemke_child_schedule_image_alternative_cache_purge();
+
+	wp_send_json_success(
+		array(
+			'alt_pl'     => $alt_pl,
+			'alt_en'     => $alt_en,
+			'decorative' => $decorative,
+		)
+	);
 }
 
 /**
