@@ -177,11 +177,9 @@ function bemke_child_get_slider_image_items_for_bricks( $post_id = 0 ) {
 		$items[] = array(
 			'bemke_slider_image_id'    => $image_id,
 			'bemke_slider_image_url'   => $image_url,
-			'bemke_slider_image_alt'   => (string) get_post_meta(
-				$image_id,
-				'_wp_attachment_image_alt',
-				true
-			),
+			'bemke_slider_image_alt'   => function_exists( 'bemke_child_get_attachment_image_alternative_text' )
+				? bemke_child_get_attachment_image_alternative_text( $image_id )
+				: (string) get_post_meta( $image_id, '_wp_attachment_image_alt', true ),
 			'bemke_slider_image_title' => get_the_title( $image_id ),
 		);
 	}

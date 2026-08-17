@@ -11,6 +11,654 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+if ( ! defined( 'BEMKE_CHILD_IMAGE_ALT_EN_META' ) ) {
+	define( 'BEMKE_CHILD_IMAGE_ALT_EN_META', '_bemke_image_alt_en' );
+}
+
+if ( ! defined( 'BEMKE_CHILD_IMAGE_DECORATIVE_META' ) ) {
+	define( 'BEMKE_CHILD_IMAGE_DECORATIVE_META', '_bemke_image_decorative' );
+}
+
+if ( ! defined( 'BEMKE_CHILD_IMAGE_ALT_MANAGED_META' ) ) {
+	define( 'BEMKE_CHILD_IMAGE_ALT_MANAGED_META', '_bemke_image_alt_managed' );
+}
+
+if ( ! defined( 'BEMKE_CHILD_IMAGE_ALT_MIGRATION_VERSION' ) ) {
+	define( 'BEMKE_CHILD_IMAGE_ALT_MIGRATION_VERSION', 1 );
+}
+
+add_action( 'init', 'bemke_child_register_image_alternative_meta', 5 );
+add_action( 'init', 'bemke_child_maybe_migrate_image_alternatives', 30 );
+add_filter( 'attachment_fields_to_edit', 'bemke_child_add_image_alternative_fields', 10, 2 );
+add_filter( 'attachment_fields_to_save', 'bemke_child_save_image_alternative_fields', 10, 2 );
+add_filter( 'manage_media_columns', 'bemke_child_add_image_alternative_columns' );
+add_action( 'manage_media_custom_column', 'bemke_child_render_image_alternative_column', 10, 2 );
+add_filter( 'wp_get_attachment_image_attributes', 'bemke_child_apply_attachment_image_alternative', 80, 3 );
+add_action( 'added_post_meta', 'bemke_child_watch_image_alternative_meta', 10, 4 );
+add_action( 'updated_post_meta', 'bemke_child_watch_image_alternative_meta', 10, 4 );
+add_action( 'deleted_post_meta', 'bemke_child_watch_image_alternative_meta', 10, 4 );
+add_action( 'add_attachment', 'bemke_child_invalidate_image_attachment_filename_index' );
+add_action( 'edit_attachment', 'bemke_child_invalidate_image_attachment_filename_index' );
+add_action( 'delete_attachment', 'bemke_child_invalidate_image_attachment_filename_index' );
+
+/**
+ * Register the English and administrative image-alternative metadata.
+ */
+function bemke_child_register_image_alternative_meta() {
+	$auth_callback = static function ( $allowed, $meta_key, $post_id ) {
+		unset( $allowed, $meta_key );
+
+		return current_user_can( 'edit_post', $post_id );
+	};
+
+	register_post_meta(
+		'attachment',
+		BEMKE_CHILD_IMAGE_ALT_EN_META,
+		array(
+			'type'              => 'string',
+			'single'            => true,
+			'show_in_rest'      => true,
+			'sanitize_callback' => 'sanitize_textarea_field',
+			'auth_callback'     => $auth_callback,
+		)
+	);
+
+	register_post_meta(
+		'attachment',
+		BEMKE_CHILD_IMAGE_DECORATIVE_META,
+		array(
+			'type'              => 'boolean',
+			'single'            => true,
+			'show_in_rest'      => true,
+			'sanitize_callback' => 'rest_sanitize_boolean',
+			'auth_callback'     => $auth_callback,
+		)
+	);
+}
+
+/**
+ * Check whether an attachment is an image, including SVG files when enabled.
+ *
+ * @param int $attachment_id Attachment post ID.
+ * @return bool
+ */
+function bemke_child_is_image_attachment( $attachment_id ) {
+	if ( 'attachment' !== get_post_type( $attachment_id ) ) {
+		return false;
+	}
+
+	$mime_type = (string) get_post_mime_type( $attachment_id );
+
+	return 0 === strpos( $mime_type, 'image/' );
+}
+
+/**
+ * Add language-specific alternative fields to Media Library image details.
+ *
+ * The WordPress core alternative field stores the Polish version so it remains
+ * compatible with Bricks and other plugins that read _wp_attachment_image_alt.
+ *
+ * @param array<string, array<string, mixed>> $fields Attachment fields.
+ * @param WP_Post                             $post   Attachment post.
+ * @return array<string, array<string, mixed>>
+ */
+function bemke_child_add_image_alternative_fields( $fields, $post ) {
+	if ( ! bemke_child_is_image_attachment( $post->ID ) ) {
+		return $fields;
+	}
+
+	if ( isset( $fields['image_alt'] ) ) {
+		$fields['image_alt']['label'] = __( 'Tekst alternatywny (ALT PL)', 'bemke-child' );
+		$fields['image_alt']['helps'] = __(
+			'Polski opis obrazu. Zmiana w tym polu jest automatycznie widoczna na polskiej wersji strony.',
+			'bemke-child'
+		);
+	} else {
+		$fields['image_alt'] = array(
+			'label' => __( 'Tekst alternatywny (ALT PL)', 'bemke-child' ),
+			'input' => 'textarea',
+			'value' => (string) get_post_meta( $post->ID, '_wp_attachment_image_alt', true ),
+			'helps' => __(
+				'Polski opis obrazu. Zmiana w tym polu jest automatycznie widoczna na polskiej wersji strony.',
+				'bemke-child'
+			),
+		);
+	}
+
+	$fields['bemke_image_alt_en'] = array(
+		'label' => __( 'Tekst alternatywny (ALT EN)', 'bemke-child' ),
+		'input' => 'textarea',
+		'value' => (string) get_post_meta( $post->ID, BEMKE_CHILD_IMAGE_ALT_EN_META, true ),
+		'helps' => __(
+			'Angielski opis obrazu. Dopóki pole jest puste, wersja angielska używa ALT PL.',
+			'bemke-child'
+		),
+	);
+
+	$fields['bemke_image_decorative'] = array(
+		'label' => __( 'Dostępność', 'bemke-child' ),
+		'input' => 'html',
+		'html'  => sprintf(
+			'<label><input type="checkbox" name="attachments[%1$d][bemke_image_decorative]" value="1"%2$s> %3$s</label>',
+			(int) $post->ID,
+			checked( '1', (string) get_post_meta( $post->ID, BEMKE_CHILD_IMAGE_DECORATIVE_META, true ), false ),
+			esc_html__( 'Obraz dekoracyjny — pomiń w czytnikach ekranu', 'bemke-child' )
+		),
+		'helps' => __(
+			'Zaznaczenie ustawia pusty alt w obu wersjach językowych. Wpisane opisy pozostają zapisane na wypadek ponownego użycia.',
+			'bemke-child'
+		),
+	);
+
+	return $fields;
+}
+
+/**
+ * Save the Media Library alternative fields.
+ *
+ * @param array<string, mixed> $post       Attachment post data.
+ * @param array<string, mixed> $attachment Submitted attachment fields.
+ * @return array<string, mixed>
+ */
+function bemke_child_save_image_alternative_fields( $post, $attachment ) {
+	$attachment_id = isset( $post['ID'] ) ? absint( $post['ID'] ) : 0;
+
+	if ( ! $attachment_id || ! bemke_child_is_image_attachment( $attachment_id ) ) {
+		return $post;
+	}
+
+	if ( array_key_exists( 'image_alt', $attachment ) ) {
+		update_post_meta(
+			$attachment_id,
+			'_wp_attachment_image_alt',
+			sanitize_textarea_field( wp_unslash( $attachment['image_alt'] ) )
+		);
+	}
+
+	if ( array_key_exists( 'bemke_image_alt_en', $attachment ) ) {
+		$alt_en = sanitize_textarea_field( wp_unslash( $attachment['bemke_image_alt_en'] ) );
+
+		if ( '' === $alt_en ) {
+			delete_post_meta( $attachment_id, BEMKE_CHILD_IMAGE_ALT_EN_META );
+		} else {
+			update_post_meta( $attachment_id, BEMKE_CHILD_IMAGE_ALT_EN_META, $alt_en );
+		}
+	}
+
+	if ( ! empty( $attachment['bemke_image_decorative'] ) ) {
+		update_post_meta( $attachment_id, BEMKE_CHILD_IMAGE_DECORATIVE_META, '1' );
+	} else {
+		delete_post_meta( $attachment_id, BEMKE_CHILD_IMAGE_DECORATIVE_META );
+	}
+
+	update_post_meta( $attachment_id, BEMKE_CHILD_IMAGE_ALT_MANAGED_META, '1' );
+	bemke_child_schedule_image_alternative_cache_purge();
+
+	return $post;
+}
+
+/**
+ * Add quick audit columns to the Media Library list view.
+ *
+ * @param array<string, string> $columns Existing columns.
+ * @return array<string, string>
+ */
+function bemke_child_add_image_alternative_columns( $columns ) {
+	$columns['bemke_alt_pl'] = __( 'ALT PL', 'bemke-child' );
+	$columns['bemke_alt_en'] = __( 'ALT EN', 'bemke-child' );
+
+	return $columns;
+}
+
+/**
+ * Render Media Library alternative audit columns.
+ *
+ * @param string $column_name Column identifier.
+ * @param int    $post_id     Attachment post ID.
+ */
+function bemke_child_render_image_alternative_column( $column_name, $post_id ) {
+	if (
+		! in_array( $column_name, array( 'bemke_alt_pl', 'bemke_alt_en' ), true ) ||
+		! bemke_child_is_image_attachment( $post_id )
+	) {
+		return;
+	}
+
+	if ( '1' === (string) get_post_meta( $post_id, BEMKE_CHILD_IMAGE_DECORATIVE_META, true ) ) {
+		echo '<em>' . esc_html__( 'Dekoracyjny', 'bemke-child' ) . '</em>';
+		return;
+	}
+
+	$meta_key = 'bemke_alt_en' === $column_name
+		? BEMKE_CHILD_IMAGE_ALT_EN_META
+		: '_wp_attachment_image_alt';
+	$value    = trim( (string) get_post_meta( $post_id, $meta_key, true ) );
+
+	if ( '' !== $value ) {
+		echo esc_html( wp_html_excerpt( $value, 90, '…' ) );
+		return;
+	}
+
+	if ( 'bemke_alt_en' === $column_name ) {
+		echo '<em>' . esc_html__( 'Fallback: ALT PL', 'bemke-child' ) . '</em>';
+		return;
+	}
+
+	echo '<strong>' . esc_html__( 'Brak', 'bemke-child' ) . '</strong>';
+}
+
+/**
+ * Return the active frontend language used for image alternatives.
+ *
+ * @return string Either "pl" or "en".
+ */
+function bemke_child_get_image_alternative_language() {
+	static $resolved_language = null;
+
+	if ( null !== $resolved_language ) {
+		return $resolved_language;
+	}
+
+	$language = '';
+
+	if ( function_exists( 'pll_current_language' ) ) {
+		$language = (string) pll_current_language( 'slug' );
+	}
+
+	if ( '' === $language ) {
+		$language = (string) apply_filters( 'wpml_current_language', '' );
+	}
+
+	if ( '' === $language && defined( 'ICL_LANGUAGE_CODE' ) ) {
+		$language = (string) ICL_LANGUAGE_CODE;
+	}
+
+	if ( function_exists( 'is_page' ) && is_page( 'home-en-404' ) ) {
+		$language = 'en';
+	}
+
+	if ( '' === $language ) {
+		$locale   = function_exists( 'determine_locale' ) ? determine_locale() : get_locale();
+		$language = (string) $locale;
+	}
+
+	$resolved_language = 0 === stripos( $language, 'en' ) ? 'en' : 'pl';
+
+	return $resolved_language;
+}
+
+/**
+ * Resolve the current alternative for one Media Library attachment.
+ *
+ * @param int    $attachment_id Attachment post ID, if available.
+ * @param string $filename      Original filename for legacy fallback.
+ * @return array{found: bool, text: string}
+ */
+function bemke_child_get_attachment_image_alternative( $attachment_id, $filename = '' ) {
+	$attachment_id = absint( $attachment_id );
+
+	if ( $attachment_id ) {
+		if ( '' === $filename ) {
+			$attached_file = (string) get_post_meta( $attachment_id, '_wp_attached_file', true );
+			$filename      = wp_basename( $attached_file );
+		}
+
+		if ( '1' === (string) get_post_meta( $attachment_id, BEMKE_CHILD_IMAGE_DECORATIVE_META, true ) ) {
+			return array(
+				'found' => true,
+				'text'  => '',
+			);
+		}
+
+		if ( 'en' === bemke_child_get_image_alternative_language() ) {
+			$alt_en = trim( (string) get_post_meta( $attachment_id, BEMKE_CHILD_IMAGE_ALT_EN_META, true ) );
+
+			if ( '' !== $alt_en ) {
+				return array(
+					'found' => true,
+					'text'  => $alt_en,
+				);
+			}
+		}
+
+		$alt_pl  = trim( (string) get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) );
+		$managed = metadata_exists( 'post', $attachment_id, BEMKE_CHILD_IMAGE_ALT_MANAGED_META );
+
+		if ( '' !== $alt_pl || $managed ) {
+			return array(
+				'found' => true,
+				'text'  => $alt_pl,
+			);
+		}
+	}
+
+	return bemke_child_get_legacy_image_alternative( $filename );
+}
+
+/**
+ * Return alternative text as a string for Bricks data helpers.
+ *
+ * @param int    $attachment_id Attachment post ID.
+ * @param string $filename      Original filename for fallback.
+ * @return string
+ */
+function bemke_child_get_attachment_image_alternative_text( $attachment_id, $filename = '' ) {
+	$alternative = bemke_child_get_attachment_image_alternative( $attachment_id, $filename );
+
+	return $alternative['found'] ? $alternative['text'] : '';
+}
+
+/**
+ * Look up an alternative in the temporary migration map.
+ *
+ * @param string $filename Original image filename.
+ * @return array{found: bool, text: string}
+ */
+function bemke_child_get_legacy_image_alternative( $filename ) {
+	$filename     = (string) $filename;
+	$alternatives = bemke_child_get_image_alternatives();
+
+	if ( array_key_exists( $filename, $alternatives ) ) {
+		return array(
+			'found' => true,
+			'text'  => $alternatives[ $filename ],
+		);
+	}
+
+	$normalized_filename = strtolower( $filename );
+
+	foreach ( $alternatives as $mapped_filename => $alternative ) {
+		if ( strtolower( $mapped_filename ) === $normalized_filename ) {
+			return array(
+				'found' => true,
+				'text'  => $alternative,
+			);
+		}
+	}
+
+	$unscaled_filename = preg_replace( '/-scaled(?=\.[^.]+$)/i', '', $filename );
+
+	if ( is_string( $unscaled_filename ) && $unscaled_filename !== $filename ) {
+		return bemke_child_get_legacy_image_alternative( $unscaled_filename );
+	}
+
+	return array(
+		'found' => false,
+		'text'  => '',
+	);
+}
+
+/**
+ * Build an attachment index keyed by original upload filename.
+ *
+ * @return array<string, array<int, int>>
+ */
+function bemke_child_get_image_attachment_filename_index() {
+	static $index = null;
+
+	if ( null !== $index ) {
+		return $index;
+	}
+
+	$cached_index = get_transient( 'bemke_child_image_attachment_filename_index_v1' );
+
+	if ( is_array( $cached_index ) ) {
+		$index = $cached_index;
+
+		return $index;
+	}
+
+	global $wpdb;
+
+	$index = array();
+	$rows  = $wpdb->get_results(
+		$wpdb->prepare(
+			"SELECT pm.post_id, pm.meta_value
+			FROM {$wpdb->postmeta} AS pm
+			INNER JOIN {$wpdb->posts} AS p ON p.ID = pm.post_id
+			WHERE pm.meta_key = %s
+				AND p.post_type = %s
+				AND p.post_mime_type LIKE %s
+			ORDER BY pm.post_id ASC",
+			'_wp_attached_file',
+			'attachment',
+			'image/%'
+		),
+		ARRAY_A
+	);
+
+	foreach ( $rows as $row ) {
+		$attachment_id = absint( $row['post_id'] );
+		$attached_file = (string) $row['meta_value'];
+		$filename      = strtolower( wp_basename( $attached_file ) );
+
+		if ( '' === $filename ) {
+			continue;
+		}
+
+		if ( ! isset( $index[ $filename ] ) ) {
+			$index[ $filename ] = array();
+		}
+
+		$index[ $filename ][] = $attachment_id;
+	}
+
+	set_transient(
+		'bemke_child_image_attachment_filename_index_v1',
+		$index,
+		12 * HOUR_IN_SECONDS
+	);
+
+	return $index;
+}
+
+/**
+ * Invalidate the filename index after an attachment changes.
+ *
+ * @param int $attachment_id Attachment post ID.
+ */
+function bemke_child_invalidate_image_attachment_filename_index( $attachment_id = 0 ) {
+	unset( $attachment_id );
+
+	delete_transient( 'bemke_child_image_attachment_filename_index_v1' );
+}
+
+/**
+ * Resolve an attachment by its canonical filename.
+ *
+ * @param string $filename Canonical image filename.
+ * @return int
+ */
+function bemke_child_get_image_attachment_id_by_filename( $filename ) {
+	$index = bemke_child_get_image_attachment_filename_index();
+	$key   = strtolower( (string) $filename );
+
+	if ( isset( $index[ $key ][0] ) ) {
+		return absint( $index[ $key ][0] );
+	}
+
+	$scaled_key = preg_replace( '/(?=\.[^.]+$)/', '-scaled', $key, 1 );
+
+	return is_string( $scaled_key ) && isset( $index[ $scaled_key ][0] )
+		? absint( $index[ $scaled_key ][0] )
+		: 0;
+}
+
+/**
+ * Migrate the verified Polish alternatives into the WordPress Media Library.
+ *
+ * This runs once per migration version and never overwrites a non-empty value
+ * already entered by an editor.
+ */
+function bemke_child_maybe_migrate_image_alternatives() {
+	$option_name = 'bemke_child_image_alt_migration';
+	$lock_name   = 'bemke_child_image_alt_migration_lock';
+	$state       = get_option( $option_name, array() );
+
+	if (
+		is_array( $state ) &&
+		isset( $state['version'] ) &&
+		BEMKE_CHILD_IMAGE_ALT_MIGRATION_VERSION === (int) $state['version']
+	) {
+		return;
+	}
+
+	$lock_time = (int) get_option( $lock_name, 0 );
+
+	if ( $lock_time && ( time() - $lock_time ) < 10 * MINUTE_IN_SECONDS ) {
+		return;
+	}
+
+	if ( $lock_time ) {
+		delete_option( $lock_name );
+	}
+
+	if ( ! add_option( $lock_name, time(), '', false ) ) {
+		return;
+	}
+
+	$alternatives = bemke_child_get_image_alternatives();
+	$index        = bemke_child_get_image_attachment_filename_index();
+	$matched      = array();
+	$processed    = array();
+	$result       = array(
+		'version'     => BEMKE_CHILD_IMAGE_ALT_MIGRATION_VERSION,
+		'migrated'    => 0,
+		'decorative'  => 0,
+		'preserved'   => 0,
+		'attachments' => 0,
+		'missing'     => array(),
+		'completed_at' => current_time( 'mysql', true ),
+	);
+
+	try {
+		foreach ( $alternatives as $filename => $alternative ) {
+			$key        = strtolower( $filename );
+			$scaled_key = preg_replace( '/(?=\.[^.]+$)/', '-scaled', $key, 1 );
+
+			if ( empty( $index[ $key ] ) && is_string( $scaled_key ) && ! empty( $index[ $scaled_key ] ) ) {
+				$key = $scaled_key;
+			}
+
+			if ( empty( $index[ $key ] ) ) {
+				continue;
+			}
+
+			$matched[ $filename ] = true;
+
+			foreach ( $index[ $key ] as $attachment_id ) {
+				if ( isset( $processed[ $attachment_id ] ) ) {
+					continue;
+				}
+
+				$processed[ $attachment_id ] = true;
+				++$result['attachments'];
+
+				$current_alt = trim( (string) get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) );
+				$managed     = metadata_exists( 'post', $attachment_id, BEMKE_CHILD_IMAGE_ALT_MANAGED_META );
+
+				if ( '' !== $current_alt || $managed ) {
+					++$result['preserved'];
+					continue;
+				}
+
+				if ( '' === $alternative ) {
+					update_post_meta( $attachment_id, BEMKE_CHILD_IMAGE_DECORATIVE_META, '1' );
+					++$result['decorative'];
+				} else {
+					update_post_meta( $attachment_id, '_wp_attachment_image_alt', $alternative );
+					++$result['migrated'];
+				}
+
+				update_post_meta( $attachment_id, BEMKE_CHILD_IMAGE_ALT_MANAGED_META, '1' );
+			}
+		}
+
+		$result['missing'] = array_values( array_diff( array_keys( $alternatives ), array_keys( $matched ) ) );
+		update_option( $option_name, $result, false );
+		bemke_child_schedule_image_alternative_cache_purge();
+	} finally {
+		delete_option( $lock_name );
+	}
+}
+
+/**
+ * Apply the language-appropriate alternative to WordPress-generated images.
+ *
+ * @param array<string, string> $attr       Image HTML attributes.
+ * @param WP_Post               $attachment Attachment post.
+ * @param string|array<int, int> $size      Requested image size.
+ * @return array<string, string>
+ */
+function bemke_child_apply_attachment_image_alternative( $attr, $attachment, $size ) {
+	unset( $size );
+
+	$alternative = bemke_child_get_attachment_image_alternative( $attachment->ID );
+
+	if ( $alternative['found'] ) {
+		$attr['alt'] = $alternative['text'];
+	}
+
+	return $attr;
+}
+
+/**
+ * Mark direct alternative changes as managed and invalidate the page cache.
+ *
+ * @param int|array<int, int> $meta_id    Meta row ID or deleted row IDs.
+ * @param int                 $object_id  Attachment post ID.
+ * @param string              $meta_key   Changed meta key.
+ * @param mixed               $meta_value Changed meta value.
+ */
+function bemke_child_watch_image_alternative_meta( $meta_id, $object_id, $meta_key, $meta_value ) {
+	unset( $meta_id, $meta_value );
+
+	if ( '_wp_attached_file' === $meta_key && 'attachment' === get_post_type( $object_id ) ) {
+		bemke_child_invalidate_image_attachment_filename_index( $object_id );
+		return;
+	}
+
+	$watched_keys = array(
+		'_wp_attachment_image_alt',
+		BEMKE_CHILD_IMAGE_ALT_EN_META,
+		BEMKE_CHILD_IMAGE_DECORATIVE_META,
+	);
+
+	if (
+		! in_array( $meta_key, $watched_keys, true ) ||
+		! bemke_child_is_image_attachment( $object_id )
+	) {
+		return;
+	}
+
+	if ( '_wp_attachment_image_alt' === $meta_key ) {
+		update_post_meta( $object_id, BEMKE_CHILD_IMAGE_ALT_MANAGED_META, '1' );
+	}
+
+	bemke_child_schedule_image_alternative_cache_purge();
+}
+
+/**
+ * Purge LiteSpeed page cache once after one or more alternative changes.
+ */
+function bemke_child_schedule_image_alternative_cache_purge() {
+	static $scheduled = false;
+
+	if ( $scheduled ) {
+		return;
+	}
+
+	$scheduled = true;
+	add_action( 'shutdown', 'bemke_child_purge_image_alternative_cache', 999 );
+}
+
+/**
+ * Ask LiteSpeed Cache to regenerate frontend pages with the updated alt text.
+ */
+function bemke_child_purge_image_alternative_cache() {
+	do_action( 'litespeed_purge_all' );
+}
+
 /**
  * Replace missing or generic alternatives in the final frontend markup.
  *
@@ -18,8 +666,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return string
  */
 function bemke_child_prepare_image_alternatives( $html ) {
-	$alternatives = bemke_child_get_image_alternatives();
-	$donor_name   = '';
+	$donor_name = '';
 
 	if ( is_singular( 'darczynca' ) ) {
 		$donor_id   = get_queried_object_id();
@@ -29,30 +676,34 @@ function bemke_child_prepare_image_alternatives( $html ) {
 
 	$updated_html = preg_replace_callback(
 		'/<img\b[^>]*>/i',
-		static function ( $matches ) use ( $alternatives, $donor_name ) {
-			$image_tag = $matches[0];
-			$alt_text  = '';
+		static function ( $matches ) use ( $donor_name ) {
+			$image_tag        = $matches[0];
+			$alt_text         = '';
+			$alternative_found = false;
 
 			if (
 				'' !== $donor_name &&
 				preg_match( '/\bid\s*=\s*(["\'])brxe-vvqtfa\1/i', $image_tag ) &&
 				! preg_match( '/\balt\s*=\s*(["\'])[^"\']+\1/i', $image_tag )
 			) {
-				$alt_text = sprintf( '%s, darczyńca Campusu Bemke', $donor_name );
+				$alt_text          = sprintf( '%s, darczyńca Campusu Bemke', $donor_name );
+				$alternative_found = true;
 			}
 
-			if ( '' === $alt_text ) {
+			if ( ! $alternative_found ) {
 				if ( ! preg_match( '/\ssrc\s*=\s*(["\'])([^"\']+)\1/i', $image_tag, $source_match ) ) {
 					return $image_tag;
 				}
 
-				$filename = bemke_child_get_canonical_image_filename( $source_match[2] );
+				$filename      = bemke_child_get_canonical_image_filename( $source_match[2] );
+				$attachment_id = bemke_child_get_image_attachment_id_by_filename( $filename );
+				$alternative   = bemke_child_get_attachment_image_alternative( $attachment_id, $filename );
 
-				if ( ! isset( $alternatives[ $filename ] ) ) {
+				if ( ! $alternative['found'] ) {
 					return $image_tag;
 				}
 
-				$alt_text = $alternatives[ $filename ];
+				$alt_text = $alternative['text'];
 			}
 
 			$alt_attribute = 'alt="' . esc_attr( $alt_text ) . '"';
