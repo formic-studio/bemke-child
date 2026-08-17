@@ -237,6 +237,18 @@
 html,
 body {
   background-color: var(--yellow, var(--theme-yellow, #f9bb59));
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Prevent full-bleed elements and slider tracks from widening the document.
+   `clip` does not create a scroll container, so sticky elements and nested
+   horizontal scrollers keep their intended behaviour. */
+@supports (overflow: clip) {
+  html,
+  body {
+    overflow-x: clip;
+  }
 }
 
 /* Cookiebot manual blocking: keep media visible while gating third-party code. */
