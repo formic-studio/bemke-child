@@ -6,8 +6,6 @@ import { initFontSizeControls } from './modules/font-size-controls.js';
 import { initMotionPreference } from './modules/motion-preference.js';
 import { initNavigationAccessibility } from './modules/navigation-accessibility.js';
 
-console.log('[Bemke] Test wdrożenia GitHub → produkcja: 2026-08-17');
-
 const featureModules = [
   {
     name: 'desktop-navigation',
