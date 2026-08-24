@@ -2459,6 +2459,20 @@ html[data-contrast]:not([data-contrast="default"])
   white-space: nowrap;
 }
 
+/* Below the full desktop layout, keep the tabs inside the second grid column.
+   Their existing overflow then becomes a local horizontal scroller instead of
+   increasing the grid's min-content width and being clipped by the viewport. */
+@media (max-width: 1660px) {
+  [data-bemke-history-tabs-ready="1"] > *,
+  [data-bemke-history-tabs-ready="1"] .history-tabs-content {
+    min-width: 0 !important;
+  }
+
+  [data-bemke-history-tabs-ready="1"] .tabs-block[role="tablist"] {
+    contain: inline-size;
+  }
+}
+
 @media (max-width: 991px) {
   .section_history {
     overflow-x: clip;
@@ -2476,10 +2490,6 @@ html[data-contrast]:not([data-contrast="default"])
 
   .section_history .history-tabs-content {
     row-gap: 9.6rem !important;
-  }
-
-  [data-bemke-history-tabs-ready="1"] .tabs-block[role="tablist"] {
-    contain: inline-size;
   }
 
   [data-bemke-history-tabs-ready="1"]
@@ -2541,8 +2551,9 @@ html[data-contrast]:not([data-contrast="default"])
 }
 
 [data-bemke-history-tabs-ready="1"] .tab[role="tab"]:focus-visible {
-  outline: 2px solid var(--brown, var(--theme-brown));
-  outline-offset: 4px;
+  outline: 2px solid
+    var(--a11y-control-text, var(--theme-darkcream, rgba(255, 243, 224, 1)));
+  outline-offset: -2px;
 }
 
 @media (hover: hover) and (pointer: fine) {
