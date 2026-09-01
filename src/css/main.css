@@ -914,12 +914,27 @@ html[data-contrast]:not([data-contrast="default"]) .brxe-section {
 }
 
 html[data-contrast]:not([data-contrast="default"])
-  :is(.brxe-block, .brxe-container):has(> .brxe-form) {
+  :is(.brxe-block, .brxe-container):has(
+    > :is(.brxe-form, .bemke-getresponse-native-form)
+  ) {
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
   background-color: var(--a11y-surface) !important;
   background-image: none !important;
   color: var(--a11y-text) !important;
+}
+
+/* The newsletter markup and consent are owned by the published GetResponse form. */
+.bemke-getresponse-native-form {
+  box-sizing: border-box;
+  min-height: 12rem;
+  padding-top: 3.6rem;
+  width: 100%;
+}
+
+.bemke-getresponse-native-form getresponse-form {
+  display: block;
+  width: 100%;
 }
 
 html[data-contrast]:not([data-contrast="default"])
