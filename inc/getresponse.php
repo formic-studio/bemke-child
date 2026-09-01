@@ -85,6 +85,14 @@ function bemke_render_getresponse_settings_page() {
 	$api_key_placeholder  = $has_option_api_key ? str_repeat( '*', 24 ) : '';
 	$campaign_id          = bemke_getresponse_get_campaign_id();
 	$campaigns_result     = bemke_getresponse_get_campaigns();
+	$marketing_version_id = bemke_getresponse_get_latest_consent_version_id(
+		BEMKE_GETRESPONSE_MARKETING_CONSENT_ID,
+		BEMKE_GETRESPONSE_MARKETING_CONSENT_VERSION_ID
+	);
+	$privacy_version_id   = bemke_getresponse_get_latest_consent_version_id(
+		BEMKE_GETRESPONSE_PRIVACY_CONSENT_ID,
+		BEMKE_GETRESPONSE_PRIVACY_CONSENT_VERSION_ID
+	);
 	$last_result          = get_option( BEMKE_GETRESPONSE_LAST_RESULT_OPTION, array() );
 	?>
 	<div class="wrap">
@@ -117,11 +125,11 @@ function bemke_render_getresponse_settings_page() {
 			</tr>
 			<tr>
 				<th scope="row">Zgoda marketingowa</th>
-				<td><code><?php echo esc_html( BEMKE_GETRESPONSE_MARKETING_CONSENT_ID ); ?></code>, wersja <code><?php echo esc_html( BEMKE_GETRESPONSE_MARKETING_CONSENT_VERSION_ID ); ?></code></td>
+				<td><code><?php echo esc_html( BEMKE_GETRESPONSE_MARKETING_CONSENT_ID ); ?></code>, aktualna wersja <code><?php echo esc_html( $marketing_version_id ); ?></code></td>
 			</tr>
 			<tr>
 				<th scope="row">Polityka prywatności</th>
-				<td><code><?php echo esc_html( BEMKE_GETRESPONSE_PRIVACY_CONSENT_ID ); ?></code>, wersja <code><?php echo esc_html( BEMKE_GETRESPONSE_PRIVACY_CONSENT_VERSION_ID ); ?></code></td>
+				<td><code><?php echo esc_html( BEMKE_GETRESPONSE_PRIVACY_CONSENT_ID ); ?></code>, aktualna wersja <code><?php echo esc_html( $privacy_version_id ); ?></code></td>
 			</tr>
 		</table>
 
@@ -194,7 +202,7 @@ function bemke_render_getresponse_settings_page() {
 							value="<?php echo esc_attr( $campaign_id ); ?>"
 							<?php disabled( defined( 'BEMKE_GETRESPONSE_CAMPAIGN_ID' ) && '' !== BEMKE_GETRESPONSE_CAMPAIGN_ID ); ?>
 						>
-						<p class="description">Aktualna lista z panelu GetResponse: <code>marketing</code>, ID: <code>XGhMQ</code>.</p>
+						<p class="description">Docelowa lista: <code>Newsletter Campus Bemke</code>. W tym polu musi znajdować się jej token widoczny w zakładce <strong>Ogólne</strong> ustawień listy.</p>
 					</td>
 				</tr>
 			</table>
@@ -246,6 +254,7 @@ function bemke_render_getresponse_campaigns_preview( $campaigns_result, $current
 			<tr>
 				<th>Nazwa</th>
 				<th>campaignId</th>
+				<th>Używana przez bemke.pl</th>
 				<th>Domyślna</th>
 				<th>Kontakty</th>
 			</tr>
@@ -259,6 +268,7 @@ function bemke_render_getresponse_campaigns_preview( $campaigns_result, $current
 				<tr>
 					<td><?php echo esc_html( $campaign['name'] ?? '' ); ?></td>
 					<td><code><?php echo esc_html( $api_campaign_id ); ?></code></td>
+					<td><?php echo $api_campaign_id === $current_campaign_id ? 'Tak' : 'Nie'; ?></td>
 					<td><?php echo ! empty( $campaign['isDefault'] ) ? 'Tak' : 'Nie'; ?></td>
 					<td><?php echo esc_html( (string) ( $campaign['contactsCount'] ?? '' ) ); ?></td>
 				</tr>
@@ -296,6 +306,7 @@ function bemke_handle_getresponse_form_submission( $form ) {
 	}
 
 	$campaign_id = bemke_getresponse_get_campaign_id();
+	$consents    = bemke_getresponse_get_consent_form_fields();
 
 	if ( '' === $campaign_id ) {
 		bemke_getresponse_store_last_result(
@@ -314,7 +325,8 @@ function bemke_handle_getresponse_form_submission( $form ) {
 			'name'           => $name,
 			'email'          => $email,
 			'campaign_token' => $campaign_id,
-		)
+		),
+		$consents
 	);
 
 	if ( is_wp_error( $response ) ) {
@@ -337,7 +349,11 @@ function bemke_handle_getresponse_form_submission( $form ) {
 			array(
 				'status'      => 'success',
 				'http_status' => $status_code,
-				'message'     => 'Subscription with marketing and privacy consents submitted to GetResponse.',
+				'message'     => sprintf(
+					'Submitted consent fields: webform[%s], webform[%s].',
+					array_key_first( $consents ),
+					array_key_last( $consents )
+				),
 				'campaign_id' => $campaign_id,
 			)
 		);
@@ -350,27 +366,16 @@ function bemke_handle_getresponse_form_submission( $form ) {
 	bemke_getresponse_set_form_result( $form, 'danger', 'Nie udało się zapisać do newslettera. Spróbuj ponownie za chwilę.' );
 }
 
-function bemke_getresponse_subscribe_with_consents( array $contact ) {
-	$marketing_consent_field = sprintf(
-		'webform[consent%s-ver%s]',
-		BEMKE_GETRESPONSE_MARKETING_CONSENT_ID,
-		BEMKE_GETRESPONSE_MARKETING_CONSENT_VERSION_ID
-	);
-	$privacy_consent_field   = sprintf(
-		'webform[consent%s-ver%s]',
-		BEMKE_GETRESPONSE_PRIVACY_CONSENT_ID,
-		BEMKE_GETRESPONSE_PRIVACY_CONSENT_VERSION_ID
-	);
-
+function bemke_getresponse_subscribe_with_consents( array $contact, array $consents ) {
 	$body = array(
-		'email'                  => $contact['email'],
-		'name'                   => $contact['name'],
-		'campaign_token'         => $contact['campaign_token'],
-		'thankyou_url'           => '',
-		'start_day'              => '0',
-		$marketing_consent_field => 'true',
-		$privacy_consent_field   => 'true',
+		'email'          => $contact['email'],
+		'name'           => $contact['name'],
+		'campaign_token' => $contact['campaign_token'],
+		'thankyou_url'   => '',
+		'start_day'      => '0',
+		'webform'        => $consents,
 	);
+	$encoded_body = http_build_query( $body, '', '&', PHP_QUERY_RFC3986 );
 
 	return wp_remote_post(
 		BEMKE_GETRESPONSE_FORM_ENDPOINT,
@@ -378,11 +383,72 @@ function bemke_getresponse_subscribe_with_consents( array $contact ) {
 			'timeout'     => 15,
 			'redirection' => 0,
 			'headers'     => array(
-				'Accept' => 'text/html,application/xhtml+xml',
+				'Accept'       => 'text/html,application/xhtml+xml',
+				'Content-Type' => 'application/x-www-form-urlencoded; charset=UTF-8',
 			),
-			'body'        => $body,
+			'body'        => $encoded_body,
+			'data_format' => 'body',
 		)
 	);
+}
+
+function bemke_getresponse_get_consent_form_fields() {
+	$marketing_version_id = bemke_getresponse_get_latest_consent_version_id(
+		BEMKE_GETRESPONSE_MARKETING_CONSENT_ID,
+		BEMKE_GETRESPONSE_MARKETING_CONSENT_VERSION_ID
+	);
+	$privacy_version_id   = bemke_getresponse_get_latest_consent_version_id(
+		BEMKE_GETRESPONSE_PRIVACY_CONSENT_ID,
+		BEMKE_GETRESPONSE_PRIVACY_CONSENT_VERSION_ID
+	);
+
+	return array(
+		sprintf( 'consent%s-ver%s', BEMKE_GETRESPONSE_MARKETING_CONSENT_ID, $marketing_version_id ) => 'true',
+		sprintf( 'consent%s-ver%s', BEMKE_GETRESPONSE_PRIVACY_CONSENT_ID, $privacy_version_id )     => 'true',
+	);
+}
+
+function bemke_getresponse_get_latest_consent_version_id( $consent_id, $fallback_version_id ) {
+	static $resolved_versions = array();
+
+	$consent_id          = sanitize_text_field( (string) $consent_id );
+	$fallback_version_id = sanitize_text_field( (string) $fallback_version_id );
+
+	if ( isset( $resolved_versions[ $consent_id ] ) ) {
+		return $resolved_versions[ $consent_id ];
+	}
+
+	$api_key = bemke_getresponse_get_api_key();
+
+	if ( '' === $api_key || '' === $consent_id ) {
+		$resolved_versions[ $consent_id ] = $fallback_version_id;
+		return $fallback_version_id;
+	}
+
+	$response = wp_remote_get(
+		'https://api.getresponse.com/v3/gdpr-fields/' . rawurlencode( $consent_id ),
+		array(
+			'timeout' => 15,
+			'headers' => array(
+				'Accept'       => 'application/json',
+				'X-Auth-Token' => 'api-key ' . $api_key,
+			),
+		)
+	);
+
+	if ( is_wp_error( $response ) || 200 !== (int) wp_remote_retrieve_response_code( $response ) ) {
+		$resolved_versions[ $consent_id ] = $fallback_version_id;
+		return $fallback_version_id;
+	}
+
+	$body       = json_decode( (string) wp_remote_retrieve_body( $response ), true );
+	$version_id = is_array( $body )
+		? sanitize_text_field( (string) ( $body['latestVersion']['gdprFieldVersionId'] ?? '' ) )
+		: '';
+
+	$resolved_versions[ $consent_id ] = '' !== $version_id ? $version_id : $fallback_version_id;
+
+	return $resolved_versions[ $consent_id ];
 }
 
 function bemke_getresponse_get_campaigns() {
