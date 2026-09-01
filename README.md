@@ -88,14 +88,12 @@ po zgodzie. Adres osadzenia YouTube jest automatycznie zmieniany na
 `data-cookieconsent="ignore"`, ponieważ nie zawiera trackerów i jest potrzebny
 do działania dostępności oraz placeholderów zgody.
 
-Formularz newslettera ma dwa przełączane tryby. Domyślnie działa opublikowane
-osadzenie GetResponse jako bezpieczny fallback. W `Ustawienia -> Bemke
-GetResponse` można po zapisaniu klucza API włączyć oryginalny formularz Bricks;
-wtedy backend wysyła kontakt do listy `Newsletter Campus Bemke` (`XyxQq`) wraz
-z jedną zgodą newsletterową `QrCz` w strukturze `consents`. Przed włączeniem
-trybu API połączenie i lista są weryfikowane. Wyłączenie trybu przywraca
-osadzenie GetResponse bez zmian w formularzu. Formularza nie należy dodatkowo
-uzależniać od zgody Cookiebota.
+Sekcja newslettera korzysta z opublikowanego formularza GetResponse o ID
+`edb4255b-4abf-4da5-8ee1-dce33fad4220`. GetResponse odpowiada za pola,
+walidację, zapis do listy, zgodę oraz wygląd zawartości formularza. Child theme
+osadza formularz w miejscu formularza Bricks i dopasowuje wyłącznie jego
+zewnętrzny kontener. Formularza nie należy dodatkowo uzależniać od zgody
+Cookiebota.
 
 Jeśli później zostanie dodany Google Tag Manager, nie należy wklejać drugiego
 niezależnego Cookiebota ani oznaczać całego GTM jako `ignore`. GTM trzeba
