@@ -915,7 +915,7 @@ html[data-contrast]:not([data-contrast="default"]) .brxe-section {
 
 html[data-contrast]:not([data-contrast="default"])
   :is(.brxe-block, .brxe-container):has(
-    > :is(.brxe-form, .bemke-newsletter-form)
+    > :is(.brxe-form, .bemke-getresponse-native-form)
   ) {
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
@@ -924,176 +924,17 @@ html[data-contrast]:not([data-contrast="default"])
   color: var(--a11y-text) !important;
 }
 
-/* Direct GetResponse HTML form: Bemke owns the markup and visual presentation. */
-.bemke-newsletter-form {
+/* The newsletter markup and consent are owned by the published GetResponse form. */
+.bemke-getresponse-native-form {
   box-sizing: border-box;
-  color: var(--brown, var(--theme-brown, #1b0508));
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  min-height: 12rem;
   padding-top: 3.6rem;
   width: 100%;
 }
 
-.bemke-newsletter-form *,
-.bemke-newsletter-form *::before,
-.bemke-newsletter-form *::after {
-  box-sizing: border-box;
-}
-
-.bemke-newsletter-form__field {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  padding-bottom: 1.2rem;
-}
-
-.bemke-newsletter-form__field label {
-  cursor: pointer;
-  font-family: "Season Sans", sans-serif;
-  font-size: var(--size-caption, 1.5rem);
-  font-weight: 400;
-  line-height: 1.2;
-}
-
-.bemke-newsletter-form__field input {
-  appearance: none;
-  background-color: var(--darkcream, var(--theme-darkcream, #fff3e0));
-  border: 1px solid var(--lightyellow, var(--theme-lightyellow, #f6cc8a));
-  border-radius: 8px;
-  color: var(--brown, var(--theme-brown, #1b0508));
-  font-family: "Season Sans", sans-serif;
-  font-size: var(--size-caption-small, 1.4rem);
-  min-height: 4.4rem;
-  padding: 0 1.6rem;
+.bemke-getresponse-native-form getresponse-form {
+  display: block;
   width: 100%;
-}
-
-.bemke-newsletter-form__field input:focus-visible {
-  border-color: var(--brown, var(--theme-brown, #1b0508));
-  outline: 2px solid var(--brown, var(--theme-brown, #1b0508));
-  outline-offset: 2px;
-}
-
-.bemke-newsletter-form__consent {
-  align-items: flex-start;
-  display: grid;
-  gap: 0.8rem;
-  grid-template-columns: 1.4rem minmax(0, 1fr);
-  padding-top: 1.2rem;
-}
-
-.bemke-newsletter-form__consent input {
-  accent-color: var(--brown, var(--theme-brown, #1b0508));
-  cursor: pointer;
-  height: 1.4rem;
-  margin: 0;
-  width: 1.4rem;
-}
-
-#brxe-afpmhc.bemke-newsletter-form
-  .bemke-newsletter-form__consent
-  label {
-  cursor: pointer;
-  font-family: "Season Sans", sans-serif;
-  font-size: 1.2rem;
-  font-weight: 400;
-  letter-spacing: 0.024rem;
-  line-height: 1.12;
-}
-
-.bemke-newsletter-form__consent a {
-  color: inherit;
-  text-decoration: underline;
-  text-underline-offset: 0.15em;
-}
-
-.bemke-newsletter-form__consent a:hover,
-.bemke-newsletter-form__consent a:focus-visible {
-  text-decoration-thickness: 2px;
-}
-
-.bemke-newsletter-form__submit {
-  display: flex;
-  justify-content: center;
-  margin-top: 3.6rem;
-}
-
-.bemke-newsletter-form__submit button {
-  background-color: var(--yellow, var(--theme-yellow, #f9bb59));
-  border: 0;
-  border-radius: 66px;
-  color: var(--brown, var(--theme-brown, #1b0508));
-  cursor: pointer;
-  font-family: "Season Sans", sans-serif;
-  font-size: var(--size-btn, 1.6rem);
-  font-weight: 500;
-  line-height: 1.3;
-  padding: 0.9rem 3.6rem 1rem;
-  transition: background-color 0.2s ease;
-}
-
-.bemke-newsletter-form__submit button:hover {
-  background-color: var(--lightyellow, var(--theme-lightyellow, #f6cc8a));
-}
-
-.bemke-newsletter-form__submit button:focus-visible {
-  outline: 2px solid var(--brown, var(--theme-brown, #1b0508));
-  outline-offset: 3px;
-}
-
-.bemke-newsletter-form__message {
-  background: var(--darkcream, var(--theme-darkcream, #fff3e0));
-  border: 1px solid var(--lightyellow, var(--theme-lightyellow, #f6cc8a));
-  border-radius: 8px;
-  font-size: var(--size-caption-small, 1.4rem);
-  margin-bottom: 2.4rem;
-  padding: 1.6rem;
-}
-
-html[data-contrast]:not([data-contrast="default"])
-  .bemke-newsletter-form {
-  color: var(--a11y-text) !important;
-}
-
-html[data-contrast]:not([data-contrast="default"])
-  .bemke-newsletter-form__field input,
-html[data-contrast]:not([data-contrast="default"])
-  .bemke-newsletter-form__message {
-  background: var(--a11y-control-bg) !important;
-  border-color: var(--a11y-control-border) !important;
-  color: var(--a11y-control-text) !important;
-}
-
-html[data-contrast]:not([data-contrast="default"])
-  .bemke-newsletter-form__submit button {
-  background: var(--a11y-control-bg) !important;
-  border: 1px solid var(--a11y-control-border) !important;
-  color: var(--a11y-control-text) !important;
-}
-
-@media (max-width: 478px) {
-  .bemke-newsletter-form {
-    padding-top: 2.4rem;
-  }
-
-  .bemke-newsletter-form__field label {
-    font-size: var(--size-caption-mobile, 1.4rem);
-  }
-
-  .bemke-newsletter-form__field input {
-    font-size: var(--size-caption-small-mobile, 1.3rem);
-  }
-
-  .bemke-newsletter-form__submit {
-    margin-top: 2.4rem;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .bemke-newsletter-form__submit button {
-    transition: none;
-  }
 }
 
 html[data-contrast]:not([data-contrast="default"])

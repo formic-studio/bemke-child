@@ -88,13 +88,12 @@ po zgodzie. Adres osadzenia YouTube jest automatycznie zmieniany na
 `data-cookieconsent="ignore"`, ponieważ nie zawiera trackerów i jest potrzebny
 do działania dostępności oraz placeholderów zgody.
 
-Formularz newslettera jest renderowany przez child theme jako własny formularz
-HTML i wysyła dane bezpośrednio do formularzowego endpointu GetResponse.
-Zachowuje dzięki temu wygląd Bemke, a udzielona zgoda trafia do pola GetResponse
-`QrCz` w wersji `IEAp`. Docelowa lista ma token `XyxQq`. Po każdej zmianie
-treści zgody w GetResponse trzeba zaktualizować jej wersję w
-`inc/getresponse.php`. Lista GetResponse musi zezwalać na zapisy z formularzy
-HTML. Formularza nie należy dodatkowo uzależniać od zgody Cookiebota.
+Formularz GetResponse nie ładuje kodu GetResponse w przeglądarce. Wysyłka
+odbywa się serwerowo przez formularzowy endpoint GetResponse dopiero po
+wysłaniu formularza i zaakceptowaniu jego pola zgody. Jedno pole zgody Bricks
+ustawia w GetResponse zgodę marketingową oraz potwierdzenie polityki
+prywatności. Lista GetResponse musi zezwalać na zapisy z formularzy HTML.
+Formularza nie należy dodatkowo uzależniać od zgody Cookiebota.
 
 Jeśli później zostanie dodany Google Tag Manager, nie należy wklejać drugiego
 niezależnego Cookiebota ani oznaczać całego GTM jako `ignore`. GTM trzeba
