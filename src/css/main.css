@@ -417,6 +417,13 @@ html[data-bemke-reduced-motion="true"] {
   transform: translateX(-50%);
 }
 
+.section_book-money
+  .loading-progress
+  + .brxe-block
+  > .font-size-h4 {
+  text-transform: none;
+}
+
 html[data-bemke-reduced-motion="true"] *,
 html[data-bemke-reduced-motion="true"] *::before,
 html[data-bemke-reduced-motion="true"] *::after {
