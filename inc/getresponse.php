@@ -3,10 +3,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-const BEMKE_GETRESPONSE_API_KEY_OPTION     = 'bemke_getresponse_api_key';
-const BEMKE_GETRESPONSE_CAMPAIGN_ID_OPTION = 'bemke_getresponse_campaign_id';
-const BEMKE_GETRESPONSE_LAST_RESULT_OPTION = 'bemke_getresponse_last_result';
-const BEMKE_GETRESPONSE_DEFAULT_CAMPAIGN_ID = 'XGhMQ';
+const BEMKE_GETRESPONSE_API_KEY_OPTION                   = 'bemke_getresponse_api_key';
+const BEMKE_GETRESPONSE_CAMPAIGN_ID_OPTION               = 'bemke_getresponse_campaign_id';
+const BEMKE_GETRESPONSE_LAST_RESULT_OPTION               = 'bemke_getresponse_last_result';
+const BEMKE_GETRESPONSE_DEFAULT_CAMPAIGN_ID              = 'XGhMQ';
+const BEMKE_GETRESPONSE_NEWSLETTER_FORM_ID               = 'afpmhc';
+const BEMKE_GETRESPONSE_FORM_ENDPOINT                    = 'https://app.getresponse.com/add_subscriber.html';
+const BEMKE_GETRESPONSE_MARKETING_CONSENT_ID             = 'QrCz';
+const BEMKE_GETRESPONSE_MARKETING_CONSENT_VERSION_ID     = 'CLSw';
+const BEMKE_GETRESPONSE_PRIVACY_CONSENT_ID               = 'QkhH';
+const BEMKE_GETRESPONSE_PRIVACY_CONSENT_VERSION_ID       = 'IE4Q';
 
 add_action( 'admin_menu', 'bemke_register_getresponse_settings_page' );
 add_action( 'admin_init', 'bemke_handle_getresponse_settings_save' );
@@ -109,7 +115,17 @@ function bemke_render_getresponse_settings_page() {
 				<th scope="row">Campaign ID / lista</th>
 				<td><code><?php echo esc_html( $campaign_id ); ?></code></td>
 			</tr>
+			<tr>
+				<th scope="row">Zgoda marketingowa</th>
+				<td><code><?php echo esc_html( BEMKE_GETRESPONSE_MARKETING_CONSENT_ID ); ?></code>, wersja <code><?php echo esc_html( BEMKE_GETRESPONSE_MARKETING_CONSENT_VERSION_ID ); ?></code></td>
+			</tr>
+			<tr>
+				<th scope="row">Polityka prywatności</th>
+				<td><code><?php echo esc_html( BEMKE_GETRESPONSE_PRIVACY_CONSENT_ID ); ?></code>, wersja <code><?php echo esc_html( BEMKE_GETRESPONSE_PRIVACY_CONSENT_VERSION_ID ); ?></code></td>
+			</tr>
 		</table>
+
+		<p><strong>Ważne:</strong> na liście GetResponse opcja <em>Disable plain HTML form signups</em> musi być wyłączona, aby zapis wraz ze zgodami został przyjęty.</p>
 
 		<?php bemke_render_getresponse_campaigns_preview( $campaigns_result, $campaign_id ); ?>
 
@@ -162,7 +178,7 @@ function bemke_render_getresponse_settings_page() {
 							autocomplete="new-password"
 							<?php disabled( $has_constant_api_key ); ?>
 						>
-						<p class="description">Najbezpieczniej ustawić API key w <code>wp-config.php</code> jako <code>BEMKE_GETRESPONSE_API_KEY</code>. Jeśli wpiszesz go tutaj, zostanie zapisany w bazie WordPress.</p>
+						<p class="description">Najbezpieczniej ustawić API key w <code>wp-config.php</code> jako <code>BEMKE_GETRESPONSE_API_KEY</code>. Jeśli wpiszesz go tutaj, zostanie zapisany w bazie WordPress. Klucz służy do diagnostyki i pobierania list; właściwy zapis ze zgodami korzysta z formularzowego endpointu GetResponse.</p>
 					</td>
 				</tr>
 				<tr>
@@ -265,8 +281,8 @@ function bemke_handle_getresponse_form_submission( $form ) {
 		return;
 	}
 
-	$name      = sanitize_text_field( (string) bemke_getresponse_get_field_value( $fields, array( 'name', 'form-field-name' ) ) );
-	$email     = sanitize_email( (string) bemke_getresponse_get_field_value( $fields, array( 'email', 'form-field-email' ) ) );
+	$name               = sanitize_text_field( (string) bemke_getresponse_get_field_value( $fields, array( 'name', 'form-field-name' ) ) );
+	$email              = sanitize_email( (string) bemke_getresponse_get_field_value( $fields, array( 'email', 'form-field-email' ) ) );
 	$newsletter_consent = bemke_getresponse_is_checked( bemke_getresponse_get_field_value( $fields, array( 'privacy', 'form-field-privacy' ) ) );
 
 	if ( '' === $name || ! is_email( $email ) ) {
@@ -279,14 +295,13 @@ function bemke_handle_getresponse_form_submission( $form ) {
 		return;
 	}
 
-	$api_key     = bemke_getresponse_get_api_key();
 	$campaign_id = bemke_getresponse_get_campaign_id();
 
-	if ( '' === $api_key || '' === $campaign_id ) {
+	if ( '' === $campaign_id ) {
 		bemke_getresponse_store_last_result(
 			array(
 				'status'      => 'configuration_error',
-				'message'     => 'Missing API key or campaign ID.',
+				'message'     => 'Missing campaign ID.',
 				'campaign_id' => $campaign_id,
 			)
 		);
@@ -294,14 +309,12 @@ function bemke_handle_getresponse_form_submission( $form ) {
 		return;
 	}
 
-	$response = bemke_getresponse_create_contact(
+	$response = bemke_getresponse_subscribe_with_consents(
 		array(
-			'name'       => $name,
-			'email'      => $email,
-			'campaignId' => $campaign_id,
-			'ipAddress'  => bemke_getresponse_get_client_ip(),
-		),
-		$api_key
+			'name'           => $name,
+			'email'          => $email,
+			'campaign_token' => $campaign_id,
+		)
 	);
 
 	if ( is_wp_error( $response ) ) {
@@ -319,12 +332,12 @@ function bemke_handle_getresponse_form_submission( $form ) {
 
 	$status_code = (int) wp_remote_retrieve_response_code( $response );
 
-	if ( 202 === $status_code ) {
+	if ( $status_code >= 200 && $status_code < 400 ) {
 		bemke_getresponse_store_last_result(
 			array(
 				'status'      => 'success',
 				'http_status' => $status_code,
-				'message'     => 'Contact accepted by GetResponse.',
+				'message'     => 'Subscription with marketing and privacy consents submitted to GetResponse.',
 				'campaign_id' => $campaign_id,
 			)
 		);
@@ -332,48 +345,42 @@ function bemke_handle_getresponse_form_submission( $form ) {
 		return;
 	}
 
-	if ( 409 === $status_code ) {
-		bemke_getresponse_store_last_result(
-			array(
-				'status'      => 'duplicate',
-				'http_status' => $status_code,
-				'message'     => bemke_getresponse_get_response_error_message( $response ),
-				'campaign_id' => $campaign_id,
-			)
-		);
-		bemke_getresponse_set_form_result( $form, 'success', 'Ten adres e-mail jest już zapisany do newslettera.' );
-		return;
-	}
-
-	bemke_getresponse_store_last_response( $response, $campaign_id );
-	$error_message = bemke_getresponse_get_response_error_message( $response );
-	error_log( sprintf( 'Bemke GetResponse HTTP %d: %s', $status_code, $error_message ) );
+	bemke_getresponse_store_last_form_response( $response, $campaign_id );
+	error_log( sprintf( 'Bemke GetResponse form endpoint HTTP %d.', $status_code ) );
 	bemke_getresponse_set_form_result( $form, 'danger', 'Nie udało się zapisać do newslettera. Spróbuj ponownie za chwilę.' );
 }
 
-function bemke_getresponse_create_contact( array $contact, $api_key ) {
-	$body = array(
-		'email'    => $contact['email'],
-		'name'     => $contact['name'],
-		'campaign' => array(
-			'campaignId' => $contact['campaignId'],
-		),
+function bemke_getresponse_subscribe_with_consents( array $contact ) {
+	$marketing_consent_field = sprintf(
+		'webform[consent%s-ver%s]',
+		BEMKE_GETRESPONSE_MARKETING_CONSENT_ID,
+		BEMKE_GETRESPONSE_MARKETING_CONSENT_VERSION_ID
+	);
+	$privacy_consent_field   = sprintf(
+		'webform[consent%s-ver%s]',
+		BEMKE_GETRESPONSE_PRIVACY_CONSENT_ID,
+		BEMKE_GETRESPONSE_PRIVACY_CONSENT_VERSION_ID
 	);
 
-	if ( ! empty( $contact['ipAddress'] ) ) {
-		$body['ipAddress'] = $contact['ipAddress'];
-	}
+	$body = array(
+		'email'                  => $contact['email'],
+		'name'                   => $contact['name'],
+		'campaign_token'         => $contact['campaign_token'],
+		'thankyou_url'           => '',
+		'start_day'              => '0',
+		$marketing_consent_field => 'true',
+		$privacy_consent_field   => 'true',
+	);
 
 	return wp_remote_post(
-		'https://api.getresponse.com/v3/contacts',
+		BEMKE_GETRESPONSE_FORM_ENDPOINT,
 		array(
-			'timeout' => 15,
-			'headers' => array(
-				'Accept'       => 'application/json',
-				'Content-Type' => 'application/json',
-				'X-Auth-Token' => 'api-key ' . bemke_getresponse_normalize_api_key( $api_key ),
+			'timeout'     => 15,
+			'redirection' => 0,
+			'headers'     => array(
+				'Accept' => 'text/html,application/xhtml+xml',
 			),
-			'body'    => wp_json_encode( $body ),
+			'body'        => $body,
 		)
 	);
 }
@@ -425,6 +432,12 @@ function bemke_getresponse_get_campaigns() {
 }
 
 function bemke_getresponse_is_newsletter_form( array $fields ) {
+	$form_id = isset( $fields['formId'] ) ? sanitize_key( (string) $fields['formId'] ) : '';
+
+	if ( BEMKE_GETRESPONSE_NEWSLETTER_FORM_ID !== $form_id ) {
+		return false;
+	}
+
 	$has_email = null !== bemke_getresponse_get_field_value( $fields, array( 'email', 'form-field-email' ) );
 	$has_name  = null !== bemke_getresponse_get_field_value( $fields, array( 'name', 'form-field-name' ) );
 	$has_optin = null !== bemke_getresponse_get_field_value( $fields, array( 'privacy', 'form-field-privacy' ) );
@@ -481,35 +494,12 @@ function bemke_getresponse_get_campaign_id() {
 	return '' !== $campaign_id ? $campaign_id : BEMKE_GETRESPONSE_DEFAULT_CAMPAIGN_ID;
 }
 
-function bemke_getresponse_get_client_ip() {
-	$remote_addr = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( (string) wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
-
-	return filter_var( $remote_addr, FILTER_VALIDATE_IP ) ? $remote_addr : '';
-}
-
-function bemke_getresponse_get_response_error_message( $response ) {
-	$body = json_decode( (string) wp_remote_retrieve_body( $response ), true );
-
-	if ( is_array( $body ) && ! empty( $body['message'] ) ) {
-		return sanitize_text_field( (string) $body['message'] );
-	}
-
-	return 'Unknown GetResponse error.';
-}
-
-function bemke_getresponse_store_last_response( $response, $campaign_id ) {
-	$body = json_decode( (string) wp_remote_retrieve_body( $response ), true );
-
-	if ( ! is_array( $body ) ) {
-		$body = array();
-	}
-
+function bemke_getresponse_store_last_form_response( $response, $campaign_id ) {
 	bemke_getresponse_store_last_result(
 		array(
-			'status'      => 'api_error',
+			'status'      => 'form_error',
 			'http_status' => (int) wp_remote_retrieve_response_code( $response ),
-			'code'        => sanitize_text_field( (string) ( $body['code'] ?? '' ) ),
-			'message'     => sanitize_text_field( (string) ( $body['message'] ?? 'Unknown GetResponse error.' ) ),
+			'message'     => 'GetResponse form endpoint rejected the subscription.',
 			'campaign_id' => $campaign_id,
 		)
 	);

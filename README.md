@@ -89,8 +89,11 @@ po zgodzie. Adres osadzenia YouTube jest automatycznie zmieniany na
 do działania dostępności oraz placeholderów zgody.
 
 Formularz GetResponse nie ładuje kodu GetResponse w przeglądarce. Wysyłka
-odbywa się serwerowo dopiero po wysłaniu formularza i zaakceptowaniu jego pola
-zgody, dlatego formularza nie należy dodatkowo uzależniać od zgody Cookiebota.
+odbywa się serwerowo przez formularzowy endpoint GetResponse dopiero po
+wysłaniu formularza i zaakceptowaniu jego pola zgody. Jedno pole zgody Bricks
+ustawia w GetResponse zgodę marketingową oraz potwierdzenie polityki
+prywatności. Lista GetResponse musi zezwalać na zapisy z formularzy HTML.
+Formularza nie należy dodatkowo uzależniać od zgody Cookiebota.
 
 Jeśli później zostanie dodany Google Tag Manager, nie należy wklejać drugiego
 niezależnego Cookiebota ani oznaczać całego GTM jako `ignore`. GTM trzeba
