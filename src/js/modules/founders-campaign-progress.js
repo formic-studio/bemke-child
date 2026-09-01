@@ -61,7 +61,7 @@ function formatScaleLabel(amount, useMillions = amount >= 1000000) {
       maximumFractionDigits: 0,
     }).format(amount / 1000000);
 
-    return `${millions} mln PLN`;
+    return `${millions} mPLN`;
   }
 
   return `${formatAmount(amount)} PLN`;
