@@ -90,7 +90,7 @@ function bemke_render_getresponse_settings_page() {
 			</div>
 		<?php endif; ?>
 
-		<p>Ten panel obsługuje zapis z formularza newslettera Bricks do GetResponse. Formularz musi mieć akcję <strong>Custom</strong> i pola o nazwach: <code>name</code>, <code>email</code>, <code>privacy</code>, <code>marketing</code>.</p>
+		<p>Ten panel obsługuje zapis z formularza newslettera Bricks do GetResponse. Formularz musi mieć akcję <strong>Custom</strong> i pola o nazwach: <code>name</code>, <code>email</code>, <code>privacy</code>. Pole <code>privacy</code> jest jedną wymaganą zgodą na newsletter i potwierdzeniem zapoznania się z polityką prywatności.</p>
 
 		<table class="form-table" role="presentation">
 			<tr>
@@ -267,16 +267,15 @@ function bemke_handle_getresponse_form_submission( $form ) {
 
 	$name      = sanitize_text_field( (string) bemke_getresponse_get_field_value( $fields, array( 'name', 'form-field-name' ) ) );
 	$email     = sanitize_email( (string) bemke_getresponse_get_field_value( $fields, array( 'email', 'form-field-email' ) ) );
-	$privacy   = bemke_getresponse_is_checked( bemke_getresponse_get_field_value( $fields, array( 'privacy', 'form-field-privacy' ) ) );
-	$marketing = bemke_getresponse_is_checked( bemke_getresponse_get_field_value( $fields, array( 'marketing', 'form-field-marketing' ) ) );
+	$newsletter_consent = bemke_getresponse_is_checked( bemke_getresponse_get_field_value( $fields, array( 'privacy', 'form-field-privacy' ) ) );
 
 	if ( '' === $name || ! is_email( $email ) ) {
 		bemke_getresponse_set_form_result( $form, 'danger', 'Uzupełnij poprawnie imię i nazwisko oraz adres e-mail.' );
 		return;
 	}
 
-	if ( ! $privacy || ! $marketing ) {
-		bemke_getresponse_set_form_result( $form, 'danger', 'Zaznacz wymagane zgody, aby zapisać się do newslettera.' );
+	if ( ! $newsletter_consent ) {
+		bemke_getresponse_set_form_result( $form, 'danger', 'Zaznacz wymaganą zgodę, aby zapisać się do newslettera.' );
 		return;
 	}
 
@@ -428,8 +427,7 @@ function bemke_getresponse_get_campaigns() {
 function bemke_getresponse_is_newsletter_form( array $fields ) {
 	$has_email = null !== bemke_getresponse_get_field_value( $fields, array( 'email', 'form-field-email' ) );
 	$has_name  = null !== bemke_getresponse_get_field_value( $fields, array( 'name', 'form-field-name' ) );
-	$has_optin = null !== bemke_getresponse_get_field_value( $fields, array( 'privacy', 'form-field-privacy' ) )
-		|| null !== bemke_getresponse_get_field_value( $fields, array( 'marketing', 'form-field-marketing' ) );
+	$has_optin = null !== bemke_getresponse_get_field_value( $fields, array( 'privacy', 'form-field-privacy' ) );
 
 	return $has_email && $has_name && $has_optin;
 }

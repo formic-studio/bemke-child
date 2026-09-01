@@ -89,7 +89,7 @@ po zgodzie. Adres osadzenia YouTube jest automatycznie zmieniany na
 do działania dostępności oraz placeholderów zgody.
 
 Formularz GetResponse nie ładuje kodu GetResponse w przeglądarce. Wysyłka
-odbywa się serwerowo dopiero po wysłaniu formularza i zaakceptowaniu jego pól
+odbywa się serwerowo dopiero po wysłaniu formularza i zaakceptowaniu jego pola
 zgody, dlatego formularza nie należy dodatkowo uzależniać od zgody Cookiebota.
 
 Jeśli później zostanie dodany Google Tag Manager, nie należy wklejać drugiego
