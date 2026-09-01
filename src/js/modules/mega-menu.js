@@ -49,6 +49,9 @@ function createMegaMenu(header) {
       return { button, index, item, link, submenu, toggle };
     })
     .filter(Boolean);
+  const plainTopLinks = topLinks.filter(
+    (link) => !entries.some((entry) => entry.link === link),
+  );
 
   if (!entries.length) {
     return;
@@ -93,6 +96,11 @@ function createMegaMenu(header) {
     );
   });
 
+  plainTopLinks.forEach((link) => {
+    link.addEventListener('pointerenter', closeMegaMenu);
+    link.addEventListener('focus', closeMegaMenu);
+  });
+
   navMenu.addEventListener('pointerenter', (event) => {
     const entry = findEntryFromTarget(entries, event.target);
 
@@ -111,6 +119,7 @@ function createMegaMenu(header) {
 
   header.addEventListener('keydown', (event) => {
     const entry = findEntryFromTarget(entries, event.target);
+    const topLink = topLinks.find((link) => link === event.target);
 
     if (event.key === 'Escape' && activeEntry) {
       event.preventDefault();
@@ -120,7 +129,24 @@ function createMegaMenu(header) {
       return;
     }
 
-    if (!entry || !desktopQuery.matches) {
+    if (!desktopQuery.matches) {
+      return;
+    }
+
+    if (
+      (event.key === 'ArrowLeft' || event.key === 'ArrowRight') &&
+      topLink
+    ) {
+      event.preventDefault();
+      focusSiblingTopLink(
+        topLinks,
+        topLink,
+        event.key === 'ArrowRight' ? 1 : -1,
+      );
+      return;
+    }
+
+    if (!entry) {
       return;
     }
 
@@ -129,14 +155,6 @@ function createMegaMenu(header) {
       openEntry(entry);
       focusFirstSubmenuLink(entry.submenu);
       return;
-    }
-
-    if (
-      (event.key === 'ArrowLeft' || event.key === 'ArrowRight') &&
-      (entry.toggle.contains(event.target) || entry.link === event.target)
-    ) {
-      event.preventDefault();
-      focusSiblingTopLink(topLinks, entry.link, event.key === 'ArrowRight' ? 1 : -1);
     }
   });
 
@@ -388,7 +406,11 @@ function getDirectSubmenu(menuItem) {
 }
 
 function getTopLink(menuItem) {
-  return getDirectToggle(menuItem)?.querySelector(':scope > a') ?? null;
+  return (
+    getDirectToggle(menuItem)?.querySelector(':scope > a') ??
+    Array.from(menuItem.children).find((child) => child.matches('a[href]')) ??
+    null
+  );
 }
 
 function getTopButton(menuItem) {

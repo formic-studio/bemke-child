@@ -2880,6 +2880,16 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     white-space: nowrap;
   }
 
+  #brx-header
+    #brxe-vhhhdt
+    > .bricks-nav-menu-wrapper
+    > .bricks-nav-menu
+    > li:not(:has(> .brx-submenu-toggle))
+    > a {
+    flex: 0 0 auto;
+    width: auto;
+  }
+
   #brx-header.is-mega-menu-open
     #brxe-vhhhdt
     > .bricks-nav-menu-wrapper
