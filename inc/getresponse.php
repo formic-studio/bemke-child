@@ -7,9 +7,28 @@ const BEMKE_GETRESPONSE_SOURCE_FORM_ID  = 'afpmhc';
 const BEMKE_GETRESPONSE_EMBED_FORM_ID   = 'edb4255b-4abf-4da5-8ee1-dce33fad4220';
 const BEMKE_GETRESPONSE_EMBED_VARIANT   = '0';
 const BEMKE_GETRESPONSE_WEB_CONNECT_URL = 'https://an.gr-wcon.com/script/f28d4afb-4b5a-4a57-a407-10ffa90942ba/ga.js';
+const BEMKE_GETRESPONSE_CACHE_ID_OPTION = 'bemke_getresponse_embed_cache_id';
 
+add_action( 'init', 'bemke_getresponse_maybe_purge_cached_embed', 20 );
 add_action( 'wp_head', 'bemke_getresponse_print_web_connect', 20 );
 add_filter( 'bricks/frontend/render_data', 'bemke_getresponse_render_native_form', 10, 3 );
+
+/**
+ * Purge the cached homepage once whenever the embedded form ID changes.
+ */
+function bemke_getresponse_maybe_purge_cached_embed() {
+	$cached_embed_id = (string) get_option( BEMKE_GETRESPONSE_CACHE_ID_OPTION, '' );
+
+	if ( BEMKE_GETRESPONSE_EMBED_FORM_ID === $cached_embed_id ) {
+		return;
+	}
+
+	if ( has_action( 'litespeed_purge_url' ) ) {
+		do_action( 'litespeed_purge_url', home_url( '/' ) );
+	}
+
+	update_option( BEMKE_GETRESPONSE_CACHE_ID_OPTION, BEMKE_GETRESPONSE_EMBED_FORM_ID, false );
+}
 
 /**
  * Load GetResponse Web Connect exactly once on the public homepage.
