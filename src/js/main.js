@@ -191,6 +191,14 @@ const featureModules = [
       ),
   },
   {
+    name: 'getresponse-newsletter',
+    selector: '#brxe-afpmhc',
+    load: () =>
+      import('./modules/getresponse-newsletter.js').then(
+        ({ initGetResponseNewsletter }) => initGetResponseNewsletter(),
+      ),
+  },
+  {
     name: 'pdf-link-labels',
     selector: 'a[href$=".pdf"], a[href*=".pdf?"]',
     load: () =>
