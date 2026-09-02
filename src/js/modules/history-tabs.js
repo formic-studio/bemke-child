@@ -19,9 +19,15 @@ const TRACK_CLASS = 'history-tabs-track';
 const TRACK_IMMEDIATE_CLASS = 'is-immediate';
 const TABLIST_DRAGGING_CLASS = 'is-dragging';
 const CONTENT_CLASS = 'history-tabs-content';
+const NAVIGATION_CLASS = 'history-tabs-navigation';
+const SCROLLBAR_CLASS = 'history-tabs-scrollbar';
+const SCROLLBAR_TRACK_CLASS = 'history-tabs-scrollbar__track';
+const SCROLLBAR_THUMB_CLASS = 'history-tabs-scrollbar__thumb';
+const SCROLLBAR_DRAGGING_CLASS = 'is-dragging';
 
 const ANIMATION_MS = 980;
 const TABLIST_DRAG_THRESHOLD = 6;
+const SCROLLBAR_MIN_THUMB_PX = 48;
 
 let instanceId = 0;
 const imagePreloads = new Set();
@@ -127,7 +133,7 @@ function createHistoryTabs(root, tabsBlock) {
   resetAnimatedItems(images);
   decorateTabs(tabsBlock, tabs, tabsByNumber, slidesByNumber, numbers, instanceId);
   decoratePanels(slides, images, instanceId);
-  setupScrollableTabList(tabsBlock);
+  const updateTablistScrollbar = setupScrollableTabList(tabsBlock);
   updateHeights(slideWrapper, slides, imageWrapper, images);
 
   root.setAttribute(READY_ATTR, '1');
@@ -163,12 +169,14 @@ function createHistoryTabs(root, tabsBlock) {
     debounce(() => {
       updateHeights(slideWrapper, slides, imageWrapper, images);
       sync(activeNumber, 1, true);
+      updateTablistScrollbar();
     }, 120),
   );
 
   root.__bemkeHistoryTabsRefresh = () => {
     updateHeights(slideWrapper, slides, imageWrapper, images);
     sync(activeNumber, 1, true);
+    updateTablistScrollbar();
   };
 
   document.addEventListener(MOTION_CHANGE_EVENT, (event) => {
@@ -237,6 +245,10 @@ function setupScrollableTabList(tablist) {
 
   const hasHorizontalOverflow = () =>
     tablist.scrollWidth > tablist.clientWidth + 1;
+  const updateScrollbar = setupHistoryScrollbar(
+    tablist,
+    hasHorizontalOverflow,
+  );
 
   const finishDrag = (event) => {
     if (!pointerState || event.pointerId !== pointerState.id) {
@@ -371,6 +383,231 @@ function setupScrollableTabList(tablist) {
     },
     { passive: false },
   );
+
+  tablist.addEventListener('scroll', updateScrollbar, { passive: true });
+
+  if (window.ResizeObserver) {
+    const resizeObserver = new ResizeObserver(updateScrollbar);
+
+    resizeObserver.observe(tablist);
+    Array.from(tablist.children).forEach((tab) => resizeObserver.observe(tab));
+    tablist.__bemkeHistoryScrollbarResizeObserver = resizeObserver;
+  }
+
+  window.requestAnimationFrame(updateScrollbar);
+
+  return updateScrollbar;
+}
+
+function setupHistoryScrollbar(tablist, hasHorizontalOverflow) {
+  const currentParent = tablist.parentElement;
+
+  if (!currentParent) {
+    return () => {};
+  }
+
+  let navigation = currentParent.classList.contains(NAVIGATION_CLASS)
+    ? currentParent
+    : null;
+
+  if (!navigation) {
+    navigation = document.createElement('div');
+    navigation.className = NAVIGATION_CLASS;
+    currentParent.insertBefore(navigation, tablist);
+    navigation.appendChild(tablist);
+  }
+
+  const scrollbar = document.createElement('div');
+  const track = document.createElement('div');
+  const thumb = document.createElement('div');
+
+  scrollbar.className = SCROLLBAR_CLASS;
+  scrollbar.hidden = true;
+  scrollbar.tabIndex = 0;
+  scrollbar.setAttribute('role', 'scrollbar');
+  scrollbar.setAttribute('aria-label', 'Przewiń daty historii');
+  scrollbar.setAttribute('aria-controls', tablist.id);
+  scrollbar.setAttribute('aria-orientation', 'horizontal');
+  scrollbar.setAttribute('aria-valuemin', '0');
+  scrollbar.setAttribute('aria-valuemax', '100');
+  scrollbar.setAttribute('aria-valuenow', '0');
+
+  track.className = SCROLLBAR_TRACK_CLASS;
+  thumb.className = SCROLLBAR_THUMB_CLASS;
+  track.appendChild(thumb);
+  scrollbar.appendChild(track);
+  navigation.appendChild(scrollbar);
+
+  let pointerState = null;
+
+  const getMetrics = () => {
+    const trackRect = track.getBoundingClientRect();
+    const maxScrollLeft = Math.max(
+      0,
+      tablist.scrollWidth - tablist.clientWidth,
+    );
+    const thumbWidth = Math.min(
+      trackRect.width,
+      Math.max(
+        SCROLLBAR_MIN_THUMB_PX,
+        trackRect.width * (tablist.clientWidth / tablist.scrollWidth),
+      ),
+    );
+
+    return {
+      maxScrollLeft,
+      maxThumbOffset: Math.max(0, trackRect.width - thumbWidth),
+      thumbWidth,
+      trackRect,
+    };
+  };
+
+  const setScrollFromPointer = (clientX, grabOffset) => {
+    const metrics = getMetrics();
+
+    if (!metrics.maxScrollLeft || !metrics.maxThumbOffset) {
+      return;
+    }
+
+    const thumbOffset = Math.min(
+      metrics.maxThumbOffset,
+      Math.max(0, clientX - metrics.trackRect.left - grabOffset),
+    );
+
+    tablist.scrollLeft =
+      (thumbOffset / metrics.maxThumbOffset) * metrics.maxScrollLeft;
+  };
+
+  const finishScrollbarDrag = (event) => {
+    if (!pointerState || event.pointerId !== pointerState.id) {
+      return;
+    }
+
+    if (scrollbar.hasPointerCapture?.(event.pointerId)) {
+      scrollbar.releasePointerCapture(event.pointerId);
+    }
+
+    pointerState = null;
+    scrollbar.classList.remove(SCROLLBAR_DRAGGING_CLASS);
+  };
+
+  const updateScrollbar = () => {
+    const hasOverflow = hasHorizontalOverflow();
+
+    scrollbar.hidden = !hasOverflow;
+    tablist.setAttribute(
+      'data-bemke-history-tabs-overflow',
+      hasOverflow ? '1' : '0',
+    );
+
+    if (!hasOverflow) {
+      scrollbar.setAttribute('aria-valuenow', '0');
+      scrollbar.removeAttribute('aria-valuetext');
+      return;
+    }
+
+    const metrics = getMetrics();
+
+    if (!metrics.trackRect.width || !metrics.maxScrollLeft) {
+      return;
+    }
+
+    const scrollLeft = Math.min(
+      metrics.maxScrollLeft,
+      Math.max(0, tablist.scrollLeft),
+    );
+    const progress = scrollLeft / metrics.maxScrollLeft;
+    const percentage = Math.round(progress * 100);
+
+    thumb.style.width = `${metrics.thumbWidth}px`;
+    thumb.style.transform = `translate3d(${progress * metrics.maxThumbOffset}px, 0, 0)`;
+    scrollbar.setAttribute('aria-valuenow', String(percentage));
+    scrollbar.setAttribute('aria-valuetext', `Przewinięto ${percentage}%`);
+  };
+
+  scrollbar.addEventListener('pointerdown', (event) => {
+    if (
+      scrollbar.hidden ||
+      !event.isPrimary ||
+      (event.pointerType === 'mouse' && event.button !== 0)
+    ) {
+      return;
+    }
+
+    const metrics = getMetrics();
+
+    if (!metrics.maxScrollLeft || !metrics.trackRect.width) {
+      return;
+    }
+
+    const thumbRect = thumb.getBoundingClientRect();
+    const isThumb = event.target === thumb;
+    const grabOffset = isThumb
+      ? event.clientX - thumbRect.left
+      : metrics.thumbWidth / 2;
+
+    event.preventDefault();
+    scrollbar.focus({ preventScroll: true });
+    scrollbar.classList.add(SCROLLBAR_DRAGGING_CLASS);
+    pointerState = { grabOffset, id: event.pointerId };
+
+    if (!isThumb) {
+      setScrollFromPointer(event.clientX, grabOffset);
+    }
+
+    try {
+      scrollbar.setPointerCapture(event.pointerId);
+    } catch {
+      // Pointer capture can fail when the pointer has already been released.
+    }
+  });
+
+  scrollbar.addEventListener('pointermove', (event) => {
+    if (!pointerState || event.pointerId !== pointerState.id) {
+      return;
+    }
+
+    event.preventDefault();
+    setScrollFromPointer(event.clientX, pointerState.grabOffset);
+  });
+
+  scrollbar.addEventListener('pointerup', finishScrollbarDrag);
+  scrollbar.addEventListener('pointercancel', finishScrollbarDrag);
+
+  scrollbar.addEventListener('keydown', (event) => {
+    const maxScrollLeft = Math.max(
+      0,
+      tablist.scrollWidth - tablist.clientWidth,
+    );
+    const step = Math.max(48, tablist.clientWidth * 0.12);
+    let nextScrollLeft = null;
+
+    if (event.key === 'ArrowLeft') {
+      nextScrollLeft = tablist.scrollLeft - step;
+    } else if (event.key === 'ArrowRight') {
+      nextScrollLeft = tablist.scrollLeft + step;
+    } else if (event.key === 'PageUp') {
+      nextScrollLeft = tablist.scrollLeft - tablist.clientWidth * 0.8;
+    } else if (event.key === 'PageDown') {
+      nextScrollLeft = tablist.scrollLeft + tablist.clientWidth * 0.8;
+    } else if (event.key === 'Home') {
+      nextScrollLeft = 0;
+    } else if (event.key === 'End') {
+      nextScrollLeft = maxScrollLeft;
+    }
+
+    if (nextScrollLeft === null) {
+      return;
+    }
+
+    event.preventDefault();
+    tablist.scrollTo({
+      behavior: isReducedMotion() ? 'auto' : 'smooth',
+      left: Math.min(maxScrollLeft, Math.max(0, nextScrollLeft)),
+    });
+  });
+
+  return updateScrollbar;
 }
 
 function revealActiveTab(tablist, tab, instant) {
@@ -531,6 +768,7 @@ function getRoot(tabsBlock) {
 }
 
 function decorateTabs(tabsBlock, tabs, tabsByNumber, slidesByNumber, numbers, id) {
+  tabsBlock.id ||= `bemke-history-tablist-${id}`;
   tabsBlock.setAttribute('role', 'tablist');
   tabsBlock.setAttribute('aria-orientation', 'horizontal');
   tabsBlock.parentElement?.classList.add(CONTENT_CLASS);
