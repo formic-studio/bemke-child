@@ -1164,15 +1164,13 @@ html[data-contrast]:not([data-contrast="default"]) textarea {
 }
 
 /* Align the Bemke Experience card copy from the top on the home page. */
-@media (min-width: 992px) {
-  body.home .card.brxe-block {
-    justify-content: flex-start;
-    row-gap: var(--spacing-small);
-  }
+body.home .card.brxe-block {
+  justify-content: flex-start;
+  row-gap: var(--spacing-small);
+}
 
-  body.home .card.brxe-block > .brxe-block:first-child {
-    min-height: 7.5rem;
-  }
+body.home .card.brxe-block > .brxe-block:first-child {
+  min-height: 7.5rem;
 }
 
 /* Card image hover */
