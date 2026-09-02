@@ -2525,11 +2525,7 @@ html[data-contrast]:not([data-contrast="default"])
 
 [data-bemke-history-tabs-ready="1"] .history-tabs-scrollbar__thumb {
   background-color: var(--red, var(--theme-red, rgba(116, 22, 24, 1)));
-  border: 1px solid
-    var(--lightmustard, var(--theme-lightmustard, rgba(224, 165, 69, 1)));
   border-radius: 999px;
-  box-shadow: 0 0 0 1px
-    var(--brown, var(--theme-brown, rgba(27, 5, 8, 1)));
   box-sizing: border-box;
   height: 0.8rem;
   left: 0;
@@ -2538,8 +2534,7 @@ html[data-contrast]:not([data-contrast="default"])
   top: -0.2rem;
   transition:
     background-color 0.2s ease,
-    filter 0.2s ease,
-    box-shadow 0.2s ease;
+    filter 0.2s ease;
   will-change: transform;
 }
 
@@ -2547,15 +2542,6 @@ html[data-contrast]:not([data-contrast="default"])
   .history-tabs-scrollbar:is(:hover, :focus-visible, .is-dragging)
   .history-tabs-scrollbar__thumb {
   filter: brightness(1.18);
-}
-
-[data-bemke-history-tabs-ready="1"]
-  .history-tabs-scrollbar:is(:focus-visible, .is-dragging)
-  .history-tabs-scrollbar__thumb {
-  box-shadow:
-    0 0 0 2px var(--brown, var(--theme-brown, rgba(27, 5, 8, 1))),
-    0 0 0 4px
-      var(--darkcream, var(--theme-darkcream, rgba(255, 243, 224, 1)));
 }
 
 [data-bemke-history-tabs-ready="1"]
@@ -2682,8 +2668,6 @@ html[data-contrast]:not([data-contrast="default"])
   [data-bemke-history-tabs-ready="1"]
   .history-tabs-scrollbar__thumb {
   background-color: var(--a11y-control-text) !important;
-  border-color: var(--a11y-control-bg) !important;
-  box-shadow: 0 0 0 1px var(--a11y-control-text) !important;
   filter: none !important;
 }
 
