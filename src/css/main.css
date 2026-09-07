@@ -947,20 +947,42 @@ html[data-contrast]:not([data-contrast="default"])
   color-scheme: light;
 }
 
-/* Lettering is baked into these transparent logos. Preserve their original
-   colours and provide a white backing for every project slide and partner. */
+/* Lettering is baked into these transparent logos. Back each image separately,
+   including the funding logos reused on the workshop pages. */
 html[data-contrast]:not([data-contrast="default"])
-  :is(.slide-project .icon-wrapper, #brxe-hkukzo) {
+  :is(img.img-project-home, img.img-logo-eu, #brxe-hkukzo img) {
   background-color: #ffffff !important;
   background-image: none !important;
   border-radius: 0.4rem;
-  padding: 1rem;
+  padding: 0.6rem;
+  filter: none !important;
+  mix-blend-mode: normal !important;
+}
+
+@media (min-width: 768px) {
+  html[data-contrast]:not([data-contrast="default"]) img.img-logo-eu {
+    width: auto !important;
+    flex: 0 1 auto;
+  }
 }
 
 html[data-contrast]:not([data-contrast="default"])
-  :is(.img-project-home, #brxe-hkukzo, #brxe-hkukzo img) {
+  #brxe-hkukzo {
   filter: none !important;
   mix-blend-mode: normal !important;
+}
+
+/* These oversized quotation marks are decorative and overlap the copy. */
+html[data-contrast]:not([data-contrast="default"])
+  svg:is(.quote, .marks) {
+  display: none !important;
+}
+
+/* The shared CTA uses an absolutely positioned image as well as a CSS
+   background. Remove the decorative image so the contrast surface shows. */
+html[data-contrast]:not([data-contrast="default"])
+  .brxe-befjdw > img.brxe-honyul {
+  display: none !important;
 }
 
 html[data-contrast]:not([data-contrast="default"])
@@ -4994,20 +5016,6 @@ html[data-contrast]:not([data-contrast="default"])
   background: var(--a11y-control-bg) !important;
   border-color: var(--a11y-control-border) !important;
   color: var(--a11y-control-text) !important;
-}
-
-html[data-contrast]:not([data-contrast="default"])
-  .brx-body
-  :is(
-    .btn-yellow-hover,
-    .btn-yellow-light-hover,
-    .btn-egg-hover,
-    .btn-red-hover,
-    .btn-mustard-hover,
-    .btn-red-yellow-hover,
-    .btn-wine
-  ):not([data-a11y-contrast-fixed])::before {
-  background: var(--a11y-control-text) !important;
   transition: none !important;
 }
 
@@ -5021,9 +5029,8 @@ html[data-contrast]:not([data-contrast="default"])
     .btn-mustard-hover,
     .btn-red-yellow-hover,
     .btn-wine
-  ):not([data-a11y-contrast-fixed]):is(:hover, :focus-visible) {
-  background: var(--a11y-control-bg) !important;
-  color: var(--a11y-control-bg) !important;
+  ):not([data-a11y-contrast-fixed])::before {
+  display: none !important;
 }
 
 html[data-contrast]:not([data-contrast="default"])
@@ -5036,8 +5043,28 @@ html[data-contrast]:not([data-contrast="default"])
     .btn-mustard-hover,
     .btn-red-yellow-hover,
     .btn-wine
-  ):not([data-a11y-contrast-fixed])
-  :is(.brxe-text, span, div) {
+  ):not([data-a11y-contrast-fixed]):is(
+    :hover,
+    :focus-visible,
+    .bemke-linked-card:is(:hover, :focus-within) *
+  ) {
+  background: var(--a11y-control-text) !important;
+  color: var(--a11y-control-bg) !important;
+  transition: none !important;
+}
+
+html[data-contrast]:not([data-contrast="default"])
+  .brx-body
+  :is(
+    .btn-yellow-hover,
+    .btn-yellow-light-hover,
+    .btn-egg-hover,
+    .btn-red-hover,
+    .btn-mustard-hover,
+    .btn-red-yellow-hover,
+    .btn-wine
+  ):not([data-contrast]):not([data-a11y-contrast-fixed])
+  :is(.brxe-text, .brxe-heading, .brxe-text-basic, .brxe-text-link, span, div) {
   background-image: none !important;
   color: inherit !important;
   transition: none !important;

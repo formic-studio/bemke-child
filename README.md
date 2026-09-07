@@ -98,8 +98,12 @@ Cookiebota.
 W trybach kontrastowych osadzony formularz otrzymuje stałe białe tło, ponieważ
 GetResponse renderuje jego ciemne etykiety i treść zgody w zamkniętym Shadow
 DOM, poza zasięgiem CSS motywu. Białe podłoże zachowuje czytelność bez zmian
-w polach, walidacji i mechanizmie zapisu. Takie samo podłoże otrzymują logotypy
-projektów dofinansowanych i partnera, których napisy są częścią grafiki.
+w polach, walidacji i mechanizmie zapisu. Osobne białe podłoże pod każdą grafiką
+otrzymują logotypy projektów (`img-project-home`, `img-logo-eu`) i partnera,
+również na podstronach warsztatów. Napisy w tych logotypach są częścią grafiki.
+Dekoracyjne cudzysłowy SVG (`quote`, `marks`) i obraz tła wspólnego komponentu
+CTA są w trybach kontrastowych ukryte. Przyciski zmieniają jednocześnie tło
+i kolor tekstu przy hoverze oraz focusie, także po aktywacji całej karty.
 
 Jeśli później zostanie dodany Google Tag Manager, nie należy wklejać drugiego
 niezależnego Cookiebota ani oznaczać całego GTM jako `ignore`. GTM trzeba
