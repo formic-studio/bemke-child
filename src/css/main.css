@@ -937,6 +937,32 @@ html[data-contrast]:not([data-contrast="default"])
   width: 100%;
 }
 
+/* GetResponse renders inside a closed shadow root. Keep its dark labels on
+   a light surface: page-level contrast selectors cannot reach those labels. */
+html[data-contrast]:not([data-contrast="default"])
+  .bemke-getresponse-native-form {
+  background-color: #ffffff !important;
+  background-clip: content-box;
+  color: #000000;
+  color-scheme: light;
+}
+
+/* Lettering is baked into these transparent logos. Preserve their original
+   colours and provide a white backing for every project slide and partner. */
+html[data-contrast]:not([data-contrast="default"])
+  :is(.slide-project .icon-wrapper, #brxe-hkukzo) {
+  background-color: #ffffff !important;
+  background-image: none !important;
+  border-radius: 0.4rem;
+  padding: 1rem;
+}
+
+html[data-contrast]:not([data-contrast="default"])
+  :is(.img-project-home, #brxe-hkukzo, #brxe-hkukzo img) {
+  filter: none !important;
+  mix-blend-mode: normal !important;
+}
+
 html[data-contrast]:not([data-contrast="default"])
   .bemke-a11y-translucent-surface {
   -webkit-backdrop-filter: none !important;

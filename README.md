@@ -95,6 +95,12 @@ osadza formularz w miejscu formularza Bricks i dopasowuje wyłącznie jego
 zewnętrzny kontener. Formularza nie należy dodatkowo uzależniać od zgody
 Cookiebota.
 
+W trybach kontrastowych osadzony formularz otrzymuje stałe białe tło, ponieważ
+GetResponse renderuje jego ciemne etykiety i treść zgody w zamkniętym Shadow
+DOM, poza zasięgiem CSS motywu. Białe podłoże zachowuje czytelność bez zmian
+w polach, walidacji i mechanizmie zapisu. Takie samo podłoże otrzymują logotypy
+projektów dofinansowanych i partnera, których napisy są częścią grafiki.
+
 Jeśli później zostanie dodany Google Tag Manager, nie należy wklejać drugiego
 niezależnego Cookiebota ani oznaczać całego GTM jako `ignore`. GTM trzeba
 podłączyć przez integrację Cookiebota/Google Consent Mode i ustawić wymagania
