@@ -95,7 +95,8 @@ osadza formularz w miejscu formularza Bricks i dopasowuje wyłącznie jego
 zewnętrzny kontener. Formularza nie należy dodatkowo uzależniać od zgody
 Cookiebota.
 
-W trybach kontrastowych osadzony formularz otrzymuje stałe białe tło, ponieważ
+W trybach kontrastowych cała karta newslettera (nagłówek, opis, formularz
+i odstępy wewnętrzne) otrzymuje stałe białe tło oraz ciemny tekst, ponieważ
 GetResponse renderuje jego ciemne etykiety i treść zgody w zamkniętym Shadow
 DOM, poza zasięgiem CSS motywu. Białe podłoże zachowuje czytelność bez zmian
 w polach, walidacji i mechanizmie zapisu. Osobne białe podłoże pod każdą grafiką

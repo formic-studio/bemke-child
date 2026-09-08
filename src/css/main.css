@@ -937,13 +937,15 @@ html[data-contrast]:not([data-contrast="default"])
   width: 100%;
 }
 
-/* GetResponse renders inside a closed shadow root. Keep its dark labels on
-   a light surface: page-level contrast selectors cannot reach those labels. */
+/* GetResponse owns its colours inside a closed shadow root. Keep the entire
+   newsletter card light, including the introduction and the card's padding. */
 html[data-contrast]:not([data-contrast="default"])
-  .bemke-getresponse-native-form {
+  :is(.brxe-block, .brxe-container):has(> .bemke-getresponse-native-form) {
+  --a11y-surface: #ffffff;
+  --a11y-text: #000000;
+  --a11y-border: #000000;
   background-color: #ffffff !important;
-  background-clip: content-box;
-  color: #000000;
+  color: #000000 !important;
   color-scheme: light;
 }
 
