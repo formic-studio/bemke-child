@@ -3,6 +3,7 @@ import {
   MOTION_CHANGE_EVENT,
   isReducedMotion,
 } from './motion-preference.js';
+import { isEnglishPage } from './site-language.js';
 
 const HEADER_SELECTOR = '#brx-header';
 const NAV_SELECTOR = '#brxe-vhhhdt';
@@ -53,7 +54,7 @@ function setupMobileMenu(header) {
   );
 
   setupAlwaysOpenNestedBranches(mobileMenu);
-  setupPolishMenuLabels(navigation, mobileToggle, mobileWrapper);
+  setupLocalizedMenuLabels(navigation, mobileToggle, mobileWrapper);
   setupMobileSubmenuAnimation(navigation, mobileMenu, mobileQuery);
   setupMobileMenuAnimation(navigation, mobileContent, mobileQuery);
 
@@ -530,17 +531,20 @@ function setupAlwaysOpenNestedBranches(mobileMenu) {
   });
 }
 
-function setupPolishMenuLabels(navigation, mobileToggle, mobileWrapper) {
+function setupLocalizedMenuLabels(navigation, mobileToggle, mobileWrapper) {
+  const labels = isEnglishPage()
+    ? { open: 'Open main menu', close: 'Close main menu', openSub: 'Open submenu: ', closeSub: 'Close submenu: ' }
+    : { open: 'Otwórz menu główne', close: 'Zamknij menu główne', openSub: 'Otwórz podmenu: ', closeSub: 'Zamknij podmenu: ' };
   if (window.bricksData?.i18n) {
-    window.bricksData.i18n.openMobileMenu = 'Otwórz menu główne';
-    window.bricksData.i18n.closeMobileMenu = 'Zamknij menu główne';
+    window.bricksData.i18n.openMobileMenu = labels.open;
+    window.bricksData.i18n.closeMobileMenu = labels.close;
   }
 
   const updateMenuToggleLabel = () => {
     const isOpen = mobileToggle.getAttribute('aria-expanded') === 'true';
     mobileToggle.setAttribute(
       'aria-label',
-      isOpen ? 'Zamknij menu główne' : 'Otwórz menu główne',
+      isOpen ? labels.close : labels.open,
     );
   };
 
@@ -560,7 +564,7 @@ function setupPolishMenuLabels(navigation, mobileToggle, mobileWrapper) {
       if (itemLabel) {
         button.setAttribute(
           'aria-label',
-          `${isOpen ? 'Zamknij' : 'Otwórz'} podmenu: ${itemLabel}`,
+          `${isOpen ? labels.closeSub : labels.openSub}${itemLabel}`,
         );
       }
     };

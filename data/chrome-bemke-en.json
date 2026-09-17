@@ -1,0 +1,376 @@
+{
+  "batch": "chrome-en-2",
+  "source": "Bricks WXR 2026-09-17 and bemke.pl navigation 2026-09-17",
+  "source_menu_id": 3,
+  "target_menu_name": "Bemke Navigation EN",
+  "templates": [
+    {
+      "source_post_id": 151,
+      "source_post_title": "Nawigacja",
+      "source_meta_key": "_bricks_page_header_2",
+      "source_bricks_sha256": "ae097f7608b8e7c58d2da869093496e64ec7c826dc5257e125bee42cf7cb2bcd",
+      "source_bricks_elements": 33,
+      "source_template_settings_sha256": "3c69f0ac6eb37ad5aef5dd5d3f76f667a62b5dd09e1653982bce26c74ff861f9",
+      "source_template_type": "header",
+      "target_title": "Navigation EN",
+      "bricks_edits": [
+        {
+          "element": "etginj",
+          "path": "settings.link.ariaLabel",
+          "expected": "Bemke – strona główna",
+          "english": "Bemke – home page"
+        },
+        {
+          "element": "edbqxa",
+          "path": "settings.text",
+          "expected": "ogranicz animacje",
+          "english": "reduce animations"
+        },
+        {
+          "element": "ssrnqe",
+          "path": "settings.text",
+          "expected": "polski",
+          "english": "Polski"
+        },
+        {
+          "element": "yaxlpv",
+          "path": "settings.text",
+          "expected": "angielski",
+          "english": "English"
+        },
+        {
+          "element": "qmbqwm",
+          "path": "settings.link.ariaLabel",
+          "expected": "Normalny rozmiar tekstu",
+          "english": "Normal text size"
+        },
+        {
+          "element": "cqxcbv",
+          "path": "settings.link.ariaLabel",
+          "expected": "Duży rozmiar tekstu",
+          "english": "Large text size"
+        },
+        {
+          "element": "toalqu",
+          "path": "settings.link.ariaLabel",
+          "expected": "Bardzo duży rozmiar tekstu",
+          "english": "Very large text size"
+        }
+      ]
+    },
+    {
+      "source_post_id": 164,
+      "source_post_title": "Footer",
+      "source_meta_key": "_bricks_page_footer_2",
+      "source_bricks_sha256": "941307cdbf489e7014ebe0149fa5c0432dea4cd62905c89dda9c105e36c1e1d3",
+      "source_bricks_elements": 58,
+      "source_template_settings_sha256": "5db32644422659c87763ee4198e0f2f62ff1494700b17385778af32e933658ba",
+      "source_template_type": "footer",
+      "target_title": "Footer EN",
+      "bricks_edits": [
+        {
+          "element": "tzinat",
+          "path": "settings.text",
+          "expected": "poznaj bemke",
+          "english": "discover Bemke"
+        },
+        {
+          "element": "vhckkq",
+          "path": "settings.text",
+          "expected": "przedszkole bemke",
+          "english": "Bemke Preschool"
+        },
+        {
+          "element": "zvnfdu",
+          "path": "settings.text",
+          "expected": "szkoła bemke",
+          "english": "Bemke Primary School"
+        },
+        {
+          "element": "biusqp",
+          "path": "settings.text",
+          "expected": "bemke college",
+          "english": "Bemke College"
+        },
+        {
+          "element": "aucchw",
+          "path": "settings.text",
+          "expected": "bemke explore",
+          "english": "Bemke Explore"
+        },
+        {
+          "element": "ujmqif",
+          "path": "settings.text",
+          "expected": "Pomoc",
+          "english": "Help"
+        },
+        {
+          "element": "ayshbk",
+          "path": "settings.text",
+          "expected": "polityka prywatności",
+          "english": "Privacy Policy"
+        },
+        {
+          "element": "llbbxv",
+          "path": "settings.text",
+          "expected": "kontakt",
+          "english": "Contact"
+        },
+        {
+          "element": "xskjcf",
+          "path": "settings.text",
+          "expected": "Kontakt",
+          "english": "Contact"
+        },
+        {
+          "element": "pjsxxs",
+          "path": "settings.text",
+          "expected": "Nawigacja",
+          "english": "Navigation"
+        },
+        {
+          "element": "ndpoek",
+          "path": "settings.text",
+          "expected": "Strona główna",
+          "english": "Home"
+        },
+        {
+          "element": "muagof",
+          "path": "settings.text",
+          "expected": "Rozwój",
+          "english": "Development"
+        },
+        {
+          "element": "wsldxw",
+          "path": "settings.text",
+          "expected": "edukacja",
+          "english": "Education"
+        },
+        {
+          "element": "emxxjg",
+          "path": "settings.text",
+          "expected": "Fundacja bemke",
+          "english": "Bemke Foundation"
+        },
+        {
+          "element": "nedoiu",
+          "path": "settings.text",
+          "expected": "wspieraj BEMKE",
+          "english": "SUPPORT BEMKE"
+        },
+        {
+          "element": "eauwji",
+          "path": "settings.text",
+          "expected": "©{current_wp_date:Y} Bemke. Wszystkie prawa zastrzeżone",
+          "english": "©{current_wp_date:Y} Bemke. All rights reserved"
+        },
+        {
+          "element": "ysmdyk",
+          "path": "settings.text",
+          "expected": "Fundacja campus bemke",
+          "english": "Campus Bemke Foundation"
+        }
+      ]
+    }
+  ],
+  "menu_items": [
+    {
+      "source_item_id": 367,
+      "source_parent_id": 0,
+      "source_title": "O nas",
+      "source_url": "https://bemke.pl/o-nas/",
+      "source_page_id": 173,
+      "fragment": "",
+      "target_title": "About Us"
+    },
+    {
+      "source_item_id": 2539,
+      "source_parent_id": 367,
+      "source_title": "Nasza historia",
+      "source_url": "https://bemke.pl/o-nas/nasza-historia/",
+      "source_page_id": 275,
+      "fragment": "",
+      "target_title": "Our Story"
+    },
+    {
+      "source_item_id": 2540,
+      "source_parent_id": 367,
+      "source_title": "Założyciele",
+      "source_url": "https://bemke.pl/o-nas/zalozyciele/",
+      "source_page_id": 317,
+      "fragment": "",
+      "target_title": "Founders"
+    },
+    {
+      "source_item_id": 2541,
+      "source_parent_id": 367,
+      "source_title": "Fundacja Bemke",
+      "source_url": "https://bemke.pl/o-nas/fundacja-bemke/",
+      "source_page_id": 445,
+      "fragment": "",
+      "target_title": "Bemke Foundation"
+    },
+    {
+      "source_item_id": 2542,
+      "source_parent_id": 367,
+      "source_title": "Fundacja Campus Bemke",
+      "source_url": "https://bemke.pl/o-nas/fundacja-campus-bemke/",
+      "source_page_id": 460,
+      "fragment": "",
+      "target_title": "Campus Bemke Foundation"
+    },
+    {
+      "source_item_id": 2978,
+      "source_parent_id": 367,
+      "source_title": "Nasz zespół",
+      "source_url": "/o-nas/#nasz-zespol",
+      "source_page_id": 173,
+      "fragment": "nasz-zespol",
+      "target_title": "Our Team"
+    },
+    {
+      "source_item_id": 364,
+      "source_parent_id": 0,
+      "source_title": "Edukacja",
+      "source_url": "https://bemke.pl/edukacja/",
+      "source_page_id": 341,
+      "fragment": "",
+      "target_title": "Education"
+    },
+    {
+      "source_item_id": 2774,
+      "source_parent_id": 364,
+      "source_title": "Nasze Placówki",
+      "source_url": "/edukacja/#nasze-placowki",
+      "source_page_id": 341,
+      "fragment": "nasze-placowki",
+      "target_title": "Our Locations"
+    },
+    {
+      "source_item_id": 387,
+      "source_parent_id": 0,
+      "source_title": "Rozwój",
+      "source_url": "https://bemke.pl/rozwoj/",
+      "source_page_id": 376,
+      "fragment": "",
+      "target_title": "Development"
+    },
+    {
+      "source_item_id": 2547,
+      "source_parent_id": 387,
+      "source_title": "Bemke Explore",
+      "source_url": "https://bemke.pl/rozwoj/bemke-explore/",
+      "source_page_id": 645,
+      "fragment": "",
+      "target_title": "Bemke Explore"
+    },
+    {
+      "source_item_id": 2546,
+      "source_parent_id": 387,
+      "source_title": "Taekwondo",
+      "source_url": "https://bemke.pl/rozwoj/taekwondo/",
+      "source_page_id": 618,
+      "fragment": "",
+      "target_title": "Taekwondo"
+    },
+    {
+      "source_item_id": 2548,
+      "source_parent_id": 387,
+      "source_title": "Warsztaty Steam",
+      "source_url": "https://bemke.pl/rozwoj/warsztaty-steam/",
+      "source_page_id": 659,
+      "fragment": "",
+      "target_title": "STEAM Workshops"
+    },
+    {
+      "source_item_id": 2549,
+      "source_parent_id": 2548,
+      "source_title": "Warsztaty cykliczne",
+      "source_url": "https://bemke.pl/rozwoj/warsztaty-steam/warsztaty-cykliczne/",
+      "source_page_id": 1056,
+      "fragment": "",
+      "target_title": "Recurring Workshops"
+    },
+    {
+      "source_item_id": 2550,
+      "source_parent_id": 2548,
+      "source_title": "Warsztaty dla nauczycieli",
+      "source_url": "https://bemke.pl/rozwoj/warsztaty-steam/warsztaty-dla-nauczycieli/",
+      "source_page_id": 1052,
+      "fragment": "",
+      "target_title": "Workshops for Teachers"
+    },
+    {
+      "source_item_id": 2551,
+      "source_parent_id": 2548,
+      "source_title": "Warsztaty dla szkół",
+      "source_url": "https://bemke.pl/rozwoj/warsztaty-steam/warsztaty-dla-szkol/",
+      "source_page_id": 1054,
+      "fragment": "",
+      "target_title": "Workshops for Schools"
+    },
+    {
+      "source_item_id": 385,
+      "source_parent_id": 0,
+      "source_title": "Campus Bemke",
+      "source_url": "https://bemke.pl/campus-bemke/",
+      "source_page_id": 380,
+      "fragment": "",
+      "target_title": "Campus Bemke"
+    },
+    {
+      "source_item_id": 1577,
+      "source_parent_id": 0,
+      "source_title": "Wspieraj Bemke",
+      "source_url": "https://bemke.pl/wspieraj-bemke/",
+      "source_page_id": 857,
+      "fragment": "",
+      "target_title": "Support Bemke"
+    },
+    {
+      "source_item_id": 3374,
+      "source_parent_id": 1577,
+      "source_title": "Kampania założycielska",
+      "source_url": "https://bemke.pl/wspieraj-bemke/kampania-zalozycielska/",
+      "source_page_id": 3345,
+      "fragment": "",
+      "target_title": "Founding Campaign"
+    },
+    {
+      "source_item_id": 2556,
+      "source_parent_id": 1577,
+      "source_title": "Darczyńcy",
+      "source_url": "https://bemke.pl/darczyncy/",
+      "source_page_id": 924,
+      "fragment": "",
+      "target_title": "Donors"
+    },
+    {
+      "source_item_id": 386,
+      "source_parent_id": 0,
+      "source_title": "Kontakt",
+      "source_url": "https://bemke.pl/kontakt/",
+      "source_page_id": 378,
+      "fragment": "",
+      "target_title": "Contact"
+    },
+    {
+      "source_item_id": 2558,
+      "source_parent_id": 386,
+      "source_title": "Dla mediów",
+      "source_url": "https://bemke.pl/kontakt/dla-mediow/",
+      "source_page_id": 981,
+      "fragment": "",
+      "target_title": "For the Media"
+    },
+    {
+      "source_item_id": 2559,
+      "source_parent_id": 386,
+      "source_title": "Praca",
+      "source_url": "https://bemke.pl/kontakt/praca/",
+      "source_page_id": 996,
+      "fragment": "",
+      "target_title": "Careers"
+    }
+  ]
+}

@@ -1,3 +1,5 @@
+import { isEnglishPage } from './site-language.js';
+
 const READY_ATTR = 'data-bemke-social-link-ready';
 const BOOTED_FLAG = '__bemkeSocialLinkLabelsBooted';
 
@@ -5,14 +7,17 @@ const SOCIAL_LABELS = [
   {
     hostPattern: /(^|\.)instagram\.com$/,
     label: 'Profil Bemke na Instagramie',
+    enLabel: 'Bemke on Instagram',
   },
   {
     hostPattern: /(^|\.)facebook\.com$/,
     label: 'Profil Bemke na Facebooku',
+    enLabel: 'Bemke on Facebook',
   },
   {
     hostPattern: /(^|\.)linkedin\.com$/,
     label: 'Profil Bemke na LinkedInie',
+    enLabel: 'Bemke on LinkedIn',
   },
 ];
 
@@ -105,7 +110,7 @@ function getSocialLabel(href) {
     const hostname = new URL(href, window.location.href).hostname.toLowerCase();
     const match = SOCIAL_LABELS.find(({ hostPattern }) => hostPattern.test(hostname));
 
-    return match?.label ?? null;
+    return match ? (isEnglishPage() ? match.enLabel : match.label) : null;
   } catch {
     return null;
   }

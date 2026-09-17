@@ -198,6 +198,31 @@ Linki do podstron z późniejszych partii, ALT obrazów i pobierane polskie PDF
 wymagają przeglądu przed publikacją. Przełącznik języka w menu pozostaje
 skierowany na zaślepkę.
 
+### Druga partia podstron oraz szablony EN
+
+Narzędzie **Narzędzia → Bemke EN — partia 2** korzysta z
+`data/child-pages-bemke-en.json`. Tworzy sześć powiązanych szkiców EN:
+Nasza historia, Założyciele, Fundacja Bemke, Fundacja Campus Bemke,
+Dla mediów i Praca. Każda strona dostaje właściwego rodzica EN z pierwszej
+partii, angielskie teksty Bricks i metadane Yoast. Narzędzie blokuje zapis,
+jeśli polskie źródło zmieniło się od eksportu. Po utworzeniu szkiców mapuje
+wewnętrzne linki między gotowymi wersjami EN.
+
+Następnie **Narzędzia → Bemke EN — nawigacja** tworzy osobne menu EN oraz
+szkice szablonów Bricks nagłówka i stopki. Menu zawiera tylko pozycje, dla
+których istnieje powiązana strona EN. Dołożenie kolejnych podstron pozwala
+uruchomić synchronizację menu ponownie. Nagłówek EN wskazuje nowe menu.
+Istniejący przełącznik PL/EN w nagłówku zachowuje obecne cele, w tym
+zaślepkę EN. Szablony pozostają szkicami i nie zmieniają widoku publicznego.
+
+Przed publikacją szablonów trzeba sprawdzić je w Bricks, uzupełnić brakujące
+pozycje menu, przygotować EN Privacy Policy i Bemke Explore, sprawdzić
+wszystkie linki, formularze, ALT obrazów i widoki mobilne. Dynamiczne listy
+ofert pracy i komunikatów prasowych pochodzą z osobnych typów wpisów. Pliki
+PDF pozostają tymczasowo po polsku. Etykiety dostępności menu, przycisków
+kontrastu i wielkości tekstu oraz odnośników społecznościowych wybierają język
+na podstawie `lang` strony.
+
 ### Szkic Campus Bemke EN
 
 Tymczasowe narzędzie **Narzędzia → Campus Bemke EN** wczytuje plan z

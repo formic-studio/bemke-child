@@ -1,4 +1,5 @@
 import { ensureButtonElement } from './semantic-button.js';
+import { isEnglishPage } from './site-language.js';
 
 const STORAGE_KEY = 'bemke_a11y_font_scale';
 const CONTROLS_CONTAINER_ID = 'brxe-kecesp';
@@ -23,6 +24,7 @@ const SCALE_CONTROLS = [
     scale: 1.25,
   },
 ];
+const ENGLISH_LABELS = ['Normal text size', 'Large text size', 'Very large text size'];
 
 function getControlsContainer() {
   return document.getElementById(CONTROLS_CONTAINER_ID);
@@ -91,8 +93,9 @@ function decorateControls() {
 
     const button = ensureButtonElement(element);
 
-    button.setAttribute('aria-label', control.label);
-    button.setAttribute('title', control.label);
+    const label = isEnglishPage() ? ENGLISH_LABELS[index] : control.label;
+    button.setAttribute('aria-label', label);
+    button.setAttribute('title', label);
     button.setAttribute('data-a11y-scale', String(control.scale));
   });
 }

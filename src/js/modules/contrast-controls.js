@@ -1,4 +1,5 @@
 import { ensureButtonElement } from './semantic-button.js';
+import { isEnglishPage } from './site-language.js';
 
 const STORAGE_KEY = 'bemke_a11y_contrast_mode';
 const CONTROLS_CONTAINER_ID = 'brxe-qcwgax';
@@ -10,6 +11,12 @@ const CONTRAST_MODES = new Map([
   ['white-black', 'Biały tekst na czarnym tle'],
   ['black-yellow', 'Czarny tekst na żółtym tle'],
   ['yellow-black', 'Żółty tekst na czarnym tle'],
+]);
+const CONTRAST_MODES_EN = new Map([
+  ['default', 'Default contrast'],
+  ['white-black', 'White text on a black background'],
+  ['black-yellow', 'Black text on a yellow background'],
+  ['yellow-black', 'Yellow text on a black background'],
 ]);
 
 function getControlsContainer() {
@@ -50,7 +57,8 @@ function decorateControls() {
     const mode = normalizeMode(element.getAttribute('data-contrast'));
     const button = ensureButtonElement(element);
 
-    const label = CONTRAST_MODES.get(mode) ?? 'Tryb kontrastu';
+    const labels = isEnglishPage() ? CONTRAST_MODES_EN : CONTRAST_MODES;
+    const label = labels.get(mode) ?? (isEnglishPage() ? 'Contrast mode' : 'Tryb kontrastu');
 
     button.setAttribute('aria-label', label);
     button.setAttribute('title', label);

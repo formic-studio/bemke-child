@@ -21,7 +21,7 @@ function bemke_child_prepare_accessibility_markup( $html ) {
 	$html = bemke_child_prepare_accessibility_toolbar_buttons( $html );
 	$html = bemke_child_prepare_team_popup_triggers( $html );
 	$html = bemke_child_prepare_job_offer_link_labels( $html );
-	$html = bemke_child_prepare_polish_menu_labels( $html );
+	$html = bemke_child_prepare_menu_labels( $html );
 	$html = bemke_child_replace_legacy_season_mix_font_elements( $html );
 	$html = bemke_child_prepare_styled_heading_text( $html );
 	$html = bemke_child_repair_form_group_labels( $html );
@@ -139,6 +139,7 @@ function bemke_child_prepare_job_offer_link_labels( $html ) {
  * @return string
  */
 function bemke_child_prepare_accessibility_toolbar_buttons( $html ) {
+	$is_english = 'en' === bemke_child_get_image_alternative_language();
 	$controls = array(
 		'brxe-qmbqwm' => array( 'Normalny rozmiar tekstu', 'true' ),
 		'brxe-cqxcbv' => array( 'Duży rozmiar tekstu', 'false' ),
@@ -148,6 +149,17 @@ function bemke_child_prepare_accessibility_toolbar_buttons( $html ) {
 		'brxe-jydvjv' => array( 'Czarny tekst na żółtym tle', 'false' ),
 		'brxe-pnbult' => array( 'Żółty tekst na czarnym tle', 'false' ),
 	);
+	if ( $is_english ) {
+		$controls = array(
+			'brxe-qmbqwm' => array( 'Normal text size', 'true' ),
+			'brxe-cqxcbv' => array( 'Large text size', 'false' ),
+			'brxe-toalqu' => array( 'Very large text size', 'false' ),
+			'brxe-pxhfen' => array( 'Default contrast', 'true' ),
+			'brxe-wdrqee' => array( 'White text on a black background', 'false' ),
+			'brxe-jydvjv' => array( 'Black text on a yellow background', 'false' ),
+			'brxe-pnbult' => array( 'Yellow text on a black background', 'false' ),
+		);
+	}
 
 	foreach ( $controls as $control_id => $control ) {
 		$pattern      = '/<a\b(?=[^>]*\bid\s*=\s*(["\'])' . preg_quote( $control_id, '/' ) . '\1)([^>]*)>(.*?)<\/a>/is';
@@ -180,21 +192,22 @@ function bemke_child_prepare_accessibility_toolbar_buttons( $html ) {
 }
 
 /**
- * Replace Bricks' initial English menu-control names before first paint. The
+ * Set menu-control names in the current language before first paint. The
  * frontend menu modules keep these labels synchronized with aria-expanded.
  *
  * @param string $html Complete frontend response markup.
  * @return string
  */
-function bemke_child_prepare_polish_menu_labels( $html ) {
+function bemke_child_prepare_menu_labels( $html ) {
+	$is_english = 'en' === bemke_child_get_image_alternative_language();
 	$mobile_toggle_pattern = '/<button\b(?=[^>]*\bclass\s*=\s*(["\'])[^"\']*\bbricks-mobile-menu-toggle\b[^"\']*\1)[^>]*>/i';
 	$updated_html          = preg_replace_callback(
 		$mobile_toggle_pattern,
-		static function ( $matches ) {
+		static function ( $matches ) use ( $is_english ) {
 			$button = bemke_child_remove_html_attributes( $matches[0], array( 'aria-label' ) );
 			$label  = preg_match( '/\baria-expanded\s*=\s*(["\'])true\1/i', $button )
-				? 'Zamknij menu główne'
-				: 'Otwórz menu główne';
+				? ( $is_english ? 'Close main menu' : 'Zamknij menu główne' )
+				: ( $is_english ? 'Open main menu' : 'Otwórz menu główne' );
 
 			return preg_replace(
 				'/>$/',
@@ -213,11 +226,11 @@ function bemke_child_prepare_polish_menu_labels( $html ) {
 	$submenu_pattern = '/<button\b(?=[^>]*\baria-label\s*=\s*(["\'])([^"\']+?)\s+Sub menu\1)[^>]*>/iu';
 	$updated_html    = preg_replace_callback(
 		$submenu_pattern,
-		static function ( $matches ) {
+		static function ( $matches ) use ( $is_english ) {
 			$button     = bemke_child_remove_html_attributes( $matches[0], array( 'aria-label' ) );
 			$is_open    = (bool) preg_match( '/\baria-expanded\s*=\s*(["\'])true\1/i', $button );
 			$item_label = trim( wp_strip_all_tags( html_entity_decode( $matches[2], ENT_QUOTES, 'UTF-8' ) ) );
-			$label      = ( $is_open ? 'Zamknij podmenu: ' : 'Otwórz podmenu: ' ) . $item_label;
+			$label      = ( $is_english ? ( $is_open ? 'Close submenu: ' : 'Open submenu: ' ) : ( $is_open ? 'Zamknij podmenu: ' : 'Otwórz podmenu: ' ) ) . $item_label;
 
 			return preg_replace(
 				'/>$/',
@@ -634,21 +647,22 @@ function bemke_child_repair_social_links_in_markup( $html, $profile_name, $label
  */
 function bemke_child_get_social_link_label( $markup, $profile_name = 'Bemke', $label_website = false ) {
 	$profile_name = trim( wp_strip_all_tags( $profile_name ) );
+	$is_english = 'en' === bemke_child_get_image_alternative_language();
 
 	if ( '' === $profile_name ) {
 		$profile_name = 'Bemke';
 	}
 
 	if ( false !== stripos( $markup, 'instagram.com' ) ) {
-		return sprintf( 'Profil %s na Instagramie', $profile_name );
+		return $is_english ? sprintf( '%s on Instagram', $profile_name ) : sprintf( 'Profil %s na Instagramie', $profile_name );
 	}
 
 	if ( false !== stripos( $markup, 'linkedin.com' ) ) {
-		return sprintf( 'Profil %s na LinkedInie', $profile_name );
+		return $is_english ? sprintf( '%s on LinkedIn', $profile_name ) : sprintf( 'Profil %s na LinkedInie', $profile_name );
 	}
 
 	if ( false !== stripos( $markup, 'facebook.com' ) ) {
-		return sprintf( 'Profil %s na Facebooku', $profile_name );
+		return $is_english ? sprintf( '%s on Facebook', $profile_name ) : sprintf( 'Profil %s na Facebooku', $profile_name );
 	}
 
 	if (
@@ -657,7 +671,7 @@ function bemke_child_get_social_link_label( $markup, $profile_name = 'Bemke', $l
 		'' !== trim( $href_match[2] ) &&
 		'#' !== trim( $href_match[2] )
 	) {
-		return sprintf( 'Strona internetowa %s', $profile_name );
+		return $is_english ? sprintf( '%s website', $profile_name ) : sprintf( 'Strona internetowa %s', $profile_name );
 	}
 
 	return '';

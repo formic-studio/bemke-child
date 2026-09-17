@@ -1,3 +1,5 @@
+import { isEnglishPage } from './site-language.js';
+
 const NAVIGATION_SELECTOR = '#brx-header #brxe-vhhhdt';
 const DESKTOP_WRAPPER_SELECTOR = ':scope > .bricks-nav-menu-wrapper';
 const MOBILE_WRAPPER_SELECTOR = ':scope > .bricks-mobile-menu-wrapper';
@@ -59,7 +61,9 @@ function setupNavigation(navigation) {
 
     mobileToggle.setAttribute(
       'aria-label',
-      isOpen ? 'Zamknij menu główne' : 'Otwórz menu główne',
+      isEnglishPage()
+        ? (isOpen ? 'Close main menu' : 'Open main menu')
+        : (isOpen ? 'Zamknij menu główne' : 'Otwórz menu główne'),
     );
 
     if (wasMobileMenuOpen && !isOpen && mobileWrapper.contains(document.activeElement)) {
