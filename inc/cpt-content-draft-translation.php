@@ -45,6 +45,11 @@ function bemke_child_get_cpt_content_batch() {
 	return $batch;
 }
 
+/** XML exports normalise CRLF and CR line endings to LF. */
+function bemke_child_cpt_content_normalize_line_endings( $value ) {
+	return str_replace( array( "\r\n", "\r" ), "\n", $value );
+}
+
 /** @return array<string, mixed> */
 function bemke_child_validate_cpt_content_group( $batch, $type ) {
 	$state = array( 'errors' => array(), 'ready' => array(), 'existing' => array(), 'orphans' => array() );
@@ -83,7 +88,7 @@ function bemke_child_validate_cpt_content_group( $batch, $type ) {
 			continue;
 		}
 		foreach ( $plan['meta_edits'] as $edit ) {
-			if ( ! isset( $edit['key'], $edit['expected'], $edit['english'] ) || (string) get_post_meta( $id, $edit['key'], true ) !== $edit['expected'] ) {
+			if ( ! isset( $edit['key'], $edit['expected'], $edit['english'] ) || bemke_child_cpt_content_normalize_line_endings( (string) get_post_meta( $id, $edit['key'], true ) ) !== bemke_child_cpt_content_normalize_line_endings( $edit['expected'] ) ) {
 				$state['errors'][] = 'Pole ' . ( $edit['key'] ?? 'nieznane' ) . ' wpisu PL ' . $id . ' zmieniło się od eksportu.';
 			}
 		}
