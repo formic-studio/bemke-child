@@ -173,7 +173,8 @@ systemowego ustawienia strony prywatności WordPressa.
 dla 7 wpisów „Strategia 2050”, 16 darczyńców, 6 nazw dokumentów Campus Bemke,
 1 zestawu dokumentów Fundacji Bemke (28 nazw), 3 ofert pracy i 2 komunikatów
 prasowych. Plan pochodzi z WXR z 17.09.2026 i `tlumaczenie_bemkepl_EN.csv`.
-Importer kopiuje pola ACF/Carbon Fields i obrazy, tłumaczy pola tekstowe,
+Importer kopiuje pola ACF/Carbon Fields i obrazy, tłumaczy pola tekstowe
+(w tym statystyki i cytaty darczyńców),
 zachowuje układ tekstów HTML oraz łączy wpisy PL i EN w Polylang. Każda grupa
 ma osobny przycisk. Gdy źródłowe teksty się zmienią albo szkic EN już istnieje,
 nie tworzy duplikatu. Synchronizacja pól własnych w Polylang musi być wyłączona.
@@ -188,6 +189,12 @@ prowadzący do `youtube.com`; adres należy sprawdzić przed publikacją.
 Angielskie ALT obrazów są osobnym etapem. Przełącznik języka pozostaje na
 zaślepce do czasu pełnej publikacji EN. Po utworzeniu polityki uruchom ponownie
 **Narzędzia → Bemke EN — nawigacja**, aby zaktualizować odnośnik w stopce EN.
+
+**Narzędzia → Bemke EN — szablony treści** przygotowuje cztery szkice Bricks:
+404, komunikat prasowy, darczyńca i oferta pracy. Tłumaczy 34 wspólne pola,
+zachowuje znaczniki dynamicznych danych ACF oraz kopiuje warunki wyświetlania
+z szablonów PL. Przed publikacją należy sprawdzić te warunki i działanie
+odnośników w wersji EN.
 
 ### Szkic strony głównej EN
 

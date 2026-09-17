@@ -215,6 +215,31 @@
           "key": "darczyncy_-_caption_nad_nazwa",
           "expected": "Darczyńcy Campusu Bemke",
           "english": "Campus Bemke Donors"
+        },
+        {
+          "key": "_bemke_donor_stats|bemke_donor_stat_description|0|0|value",
+          "expected": "miejsc rocznie dla dzieci i młodzieży w programach rozwojowych oraz w placówkach edukacyjnych",
+          "english": "places each year for children and young people in development programmes and educational institutions"
+        },
+        {
+          "key": "_bemke_donor_stats|bemke_donor_stat_description|1|0|value",
+          "expected": "przeszkolonych nauczycieli, pedagogów i edukatorów",
+          "english": "teachers, educators and education professionals trained"
+        },
+        {
+          "key": "_bemke_donor_stats|bemke_donor_stat_description|2|0|value",
+          "expected": "godzin tutoringu rocznie dla młodzieży z całej Polski",
+          "english": "hours of tutoring each year for young people from across Poland"
+        },
+        {
+          "key": "_bemke_donor_quotes|bemke_donor_quote_text|0|0|value",
+          "expected": "Campus Bemke tworzy przestrzeń, w której młodzi ludzie mogą się rozwijać, odkrywać swoje mocne strony i budować relacje. Łączy jakość edukacji z odpowiedzialnością i długofalowym podejściem – a to są wartości, które są nam bliskie.\n\nW edukację inwestujemy z taką samą powagą, jak w biznes, bo wiemy, że dobre warunki do nauki i rozwoju nie powstają same. Wymagają zaangażowania – także ze strony firm i liderów, którzy chcą realnie wpłynąć na przyszłość.",
+          "english": "<em>Campus Bemke creates a space where young people can grow, discover their strengths and build relationships. It combines high-quality education with responsibility and a long-term approach — values that are close to us. We invest in education with the same seriousness as we invest in business, because we know that good conditions for learning and development do not happen by themselves. They require commitment — including from companies and leaders who want to make a real impact on the future.</em>"
+        },
+        {
+          "key": "_bemke_donor_quotes|bemke_donor_quote_position|0|0|value",
+          "expected": "Wiceprezes zarządu i CPO w TDJ",
+          "english": "Vice President of the Management Board and CPO at TDJ"
         }
       ]
     },
@@ -264,6 +289,31 @@
           "key": "darczyncy_opis",
           "expected": "Grupa Maspex to jeden z największych producentów żywności i napojów w Europie Środkowo-Wschodniej, właściciel ponad 70 marek, tak kultowych jak Tymbark, Kubuś, Lubella, Łowicz i Krakus. Od lat nie tylko dostarcza wysokiej jakości produkty, ale także aktywnie angażuje się w działania odpowiedzialne społecznie. \n<br><br>\nW ramach strategii zrównoważonego rozwoju i CSR firma wspiera projekty zachęcające dzieci i młodzież do sportu i aktywności fizycznej oraz jest organizatorem programów edukacyjnych na temat ekologii, bezpieczeństwa, odżywiania i niemarnowania żywności. Co roku bierze w nich udział ponad milion dzieci. Wspiera także produktowo ponad 1000 instytucji rocznie, angażując się pozytywnie w życie lokalnych społeczności. Jej rozwój opiera się na innowacjach, odwadze oraz odpowiedzialności za otoczenie i przyszłe pokolenia. <br><br>\n\nCentrala firmy znajduje się w Wadowicach, 18 zakładów produkcyjnych zlokalizowane jest w Polsce, Rumunii, Czechach, na Węgrzech i w Bułgarii, a produkty docierają do ponad 80 krajów na całym świecie.",
           "english": "Maspex Group is one of the largest food and beverage producers in Central and Eastern Europe and the owner of more than 70 brands, including iconic names such as Tymbark, Kubuś, Lubella, Łowicz and Krakus. For years, it has not only supplied high-quality products but has also been actively involved in socially responsible initiatives. As part of its sustainability and CSR strategy, the company supports projects encouraging children and young people to take part in sport and physical activity and organises educational programmes on ecology, safety, nutrition and reducing food waste. More than one million children participate in them every year. It also provides product support to more than 1,000 institutions annually, making a positive contribution to local communities. Its development is based on innovation, courage and responsibility for its surroundings and future generations. The company is headquartered in Wadowice, operates 18 production plants in Poland, Romania, the Czech Republic, Hungary and Bulgaria, and its products reach more than 80 countries worldwide."
+        },
+        {
+          "key": "_bemke_donor_stats|bemke_donor_stat_description|0|0|value",
+          "expected": "mln dzieci wzięło udział w programach CSR Grupy Maspex",
+          "english": "million children took part in Maspex Group CSR programmes"
+        },
+        {
+          "key": "_bemke_donor_stats|bemke_donor_stat_description|1|0|value",
+          "expected": "ogólnopolskich, edukacyjnych programów społecznych skierowanych do dzieci\ni młodzieży",
+          "english": "nationwide educational social programmes for children and young people"
+        },
+        {
+          "key": "_bemke_donor_stats|bemke_donor_stat_description|2|0|value",
+          "expected": "lat doświadczenia w programach CSR",
+          "english": "years of experience in CSR programmes"
+        },
+        {
+          "key": "_bemke_donor_quotes|bemke_donor_quote_text|0|0|value",
+          "expected": "<br><em>Grupa Maspex od zawsze wierzy, że biznes to nie tylko wyniki, ale przede wszystkim ludzie i ich przyszłość. Dlatego angażujemy się w inicjatywy, które kształtują ambitne, sprawcze społeczeństwo.</em><br><br>\n\n<em>Campus Bemke to dla nas naturalna przestrzeń do działania. Wierzymy w Efekt Kolibra – każda zmiana wywołuje kolejną, tworząc nową jakość. Wspierając ten projekt, inwestujemy w edukację, rozwój młodych ludzi i przyszłość całego regionu. To dla nas zaszczyt być częścią tej zmiany.</em>",
+          "english": "<em>Maspex Group has always believed that business is not only about results, but above all about people and their future. That is why we engage in initiatives that shape an ambitious, empowered society. Campus Bemke is a natural space for us to take action. We believe in the Hummingbird Effect — every change triggers another, creating a new quality. By supporting this project, we invest in education, young people’s development and the future of the entire region. It is an honour for us to be part of this change.</em>"
+        },
+        {
+          "key": "_bemke_donor_quotes|bemke_donor_quote_position|0|0|value",
+          "expected": "prezes Grupy Maspex",
+          "english": "President of Maspex Group"
         }
       ]
     },
@@ -291,6 +341,31 @@
           "key": "darczyncy_-_caption_nad_nazwa",
           "expected": "Darczyńca Campusu Bemke",
           "english": "Campus Bemke Donor"
+        },
+        {
+          "key": "_bemke_donor_stats|bemke_donor_stat_description|0|0|value",
+          "expected": "mln dzieci dzieci zarejestrowanych w programach Pho3nix Foundation na całym świecie",
+          "english": "million children registered in Pho3nix Foundation programmes worldwide"
+        },
+        {
+          "key": "_bemke_donor_stats|bemke_donor_stat_description|1|0|value",
+          "expected": "tys. polskich dzieci  wzięło udział w warsztatach inspirujących do aktywności sportowych",
+          "english": "thousand Polish children took part in workshops inspiring them to be physically active"
+        },
+        {
+          "key": "_bemke_donor_stats|bemke_donor_stat_description|2|0|value",
+          "expected": "lat doświadczenia\nw programach CSR",
+          "english": "years of experience in CSR programmes"
+        },
+        {
+          "key": "_bemke_donor_quotes|bemke_donor_quote_text|0|0|value",
+          "expected": "Bo chcę wszechstronnie wspierać polskie dzieci oraz młodzież w realizacji ich marzeń, czyli ambitnych wyzwań edukacyjnych w drodze na najlepsze uniwersytety i posady świata. Chcemy też pomagać w kształtowaniu postaw nowej generacji polskich, odpowiedzialnych liderów przyszłości. Moje osobiste zaangażowanie w ten projekt wynika z jego wyjątkowości, rozmachu, wizji oraz niespotykanej użyteczności. Natomiast osoba inicjatora, czyli Tomka jest dla mnie gwarancją, że projekt będzie realizowany w oparciu o najlepsze, światowe standardy i szybko stanie się punktem odniesienia dla podobnych projektów. Nie tylko w Polsce.",
+          "english": "<em>Because I want to support Polish children and young people comprehensively in pursuing their dreams — ambitious educational challenges on their path to the world’s best universities and careers. We also want to help shape a new generation of responsible Polish leaders of the future. My personal involvement in this project stems from its uniqueness, scale, vision and exceptional usefulness. The person behind the initiative, Tomek, gives me confidence that the project will be delivered according to the highest global standards and will quickly become a benchmark for similar projects — not only in Poland.</em>"
+        },
+        {
+          "key": "_bemke_donor_quotes|bemke_donor_quote_position|0|0|value",
+          "expected": "właściciel Kulczyk Investments",
+          "english": "owner of Kulczyk Investments"
         }
       ]
     },
@@ -318,6 +393,11 @@
           "key": "darczyncy_-_caption_nad_nazwa",
           "expected": "Darczyńcy Campusu Bemke",
           "english": "Campus Bemke Donors"
+        },
+        {
+          "key": "_bemke_donor_quotes|bemke_donor_quote_text|0|0|value",
+          "expected": "<br><em>Moje zaangażowanie w działalność charytatywną wynika z głębokiego poczucia odpowiedzialności społecznej, rozumianej jako mądre dzielenie się z innymi. Edukacja to najefektowniejsza droga wspierania młodych pokoleń, aby właściwie przygotować je do życia w dynamicznie zmieniającym się Świecie. \n\n<br><br>Z ogromną radością wspieram finansowo Campus Bemke, bo – znając program i zespół Campusu – jestem pewien, że przyniesie to wymierne i trwałe efekty.</em>",
+          "english": "<em>My involvement in charitable activities stems from a deep sense of social responsibility, understood as sharing wisely with others. Education is the most effective way to support younger generations and prepare them properly for life in a dynamically changing world. I am very happy to support Campus Bemke financially because, knowing the Campus programme and team, I am confident that this support will bring tangible and lasting results.</em>"
         }
       ]
     },
@@ -345,6 +425,31 @@
           "key": "darczyncy_-_caption_nad_nazwa",
           "expected": "Darczyńcy Campusu Bemke",
           "english": "Campus Bemke Donors"
+        },
+        {
+          "key": "_bemke_donor_stats|bemke_donor_stat_description|0|0|value",
+          "expected": "dzieci z bieszczadzkich szkół otrzymało dofinasowanie obiadu szkolnego",
+          "english": "children from schools in the Bieszczady region received subsidies for school lunches"
+        },
+        {
+          "key": "_bemke_donor_stats|bemke_donor_stat_description|1|0|value",
+          "expected": "zrealizowanych projektów pomocowych",
+          "english": "aid projects completed"
+        },
+        {
+          "key": "_bemke_donor_stats|bemke_donor_stat_description|2|0|value",
+          "expected": "dzieci otrzymało\npomoc od Fundacji Formika Dzieciom",
+          "english": "children received support from the Formika Dzieciom Foundation"
+        },
+        {
+          "key": "_bemke_donor_quotes|bemke_donor_quote_text|0|0|value",
+          "expected": "<em>Campus Bemke to projekt, który może realnie wpłynąć na przyszłość edukacji w Polsce. Jego rozmach, wizja i innowacyjne podejście do kształcenia młodych ludzi sprawiły, że bez wahania zdecydowaliśmy się go wesprzeć.</em><br><br>\n\n<em>Wierzymy, że to właśnie edukacja kształtuje przyszłe pokolenia liderów, którzy będą odpowiedzialnie i świadomie zmieniać świat. Mamy nadzieję, że Campus Bemke stanie się przestrzenią, w której młodzi ludzie będą mogli rozwijać swoje pasje, zdobywać kluczowe kompetencje i odważnie patrzeć w przyszłość.</em>",
+          "english": "<em>Campus Bemke is a project that can have a real impact on the future of education in Poland. Its scale, vision and innovative approach to educating young people convinced us to support it without hesitation. We believe that education shapes future generations of leaders who will change the world responsibly and consciously. We hope Campus Bemke becomes a place where young people can develop their passions, gain key skills and look to the future with courage.</em>"
+        },
+        {
+          "key": "_bemke_donor_quotes|bemke_donor_quote_name|0|0|value",
+          "expected": "Piotr i Joanna Dębiccy",
+          "english": "Piotr and Joanna Dębicki"
         }
       ]
     },
@@ -372,6 +477,31 @@
           "key": "darczyncy_-_caption_nad_nazwa",
           "expected": "Darczyńcy Campusu Bemke",
           "english": "Campus Bemke Donors"
+        },
+        {
+          "key": "_bemke_donor_stats|bemke_donor_stat_description|0|0|value",
+          "expected": "ton żywności przekazywanej co roku potrzebującym ",
+          "english": "tonnes of food donated to people in need each year"
+        },
+        {
+          "key": "_bemke_donor_stats|bemke_donor_stat_description|1|0|value",
+          "expected": "projektów społecznych prowadzonych co roku przez Fundację Uskrzydlamy",
+          "english": "social projects carried out each year by the Uskrzydlamy Foundation"
+        },
+        {
+          "key": "_bemke_donor_stats|bemke_donor_stat_description|2|0|value",
+          "expected": "uczniów rocznie w programie stypendialnym otrzymuje wsparcie na edukację",
+          "english": "students in the scholarship programme receive educational support each year"
+        },
+        {
+          "key": "_bemke_donor_quotes|bemke_donor_quote_text|0|0|value",
+          "expected": "<p class=\"cvGsUA direction-ltr align-start para-style-body\"><em>Campus Bemke odzwierciedla model edukacji oparty na tradycyjnych wartościach i głębokim zrozumieniu człowieka.</em></p>\n<p class=\"cvGsUA direction-ltr align-start para-style-body\"><em>Nasze zaangażowanie jest konsekwencją wieloletnich działań Fundacji Uskrzydlamy, będącej częścią grupy LipCo Foods, która skupia się m.in. na wspieraniu edukacji.</em></p>\n<p class=\"cvGsUA direction-ltr align-start para-style-body\"><em>Wierzymy, że Campus Bemke wyposaży młodych ludzi w kompetencje i wartości, które pozwolą im świadomie <span class=\"OYPEnA font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none\">oraz</span> odpowiedzialnie budować swoją przyszłość służąc innym.</em></p>",
+          "english": "<p class=\"cvGsUA direction-ltr align-start para-style-body\"><em>Campus Bemke reflects an educational model based on traditional values and a deep understanding of the human person.</em></p>\n<p class=\"cvGsUA direction-ltr align-start para-style-body\"><em>Our involvement is a continuation of the long-standing work of the Uskrzydlamy Foundation, part of the LipCo Foods Group, which focuses, among other things, on supporting education.</em></p>\n<p class=\"cvGsUA direction-ltr align-start para-style-body\"><em>We believe Campus Bemke will equip young people with the skills and values that will enable them to build their future consciously and responsibly while serving others.</em></p>"
+        },
+        {
+          "key": "_bemke_donor_quotes|bemke_donor_quote_position|0|0|value",
+          "expected": "CEO LipCo Foods",
+          "english": "CEO of LipCo Foods"
         }
       ]
     },
@@ -399,6 +529,31 @@
           "key": "darczyncy_-_caption_nad_nazwa",
           "expected": "Darczyńcy Campusu Bemke",
           "english": "Campus Bemke Donors"
+        },
+        {
+          "key": "_bemke_donor_stats|bemke_donor_stat_description|0|0|value",
+          "expected": "uczniów objętych patronatem",
+          "english": "students covered by patronage programmes"
+        },
+        {
+          "key": "_bemke_donor_stats|bemke_donor_stat_description|1|0|value",
+          "expected": "szkół i uczelni wyższych objętych patronatem firmy",
+          "english": "schools and universities covered by the company’s patronage"
+        },
+        {
+          "key": "_bemke_donor_stats|bemke_donor_stat_description|2|0|value",
+          "expected": "organizacji charytatywnych aktywnie wspieranych przez firmę",
+          "english": "charitable organisations actively supported by the company"
+        },
+        {
+          "key": "_bemke_donor_quotes|bemke_donor_quote_text|0|0|value",
+          "expected": "<p class=\"cgHgbA nxe3IQ Xp24Nw PanoWQ\"><em>Campus Bemke to projekt bliski naszym rodzinnym wartościom. Jako dzieci nauczycieli wiemy, jak ważną rolę odgrywa edukacja w rozwoju społecznym i gospodarczym.</em></p>\n<p class=\"cgHgbA nxe3IQ Xp24Nw\"><em>Widzimy w nim realny model przedsiębiorczości społecznej. Campus Bemke to przykład social enterprise – inicjatywy, która łączy cele społeczne z solidnymi podstawami biznesowymi, zapewniając długoterminową trwałość.</em></p>\n<p class=\"cgHgbA nxe3IQ Xp24Nw\"><em>Wierzymy, że może zmieniać region i inspirować inne miejsca w Polsce. Chcemy, by edukacja napędzała lokalne społeczności i budowała lepszą przyszłość.</em></p>",
+          "english": "<p class=\"cgHgbA nxe3IQ Xp24Nw PanoWQ\"><em>Campus Bemke is a project close to our family values. As children of teachers, we know how important a role education plays in social and economic development.</em></p>\n<p class=\"cgHgbA nxe3IQ Xp24Nw\"><em>We see it as a real model of social entrepreneurship. Campus Bemke is an example of a social enterprise — an initiative that combines social goals with solid business foundations, ensuring long-term sustainability.</em></p>\n<p class=\"cgHgbA nxe3IQ Xp24Nw\"><em>We believe it can transform the region and inspire other places in Poland. We want education to drive local communities and build a better future.</em></p>"
+        },
+        {
+          "key": "_bemke_donor_quotes|bemke_donor_quote_position|0|0|value",
+          "expected": "CEO WIELTON GROUP",
+          "english": "CEO of WIELTON GROUP"
         }
       ]
     },
@@ -426,6 +581,11 @@
           "key": "darczyncy_-_caption_nad_nazwa",
           "expected": "Darczyńcy Campusu Bemke",
           "english": "Campus Bemke Donors"
+        },
+        {
+          "key": "_bemke_donor_quotes|bemke_donor_quote_text|0|0|value",
+          "expected": "<br><em>Dołączenie do grona darczyńców Campusu Bemke to dla nas naturalna decyzja. Wierzymy, że inwestowanie w edukację młodych ludzi jest kluczem do budowania lepszej przyszłości. Nasze doświadczenia życiowe i zawodowe nauczyły nas, jak ważne jest łączenie tradycyjnych wartości z nowoczesnym podejściem. </em>\n<br><br>\n<em>Chcemy, aby młode pokolenia miały możliwość kształcenia się na najwyższym poziomie, jednocześnie nie zapominając o swoich korzeniach i wartościach, które nas ukształtowały.</em>",
+          "english": "<em>Joining the group of Campus Bemke donors was a natural decision for us. We believe that investing in young people’s education is key to building a better future. Our life and professional experience has taught us how important it is to combine traditional values with a modern approach. We want younger generations to have access to the highest-quality education while staying connected to their roots and the values that shaped us.</em>"
         }
       ]
     },
@@ -453,6 +613,26 @@
           "key": "darczyncy_-_caption_nad_nazwa",
           "expected": "Darczyńcy Campusu Bemke",
           "english": "Campus Bemke Donors"
+        },
+        {
+          "key": "_bemke_donor_stats|bemke_donor_stat_description|0|0|value",
+          "expected": "przeszkolonych studentów w całej Polsce",
+          "english": "students trained across Poland"
+        },
+        {
+          "key": "_bemke_donor_stats|bemke_donor_stat_description|1|0|value",
+          "expected": "mln zł przekazane na CSR w ciągu ostatnich 5 lat",
+          "english": "PLN million donated to CSR over the last 5 years"
+        },
+        {
+          "key": "_bemke_donor_stats|bemke_donor_stat_description|2|0|value",
+          "expected": "akcji CSR wspartych w przeciągu ostatnich 5 lat",
+          "english": "CSR initiatives supported over the last 5 years"
+        },
+        {
+          "key": "_bemke_donor_quotes|bemke_donor_quote_text|0|0|value",
+          "expected": "<em>Moje szkolne doświadczenia pokazały mi, jakie znaczenie ma sposób przekazywania wiedzy. Jako dziecko, z czasem traciłem motywację do nauki, ale dopiero po latach zrozumiałem, że wynikało to z utraty uznania autorytetu nauczycieli, którzy byli przygotowani do tej roli w sposób „standardowy”.</em><br><br>\n\n&nbsp;\n\n<i>Dziś mogę wspierać projekt, który oferuje dzieciom edukację na światowym poziomie m.in. przez sposób, w jaki wzbudzana jest ciekawość i prowadzone są praktyczne eksperymenty, a spojrzenie na naukę jest autentycznie holistyczne. </i>\n<p data-olk-copy-source=\"MessageBody\"></p><br><br>\n<em>Wszystko to realizowane przez przygotowanych, kompetentnych i otwartych nauczycieli. W efekcie mamy edukację która jest ekscytującą przygodą odkrywania </em><br>\n\n<em>i rozumienia świata, w przeciwieństwie do zwykłego przykrego obowiązku. Ponadto, dzieje się to w naturalnym, zróżnicowanym społecznie środowisku, gdzie typowo prywatne szkoły oferują „zamkniętą, elitarną bańkę” w dodatku bardzo kosztowną.<br>\nTo ci młodzi ludzie za kilkanaście lat będą kształtować przyszłość.</em>",
+          "english": "<em>My experiences at school showed me how much the way knowledge is shared matters. As a child, I gradually lost my motivation to learn. Only years later did I understand that I had lost respect for teachers whose preparation for the role followed a conventional pattern. Today I can support a project that offers children education of a world-class standard, including through the way it sparks curiosity, encourages practical experiments and takes a genuinely holistic approach to learning. All of this is delivered by well-prepared, capable and open-minded teachers. The result is an education that feels like an exciting journey of discovering and understanding the world, instead of an unpleasant obligation. It also takes place in a natural, socially diverse environment, whereas typical private schools often offer a closed, elite bubble at a very high cost. These young people will be shaping the future in a decade or two.</em>"
         }
       ]
     },
@@ -480,6 +660,31 @@
           "key": "darczyncy_-_caption_nad_nazwa",
           "expected": "Darczyńcy Campusu Bemke",
           "english": "Campus Bemke Donors"
+        },
+        {
+          "key": "_bemke_donor_stats|bemke_donor_stat_description|0|0|value",
+          "expected": "beneficjentów",
+          "english": "beneficiaries"
+        },
+        {
+          "key": "_bemke_donor_stats|bemke_donor_stat_description|1|0|value",
+          "expected": "liczba placówek objętych wsparciem\n",
+          "english": "number of institutions supported"
+        },
+        {
+          "key": "_bemke_donor_stats|bemke_donor_stat_description|2|0|value",
+          "expected": "liczba wspartych projektów",
+          "english": "number of projects supported"
+        },
+        {
+          "key": "_bemke_donor_quotes|bemke_donor_quote_text|0|0|value",
+          "expected": "<em>Wspieramy Campus Bemke, ponieważ wierzymy w jego innowacyjne podejście do edukacji i rozwoju osobistego.</em><br><br>\n\n<em>Wierzymy, że oferuje nie tylko wysokiej jakości edukację, ale prowadzi swoich wychowanków do rozwoju osobistego, budowania charakteru, zdrowych wartości moralnych i osobistej odpowiedzialności, a w końcowym efekcie do przemiany całego społeczeństwa. A to jest naprawdę wyjątkowe.</em>",
+          "english": "<em>We support Campus Bemke because we believe in its innovative approach to education and personal development. We believe it offers not only high-quality education, but also guides its students towards personal growth, character formation, sound moral values and personal responsibility, ultimately contributing to the transformation of society as a whole. That is truly exceptional.</em>"
+        },
+        {
+          "key": "_bemke_donor_quotes|bemke_donor_quote_position|0|0|value",
+          "expected": "Fundacja 3WFoundation",
+          "english": "3WFoundation"
         }
       ]
     },
@@ -507,6 +712,31 @@
           "key": "darczyncy_-_caption_nad_nazwa",
           "expected": "Darczyńcy Campusu Bemke",
           "english": "Campus Bemke Donors"
+        },
+        {
+          "key": "_bemke_donor_stats|bemke_donor_stat_description|0|0|value",
+          "expected": "klientów zadowolonych z produktów Gerlach w 2024 roku",
+          "english": "customers satisfied with Gerlach products in 2024"
+        },
+        {
+          "key": "_bemke_donor_stats|bemke_donor_stat_description|1|0|value",
+          "expected": "Polaków posiada produkty marki Gerlach",
+          "english": "Poles own Gerlach products"
+        },
+        {
+          "key": "_bemke_donor_stats|bemke_donor_stat_description|2|0|value",
+          "expected": "polski kapitał",
+          "english": "Polish capital"
+        },
+        {
+          "key": "_bemke_donor_quotes|bemke_donor_quote_text|0|0|value",
+          "expected": "<em>Wierzymy w ludzi i ich potencjał. To oni tworzą zmiany, inspirują do działania i budują lepsze jutro, będąc najważniejszym zasobem naszej firmy, jak i całego społeczeństwa. Dlatego wspólnie inwestujemy w edukację – najtrwalszy fundament rozwoju społecznego i gospodarczego.</em>\n<br><br>\n<em>Udział w projekcie Campus Bemke to dla nas więcej niż współpraca – to realne działanie na rzecz przyszłości. Szczytne cele tego przedsięwzięcia idealnie wpisują się nasze motto „Gerlach. Ułatwiamy życie”. Wspierając młodych ludzi, wzmacniamy całe rodziny i dajemy impuls do pozytywnych przemian w regionie i całym kraju.</em>\n<br><br>\n<em>Cieszymy się, że jako Gerlach możemy być częścią tej wartościowej inicjatywy.</em>",
+          "english": "<em>We believe in people and their potential. They create change, inspire action and build a better tomorrow, making them the most important asset of both our company and society as a whole. That is why we invest in education together — the most lasting foundation of social and economic development. Taking part in the Campus Bemke project means more to us than cooperation — it is tangible action for the future. The worthwhile goals of this initiative perfectly reflect our motto, “Gerlach. We make life easier.” By supporting young people, we strengthen entire families and create momentum for positive change in the region and across the country. We are delighted that Gerlach can be part of this valuable initiative.</em>"
+        },
+        {
+          "key": "_bemke_donor_quotes|bemke_donor_quote_position|0|0|value",
+          "expected": "przewodnicząca Rady Nadzorczej Gerlach S.A.",
+          "english": "Chair of the Supervisory Board of Gerlach S.A."
         }
       ]
     },
@@ -534,6 +764,36 @@
           "key": "darczyncy_-_caption_nad_nazwa",
           "expected": "Darczyńcy Campusu Bemke",
           "english": "Campus Bemke Donors"
+        },
+        {
+          "key": "_bemke_donor_stats|bemke_donor_stat_description|0|0|value",
+          "expected": "okolicznych placówek oświatowych objętych wsparciem",
+          "english": "local educational institutions supported"
+        },
+        {
+          "key": "_bemke_donor_stats|bemke_donor_stat_description|1|0|value",
+          "expected": "organizacji pozarządowych beneficjentami",
+          "english": "non-governmental organisations benefiting from support"
+        },
+        {
+          "key": "_bemke_donor_stats|bemke_donor_stat_value|2|0|value",
+          "expected": "<15 tys.",
+          "english": "<15 thousand"
+        },
+        {
+          "key": "_bemke_donor_stats|bemke_donor_stat_description|2|0|value",
+          "expected": "uśmiechniętych dzieci biorących udział w cyklicznych wydarzeniach sportowo- kulturalnych",
+          "english": "happy children taking part in recurring sports and cultural events"
+        },
+        {
+          "key": "_bemke_donor_quotes|bemke_donor_quote_text|0|0|value",
+          "expected": "<p><em>W biznesie i życiu kluczowe są wartości oraz zaufanie. Decyzja o wsparciu Campus Bemke była skutkiem naszej pozytywnej oceny tego przedsięwzięcia zainicjowanego przez TDJ oraz wspieranego przez naszego wieloletniego partnera biznesowego, firmę MASPEX. Wierzymy, że projekty tworzone przez ludzi z pasją, wizją i profesjonalizmem mają realny wpływ na przyszłość.</em><br /><br /><em>Jako firma od lat angażujemy się w rozwój edukacji i młodych talentów. Wiemy, że mądre inwestowanie w ludzi i ich potencjał przynosi długofalowe korzyści, dlatego cieszymy się, że możemy dołożyć swoją cegiełkę do budowy przestrzeni, która będzie kształtować przyszłych liderów i innowatorów.</em></p>",
+          "english": "<p><em>In business and in life, values and trust are essential. Our decision to support Campus Bemke followed our positive assessment of this initiative, launched by TDJ and supported by our long-standing business partner MASPEX. We believe that projects created by people with passion, vision and professionalism can have a real impact on the future. As a company, we have long been committed to developing education and young talent. We know that wise investment in people and their potential brings long-term benefits, so we are pleased to contribute to building a place that will shape future leaders and innovators.</em></p>"
+        },
+        {
+          "key": "_bemke_donor_quotes|bemke_donor_quote_name|0|0|value",
+          "expected": "Marek Górski i Tadeusz Nowicki",
+          "english": "Marek Górski and Tadeusz Nowicki"
         }
       ]
     },
@@ -561,6 +821,16 @@
           "key": "darczyncy_-_caption_nad_nazwa",
           "expected": "Darczyńcy Campusu Bemke",
           "english": "Campus Bemke Donors"
+        },
+        {
+          "key": "_bemke_donor_quotes|bemke_donor_quote_text|0|0|value",
+          "expected": "<em>Od zawsze wierzymy, że inwestowanie w edukację to inwestowanie w przyszłość – nie tylko dzieci i młodzieży, ale również dorosłych. Jako firma mocno związana z regionem, chcemy przyczyniać się do jego rozwoju, wspierając inicjatywy, które realnie wpływają na lokalną społeczność i atrakcyjność Wadowic w oczach inwestorów i pracowników.</em><br><br>\n\n<em>Campus Bemke to projekt, który inspiruje do myślenia długoterminowego, a my chcemy być częścią tej zmiany. Bo lepsza edukacja to lepsza przyszłość – dla nas wszystkich.</em>",
+          "english": "<em>We have always believed that investing in education means investing in the future — not only of children and young people, but also of adults. As a company strongly rooted in the region, we want to contribute to its development by supporting initiatives that have a real impact on the local community and on Wadowice’s attractiveness to investors and employees. Campus Bemke is a project that inspires long-term thinking, and we want to be part of that change. Because better education means a better future — for all of us.</em>"
+        },
+        {
+          "key": "_bemke_donor_quotes|bemke_donor_quote_position|0|0|value",
+          "expected": "prezes zarządu Metchem",
+          "english": "President of the Management Board of Metchem"
         }
       ]
     },
@@ -588,6 +858,16 @@
           "key": "darczyncy_-_caption_nad_nazwa",
           "expected": "Darczyńcy Campusu Bemke",
           "english": "Campus Bemke Donors"
+        },
+        {
+          "key": "_bemke_donor_quotes|bemke_donor_quote_text|0|0|value",
+          "expected": "<p class=\"cvGsUA direction-ltr align-start para-style-body\"><em>Decyzję o zaangażowaniu w Campus Bemke podjęliśmy, ponieważ jego misja wpisuje się w nasze wartości. Edukacja, rozwój pasji i budowanie wiary w siebie to fundamenty przyszłości młodych ludzi i całej społeczności.</em></p>\n&nbsp;\n<p class=\"cvGsUA direction-ltr align-start para-style-body\"><em>Nasza firma jest nierozerwalnie związana z regionem, dlatego wsparcie projektu, który stworzy przestrzeń do nauki i rozwoju, było dla nas naturalnym krokiem. Wierzymy, że inwestowanie w edukację to najlepsza droga do budowania nowoczesnej gospodarki.</em></p>",
+          "english": "<p class=\"cvGsUA direction-ltr align-start para-style-body\"><em>We decided to become involved in Campus Bemke because its mission aligns with our values. Education, developing passions and building self-confidence are foundations for the future of young people and the entire community.</em></p>\n \n<p class=\"cvGsUA direction-ltr align-start para-style-body\"><em>Our company is inseparably connected with the region, so supporting a project that will create a space for learning and development was a natural step for us. We believe that investing in education is the best way to build a modern economy.</em></p>"
+        },
+        {
+          "key": "_bemke_donor_quotes|bemke_donor_quote_position|0|0|value",
+          "expected": "prezes zarządu",
+          "english": "President of the Management Board"
         }
       ]
     },
@@ -615,6 +895,21 @@
           "key": "darczyncy_-_caption_nad_nazwa",
           "expected": "Darczyńcy Campusu Bemke",
           "english": "Campus Bemke Donors"
+        },
+        {
+          "key": "_bemke_donor_stats|bemke_donor_stat_description|0|0|value",
+          "expected": "beneficjentów",
+          "english": "beneficiaries"
+        },
+        {
+          "key": "_bemke_donor_stats|bemke_donor_stat_description|1|0|value",
+          "expected": "szkół objętych wsparciem",
+          "english": "schools supported"
+        },
+        {
+          "key": "_bemke_donor_stats|bemke_donor_stat_description|2|0|value",
+          "expected": "wspartych projektów",
+          "english": "projects supported"
         }
       ]
     },
