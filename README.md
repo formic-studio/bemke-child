@@ -160,184 +160,23 @@ uwzględnić selektor `html[data-bemke-reduced-motion="true"]`.
 
 ## WordPress (GitHub -> WP)
 
-### Kolejna partia EN: polityka, strategia i treści dynamiczne
+### Wersja angielska
 
-**Narzędzia → Bemke EN — polityka prywatności** tworzy szkic EN strony PL 1475.
-Plan `data/privacy-bemke-en.json` obejmuje 233 bloki treści, nagłówki Bricks i
-dane Yoast. Import jest blokowany, gdy polski układ lub treść zmieniły się od
-eksportu. Przed publikacją wymagany jest przegląd merytoryczny i prawny,
-zwłaszcza adresów e-mail oraz opisu zewnętrznych usług. Narzędzie nie zmienia
-systemowego ustawienia strony prywatności WordPressa.
+Jednorazowe narzędzia importujące szkice i opisy ALT usunięto po zapisaniu danych
+w WordPressie. Usunięcie narzędzi nie usuwa powiązanych stron PL/EN, treści
+Bricks, danych Yoast, menu ani opisów obrazów. Dalsze poprawki tych danych
+wykonuje się w panelu WordPress. Motyw nadal obsługuje wybór języka,
+podgląd szkiców EN i właściwy ALT dla obu języków.
 
-**Narzędzia → Bemke EN — treści dodatkowe** pozwala osobno tworzyć szkice EN
-dla 7 wpisów „Strategia 2050”, 16 darczyńców, 6 nazw dokumentów Campus Bemke,
-1 zestawu dokumentów Fundacji Bemke (28 nazw), 3 ofert pracy i 2 komunikatów
-prasowych. Plan pochodzi z WXR z 17.09.2026 i `tlumaczenie_bemkepl_EN.csv`.
-Importer kopiuje pola ACF/Carbon Fields i obrazy, tłumaczy pola tekstowe
-(w tym statystyki i cytaty darczyńców),
-zachowuje układ tekstów HTML oraz łączy wpisy PL i EN w Polylang. Każda grupa
-ma osobny przycisk. Gdy źródłowe teksty się zmienią albo szkic EN już istnieje,
-nie tworzy duplikatu. Synchronizacja pól własnych w Polylang musi być wyłączona.
-
-Slider „Bemke in 2050” na szkicu EN strony „O nas” wymaga siedmiu szkiców
-„Strategia 2050”. Podgląd strony pokazuje te szkice tylko zalogowanemu
-edytorowi; na opublikowanej stronie wyświetlą się dopiero opublikowane wpisy EN.
-
-Przed importem danej grupy włącz odpowiedni typ wpisu w **Języki → Ustawienia →
-Custom post types and Taxonomies** i upewnij się, że istniejące wpisy mają
-przypisany język PL. Dla tej partii potrzebne są: `strategia-2050`, `darczynca`,
-`pdf`, `dokumenty-fundacja`, `oferta-pracy` i `komunikat-prasowy`.
-Pobierane PDF-y pozostają po polsku; ich angielskie etykiety mają dopisek
-„PDF in Polish”. Dwie oferty pracy zawierają w polskim źródle przycisk
-prowadzący do `youtube.com`; adres należy sprawdzić przed publikacją.
-Angielskie ALT obrazów są osobnym etapem. Przełącznik języka pozostaje na
-zaślepce do czasu pełnej publikacji EN. Po utworzeniu polityki uruchom ponownie
-**Narzędzia → Bemke EN — nawigacja**, aby zaktualizować odnośnik w stopce EN.
-
-**Narzędzia → Bemke EN — szablony treści** przygotowuje cztery szkice Bricks:
-404, komunikat prasowy, darczyńca i oferta pracy. Tłumaczy 34 wspólne pola,
-zachowuje znaczniki dynamicznych danych ACF oraz kopiuje warunki wyświetlania
-z szablonów PL. Przed publikacją należy sprawdzić te warunki i działanie
-odnośników w wersji EN.
+Przełącznik PL/EN w menu pozostaje skierowany na dotychczasową zaślepkę do
+czasu publikacji całej wersji EN. Pobierane pliki PDF są na razie po polsku.
+Przed publikacją sprawdź strony i szablony EN, menu, formularze, linki oraz
+widok mobilny.
 
 Skrypty interfejsu wybierają komunikaty na podstawie języka `<html>`:
 przełączniki dostępności, menu mobilne, karuzele, formularze i komunikaty zgody
 na mapę/wideo pokazują angielskie etykiety na stronach EN. Po zmianach w
 `src/js/` trzeba wykonać `npm run build` i wdrożyć cały katalog `dist/`.
-
-### Szkic strony głównej EN
-
-Tymczasowe narzędzie **Narzędzia → Bemke Home EN** czyta plan
-`data/home-bemke-en.json`, przygotowany z eksportu WXR z 17.09.2026 i
-`tlumaczenie_bemkepl_EN.csv`. Sprawdza, czy polska strona główna (ID 7) nadal
-jest opublikowana, przypisana do PL i zgodna z eksportem. Przed zapisem pokazuje
-54 tłumaczenia pól Bricks, 7 pól Yoast i opis strony. Rozbieżność w źródle
-blokuje utworzenie szkicu.
-
-Po kliknięciu przycisku narzędzie tworzy **szkic** strony Home w EN, kopiuje
-układ Bricks i obrazy, zapisuje angielskie treści i łączy stronę z polskim
-oryginałem w Polylang. Ponowne uruchomienie nie tworzy kolejnej strony.
-Synchronizacja pól własnych w Polylang musi być wyłączona, aby angielskie pola
-Bricks i Yoast nie nadpisywały polskich.
-
-Przed publikacją wymagane są: mapowanie linków do innych szkiców EN, kontrola
-ALT i pozostałych etykiet dostępności, tłumaczenie szablonów Bricks nagłówka
-i stopki, kontrola formularza GetResponse oraz podgląd na desktopie i telefonie.
-Przełącznik języka w menu nadal prowadzi do obecnej zaślepki.
-
-### Pierwsza partia głównych stron EN
-
-Narzędzie **Narzędzia → Bemke strony EN** korzysta z planu
-`data/main-pages-bemke-en.json`. Obejmuje sześć stron głównego poziomu:
-O nas (173), Edukacja (341), Rozwój (376), Kontakt (378), Wspieraj Bemke
-(857) i Darczyńcy (924). Plan zawiera teksty Bricks, także we właściwościach
-komponentów, angielskie pola formularza Kontakt oraz metadane Yoast.
-
-Przed zapisem narzędzie porównuje polskie strony z eksportem WXR, sprawdza
-aktywność Polylang i wyłączenie synchronizacji pól własnych. Jedno kliknięcie
-tworzy sześć powiązanych szkiców EN i mapuje linki Bricks pomiędzy nimi oraz
-do istniejącego szkicu Home EN. Polskie strony pozostają bez zmian. Ponowny
-import zostaje zablokowany, jeżeli szkice EN już istnieją.
-
-Linki do podstron z późniejszych partii, ALT obrazów i pobierane polskie PDF
-wymagają przeglądu przed publikacją. Przełącznik języka w menu pozostaje
-skierowany na zaślepkę.
-
-### Druga partia podstron oraz szablony EN
-
-Narzędzie **Narzędzia → Bemke EN — partia 2** korzysta z
-`data/child-pages-bemke-en.json`. Tworzy sześć powiązanych szkiców EN:
-Nasza historia, Założyciele, Fundacja Bemke, Fundacja Campus Bemke,
-Dla mediów i Praca. Każda strona dostaje właściwego rodzica EN z pierwszej
-partii, angielskie teksty Bricks i metadane Yoast. Narzędzie blokuje zapis,
-jeśli polskie źródło zmieniło się od eksportu. Po utworzeniu szkiców mapuje
-wewnętrzne linki między gotowymi wersjami EN.
-
-Następnie **Narzędzia → Bemke EN — nawigacja** tworzy osobne menu EN oraz
-szkice szablonów Bricks nagłówka i stopki. Menu zawiera tylko pozycje, dla
-których istnieje powiązana strona EN. Dołożenie kolejnych podstron pozwala
-uruchomić synchronizację menu ponownie. Nagłówek EN wskazuje nowe menu.
-Istniejący przełącznik PL/EN w nagłówku zachowuje obecne cele, w tym
-zaślepkę EN. Szablony pozostają szkicami i nie zmieniają widoku publicznego.
-
-Przed publikacją szablonów trzeba sprawdzić je w Bricks, uzupełnić brakujące
-pozycje menu, przygotować EN Privacy Policy i Bemke Explore, sprawdzić
-wszystkie linki, formularze, ALT obrazów i widoki mobilne. Dynamiczne listy
-ofert pracy i komunikatów prasowych pochodzą z osobnych typów wpisów. Pliki
-PDF pozostają tymczasowo po polsku. Etykiety dostępności menu, przycisków
-kontrastu i wielkości tekstu oraz odnośników społecznościowych wybierają język
-na podstawie `lang` strony.
-
-### Trzecia partia stron EN
-
-Narzędzie **Narzędzia → Bemke EN — partia 3** czyta plan
-`data/third-pages-bemke-en.json`. Tworzy szkice Falcons Wadowice, Olympic
-Taekwondo, Bemke Explore, STEAM Workshops, Campus Bemke Services oraz Founding
-Campaign. Ich rodzicami są istniejące strony EN Rozwój, Campus Bemke i
-Wspieraj Bemke. Przed zapisem narzędzie porównuje każdą stronę PL z eksportem
-WXR; zapis jest blokowany, jeśli zmienił się układ Bricks, tytuł, opis lub
-metadane Yoast. Polskie strony pozostają bez zmian.
-
-Po utworzeniu szkiców narzędzie mapuje linki między już przetłumaczonymi
-stronami. Na stronie Usługi tłumaczy też pola formularza i jego zgodę;
-odnośnik do polityki prywatności nadal prowadzi do dokumentu PL i jest
-oznaczony jako taki. Opisy ALT EN obrazów z biblioteki mediów uzupełnimy w
-osobnym etapie, po treściach stron. Przed publikacją trzeba sprawdzić obrazy,
-działanie formularza i pobierane pliki PDF, które wciąż są po polsku.
-
-Po tej partii wróć do **Narzędzia → Bemke EN — nawigacja** i użyj synchronizacji
-menu. Doda ona cztery dostępne już pozycje EN i zaktualizuje odnośnik do
-Bemke Explore w szkicu stopki. Nagłówek, stopka i przełącznik języka nadal
-nie są publikowane ani przełączane automatycznie.
-
-### Warsztaty STEAM EN
-
-W polskim menu pod „Rozwój → Warsztaty STEAM” są jeszcze trzy strony.
-**Narzędzia → Bemke EN — warsztaty STEAM** tworzy ich powiązane szkice EN:
-Recurring Workshops, Workshops for Teachers i Workshops for Schools.
-Plan jest w `data/steam-pages-bemke-en.json`. Narzędzie sprawdza niezmienność
-stron PL i zapisuje treści Bricks oraz pola Yoast wyłącznie w szkicach EN.
-Opisy ALT obrazów pozostają do osobnego etapu. Linki do polskich regulaminów
-PDF mają etykietę „in Polish”.
-
-Po utworzeniu trzech szkiców uruchom **Narzędzia → Bemke EN — nawigacja →
-Synchronizuj menu EN**. Menu będzie wtedy miało wszystkie 22 pozycje z
-polskiego odpowiednika, łącznie z trzema podstronami warsztatów. Synchronizacja
-nie publikuje szkiców ani nie zmienia przełącznika języka.
-
-### Szkic Campus Bemke EN
-
-Tymczasowe narzędzie **Narzędzia → Campus Bemke EN** wczytuje plan z
-`data/campus-bemke-en.php`. Przed zapisem sprawdza, czy strona 4600 nadal jest
-szkicem oznaczonym w Polylang jako EN, a treści Bricks, Yoast i polskie opisy
-obrazów odpowiadają eksportowi z 17.09.2026. Rozbieżność blokuje cały import.
-
-Po kliknięciu przycisku narzędzie zapisuje kopię danych w metadanych strony pod
-`_bemke_campus_en_import_backup`, tłumaczy instancje komponentów Bricks, pola
-Yoast i opisy ALT EN sześciu obrazów. Polskie opisy ALT pozostają bez zmian.
-Import można uruchomić ponownie bez dublowania zmian. Strona pozostaje szkicem.
-Przed publikacją należy sprawdzić podgląd strony i linki do pozostałych
-polskich podstron. Przełącznik języka w menu nadal kieruje do zaślepki EN.
-
-Po zakończeniu migracji narzędzie i plan należy usunąć z motywu; zapisane
-tłumaczenia pozostaną w WordPressie.
-
-### Opisy ALT obrazów PL i EN
-
-**Narzędzia → Bemke — ALT obrazów** pokazuje przed zapisem zdjęcia i 197
-proponowane pary opisów. Plan w `data/media-alt-bemke-pl-en.json` obejmuje
-istniejące polskie ALT z pliku tłumaczeń oraz obejrzane obrazy, których polski
-ALT był pusty. Import odbywa się w partiach po 40 obrazów. Po każdej partii
-można odświeżyć podgląd i sprawdzić liczniki.
-
-Narzędzie uzupełnia polskie ALT tam, gdzie ich brakowało, oraz puste pola EN.
-Zachowuje istniejące własne opisy EN, pomija obrazy oznaczone jako dekoracyjne
-i nie zapisuje wpisów, których plik lub ALT PL zmieniły się od przygotowania
-planu. Zmiany są idempotentne, a cache LiteSpeed jest odświeżany przez obsługę
-ALT w motywie. Puste ALT obrazów użytych wyłącznie jako tła należy pozostawić
-puste. Pięć portretów zespołu również ma pusty ALT, ponieważ imię i funkcja
-są podane tuż obok zdjęcia. Dalszy przegląd powinien objąć obrazy w nowych
-szkicach oraz ewentualne pliki dodane po sporządzeniu planu.
 
 ### Opcja A: WP Pusher
 
