@@ -20,6 +20,7 @@ require_once get_stylesheet_directory() . '/inc/accessibility-markup.php';
 if ( is_admin() ) {
 	require_once get_stylesheet_directory() . '/inc/campus-draft-translation.php';
 	require_once get_stylesheet_directory() . '/inc/home-draft-translation.php';
+	require_once get_stylesheet_directory() . '/inc/main-pages-draft-translation.php';
 }
 
 add_action( 'wp_head', 'bemke_child_print_theme_color', 0 );

@@ -180,6 +180,24 @@ ALT i pozostałych etykiet dostępności, tłumaczenie szablonów Bricks nagłó
 i stopki, kontrola formularza GetResponse oraz podgląd na desktopie i telefonie.
 Przełącznik języka w menu nadal prowadzi do obecnej zaślepki.
 
+### Pierwsza partia głównych stron EN
+
+Narzędzie **Narzędzia → Bemke strony EN** korzysta z planu
+`data/main-pages-bemke-en.json`. Obejmuje sześć stron głównego poziomu:
+O nas (173), Edukacja (341), Rozwój (376), Kontakt (378), Wspieraj Bemke
+(857) i Darczyńcy (924). Plan zawiera teksty Bricks, także we właściwościach
+komponentów, angielskie pola formularza Kontakt oraz metadane Yoast.
+
+Przed zapisem narzędzie porównuje polskie strony z eksportem WXR, sprawdza
+aktywność Polylang i wyłączenie synchronizacji pól własnych. Jedno kliknięcie
+tworzy sześć powiązanych szkiców EN i mapuje linki Bricks pomiędzy nimi oraz
+do istniejącego szkicu Home EN. Polskie strony pozostają bez zmian. Ponowny
+import zostaje zablokowany, jeżeli szkice EN już istnieją.
+
+Linki do podstron z późniejszych partii, ALT obrazów i pobierane polskie PDF
+wymagają przeglądu przed publikacją. Przełącznik języka w menu pozostaje
+skierowany na zaślepkę.
+
 ### Szkic Campus Bemke EN
 
 Tymczasowe narzędzie **Narzędzia → Campus Bemke EN** wczytuje plan z
