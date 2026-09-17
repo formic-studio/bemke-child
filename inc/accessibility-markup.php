@@ -43,14 +43,22 @@ function bemke_child_prepare_accessibility_markup( $html ) {
  * @return string
  */
 function bemke_child_prepare_team_popup_triggers( $html ) {
+	$is_english = 'en' === bemke_child_get_image_alternative_language();
 	$profiles = array(
-		'01' => 'Więcej o Przemysławie Powalaczu',
-		'02' => 'Więcej o Katarzynie Przybył-Tamowicz',
-		'03' => 'Więcej o Darii Rybińskiej',
-		'04' => 'Więcej o Urszuli Szudarek',
+		'01' => 'Przemysławie Powalaczu',
+		'02' => 'Katarzynie Przybył-Tamowicz',
+		'03' => 'Darii Rybińskiej',
+		'04' => 'Urszuli Szudarek',
+	);
+	$english_names = array(
+		'01' => 'Przemysław Powalacz',
+		'02' => 'Katarzyna Przybył-Tamowicz',
+		'03' => 'Daria Rybińska',
+		'04' => 'Urszula Szudarek',
 	);
 
-	foreach ( $profiles as $number => $label ) {
+	foreach ( $profiles as $number => $name ) {
+		$label = $is_english ? 'More about ' . $english_names[ $number ] : 'Więcej o ' . $name;
 		$pattern      = '/<a\b(?=[^>]*\bdata-number\s*=\s*(["\'])' . preg_quote( $number, '/' ) . '\1)([^>]*)>(.*?)<\/a>/is';
 		$updated_html = preg_replace_callback(
 			$pattern,
@@ -85,15 +93,16 @@ function bemke_child_prepare_team_popup_triggers( $html ) {
  * @return string
  */
 function bemke_child_prepare_job_offer_link_labels( $html ) {
+	$is_english = 'en' === bemke_child_get_image_alternative_language();
 	$pattern      = '/<a\b(?=[^>]*\bclass\s*=\s*(["\'])[^"\']*\boffer-link\b[^"\']*\1)([^>]*)>(.*?)<\/a>/is';
 	$updated_html = preg_replace_callback(
 		$pattern,
-		static function ( $matches ) {
+		static function ( $matches ) use ( $is_english ) {
 			$link_text = wp_strip_all_tags( html_entity_decode( $matches[3], ENT_QUOTES | ENT_HTML5, 'UTF-8' ) );
 			$link_text = preg_replace( '/\s+/u', ' ', $link_text );
 			$link_text = is_string( $link_text ) ? trim( $link_text ) : '';
 
-			if ( ! preg_match( '/^poznaj\s+szczegóły$/iu', $link_text ) ) {
+			if ( ! preg_match( '/^(?:poznaj\s+szczegóły|(?:view|learn more|see)\s+details)$/iu', $link_text ) ) {
 				return $matches[0];
 			}
 
@@ -122,7 +131,7 @@ function bemke_child_prepare_job_offer_link_labels( $html ) {
 			return sprintf(
 				'<a%1$s aria-label="%2$s">%3$s</a>',
 				$attributes,
-				esc_attr( 'Poznaj szczegóły oferty: ' . $title ),
+				esc_attr( ( $is_english ? 'View job offer details: ' : 'Poznaj szczegóły oferty: ' ) . $title ),
 				$matches[3]
 			);
 		},
@@ -385,11 +394,12 @@ function bemke_child_prepare_styled_heading_text( $html ) {
  * @return string
  */
 function bemke_child_repair_form_group_labels( $html ) {
+	$is_english = 'en' === bemke_child_get_image_alternative_language();
 	$pattern = '/<div\b(?=[^>]*\bclass\s*=\s*(["\'])[^"\']*\bform-group\b[^"\']*\1)(?=[^>]*\baria-labelledby\s*=\s*(["\'])([^"\']+)\2)[^>]*>.*?<\/div>/is';
 
 	$updated_html = preg_replace_callback(
 		$pattern,
-		static function ( $matches ) use ( $html ) {
+		static function ( $matches ) use ( $html, $is_english ) {
 			$references = preg_split( '/\s+/', trim( $matches[3] ) );
 			$has_target = false;
 
@@ -410,14 +420,14 @@ function bemke_child_repair_form_group_labels( $html ) {
 				return $matches[0];
 			}
 
-			$label = 'Opcje formularza';
+			$label = $is_english ? 'Form options' : 'Opcje formularza';
 
 			if ( preg_match( '/\btype\s*=\s*(["\'])checkbox\1/i', $matches[0] ) ) {
 				$label = false !== stripos( $matches[0], 'required' )
-					? 'Wymagane zgody'
-					: 'Dodatkowe zgody';
+					? ( $is_english ? 'Required consents' : 'Wymagane zgody' )
+					: ( $is_english ? 'Additional consents' : 'Dodatkowe zgody' );
 			} elseif ( preg_match( '/\btype\s*=\s*(["\'])radio\1/i', $matches[0] ) ) {
-				$label = 'Wybierz jedną opcję';
+				$label = $is_english ? 'Choose one option' : 'Wybierz jedną opcję';
 			}
 
 			$opening_tag = strstr( $matches[0], '>', true );
@@ -685,11 +695,12 @@ function bemke_child_get_social_link_label( $markup, $profile_name = 'Bemke', $l
  * @return string
  */
 function bemke_child_prepare_descriptive_resource_links( $html ) {
+	$is_english = 'en' === bemke_child_get_image_alternative_language();
 	$pattern = '/(<a\b(?=[^>]*\bhref\s*=\s*(["\'])[^"\']*Regulamin-Rekrutacji_STEAM-Academy_2_pdf\.pdf(?:[?#][^"\']*)?\2)[^>]*>)\s*Link\s*(<\/a>)/iu';
 
 	$updated_html = preg_replace(
 		$pattern,
-		'$1Regulamin rekrutacji (PDF)$3',
+		$is_english ? '$1Recruitment rules (PDF, in Polish)$3' : '$1Regulamin rekrutacji (PDF)$3',
 		$html,
 		1
 	);
@@ -698,7 +709,7 @@ function bemke_child_prepare_descriptive_resource_links( $html ) {
 }
 
 /**
- * Give the three Bemke Explore story links unique Polish names while keeping
+ * Give the three Bemke Explore story links unique names while keeping
  * their visible wording concise. WAVE will still report an informational
  * YouTube alert because the destination is a video service.
  *
@@ -706,23 +717,24 @@ function bemke_child_prepare_descriptive_resource_links( $html ) {
  * @return string
  */
 function bemke_child_prepare_youtube_story_links( $html ) {
+	$is_english = 'en' === bemke_child_get_image_alternative_language();
 	$stories = array(
-		'brxe-xoqgdq' => 'Zobacz film — historia Olka w serwisie YouTube (otwiera się w nowej karcie)',
-		'brxe-zrhhrq' => 'Zobacz film — historia Ani w serwisie YouTube (otwiera się w nowej karcie)',
-		'brxe-casnvb' => 'Zobacz film — historia Anity w serwisie YouTube (otwiera się w nowej karcie)',
+		'brxe-xoqgdq' => $is_english ? 'Watch Olek’s story on YouTube (opens in a new tab)' : 'Zobacz film — historia Olka w serwisie YouTube (otwiera się w nowej karcie)',
+		'brxe-zrhhrq' => $is_english ? 'Watch Ania’s story on YouTube (opens in a new tab)' : 'Zobacz film — historia Ani w serwisie YouTube (otwiera się w nowej karcie)',
+		'brxe-casnvb' => $is_english ? 'Watch Anita’s story on YouTube (opens in a new tab)' : 'Zobacz film — historia Anity w serwisie YouTube (otwiera się w nowej karcie)',
 	);
 
 	foreach ( $stories as $link_id => $label ) {
 		$pattern      = '/<a\b(?=[^>]*\bid\s*=\s*(["\'])' . preg_quote( $link_id, '/' ) . '\1)([^>]*)>.*?<\/a>/is';
 		$updated_html = preg_replace_callback(
 			$pattern,
-			static function ( $matches ) use ( $label ) {
+			static function ( $matches ) use ( $label, $is_english ) {
 				$link_attributes = bemke_child_remove_html_attributes(
 					$matches[2],
 					array( 'aria-label', 'rel' )
 				);
 
-				return '<a' . $link_attributes . ' aria-label="' . esc_attr( $label ) . '" rel="noopener noreferrer">Zobacz film</a>';
+				return '<a' . $link_attributes . ' aria-label="' . esc_attr( $label ) . '" rel="noopener noreferrer">' . ( $is_english ? 'Watch video' : 'Zobacz film' ) . '</a>';
 			},
 			$html,
 			1
@@ -755,7 +767,9 @@ function bemke_child_prepare_donor_youtube_iframes( $html ) {
 		return $html;
 	}
 
-	$iframe_title = sprintf( 'Film o darczyńcy: %s', $donor_name );
+	$iframe_title = 'en' === bemke_child_get_image_alternative_language()
+		? sprintf( 'Video about donor: %s', $donor_name )
+		: sprintf( 'Film o darczyńcy: %s', $donor_name );
 	$pattern      = '/<iframe\b(?=[^>]*youtube(?:-nocookie)?\.com\/embed\/)[^>]*>/i';
 
 	$updated_html = preg_replace_callback(
@@ -783,16 +797,17 @@ function bemke_child_prepare_donor_youtube_iframes( $html ) {
  * @return string
  */
 function bemke_child_prepare_video_overlay_controls( $html ) {
+	$is_english = 'en' === bemke_child_get_image_alternative_language();
 	$pattern = '/<(?:i|span|button)\b(?=[^>]*\bclass\s*=\s*(["\'])[^"\']*\bbricks-video-overlay-icon\b[^"\']*\1)[^>]*>/i';
 
 	$updated_html = preg_replace_callback(
 		$pattern,
-		static function ( $matches ) {
+		static function ( $matches ) use ( $is_english ) {
 			$control = bemke_child_remove_html_attributes( $matches[0], array( 'aria-label' ) );
 
 			return preg_replace(
 				'/>$/',
-				' aria-label="' . esc_attr( 'Odtwórz film o darczyńcach Campusu Bemke' ) . '">',
+				' aria-label="' . esc_attr( $is_english ? 'Play video about Campus Bemke donors' : 'Odtwórz film o darczyńcach Campusu Bemke' ) . '">',
 				$control,
 				1
 			) ?? $matches[0];

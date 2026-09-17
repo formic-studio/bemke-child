@@ -4272,6 +4272,10 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
   text-transform: uppercase;
 }
 
+html:lang(en) .bemke-team-popup__content::after {
+  content: "Scroll \2193";
+}
+
 .bemke-team-popup__content.is-scrollable::after {
   display: block;
 }
