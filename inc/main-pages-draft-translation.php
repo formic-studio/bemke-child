@@ -110,8 +110,28 @@ function bemke_child_validate_main_pages_translation( $batch ) {
 	foreach ( $batch['plans'] as $plan ) {
 		$id     = (int) $plan['source_post_id'];
 		$source = get_post( $id );
-		if ( ! $source || 'page' !== $source->post_type || 'publish' !== $source->post_status || 'pl' !== pll_get_post_language( $id, 'slug' ) || $plan['source_post_title'] !== $source->post_title || $plan['source_excerpt'] !== $source->post_excerpt || 0 !== (int) $source->post_parent ) {
-			$state['errors'][] = 'Strona PL ' . $id . ' nie odpowiada planowi lub nie jest opublikowaną stroną główną swojej gałęzi.';
+		if ( ! $source ) {
+			$state['errors'][] = 'Nie znaleziono strony PL ' . $id . '.';
+			continue;
+		}
+		$source_errors = array();
+		if ( 'page' !== $source->post_type || 'publish' !== $source->post_status ) {
+			$source_errors[] = 'typ lub status';
+		}
+		if ( 'pl' !== pll_get_post_language( $id, 'slug' ) ) {
+			$source_errors[] = 'język PL';
+		}
+		if ( $plan['source_post_title'] !== $source->post_title ) {
+			$source_errors[] = 'tytuł';
+		}
+		if ( $plan['source_excerpt'] !== $source->post_excerpt ) {
+			$source_errors[] = 'opis (post_excerpt)';
+		}
+		if ( 0 !== (int) $source->post_parent ) {
+			$source_errors[] = 'strona nadrzędna';
+		}
+		if ( $source_errors ) {
+			$state['errors'][] = 'Strona PL ' . $id . ' nie odpowiada planowi: ' . implode( ', ', $source_errors ) . '.';
 			continue;
 		}
 		if ( ! current_user_can( 'edit_post', $id ) ) {
