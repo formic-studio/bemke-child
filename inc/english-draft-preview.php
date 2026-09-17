@@ -7,6 +7,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 add_filter( 'bricks/posts/query_vars', 'bemke_child_preview_english_strategy_slides', 10, 4 );
 add_filter( 'bricks/posts/query_vars', 'bemke_child_preview_english_job_offers', 10, 4 );
+add_filter( 'bricks/posts/query_vars', 'bemke_child_preview_english_press_releases', 10, 4 );
+add_filter( 'post_type_link', 'bemke_child_link_to_english_content_preview', 10, 2 );
+add_filter( 'bricks/active_templates', 'bemke_child_preview_english_content_template', 10, 3 );
 
 function bemke_child_preview_english_strategy_slides( $query_vars, $settings, $element_id, $element_name ) {
 	unset( $settings, $element_name );
@@ -61,4 +64,70 @@ function bemke_child_preview_english_job_offers( $query_vars, $settings, $elemen
 	$query_vars['lang']        = 'en';
 
 	return $query_vars;
+}
+
+/** Show translated press-release drafts in the English For the Media preview. */
+function bemke_child_preview_english_press_releases( $query_vars, $settings, $element_id, $element_name ) {
+	unset( $settings, $element_name );
+
+	if ( 'csqbxn' !== $element_id || ! function_exists( 'pll_get_post' ) || ! function_exists( 'pll_get_post_language' ) ) {
+		return $query_vars;
+	}
+
+	$page_id = get_queried_object_id();
+	if ( ! $page_id || (int) pll_get_post( 981, 'en' ) !== (int) $page_id || 'draft' !== get_post_status( $page_id ) || ! current_user_can( 'edit_post', $page_id ) ) {
+		return $query_vars;
+	}
+
+	$release_ids = array();
+	foreach ( array( 2934, 3657 ) as $source_id ) {
+		$release_id = (int) pll_get_post( $source_id, 'en' );
+		if ( $release_id && 'komunikat-prasowy' === get_post_type( $release_id ) && 'en' === pll_get_post_language( $release_id, 'slug' ) && in_array( get_post_status( $release_id ), array( 'draft', 'publish' ), true ) ) {
+			$release_ids[] = $release_id;
+		}
+	}
+
+	$query_vars['post__in']    = $release_ids ? $release_ids : array( 0 );
+	$query_vars['post_status'] = array( 'draft', 'publish' );
+	$query_vars['lang']        = 'en';
+
+	return $query_vars;
+}
+
+/** Link dynamic cards on English draft pages to their WordPress previews. */
+function bemke_child_link_to_english_content_preview( $post_link, $post ) {
+	if ( ! ( $post instanceof WP_Post ) || ! in_array( $post->post_type, array( 'oferta-pracy', 'komunikat-prasowy', 'darczynca' ), true ) || 'draft' !== $post->post_status || ! function_exists( 'pll_get_post_language' ) ) {
+		return $post_link;
+	}
+
+	$page_id = get_queried_object_id();
+	if ( ! $page_id || 'draft' !== get_post_status( $page_id ) || 'en' !== pll_get_post_language( $page_id, 'slug' ) || 'en' !== pll_get_post_language( $post->ID, 'slug' ) || ! current_user_can( 'edit_post', $page_id ) || ! current_user_can( 'edit_post', $post->ID ) ) {
+		return $post_link;
+	}
+
+	return add_query_arg( 'preview', 'true', $post_link );
+}
+
+/** Apply translated Bricks templates to English content drafts for editors only. */
+function bemke_child_preview_english_content_template( $active_templates, $post_id, $content_type ) {
+	if ( 'content' !== $content_type || 'draft' !== get_post_status( $post_id ) || ! current_user_can( 'edit_post', $post_id ) || ! function_exists( 'pll_get_post' ) || ! function_exists( 'pll_get_post_language' ) || 'en' !== pll_get_post_language( $post_id, 'slug' ) ) {
+		return $active_templates;
+	}
+
+	$source_templates = array(
+		'oferta-pracy'      => 2889,
+		'komunikat-prasowy' => 2824,
+		'darczynca'         => 2856,
+	);
+	$post_type = get_post_type( $post_id );
+	if ( ! isset( $source_templates[ $post_type ] ) ) {
+		return $active_templates;
+	}
+
+	$template_id = (int) pll_get_post( $source_templates[ $post_type ], 'en' );
+	if ( $template_id && 'bricks_template' === get_post_type( $template_id ) && 'en' === pll_get_post_language( $template_id, 'slug' ) && in_array( get_post_status( $template_id ), array( 'draft', 'publish' ), true ) ) {
+		$active_templates['content'] = $template_id;
+	}
+
+	return $active_templates;
 }
