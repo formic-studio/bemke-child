@@ -136,6 +136,15 @@ function bemke_child_validate_campus_translation( $plan ) {
 	);
 }
 
+/** Preserve word boundaries when showing Bricks HTML as text in the preview. */
+function bemke_child_campus_preview_text( $html ) {
+	$with_spaces = preg_replace( '/<(?:br|\/?div|\/?p)\b[^>]*>/i', ' ', $html );
+	$plain       = wp_strip_all_tags( null === $with_spaces ? $html : $with_spaces, true );
+	$normalized  = preg_replace( '/\s+/u', ' ', $plain );
+
+	return trim( null === $normalized ? $plain : $normalized );
+}
+
 function bemke_child_render_campus_translation_page() {
 	if ( ! current_user_can( 'manage_options' ) ) {
 		wp_die( esc_html__( 'Brak dostępu.', 'bemke-child' ) );
@@ -188,7 +197,7 @@ function bemke_child_render_campus_translation_page() {
 			<summary>Podgląd tekstów przed i po tłumaczeniu</summary>
 			<table class="widefat striped"><thead><tr><th>Pole</th><th>Przed importem (PL)</th><th>Po imporcie (EN)</th></tr></thead><tbody>
 			<?php foreach ( $plan['bricks_edits'] as $edit ) : ?>
-				<tr><td><?php echo esc_html( $edit['element'] . '.' . $edit['container'] . '.' . $edit['key'] ); ?></td><td><?php echo esc_html( wp_strip_all_tags( $edit['expected'], true ) ); ?></td><td><?php echo esc_html( wp_strip_all_tags( $edit['english'], true ) ); ?></td></tr>
+				<tr><td><?php echo esc_html( $edit['element'] . '.' . $edit['container'] . '.' . $edit['key'] ); ?></td><td><?php echo esc_html( bemke_child_campus_preview_text( $edit['expected'] ) ); ?></td><td><?php echo esc_html( bemke_child_campus_preview_text( $edit['english'] ) ); ?></td></tr>
 			<?php endforeach; ?>
 			<?php foreach ( $plan['yoast_edits'] as $edit ) : ?>
 				<tr><td><?php echo esc_html( $edit['key'] ); ?></td><td><?php echo esc_html( $edit['expected'] ); ?></td><td><?php echo esc_html( $edit['english'] ); ?></td></tr>
