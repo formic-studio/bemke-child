@@ -168,11 +168,6 @@ Bricks, danych Yoast, menu ani opisów obrazów. Dalsze poprawki tych danych
 wykonuje się w panelu WordPress. Motyw nadal obsługuje wybór języka,
 podgląd szkiców EN i właściwy ALT dla obu języków.
 
-Wyjątek: tymczasowe narzędzie **Narzędzia → Bemke EN — naprawa polityki**
-uzupełnia istniejący szkic EN ID 4653 na podstawie zatwierdzonego planu 233
-bloków. Przed zapisem sprawdza powiązanie PL/EN oraz niezmienioną treść Bricks.
-Po zastosowaniu i kontroli podglądu usuń narzędzie wraz z plikiem planu.
-
 Przełącznik PL/EN w menu pozostaje skierowany na dotychczasową zaślepkę do
 czasu publikacji całej wersji EN. Pobierane pliki PDF są na razie po polsku.
 Przed publikacją sprawdź strony i szablony EN, menu, formularze, linki oraz

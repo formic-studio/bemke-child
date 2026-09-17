@@ -544,7 +544,7 @@ function bemke_render_instagram_feed_shortcode( $atts = array() ) {
 
 	if ( empty( $posts ) ) {
 		return current_user_can( 'manage_options' )
-			? '<p class="bemke-instagram-feed__error">Brak postów z Instagrama (oczekuję danych z Make).</p>'
+			? '<p class="bemke-instagram-feed__error">' . ( 'en' === bemke_child_get_image_alternative_language() ? 'No Instagram posts yet (waiting for data from Make).' : 'Brak postów z Instagrama (oczekuję danych z Make).' ) . '</p>'
 			: '';
 	}
 
@@ -561,7 +561,7 @@ function bemke_render_instagram_feed_shortcode( $atts = array() ) {
 		}
 
 		$caption       = isset( $post['caption'] ) ? sanitize_text_field( (string) $post['caption'] ) : '';
-		$image_alt     = '' !== $caption ? wp_strip_all_tags( $caption ) : 'Post z Instagrama';
+		$image_alt     = '' !== $caption ? wp_strip_all_tags( $caption ) : ( 'en' === bemke_child_get_image_alternative_language() ? 'Instagram post' : 'Post z Instagrama' );
 		$media_caption = wp_trim_words( $image_alt, 8, '...' );
 
 		$output .= sprintf(

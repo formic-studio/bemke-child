@@ -878,6 +878,7 @@ function bemke_child_purge_image_alternative_cache() {
  */
 function bemke_child_prepare_image_alternatives( $html ) {
 	$donor_name = '';
+	$is_english = 'en' === bemke_child_get_image_alternative_language();
 
 	if ( is_singular( 'darczynca' ) ) {
 		$donor_id   = get_queried_object_id();
@@ -887,7 +888,7 @@ function bemke_child_prepare_image_alternatives( $html ) {
 
 	$updated_html = preg_replace_callback(
 		'/<img\b[^>]*>/i',
-		static function ( $matches ) use ( $donor_name ) {
+		static function ( $matches ) use ( $donor_name, $is_english ) {
 			$image_tag        = $matches[0];
 			$alt_text         = '';
 			$alternative_found = false;
@@ -897,7 +898,9 @@ function bemke_child_prepare_image_alternatives( $html ) {
 				preg_match( '/\bid\s*=\s*(["\'])brxe-vvqtfa\1/i', $image_tag ) &&
 				! preg_match( '/\balt\s*=\s*(["\'])[^"\']+\1/i', $image_tag )
 			) {
-				$alt_text          = sprintf( '%s, darczyńca Campusu Bemke', $donor_name );
+				$alt_text          = $is_english
+					? sprintf( '%s, Campus Bemke donor', $donor_name )
+					: sprintf( '%s, darczyńca Campusu Bemke', $donor_name );
 				$alternative_found = true;
 			}
 

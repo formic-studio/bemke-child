@@ -102,7 +102,7 @@ function bemke_child_prepare_job_offer_link_labels( $html ) {
 			$link_text = preg_replace( '/\s+/u', ' ', $link_text );
 			$link_text = is_string( $link_text ) ? trim( $link_text ) : '';
 
-			if ( ! preg_match( '/^(?:poznaj\s+szczegóły|(?:view|learn more|see)\s+details)$/iu', $link_text ) ) {
+			if ( ! preg_match( '/^(?:poznaj\s+szczegóły|learn\s+more|(?:view|see)\s+details)$/iu', $link_text ) ) {
 				return $matches[0];
 			}
 

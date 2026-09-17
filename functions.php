@@ -17,7 +17,6 @@ require_once get_stylesheet_directory() . '/inc/english-draft-preview.php';
 require_once get_stylesheet_directory() . '/inc/image-optimization.php';
 require_once get_stylesheet_directory() . '/inc/accessibility-images.php';
 require_once get_stylesheet_directory() . '/inc/accessibility-markup.php';
-require_once get_stylesheet_directory() . '/inc/privacy-draft-repair.php';
 
 add_action( 'wp_head', 'bemke_child_print_theme_color', 0 );
 add_action( 'wp_head', 'bemke_child_print_motion_preference', 1 );
