@@ -1,0 +1,1722 @@
+{
+  "batch": "third-pages-3",
+  "source": "WordPress WXR 2026-09-17 + tlumaczenie_bemkepl_EN.csv",
+  "plans": [
+    {
+      "source_post_id": 545,
+      "source_post_parent": 376,
+      "source_post_title": "Falcons Wadowice",
+      "source_bricks_sha256": "5753ae579f54720ca354d2bf7c20580b36b57faca2dbc8e55efa150d0fcc2686",
+      "source_bricks_elements": 36,
+      "source_excerpt": "",
+      "target_title": "Falcons Wadowice",
+      "target_slug": "falcons-wadowice",
+      "target_excerpt": "Discover Falcons Wadowice, the Bemke sports club where young people develop through basketball and Olympic taekwondo.",
+      "bricks_edits": [
+        {
+          "element": "bnokhh",
+          "path": "settings.text",
+          "expected": "Sport, który kształtuje charakter",
+          "english": "SPORT THAT SHAPES CHARACTER"
+        },
+        {
+          "element": "kfomnx",
+          "path": "settings.text",
+          "expected": "falcons wadowice",
+          "english": "FALCONS WADOWICE"
+        },
+        {
+          "element": "cgwdvt",
+          "path": "settings.text",
+          "expected": "rozwój",
+          "english": "DEVELOPMENT"
+        },
+        {
+          "element": "llnskm",
+          "path": "settings.text",
+          "expected": "sport<br><span class=\"font-f-season-mix\">w bemke</span>",
+          "english": "sport<br><span class=\"font-f-season-mix\">at Bemke</span>"
+        },
+        {
+          "element": "tmqddc",
+          "path": "settings.text",
+          "expected": "Klub sportowy uczy dyscypliny, wytrwałości i pracy zespołowej. W treningu widać, jak młodzi ludzie reagują na porażkę, radzą sobie z presją i dążą do celu.<br><br>Budujemy środowisko, które stawia wymagania i daje przestrzeń, żeby im sprostać. Nasze zajęcia są dostępne dla każdego — również dla młodych sportowców spoza Bemke",
+          "english": "A sports club teaches discipline, perseverance and teamwork. Training reveals how young people respond to failure, cope with pressure and pursue their goals.<br><br>We build an environment that sets expectations and gives them space to meet those expectations. Our activities are open to everyone — including young athletes from outside Bemke."
+        },
+        {
+          "element": "inwmcx",
+          "path": "properties.tzpmgm",
+          "expected": "<span class=\"font-f-season-mix\">bądź na bieżąco</span>",
+          "english": "<span class=\"font-f-season-mix\">stay up to date</span>"
+        },
+        {
+          "element": "rzeaqm",
+          "path": "properties.tzpmgm",
+          "expected": "nasze <br><span class=\"font-f-season-mix\">sekcje sportowe</span>",
+          "english": "our<br><span class=\"font-f-season-mix\">sports sections</span>"
+        },
+        {
+          "element": "euqwxy",
+          "path": "properties.tzpmgm",
+          "expected": "od edukacji<br><span class=\"font-f-season-mix\">do działania</span>",
+          "english": "from education<br><span class=\"font-f-season-mix\">to action</span>"
+        },
+        {
+          "element": "euqwxy",
+          "path": "properties.qgmtyk",
+          "expected": "Kształtujemy nowe standardy",
+          "english": "Shaping new standards"
+        },
+        {
+          "element": "euqwxy",
+          "path": "properties.nulbcq",
+          "expected": "<span class=\"custom-font-style\">taekwondo</span> olimpijskie",
+          "english": "<span class=\"custom-font-style\">Olympic</span> taekwondo"
+        },
+        {
+          "element": "euqwxy",
+          "path": "properties.wnvztn",
+          "expected": "Oficjalna dyscyplina olimpijska i dynamiczny sport walki pochodzący z Korei. Jego znakiem rozpoznawczym są szybkie, precyzyjne i niezwykle widowiskowe techniki nożne, w tym spektakularne kopnięcia z wyskoku i obrotu.\nTo nowoczesny sport oparty na jasnych, bezpiecznych regułach rywalizacji.\n<br><br><b>\nNa czym polegają treningi?</b>\n<br><br>\n<span class=\"font-f-season-mix\"><b>Wszechstronny rozwój: </span></b>kształtujemy zwinność, koordynację ruchową oraz szybkość reakcji.<br><br>\n\n<b><span class=\"font-f-season-mix\">Siła charakteru:</span> </b>trening uczy samokontroli, szacunku do przeciwnika, radzenia sobie z presją oraz dyscypliny.\n",
+          "english": "An official Olympic discipline and dynamic martial art originating in Korea. Its hallmark is fast, precise and spectacular kicking techniques, including jumping and spinning kicks. It is a modern sport based on clear, safe competition rules.<br><br><b>What does training involve?</b><br><br><span class=\"font-f-season-mix\"><b>Well-rounded development:</b></span> we build agility, motor coordination and reaction speed.<br><br><span class=\"font-f-season-mix\"><b>Strength of character:</b></span> training teaches self-control, respect for opponents, coping with pressure and discipline."
+        },
+        {
+          "element": "euqwxy",
+          "path": "properties.gurdjg",
+          "expected": "Zmierz się na macie",
+          "english": "Step onto the mat"
+        },
+        {
+          "element": "abnqpp",
+          "path": "properties.tzpmgm",
+          "expected": "od edukacji<br><span class=\"font-f-season-mix\">do działania</span>",
+          "english": "from education<br><span class=\"font-f-season-mix\">to action</span>"
+        },
+        {
+          "element": "abnqpp",
+          "path": "properties.qgmtyk",
+          "expected": "Kształtujemy nowe standardy",
+          "english": "Shaping new standards"
+        },
+        {
+          "element": "abnqpp",
+          "path": "properties.nulbcq",
+          "expected": "<span class=\"custom-font-style\"></span> koszykówka",
+          "english": "basketball"
+        },
+        {
+          "element": "abnqpp",
+          "path": "properties.wnvztn",
+          "expected": "Gra zespołowa, która uczy współpracy, podejmowania decyzji i odpowiedzialności za innych.",
+          "english": "A team sport that teaches cooperation, decision-making and responsibility for others."
+        },
+        {
+          "element": "abnqpp",
+          "path": "properties.gurdjg",
+          "expected": "Zajrzyj na boisko",
+          "english": "Step onto the court"
+        },
+        {
+          "element": "iexibu",
+          "path": "settings.text",
+          "expected": "Śledź nas na Instagramie",
+          "english": "Follow us on Instagram"
+        }
+      ],
+      "yoast_edits": [
+        {
+          "key": "_yoast_wpseo_title",
+          "expected": "",
+          "english": "Falcons Wadowice – Sport at Bemke"
+        },
+        {
+          "key": "_yoast_wpseo_metadesc",
+          "expected": "",
+          "english": "Discover Falcons Wadowice, the Bemke sports club where young people develop through basketball and Olympic taekwondo."
+        },
+        {
+          "key": "_yoast_wpseo_focuskw",
+          "expected": "",
+          "english": "Falcons Wadowice Bemke"
+        },
+        {
+          "key": "_yoast_wpseo_opengraph-title",
+          "expected": "",
+          "english": "Falcons Wadowice – Sport and Community"
+        },
+        {
+          "key": "_yoast_wpseo_opengraph-description",
+          "expected": "",
+          "english": "Discover basketball and Olympic taekwondo at the Bemke sports club."
+        },
+        {
+          "key": "_yoast_wpseo_twitter-title",
+          "expected": "",
+          "english": "Falcons Wadowice – Sport and Community"
+        },
+        {
+          "key": "_yoast_wpseo_twitter-description",
+          "expected": "",
+          "english": "Discover basketball and Olympic taekwondo at the Bemke sports club."
+        }
+      ]
+    },
+    {
+      "source_post_id": 618,
+      "source_post_parent": 376,
+      "source_post_title": "Taekwondo",
+      "source_bricks_sha256": "6116c306107e2e62f6b9709fe5ef6918e31e59ba6fc555223b82631300dc335a",
+      "source_bricks_elements": 176,
+      "source_excerpt": "Odkryj sekcję Taekwondo Olimpijskiego w Bemke. Kształtujemy dyscyplinę, koncentrację i pewność siebie w grupach Rising Stars oraz Elite Tigers. Poznaj również Akademię Białego Pasa – bezpłatny program dla szkół podstawowych.",
+      "target_title": "Olympic Taekwondo",
+      "target_slug": "taekwondo",
+      "target_excerpt": "Explore Olympic taekwondo training at Falcons Wadowice for children and young people of different skill levels.",
+      "bricks_edits": [
+        {
+          "element": "vcmoic",
+          "path": "settings.text",
+          "expected": "taekwondo<br><span class=\"font-f-season-mix\">olimpijskie</span>",
+          "english": "Olympic<br><span class=\"font-f-season-mix\">taekwondo</span>"
+        },
+        {
+          "element": "mtthhg",
+          "path": "settings.text",
+          "expected": "Samodyscyplina i koncentracja,<br>które zostają na całe życie",
+          "english": "Self-discipline and focus<br>that last a lifetime"
+        },
+        {
+          "element": "xyhfke",
+          "path": "settings.text",
+          "expected": "rozwój",
+          "english": "DEVELOPMENT"
+        },
+        {
+          "element": "qbaqiy",
+          "path": "settings.text",
+          "expected": "taekwondo",
+          "english": "TAEKWONDO"
+        },
+        {
+          "element": "sxquxo",
+          "path": "settings.text",
+          "expected": "taekwondo to wiele<br><span class=\"font-f-season-mix\">korzyści dla zawodnika</span>",
+          "english": "taekwondo offers many<br><span class=\"font-f-season-mix\">benefits to athletes</span>"
+        },
+        {
+          "element": "dwlgjp",
+          "path": "settings.text",
+          "expected": "Kontrola ciała i koncentracja w działaniu.",
+          "english": "Body control and focus in action."
+        },
+        {
+          "element": "qhjfqh",
+          "path": "settings.text",
+          "expected": "Wytrwałość i systematyczność w długim procesie.",
+          "english": "Perseverance and consistency over a long process."
+        },
+        {
+          "element": "sruapl",
+          "path": "settings.text",
+          "expected": "Umiejętność działania pod presją.",
+          "english": "The ability to perform under pressure."
+        },
+        {
+          "element": "ngnuul",
+          "path": "settings.text",
+          "expected": "Radzenie sobie z porażką i podejmowanie kolejnych prób.",
+          "english": "Coping with failure and trying again."
+        },
+        {
+          "element": "abwahh",
+          "path": "settings.text",
+          "expected": "Szacunek do zasad, pracy i innych.",
+          "english": "Respect for rules, work and other people."
+        },
+        {
+          "element": "ilxyuy",
+          "path": "settings.text",
+          "expected": "zawodników&nbsp;trenujących regularnie",
+          "english": "athletes training regularly"
+        },
+        {
+          "element": "inbgad",
+          "path": "settings.text",
+          "expected": "godzin treningów tygodniowo",
+          "english": "hours of training per week"
+        },
+        {
+          "element": "pswrhh",
+          "path": "settings.text",
+          "expected": "egzaminy w roku",
+          "english": "grading exams per year"
+        },
+        {
+          "element": "oszzpb",
+          "path": "settings.text",
+          "expected": "drużyny,<br><span class=\"font-f-season-mix\">które trenujemy</span>",
+          "english": "the teams<br><span class=\"font-f-season-mix\">we train</span>"
+        },
+        {
+          "element": "civngf",
+          "path": "settings.text",
+          "expected": "W sekcji taekwondo oferujemy dwa poziomy treningowe, dopasowane do wieku,<br>doświadczenia i celów dziecka.",
+          "english": "In our taekwondo section, we offer two training levels tailored to the child’s age, experience and goals."
+        },
+        {
+          "element": "ftduii",
+          "path": "settings.text",
+          "expected": "Rising stars",
+          "english": "RISING STARS"
+        },
+        {
+          "element": "amhdud",
+          "path": "settings.text",
+          "expected": "Nauka&nbsp;podstawowych technik i układów taekwondo",
+          "english": "Learning basic taekwondo techniques and forms"
+        },
+        {
+          "element": "jnmljx",
+          "path": "settings.text",
+          "expected": "Rozwój&nbsp;koordynacji, zwinności i siły",
+          "english": "Developing coordination, agility and strength"
+        },
+        {
+          "element": "ssdcmo",
+          "path": "settings.text",
+          "expected": "Budowanie&nbsp;pewności siebie&nbsp;i umiejętności pracy w grupie",
+          "english": "Building self-confidence and teamwork skills"
+        },
+        {
+          "element": "yfiupc",
+          "path": "settings.text",
+          "expected": "Kształtowanie&nbsp;dyscypliny, wytrwałości i samokontroli",
+          "english": "Developing discipline, perseverance and self-control"
+        },
+        {
+          "element": "qfsfpj",
+          "path": "settings.text",
+          "expected": "Nauka&nbsp;szacunku&nbsp;wobec siebie, instruktorów i kolegów",
+          "english": "Learning respect for oneself, instructors and peers"
+        },
+        {
+          "element": "deittg",
+          "path": "settings.text",
+          "expected": "<b>Dla kogo:</b> dzieci rozpoczynające naukę taekwondo lub trenujące rekreacyjnie (klasy 0–3 i starsi).&nbsp;&nbsp;",
+          "english": "For whom: children beginning to learn taekwondo or training recreationally (grades 0–3 and older)."
+        },
+        {
+          "element": "zdjhky",
+          "path": "settings.text",
+          "expected": "elite tigers",
+          "english": "ELITE TIGERS"
+        },
+        {
+          "element": "wjkukn",
+          "path": "settings.text",
+          "expected": "<b>Dla kogo: </b>dzieci i młodzież trenująca na poziomie zaawansowanym, przygotowująca się do zawodów.",
+          "english": "For whom: children and young people training at an advanced level and preparing for competitions."
+        },
+        {
+          "element": "xdkzth",
+          "path": "settings.text",
+          "expected": "Doskonalenie&nbsp;zaawansowanych technik, kombinacji i układów (poomsae)",
+          "english": "Refining advanced techniques, combinations and forms (poomsae)"
+        },
+        {
+          "element": "bulauy",
+          "path": "settings.text",
+          "expected": "Nauka&nbsp;strategii i taktyki walki",
+          "english": "Learning fight strategy and tactics"
+        },
+        {
+          "element": "vcoyfc",
+          "path": "settings.text",
+          "expected": "Rozwijanie&nbsp;odporności psychicznej i radzenia sobie z presją",
+          "english": "Developing mental resilience and coping with pressure"
+        },
+        {
+          "element": "hnaksw",
+          "path": "settings.text",
+          "expected": "Kształtowanie&nbsp;ducha zespołowego&nbsp;i postawy reprezentanta",
+          "english": "Building team spirit and the attitude of a representative athlete"
+        },
+        {
+          "element": "osgyea",
+          "path": "settings.text",
+          "expected": "Udział w&nbsp;turniejach, wyjazdach i wspólnych wydarzeniach klubowych",
+          "english": "Participation in tournaments, trips and shared club events"
+        },
+        {
+          "element": "dfnlcq",
+          "path": "settings.text",
+          "expected": "Przygotowanie do&nbsp;mini-turniejów i szkolnych wyzwań",
+          "english": "Preparation for mini-tournaments and school challenges"
+        },
+        {
+          "element": "tyagme",
+          "path": "settings.text",
+          "expected": "W programie:",
+          "english": "THE PROGRAMME INCLUDES:"
+        },
+        {
+          "element": "btqdcz",
+          "path": "settings.text",
+          "expected": "W programie:",
+          "english": "THE PROGRAMME INCLUDES:"
+        },
+        {
+          "element": "oxalba",
+          "path": "settings.text",
+          "expected": "Dołącz do drużyny",
+          "english": "JOIN THE TEAM"
+        },
+        {
+          "element": "bobkno",
+          "path": "settings.text",
+          "expected": "Nabór do sekcji taekwodno prowadzimy przez cały rok.&nbsp;",
+          "english": "Recruitment for the taekwondo section is open all year round."
+        },
+        {
+          "element": "fqnenr",
+          "path": "settings.text",
+          "expected": "Masz pytania? Skontaktuj się:<br>Anna Książek<br><a class=\"cta-link\" href=\"mailto:anna.ksiazek@bemke.pl\">anna.ksiazek@bemke.pl</a> | <a class=\"cta-link\" href=\"tel:+48887776107\">887 776 107</a>",
+          "english": "Questions? Get in touch:<br>Anna Książek<br><a class=\"cta-link\" href=\"mailto:anna.ksiazek@bemke.pl\">anna.ksiazek@bemke.pl</a> | <a class=\"cta-link\" href=\"tel:+48887776107\">887 776 107</a>"
+        },
+        {
+          "element": "mffujj",
+          "path": "settings.text",
+          "expected": "Zobacz,<br>jak trenujemy",
+          "english": "See<br>how we train"
+        },
+        {
+          "element": "uakjsq",
+          "path": "settings.text",
+          "expected": "Trener taekwondo",
+          "english": "Taekwondo coach"
+        },
+        {
+          "element": "injqrr",
+          "path": "settings.text",
+          "expected": "Poznaj <span class=\"font-f-season-mix\">zespół</span>",
+          "english": "Meet the <span class=\"font-f-season-mix\">team</span>"
+        },
+        {
+          "element": "qrgzre",
+          "path": "settings.text",
+          "expected": "Instruktor taekwondo z wieloletnim doświadczeniem jako zawodnik i nauczyciel. Posiadacz czarnego pasa 3 DAN – jednego z najwyższych stopni mistrzowskich w taekwondo, osiąganego po wielu latach intensywnego treningu i egzaminów przed międzynarodową komisją.",
+          "english": "A taekwondo instructor with many years of experience as both an athlete and a teacher. He holds a 3rd DAN black belt — one of the highest master ranks in taekwondo, earned after years of intensive training and examinations before an international panel."
+        },
+        {
+          "element": "qmqxbz",
+          "path": "settings.text",
+          "expected": "Trenuje od 4 roku życia, jest wielokrotnym mistrzem Grecji w kategoriach dzieci, juniorów i dorosłych. Nikos to utalentowany sportowiec, ale także oddany nauczyciel, który kładzie duży nacisk na rozwijanie wartości takich jak dyscyplina, szacunek, pewność siebie i wytrwałość. Zajęcia prowadzi w języku angielskim.",
+          "english": "He has trained since the age of four and is a multiple Greek champion in the children’s, junior and adult categories. Nikos is a talented athlete and a dedicated teacher who emphasises discipline, respect, self-confidence and perseverance. He conducts classes in English."
+        },
+        {
+          "element": "mkvjbq",
+          "path": "settings.text",
+          "expected": "I DOŁĄCZ DO KLUBU",
+          "english": "AND JOIN THE CLUB"
+        },
+        {
+          "element": "gyxgpy",
+          "path": "properties.hradxh",
+          "expected": "AKADEMIA<br><span class=\"font-f-season-mix\">BIAŁEGO PASA</span>",
+          "english": "WHITE BELT<br><span class=\"font-f-season-mix\">ACADEMY</span>"
+        },
+        {
+          "element": "gyxgpy",
+          "path": "properties.lltetj",
+          "expected": "Akademia Białego Pasa to program skierowany do uczniów klas 1–8 szkół podstawowych.\n<br><br>\nW ramach programu szkoły z regionu mogą zaprosić trenera z Bemke do poprowadzenia miesięcznego cyklu zajęć taekwondo dla swoich uczniów. Dzieci bezpłatnie uczestniczą w treningach, poznając podstawy techniki, pracy nad sobą i zasad taekwondo. Zajęcia prowadzone są w języku angielskim, dzięki czemu uczestnicy naturalnie przełamują barierę językową w działaniu. Program kończy się egzaminem i zdobyciem pierwszego stopnia — białego pasa.\n<br><br>\nChcesz zorganizować Akademię Białego Pasa w swojej szkole?",
+          "english": "The White Belt Academy is a programme for primary school pupils in grades 1–8.<br><br>As part of the programme, schools in the region can invite a Bemke coach to run a month-long series of taekwondo classes for their pupils. Children take part in the training free of charge, learning the basics of technique, self-development and the principles of taekwondo. Classes are conducted in English, helping participants naturally overcome the language barrier through action. The programme ends with an exam and the award of the first level — a white belt.<br><br>Would you like to organise the White Belt Academy at your school?"
+        }
+      ],
+      "yoast_edits": [
+        {
+          "key": "_yoast_wpseo_title",
+          "expected": "Taekwondo olimpijskie – zajęcia dla dzieci i młodzieży w Bemke",
+          "english": "Olympic Taekwondo at Bemke"
+        },
+        {
+          "key": "_yoast_wpseo_metadesc",
+          "expected": "Poznaj sekcję Taekwondo w Bemke. Odkryj drużyny Rising Stars, Elite Tigers oraz program Akademia Białego Pasa.",
+          "english": "Explore Olympic taekwondo training at Falcons Wadowice for children and young people of different skill levels."
+        },
+        {
+          "key": "_yoast_wpseo_focuskw",
+          "expected": "Taekwondo olimpijskie Bemke",
+          "english": "Olympic Taekwondo Bemke"
+        },
+        {
+          "key": "_yoast_wpseo_opengraph-title",
+          "expected": "Taekwondo olimpijskie w Bemke – samodyscyplina i koncentracja",
+          "english": "Olympic Taekwondo at Falcons Wadowice"
+        },
+        {
+          "key": "_yoast_wpseo_opengraph-description",
+          "expected": "Poznaj sekcję Taekwondo w Bemke. Rozwijamy zwinność, pewność siebie i odporność psychiczną w grupach Rising Stars i Elite Tigers. Sprawdź też Akademię Białego Pasa dla szkół.",
+          "english": "Training in Olympic taekwondo for children and young people at Bemke."
+        },
+        {
+          "key": "_yoast_wpseo_twitter-title",
+          "expected": "Taekwondo olimpijskie w Bemke – samodyscyplina i koncentracja",
+          "english": "Olympic Taekwondo at Falcons Wadowice"
+        },
+        {
+          "key": "_yoast_wpseo_twitter-description",
+          "expected": "Poznaj sekcję Taekwondo w Bemke. Rozwijamy zwinność, pewność siebie i odporność psychiczną w grupach Rising Stars i Elite Tigers. Sprawdź też Akademię Białego Pasa dla szkół.",
+          "english": "Training in Olympic taekwondo for children and young people at Bemke."
+        }
+      ]
+    },
+    {
+      "source_post_id": 645,
+      "source_post_parent": 376,
+      "source_post_title": "Bemke Explore",
+      "source_bricks_sha256": "ae08b683192e574aa0b35c587de1b19f8940174cbeeeacdf898b00f38ec8e115",
+      "source_bricks_elements": 65,
+      "source_excerpt": "Poznaj autorskie programy Bemke Explore. Odkryj program rozwojowy Navigator, tutoring wspierający indywidualne cele młodzieży oraz pełne aktywności półkolonie i zimowiska na naszym 32-hektarowym kampusie.",
+      "target_title": "Bemke Explore",
+      "target_slug": "bemke-explore",
+      "target_excerpt": "Discover Bemke Explore programmes, camps and activities that help children and young people find their strengths.",
+      "bricks_edits": [
+        {
+          "element": "ezukld",
+          "path": "settings.text",
+          "expected": "Programy, które pozwalają poznać <br>siebie",
+          "english": "Programmes that help you<br>discover yourself"
+        },
+        {
+          "element": "pquhhh",
+          "path": "settings.text",
+          "expected": "rozwój",
+          "english": "DEVELOPMENT"
+        },
+        {
+          "element": "kojhni",
+          "path": "properties.tzpmgm",
+          "expected": "od edukacji<br><span class=\"font-f-season-mix\">do działania</span>",
+          "english": "from education<br><span class=\"font-f-season-mix\">to action</span>"
+        },
+        {
+          "element": "kojhni",
+          "path": "properties.qgmtyk",
+          "expected": "Kształtujemy nowe standardy",
+          "english": "Shaping new standards"
+        },
+        {
+          "element": "kojhni",
+          "path": "properties.nulbcq",
+          "expected": " <span class=\"font-f-season-mix\">Zimowisko na kampusie</span>",
+          "english": " <span class=\"font-f-season-mix\">Winter Camp on Campus</span>"
+        },
+        {
+          "element": "kojhni",
+          "path": "properties.wnvztn",
+          "expected": "Zimowisko to 5-dniowy program, podczas którego dzieci eksplorują przestrzeń kampusu, próbując swoich sił na zajęciach sportowych, artystycznych, kulinarnych czy ogólnorozwojowych. <br><br>Pod okiem profesjonalnych trenerów łączymy dobrą zabawę z nauką przez doświadczenie. Tutaj nie sposób się nudzić!",
+          "english": "Winter Camp is a 5-day programme during which children explore the campus and try their hand at sports, art, cooking and general development activities.<br><br>Under the guidance of professional coaches, we combine great fun with learning through experience. There is no chance to get bored here!"
+        },
+        {
+          "element": "kojhni",
+          "path": "properties.gurdjg",
+          "expected": "Sprawdź ",
+          "english": "Learn more"
+        },
+        {
+          "element": "qdtmkl",
+          "path": "settings.text",
+          "expected": "programy",
+          "english": "PROGRAMMES"
+        },
+        {
+          "element": "cxoggh",
+          "path": "properties.hradxh",
+          "expected": "przestrzeń<br><span class=\"font-f-season-mix\">do eksplorowania</span>",
+          "english": "a space<br><span class=\"font-f-season-mix\">to explore</span>"
+        },
+        {
+          "element": "cxoggh",
+          "path": "properties.lltetj",
+          "expected": "Bemke Explore to programy, obozy i zajęcia, w których dzieci i młodzież próbują nowych rzeczy, sprawdzają się w działaniu i lepiej poznają swoje mocne strony. Wspierają ich tutorzy, mentorzy oraz rówieśnicy, którzy tworzą środowisko wzmacniające rozwój.\n<br><br>\nRozwijamy przedsiębiorczą postawę: krytyczne myślenie, kreatywność, współpracę, komunikację, samoregulację i odwagę podejmowania inicjatywy. Ważniejsze od samego efektu jest zaangażowanie, refleksja i świadome budowanie własnej drogi.\n<br><br>\nProgramy są dopasowane do wieku i etapu rozwoju i otwarte także dla osób spoza placówek Bemke.",
+          "english": "Bemke Explore consists of programmes, camps and activities in which children and young people try new things, test themselves through action and get to know their strengths better. They are supported by tutors, mentors and peers who create an environment that strengthens development.<br><br>We foster an entrepreneurial attitude: critical thinking, creativity, collaboration, communication, self-regulation and the courage to take initiative. What matters more than the outcome itself is engagement, reflection and consciously building one’s own path.<br><br>The programmes are tailored to age and stage of development and are also open to people from outside Bemke institutions."
+        },
+        {
+          "element": "lnbesy",
+          "path": "properties.tzpmgm",
+          "expected": "od edukacji<br><span class=\"font-f-season-mix\">do działania</span>",
+          "english": "from education<br><span class=\"font-f-season-mix\">to action</span>"
+        },
+        {
+          "element": "lnbesy",
+          "path": "properties.qgmtyk",
+          "expected": "Kształtujemy nowe standardy",
+          "english": "Shaping new standards"
+        },
+        {
+          "element": "lnbesy",
+          "path": "properties.nulbcq",
+          "expected": "półkolonie <span class=\"font-f-season-mix\">na kampusie</span>",
+          "english": "day camps on campus"
+        },
+        {
+          "element": "lnbesy",
+          "path": "properties.wnvztn",
+          "expected": "Półkolonie to trwające 5 dni programy wakacyjne, które wykorzystują przestrzeń i możliwości kampusu - od dobrze wyposażonych laboratoriów, przez majsterkownię, pracownię fotograficzno-krawiecką, po szklarnię i FarmLab. \n <br><br>\nW trakcie programu dzieci doświadczają wszechstronnego rozwoju poprzez zajęcia sportowe, kreatywne oraz aktywności w naturze. Pod opieką doświadczonej kadry uczą się tworzyć relacje z innymi oraz podejmują wyzwania, dzięki którym odkrywają swoje talenty i budują sprawczość.  ",
+          "english": "Day camps are 5-day holiday programmes that make use of the campus space and facilities — from well-equipped laboratories and a workshop to a photography and sewing studio, greenhouse and FarmLab.<br><br>During the programme, children experience well-rounded development through sports, creative activities and time in nature. Under the guidance of experienced staff, they learn to build relationships with others and take on challenges that help them discover their talents and develop agency."
+        },
+        {
+          "element": "lnbesy",
+          "path": "properties.gurdjg",
+          "expected": "Sprawdź Wakacje 2026",
+          "english": "See Summer 2026"
+        },
+        {
+          "element": "jujfuu",
+          "path": "properties.tzpmgm",
+          "expected": "od edukacji<br><span class=\"font-f-season-mix\">do działania</span>",
+          "english": "from education<br><span class=\"font-f-season-mix\">to action</span>"
+        },
+        {
+          "element": "jujfuu",
+          "path": "properties.qgmtyk",
+          "expected": "Kształtujemy nowe standardy",
+          "english": "Shaping new standards"
+        },
+        {
+          "element": "jujfuu",
+          "path": "properties.wnvztn",
+          "expected": "Cykl indywidualnych spotkań z tutorem dla młodzieży 15+ polegający na odkrywaniu silnych stron, wyznaczaniu celów i ich osiąganiu. Wspiera młodzież w obszarach: edukacja, rozwój osobisty, zawodowy i społeczny.  ",
+          "english": "A series of individual meetings with a tutor for young people aged 15+, focused on discovering strengths, setting goals and achieving them. It supports young people in education, personal, professional and social development."
+        },
+        {
+          "element": "jujfuu",
+          "path": "properties.gurdjg",
+          "expected": "Skontaktuj się po więcej",
+          "english": "Contact us to learn more"
+        },
+        {
+          "element": "dfblov",
+          "path": "properties.tzpmgm",
+          "expected": "od edukacji<br><span class=\"font-f-season-mix\">do działania</span>",
+          "english": "from education<br><span class=\"font-f-season-mix\">to action</span>"
+        },
+        {
+          "element": "dfblov",
+          "path": "properties.qgmtyk",
+          "expected": "Kształtujemy nowe standardy",
+          "english": "Shaping new standards"
+        },
+        {
+          "element": "dfblov",
+          "path": "properties.wnvztn",
+          "expected": "Program rozwojowy, w którym młodzież (13-18 lat) uczy się świadomie kierować swoim życiem. Jednodniowe zjazdy warsztatowe łączymy z osobistymi wyzwaniami, które uczestnicy wdrażają na co dzień, na bieżąco monitorując swoje postępy.\n\n<br><br>\n<b>Moduł 1: Poznaj siebie (5 miesięcy):</b>  Odkrywanie talentów, kompasu wartości, nauka samoregulacji, zarządzania emocjami, krytycznego myślenia i współpracy.\n<br><br>\n<b>Moduł 2: Kompetencje przyszłości:</b> Specjalistyczny rozwój umiejętności ułatwiających start w dorosłość, jak komunikacja i negocjacje, przedsiębiorczy mindset i networking, krytyczne myślenie i kreatywne rozwiązywanie problemów, wystąpienia publiczne.\n<br><br>\n<b>Moduł 3: Leadership: </b>Trening przywództwa i odpowiedzialności przeznaczony dla Alumnów programu.",
+          "english": "A development programme in which young people aged 13–18 learn to consciously steer their own lives. One-day workshop sessions are combined with personal challenges that participants put into practice in everyday life while continuously monitoring their progress.<br><br><b>Module 1: Know Yourself (5 months):</b> discovering talents and a personal values compass, learning self-regulation, emotion management, critical thinking and collaboration.<br><br><b>Module 2: Future Skills:</b> specialist development of skills that make the transition into adulthood easier, such as communication and negotiation, an entrepreneurial mindset and networking, critical thinking and creative problem-solving, and public speaking.<br><br><b>Module 3: Leadership:</b> leadership and responsibility training for programme alumni."
+        },
+        {
+          "element": "dfblov",
+          "path": "properties.gurdjg",
+          "expected": "Zapytaj o szczegóły",
+          "english": "Ask for details"
+        },
+        {
+          "element": "jsarfc",
+          "path": "settings.text",
+          "expected": "co mówi<br><span class=\"font-f-season-mix\">młodzież?</span>",
+          "english": "what do<br><span class=\"font-f-season-mix\">young people say?</span>"
+        },
+        {
+          "element": "xfhicj",
+          "path": "settings.text",
+          "expected": "Ania",
+          "english": "ANIA"
+        },
+        {
+          "element": "uegatq",
+          "path": "settings.text",
+          "expected": "To było coś tylko dla mnie – mogłam pracować nad swoimi zainteresowaniami, odkrywać swoje mocne strony i zastanowić się, co mnie naprawdę pasjonuje. Dzięki temu lepiej zrozumiałam siebie i zdecydowałam się studiować psychologię.",
+          "english": "It was something just for me — I could work on my interests, discover my strengths and think about what I am truly passionate about. Thanks to that, I understood myself better and decided to study psychology."
+        },
+        {
+          "element": "aixncv",
+          "path": "settings.text",
+          "expected": "absolwentka programu rozwojowego",
+          "english": "DEVELOPMENT PROGRAMME GRADUATE"
+        },
+        {
+          "element": "mjudwi",
+          "path": "settings.text",
+          "expected": "maja",
+          "english": "MAJA"
+        },
+        {
+          "element": "zzibsi",
+          "path": "settings.text",
+          "expected": "absolwentka programu rozwojego",
+          "english": "DEVELOPMENT PROGRAMME GRADUATE"
+        },
+        {
+          "element": "ehxetk",
+          "path": "settings.text",
+          "expected": "Bemke przygotowało mnie do dorosłego życia. Na nie jednej edycji miałam okazję zdobywać wiedzę przydatną w przyszłości i poznać wspaniałych inspirujących ludzi, którzy wspierali mnie w mojej ścieżce rozwoju, która szybko się nie skończy!",
+          "english": "Bemke prepared me for adult life. Over more than one edition, I had the opportunity to gain knowledge that will be useful in the future and meet wonderful, inspiring people who supported me on my development path — one that is far from over!"
+        },
+        {
+          "element": "vfyhyu",
+          "path": "settings.text",
+          "expected": "dawid",
+          "english": "DAWID"
+        },
+        {
+          "element": "ubcfrw",
+          "path": "settings.text",
+          "expected": "uczestnik letniego obozu",
+          "english": "SUMMER CAMP PARTICIPANT"
+        },
+        {
+          "element": "uzapud",
+          "path": "settings.text",
+          "expected": "Obóz dał mi więcej chęci do poznawania nowych ludzi. Czuję, że jestem bardziej otwarty. Poznałem nowych kolegów. Podobały mi się różne zadania programowe i zabawy. Zauważyłem, że można spędzić dobrze czas bez telefonu.",
+          "english": "The camp made me more eager to meet new people. I feel more open. I made new friends. I liked the different programme tasks and games. I realised that you can have a great time without a phone."
+        },
+        {
+          "element": "vcckzt",
+          "path": "settings.text",
+          "expected": "historie uczestników",
+          "english": "PARTICIPANT STORIES"
+        },
+        {
+          "element": "dnxzhd",
+          "path": "settings.text",
+          "expected": "poznaj historię olka",
+          "english": "DISCOVER OLEK’S STORY"
+        },
+        {
+          "element": "xoqgdq",
+          "path": "settings.text",
+          "expected": "Zobacz video",
+          "english": "Watch the video"
+        },
+        {
+          "element": "zhvfiq",
+          "path": "settings.text",
+          "expected": "poznaj historię anity",
+          "english": "DISCOVER ANITA’S STORY"
+        },
+        {
+          "element": "casnvb",
+          "path": "settings.text",
+          "expected": "Zobacz video",
+          "english": "Watch the video"
+        },
+        {
+          "element": "gnpokr",
+          "path": "settings.text",
+          "expected": "poznaj historię ani",
+          "english": "DISCOVER ANIA’S STORY"
+        },
+        {
+          "element": "zrhhrq",
+          "path": "settings.text",
+          "expected": "Zobacz video",
+          "english": "Watch the video"
+        }
+      ],
+      "yoast_edits": [
+        {
+          "key": "_yoast_wpseo_title",
+          "expected": "Bemke Explore – autorskie programy rozwojowe",
+          "english": "Bemke Explore – Programmes and Camps"
+        },
+        {
+          "key": "_yoast_wpseo_metadesc",
+          "expected": "Poznaj Bemke Explore. Odkryj program Navigator, tutoring oraz półkolonie i zimowiska rozwijające sprawczość, talenty i kompetencje przyszłości.",
+          "english": "Discover Bemke Explore programmes, camps and activities that help children and young people find their strengths."
+        },
+        {
+          "key": "_yoast_wpseo_focuskw",
+          "expected": "Bemke explore",
+          "english": "Bemke Explore Bemke"
+        },
+        {
+          "key": "_yoast_wpseo_opengraph-title",
+          "expected": "Bemke Explore – autorskie programy rozwojowe dla młodzieży",
+          "english": "Bemke Explore – Find Your Strengths"
+        },
+        {
+          "key": "_yoast_wpseo_opengraph-description",
+          "expected": "Poznaj Bemke Explore. Rozwijamy sprawczość i talenty dzieci oraz młodzieży poprzez program Navigator, tutoring, a także półkolonie i zimowiska na 32-hektarowym kampusie.Panel Boczny WordPress (Baza)",
+          "english": "Programmes and camps where young people learn through action."
+        },
+        {
+          "key": "_yoast_wpseo_twitter-title",
+          "expected": "Bemke Explore – autorskie programy rozwojowe dla młodzieży",
+          "english": "Bemke Explore – Find Your Strengths"
+        },
+        {
+          "key": "_yoast_wpseo_twitter-description",
+          "expected": "Poznaj Bemke Explore. Rozwijamy sprawczość i talenty dzieci oraz młodzieży poprzez program Navigator, tutoring, a także półkolonie i zimowiska na 32-hektarowym kampusie.Panel Boczny WordPress (Baza)",
+          "english": "Programmes and camps where young people learn through action."
+        }
+      ]
+    },
+    {
+      "source_post_id": 659,
+      "source_post_parent": 376,
+      "source_post_title": "Warsztaty Steam",
+      "source_bricks_sha256": "02a6b957f7e72167a0961bb4711d100525e1b49020e846d4ae3d1414914017aa",
+      "source_bricks_elements": 92,
+      "source_excerpt": "Poznaj projekt „STEAM-owa Wioska Edukacyjna dla Małopolski Zachodniej w Campus Bemke”. Odkryj naszą ofertę bezpłatnych ekspedycji naukowych dla szkół i przedszkoli, warsztatów cyklicznych oraz szkoleń dla nauczycieli.",
+      "target_title": "STEAM Workshops",
+      "target_slug": "steam-workshops",
+      "target_excerpt": "Explore STEAM workshops for children, schools and teachers at the STEAM Educational Village on Campus Bemke.",
+      "bricks_edits": [
+        {
+          "element": "yoynck",
+          "path": "settings.text",
+          "expected": "Projekt&nbsp;",
+          "english": "PROJECT"
+        },
+        {
+          "element": "ztdrbv",
+          "path": "settings.text",
+          "expected": "steam-owa Wioska Edukacyjna<div>dla Małopolski Zachodniej</div><div>w Campus Bemke</div>",
+          "english": "STEAM Educational Village<div>for Western Małopolska</div><div>at Campus Bemke</div>"
+        },
+        {
+          "element": "zjhlsw",
+          "path": "settings.text",
+          "expected": "rozwój",
+          "english": "DEVELOPMENT"
+        },
+        {
+          "element": "fypigw",
+          "path": "settings.text",
+          "expected": "warsztaty steam",
+          "english": "STEAM WORKSHOPS"
+        },
+        {
+          "element": "irwqwy",
+          "path": "properties.hradxh",
+          "expected": "przestrzeń<br><span class=\"font-f-season-mix\">do eksplorowania</span>",
+          "english": "a space<br><span class=\"font-f-season-mix\">to explore</span>"
+        },
+        {
+          "element": "irwqwy",
+          "path": "properties.lltetj",
+          "expected": "Bemke Explore to programy, obozy i zajęcia, w których dzieci i młodzież próbują nowych rzeczy, sprawdzają się w działaniu i lepiej poznają swoje mocne strony. Wspierają ich tutorzy, mentorzy oraz rówieśnicy, którzy tworzą środowisko wzmacniające rozwój.\n<br><br>\nRozwijamy przedsiębiorczy mindset: krytyczne myślenie, kreatywność, współpracę, komunikację, samoregulację i odwagę podejmowania inicjatywy. Ważniejsze od samego efektu jest zaangażowanie, refleksja i świadome budowanie własnej drogi.\n<br><br>\nProgramy są dopasowane do wieku i etapu rozwoju i otwarte także dla osób spoza placówek Bemke.",
+          "english": "Bemke Explore consists of programmes, camps and activities in which children and young people try new things, test themselves through action and get to know their strengths better. They are supported by tutors, mentors and peers who create an environment that strengthens development.<br><br>We foster an entrepreneurial attitude: critical thinking, creativity, collaboration, communication, self-regulation and the courage to take initiative. What matters more than the outcome itself is engagement, reflection and consciously building one’s own path.<br><br>The programmes are tailored to age and stage of development and are also open to people from outside Bemke institutions."
+        },
+        {
+          "element": "yxzrmu",
+          "path": "settings.text",
+          "expected": "STEAM-owa <br><span class=\"font-f-season-mix\">Wioska Edukacyjna</span>",
+          "english": "STEAM <br><span class=\"font-f-season-mix\">Educational Village</span>"
+        },
+        {
+          "element": "ngeepn",
+          "path": "settings.text",
+          "expected": "Projekt <span class=\"bold\">„STEAM-owa Wioska Edukacyjna dla Małopolski Zachodniej w Campus Bemke”</span> realizowany jest przez Fundację Campus Bemke w ramach Osi priorytetowej: Fundusze europejskie dla rynku pracy, edukacji i włączenia społecznego, Działania: 6.28 Nauka i innowacja w małopolskich szkołach, FEMP.06.28-IP.01-1587/24.A",
+          "english": "The <span class=\"bold\">“STEAM Educational Village for Western Małopolska at Campus Bemke”</span> project is implemented by the Campus Bemke Foundation under the Priority Axis: European Funds for the Labour Market, Education and Social Inclusion, Measure 6.28 Science and Innovation in Małopolska Schools, FEMP.06.28-IP.01-1587/24.A."
+        },
+        {
+          "element": "uoibji",
+          "path": "settings.text",
+          "expected": "<span class=\"bold\">Cel projektu:</span> Zwiększenie dostępności i jakości oferty edukacyjnej dla dzieci i młodzieży, z terenów wiejskich i miejsko-wiejskich pow. wadowickiego, suskiego, myślenickiego i oświęcimskiego poprzez organizację zróżnicowanych zajęć warsztatowych wykorzystujących podejście STEAM oraz wsparcie nauczycieli w zakresie nowoczesnych metod nauczania.",
+          "english": "<span class=\"bold\">Project objective:</span> To increase the accessibility and quality of educational opportunities for children and young people from rural and urban-rural areas of the Wadowice, Sucha, Myślenice and Oświęcim counties by organising a diverse range of workshops using the STEAM approach and supporting teachers in modern teaching methods."
+        },
+        {
+          "element": "mphhzc",
+          "path": "settings.text",
+          "expected": "<span class=\"bold\">Wartość projektu: </span>1 767 896,07 zł.<div><span class=\"bold\">Wysokość dofinansowania z UE:</span> 1 496 252,98 zł.</div><div>#FunduszeUE #FunduszeEuropejskie</div>",
+          "english": "<span class=\"bold\">Project value:</span> PLN 1,767,896.07.<div><span class=\"bold\">EU funding:</span> PLN 1,496,252.98.</div><div>#FunduszeUE #FunduszeEuropejskie</div>"
+        },
+        {
+          "element": "ygcuji",
+          "path": "settings.text",
+          "expected": "efekty projektu",
+          "english": "PROJECT OUTCOMES"
+        },
+        {
+          "element": "owvyvb",
+          "path": "settings.text",
+          "expected": "Z efektów projektu skorzystają dzieci i młodzież <b>z powiatów wadowickiego, suskiego, myślenickiego i oświęcimskiego</b> oraz nauczyciele z lokalnych placówek. Docelowo projekt przyczyni się do rozwoju kompetencji przyszłości, zwiększenia zainteresowania naukami ścisłymi i technologią oraz wyrównania szans edukacyjnych w regionie. \n\n",
+          "english": "The project will benefit children and young people <b>from the Wadowice, Sucha, Myślenice and Oświęcim counties</b>, as well as teachers from local institutions. Ultimately, the project will contribute to the development of future skills, increased interest in science and technology, and more equal educational opportunities in the region."
+        },
+        {
+          "element": "uimbdf",
+          "path": "settings.text",
+          "expected": "Efektem projektu będzie<b> wzrost kompetencji STEAM</b> wśród uczestników, <b>rozwój kreatywności i umiejętności praktycznych</b> oraz przygotowanie młodych ludzi do wyzwań Przemysłu 4.0. ",
+          "english": "The project will result in <b>increased STEAM skills</b> among participants, <b>greater creativity and practical abilities</b>, and better preparation of young people for the challenges of Industry 4.0."
+        },
+        {
+          "element": "cxoiwk",
+          "path": "settings.text",
+          "expected": "Wartość projektu: 1 767 896,07 zł.<div>Wysokość dofinansowania z UE: 1 496 252,98 zł.</div><div>#FunduszeUE #FunduszeEuropejskie</div><div><br></div>",
+          "english": "Project value: PLN 1,767,896.07.<div>EU funding: PLN 1,496,252.98.</div><div>#FunduszeUE #FunduszeEuropejskie</div>"
+        },
+        {
+          "element": "eapxuy",
+          "path": "settings.text",
+          "expected": "o projekcie",
+          "english": "ABOUT THE PROJECT"
+        },
+        {
+          "element": "gkrijm",
+          "path": "settings.text",
+          "expected": "Projekt ma na celu zwiększenie dostępności i jakości oferty edukacyjnej dla dzieci i młodzieży z terenów wiejskich i miejsko-wiejskich w województwie małopolskim oraz by wprowadzić innowacyjne metody nauczania w modelu&nbsp;STEAM&nbsp;(Science, Technology, Engineering, Arts, Mathematics).",
+          "english": "The project aims to increase the accessibility and quality of educational opportunities for children and young people from rural and urban-rural areas of the Małopolska region and to introduce innovative teaching methods based on the STEAM model (Science, Technology, Engineering, Arts, Mathematics)."
+        },
+        {
+          "element": "hkpyua",
+          "path": "settings.text",
+          "expected": "co realizujemy w ramach projektu",
+          "english": "WHAT WE DELIVER AS PART OF THE PROJECT"
+        },
+        {
+          "element": "euwcvx",
+          "path": "settings.text",
+          "expected": "warsztaty",
+          "english": "WORKSHOPS"
+        },
+        {
+          "element": "vvpkxx",
+          "path": "settings.text",
+          "expected": "dla nauczycieli",
+          "english": "FOR TEACHERS"
+        },
+        {
+          "element": "ohfsav",
+          "path": "settings.text",
+          "expected": "adnotacja",
+          "english": "NOTE"
+        },
+        {
+          "element": "qvhbsa",
+          "path": "settings.text",
+          "expected": "</div><div>Beneficjent zapewnia, że Projekt jest realizowany zgodnie z zasadą niedyskryminacji, równości szans i równości płci oraz dostępności, o których mowa w przepisach prawa unijnego i krajowego, a także w dokumentach programowych Funduszy Europejskich dla Małopolski 2021–2027.</div>",
+          "english": "</div><div>The Beneficiary confirms that the Project is implemented in accordance with the principles of non-discrimination, equal opportunities, gender equality and accessibility set out in EU and national law and in the programme documents of the European Funds for Małopolska 2021–2027.</div>"
+        },
+        {
+          "element": "nrdzxc",
+          "path": "settings.text",
+          "expected": "<div>Beneficjent informuje Uczestników Projektu o możliwości zgłoszenia podejrzenia niezgodności realizowanego Projektu lub działań Beneficjenta z KPON lub KPP do Instytucji Zarządzającej programem Fundusze Europejskie&nbsp;dla Małopolski 2021–2027 na adres poczty elektronicznej:&nbsp;<span style=\"background-color: initial; letter-spacing: 0.435px;\">KPP_KPON@umwm.malopolska.pl.</span></div>",
+          "english": "<div>The Beneficiary informs Project Participants that suspected non-compliance of the Project or the Beneficiary’s activities with the CRPD or the Charter may be reported to the Managing Authority of the European Funds for Małopolska 2021–2027 programme at: <span style=\"background-color: initial; letter-spacing: 0.435px;\">KPP_KPON@umwm.malopolska.pl.</span></div>"
+        },
+        {
+          "element": "dovizm",
+          "path": "settings.text",
+          "expected": "Szkolenia dla 30 nauczycieli w celu rozwoju umiejętności projektowania i prowadzenia zajęć STEAM, aby mogli je wdrażać w swoich placówkach.",
+          "english": "Training for 30 teachers to develop skills in designing and leading STEAM activities so they can implement them in their own institutions."
+        },
+        {
+          "element": "fdqibb",
+          "path": "settings.text",
+          "expected": "Poznaj ofertę",
+          "english": "Explore the offer"
+        },
+        {
+          "element": "jxgrzp",
+          "path": "settings.text",
+          "expected": "warsztaty",
+          "english": "WORKSHOPS"
+        },
+        {
+          "element": "cgokdr",
+          "path": "settings.text",
+          "expected": "cykliczne",
+          "english": "RECURRING"
+        },
+        {
+          "element": "lnodet",
+          "path": "settings.text",
+          "expected": "Warsztaty cykliczne dla 144 uczniów, w tym dedykowane grupy dla dziewczynek, aby wzmacniać ich kompetencje techniczne i kreatywne.",
+          "english": "Recurring workshops for 144 students, including dedicated groups for girls to strengthen their technical and creative skills."
+        },
+        {
+          "element": "oaquhc",
+          "path": "settings.text",
+          "expected": "Poznaj ofertę",
+          "english": "Explore the offer"
+        },
+        {
+          "element": "hqmlfu",
+          "path": "settings.text",
+          "expected": "warsztaty",
+          "english": "WORKSHOPS"
+        },
+        {
+          "element": "nrigkx",
+          "path": "settings.text",
+          "expected": "dla przedszkoli i szkół",
+          "english": "FOR PRESCHOOLS AND SCHOOLS"
+        },
+        {
+          "element": "hidpwp",
+          "path": "settings.text",
+          "expected": "&nbsp;384 warsztaty jednorazowe dla ponad 4 600 uczniów w formie ekspedycji naukowych w Laboratoriach Wioski Edukacyjnej Campus Bemke.",
+          "english": "384 one-off workshops for more than 4,600 students in the form of scientific expeditions in the laboratories of the Campus Bemke Educational Village."
+        },
+        {
+          "element": "pudxyh",
+          "path": "settings.text",
+          "expected": "kontakt",
+          "english": "CONTACT"
+        },
+        {
+          "element": "dompfk",
+          "path": "settings.text",
+          "expected": "Masz pytania? Chętnie pomożemy!",
+          "english": "Have questions? We’re happy to help!"
+        },
+        {
+          "element": "tcudgm",
+          "path": "settings.text",
+          "expected": "<a class=\"link-underline\" href=\"mailto:we-steam@bemke.pl\">we-steam@bemke.pl</a> <br><br>",
+          "english": "we-steam@bemke.pl"
+        },
+        {
+          "element": "ejilff",
+          "path": "settings.text",
+          "expected": "Kinga Rusinek&nbsp;<a class=\"link-underline\" href=\"tel:+48697003981\">697 003 981 </a><br>\nNatalia Maciejczyk&nbsp;&nbsp;<a class=\"link-underline\" href=\"tel:+48885502062\">885 502 062</a>",
+          "english": "Kinga Rusinek&nbsp;<a class=\"link-underline\" href=\"tel:+48697003981\">697 003 981</a><br>Natalia Maciejczyk&nbsp;<a class=\"link-underline\" href=\"tel:+48885502062\">885 502 062</a>"
+        },
+        {
+          "element": "qyjwsq",
+          "path": "settings.text",
+          "expected": "Regulamin projektu",
+          "english": "Project regulations (in Polish)"
+        },
+        {
+          "element": "xuhxof",
+          "path": "settings.text",
+          "expected": "Poznaj ofertę",
+          "english": "Explore the offer"
+        },
+        {
+          "element": "zlrweg",
+          "path": "settings.text",
+          "expected": "<p>Beneficjent zobowiązany jest do realizacji Projektu w sposób zapewniający poszanowanie praw i wolności określonych w Konwencji o prawach osób z niepełnosprawnościami, sporządzonej w Nowym Jorku dnia 13 grudnia 2006 r. (Dz. U. z 2012 r. poz. 1169 z późn. zm.), zwanej dalej KPON oraz w Karcie Praw Podstawowych Unii Europejskiej (Dz. Urz. UE C 303 z 14.12.2007, s. 1, z późn. zm.), zwanej dalej KPP, w szczególności w zakresie:</p><ul><li>równości i niedyskryminacji,</li><li> równości kobiet i mężczyzn,</li><li> dostępności dla osób z niepełnosprawnościami.</li></ul>",
+          "english": "<p>The Beneficiary undertakes to implement the Project in a way that respects the rights and freedoms set out in the Convention on the Rights of Persons with Disabilities, adopted in New York on 13 December 2006 (Journal of Laws of 2012, item 1169, as amended), hereinafter the CRPD, and in the Charter of Fundamental Rights of the European Union (OJ EU C 303 of 14 December 2007, p. 1, as amended), hereinafter the Charter, particularly with regard to:</p><ul><li>equality and non-discrimination,</li><li>equality between women and men,</li><li>accessibility for persons with disabilities.</li></ul>"
+        }
+      ],
+      "yoast_edits": [
+        {
+          "key": "_yoast_wpseo_title",
+          "expected": "STEAM-owa Wioska Edukacyjna – warsztaty i projekty w Bemke",
+          "english": "STEAM Workshops at Campus Bemke"
+        },
+        {
+          "key": "_yoast_wpseo_metadesc",
+          "expected": "Poznaj projekt STEAM-owa Wioska Edukacyjna. Odkryj ekspedycje naukowe, warsztaty cykliczne oraz szkolenia dla nauczycieli w Campus Bemke.",
+          "english": "Explore STEAM workshops for children, schools and teachers at the STEAM Educational Village on Campus Bemke."
+        },
+        {
+          "key": "_yoast_wpseo_focuskw",
+          "expected": "STEAM Wioska Edukacyjna",
+          "english": "STEAM Workshops Bemke"
+        },
+        {
+          "key": "_yoast_wpseo_opengraph-title",
+          "expected": "STEAM-owa Wioska Edukacyjna dla Małopolski Zachodniej w Campus Bemke",
+          "english": "STEAM Workshops at Campus Bemke"
+        },
+        {
+          "key": "_yoast_wpseo_opengraph-description",
+          "expected": "Poznaj projekt STEAM-owa Wioska Edukacyjna. Organizujemy ekspedycje naukowe dla szkół i przedszkoli, warsztaty cykliczne oraz szkolenia dla nauczycieli, rozwijając kompetencje przyszłości w regionie.",
+          "english": "A hands-on STEAM learning space for children, schools and teachers."
+        },
+        {
+          "key": "_yoast_wpseo_twitter-title",
+          "expected": "STEAM-owa Wioska Edukacyjna dla Małopolski Zachodniej w Campus Bemke",
+          "english": "STEAM Workshops at Campus Bemke"
+        },
+        {
+          "key": "_yoast_wpseo_twitter-description",
+          "expected": "Poznaj projekt STEAM-owa Wioska Edukacyjna. Organizujemy ekspedycje naukowe dla szkół i przedszkoli, warsztaty cykliczne oraz szkolenia dla nauczycieli, rozwijając kompetencje przyszłości w regionie.",
+          "english": "A hands-on STEAM learning space for children, schools and teachers."
+        }
+      ]
+    },
+    {
+      "source_post_id": 739,
+      "source_post_parent": 380,
+      "source_post_title": "Usługi",
+      "source_bricks_sha256": "427c2e63c99192cff3a5c7d21b6f2bb571fb98aa9f7b0c99bf5b3f7f4f8b4ecb",
+      "source_bricks_elements": 101,
+      "source_excerpt": "",
+      "target_title": "Campus Bemke Services",
+      "target_slug": "services",
+      "target_excerpt": "Discover event spaces, sports facilities and accommodation at Campus Bemke in Wadowice.",
+      "bricks_edits": [
+        {
+          "element": "clwrlk",
+          "path": "settings.text",
+          "expected": "usługi",
+          "english": "SERVICES"
+        },
+        {
+          "element": "ltwquc",
+          "path": "settings.text",
+          "expected": "usługi",
+          "english": "SERVICES"
+        },
+        {
+          "element": "uxzvih",
+          "path": "settings.text",
+          "expected": "pełnia możliwości na Kampusie",
+          "english": "A CAMPUS FULL OF POSSIBILITIES"
+        },
+        {
+          "element": "yltbmp",
+          "path": "settings.text",
+          "expected": "nasze przestrzenie",
+          "english": "OUR SPACES"
+        },
+        {
+          "element": "lcpwhr",
+          "path": "properties.hradxh",
+          "expected": "wynajem <br><span class=\"font-f-season-mix\">powierzchni</span>",
+          "english": "space<br><span class=\"font-f-season-mix\">rental</span>"
+        },
+        {
+          "element": "lcpwhr",
+          "path": "properties.lltetj",
+          "expected": "Campus Bemke to idealne miejsce na organizację różnorodnych wydarzeń, od konferencji i warsztatów po zajęcia sportowe i artystyczne. Oferujemy nowoczesne i wszechstronne przestrzenie, które dostosujemy do Twoich potrzeb. Zapoznaj się z naszą ofertą wynajmu i znajdź odpowiednie miejsce na swoje wydarzenie!\nPomieszczenia mogą być wynajmowane w weekendy oraz w godzinach popołudniowych od poniedziałku do piątku.",
+          "english": "Campus Bemke is an ideal venue for a wide range of events, from conferences and workshops to sports and arts activities. We offer modern, versatile spaces that can be tailored to your needs. Explore our rental offer and find the right setting for your event! Rooms can be rented at weekends and in the afternoons from Monday to Friday."
+        },
+        {
+          "element": "yowmda",
+          "path": "properties.tzpmgm",
+          "expected": "od edukacji<br><span class=\"font-f-season-mix\">do działania</span>",
+          "english": "from education<br><span class=\"font-f-season-mix\">to action</span>"
+        },
+        {
+          "element": "yowmda",
+          "path": "properties.qgmtyk",
+          "expected": "Kształtujemy nowe standardy",
+          "english": "Shaping new standards"
+        },
+        {
+          "element": "yowmda",
+          "path": "properties.nulbcq",
+          "expected": "wioska <span class=\"font-f-season-mix\">edukacyjna</span>",
+          "english": "educational village"
+        },
+        {
+          "element": "yowmda",
+          "path": "properties.wnvztn",
+          "expected": "<b>Aula</b> o powierzchni 348 m² wyposażona w nowoczesne systemy audiowizualne. Idealnie sprawdza się na konferencje, pokazy oraz występy.\n<br><br>\n<b>Sale lekcyjne </b>o powierzchni od 35 do 97 m² wyposażone w tablice interaktywne, projektory. Sale są przestronne, pełne światła, a modułowe meble pozwalają na szybką aranżację w różnych układach.",
+          "english": "<b>Auditorium:</b> 348 m², equipped with modern audiovisual systems and ideal for conferences, shows and performances.<br><br><b>Classrooms:</b> 35–97 m², equipped with interactive whiteboards and projectors. The rooms are spacious and full of natural light, while modular furniture allows them to be quickly arranged in different layouts."
+        },
+        {
+          "element": "yowmda",
+          "path": "properties.gurdjg",
+          "expected": "Zobacz ofertę",
+          "english": "View offer"
+        },
+        {
+          "element": "vsybdy",
+          "path": "properties.tzpmgm",
+          "expected": "od edukacji<br><span class=\"font-f-season-mix\">do działania</span>",
+          "english": "from education<br><span class=\"font-f-season-mix\">to action</span>"
+        },
+        {
+          "element": "vsybdy",
+          "path": "properties.qgmtyk",
+          "expected": "Kształtujemy nowe standardy",
+          "english": "Shaping new standards"
+        },
+        {
+          "element": "vsybdy",
+          "path": "properties.nulbcq",
+          "expected": "hala <span class=\"font-f-season-mix\">sportowa</span>",
+          "english": "sports hall"
+        },
+        {
+          "element": "vsybdy",
+          "path": "properties.wnvztn",
+          "expected": "Idealna na zajęcia sportowe, turnieje i wydarzenia rekreacyjne. Wyposażona w zaplecze sanitarno-szatniowe oraz sprzęt sportowy.",
+          "english": "Ideal for sports activities, tournaments and recreational events. Equipped with changing rooms, sanitary facilities and sports equipment."
+        },
+        {
+          "element": "vsybdy",
+          "path": "properties.gurdjg",
+          "expected": "Zobacz ofertę",
+          "english": "View offer"
+        },
+        {
+          "element": "stkdmn",
+          "path": "properties.tzpmgm",
+          "expected": "od edukacji<br><span class=\"font-f-season-mix\">do działania</span>",
+          "english": "from education<br><span class=\"font-f-season-mix\">to action</span>"
+        },
+        {
+          "element": "stkdmn",
+          "path": "properties.qgmtyk",
+          "expected": "Kształtujemy nowe standardy",
+          "english": "Shaping new standards"
+        },
+        {
+          "element": "stkdmn",
+          "path": "properties.nulbcq",
+          "expected": "collegium <span class=\"font-f-season-mix\">marianum</span>",
+          "english": "collegium marianum"
+        },
+        {
+          "element": "stkdmn",
+          "path": "properties.wnvztn",
+          "expected": "<b>Aula </b>o powierzchni 160 m², wyposażona w scenę i nagłośnienie. Wyjątkowy klimat historycznego budynku świetnie sprawdza się podczas konferencji, wykładów i prezentacji.\n<br><br>\n<b>Sale lekcyjne </b>o powierzchni od 25 do 50 m² wyposażone w tablice interaktywne, projektory. Tutaj zorganizujesz wykłady, szkolenia oraz spotkania.",
+          "english": "<b>Auditorium:</b> 160 m², equipped with a stage and sound system. The unique atmosphere of the historic building makes it ideal for conferences, lectures and presentations.<br><br><b>Classrooms:</b> 25–50 m², equipped with interactive whiteboards and projectors. They are perfect for lectures, training sessions and meetings."
+        },
+        {
+          "element": "stkdmn",
+          "path": "properties.gurdjg",
+          "expected": "Zobacz ofertę",
+          "english": "View offer"
+        },
+        {
+          "element": "kxrxde",
+          "path": "properties.nulbcq",
+          "expected": "oferta dla firm",
+          "english": "Corporate offer"
+        },
+        {
+          "element": "kxrxde",
+          "path": "properties.wnvztn",
+          "expected": "Campus Bemke to przestrzeń edukacji i rozwoju, jest przestronna, pełna światła, a dzięki terenom zielonym, jak park czy FarmLab pozwala zorganizować wydarzenie w niecodziennych warunkach. Świetnie służy rozmaitym konferencjom, warsztatom czy spotkaniom firmowym. Profesjonalna prezentacja, wolontariat pracowniczy, a może ognisko integracyjne? Mamy wiele możliwości! \n<br><br>\nŁączymy funkcjonalne sale, otoczenie zieleni i zaplecze gastronomiczne — od przerw kawowych po pełny catering.",
+          "english": "Campus Bemke is a space for education and development. It is spacious and full of natural light, and thanks to green areas such as the park and FarmLab, it offers an unusual setting for events. It is ideal for conferences, workshops and corporate meetings of all kinds. A professional presentation, employee volunteering or perhaps a team-building bonfire? We offer plenty of possibilities!<br><br>We combine functional rooms, green surroundings and catering facilities — from coffee breaks to full-service catering."
+        },
+        {
+          "element": "kxrxde",
+          "path": "properties.gurdjg",
+          "expected": "Skontaktuj się",
+          "english": "Contact us"
+        },
+        {
+          "element": "ffosos",
+          "path": "properties.tzpmgm",
+          "expected": "od edukacji<br><span class=\"font-f-season-mix\">do działania</span>",
+          "english": "from education<br><span class=\"font-f-season-mix\">to action</span>"
+        },
+        {
+          "element": "ffosos",
+          "path": "properties.qgmtyk",
+          "expected": "Kształtujemy nowe standardy",
+          "english": "Shaping new standards"
+        },
+        {
+          "element": "ffosos",
+          "path": "properties.nulbcq",
+          "expected": "noclegi",
+          "english": "ACCOMMODATION"
+        },
+        {
+          "element": "ffosos",
+          "path": "properties.wnvztn",
+          "expected": "Od października 2026 r. zaprosimy do odświeżonego domu noclegowego, w którym dostępne będzie 100 miejsc noclegowych. ",
+          "english": "From October 2026, we will welcome guests to a refurbished accommodation building with 100 beds."
+        },
+        {
+          "element": "ffosos",
+          "path": "properties.gurdjg",
+          "expected": "Zobacz ofertę",
+          "english": "View offer"
+        },
+        {
+          "element": "fueuxx",
+          "path": "settings.text",
+          "expected": "imprezy okolicznościowe",
+          "english": "PRIVATE EVENTS"
+        },
+        {
+          "element": "jfjntf",
+          "path": "settings.text",
+          "expected": "Komunia święta, jubileusz, a może urodziny? Organizujemy przyjęcia, które pozwalają skupić się na tym, co najważniejsze — wspólnym świętowaniu.<div><br></div><div>W wyjątkowej przestrzeni kampusu przygotowujemy wydarzenia kameralne i te większe. Dbamy o menu dopasowane do gości oraz sprawną, uważną obsługę na każdym etapie. A jeśli Twoje wydarzenia odbywa się pod innym adresem, dowieziemy catering do Ciebie.</div>",
+          "english": "A First Communion, anniversary or perhaps a birthday? We organise celebrations that let you focus on what matters most — enjoying the occasion together.<div><br></div><div>In the unique campus setting, we host both intimate gatherings and larger events. We take care of a menu tailored to your guests and provide smooth, attentive service at every stage. And if your event is taking place elsewhere, we can deliver catering to you.</div>"
+        },
+        {
+          "element": "zmhudg",
+          "path": "settings.text",
+          "expected": "Zapytaj o ofertę",
+          "english": "Ask for an offer"
+        },
+        {
+          "element": "eikxge",
+          "path": "properties.tzpmgm",
+          "expected": "od edukacji<br><span class=\"font-f-season-mix\">do działania</span>",
+          "english": "from education<br><span class=\"font-f-season-mix\">to action</span>"
+        },
+        {
+          "element": "eikxge",
+          "path": "properties.qgmtyk",
+          "expected": "Kształtujemy nowe standardy",
+          "english": "Shaping new standards"
+        },
+        {
+          "element": "eikxge",
+          "path": "properties.nulbcq",
+          "expected": "noclegi",
+          "english": "ACCOMMODATION"
+        },
+        {
+          "element": "eikxge",
+          "path": "properties.wnvztn",
+          "expected": "Od października 2026 r. zaprosimy do odświeżonego domu noclegowego, w którym dostępne będzie 100 miejsc noclegowych. ",
+          "english": "From October 2026, we will welcome guests to a refurbished accommodation building with 100 beds."
+        },
+        {
+          "element": "eikxge",
+          "path": "properties.gurdjg",
+          "expected": "Zobacz ofertę",
+          "english": "View offer"
+        },
+        {
+          "element": "nkbiru",
+          "path": "properties.hradxh",
+          "expected": "inne usługi",
+          "english": "OTHER SERVICES"
+        },
+        {
+          "element": "kacfob",
+          "path": "settings.text",
+          "expected": "wynajem <br><span class=\"font-f-season-mix\">powierzchni</span>",
+          "english": "space<br><span class=\"font-f-season-mix\">rental</span>"
+        },
+        {
+          "element": "fmkjrj",
+          "path": "settings.text",
+          "expected": "Campus Bemke to idealne miejsce na organizację różnorodnych wydarzeń, od konferencji i warsztatów po zajęcia sportowe i artystyczne. Oferujemy nowoczesne i wszechstronne przestrzenie, które dostosujemy do Twoich potrzeb. Zapoznaj się z naszą ofertą wynajmu i znajdź odpowiednie miejsce na swoje wydarzenie!\nPomieszczenia mogą być wynajmowane w weekendy oraz w godzinach popołudniowych od poniedziałku do piątku.",
+          "english": "Campus Bemke is an ideal venue for a wide range of events, from conferences and workshops to sports and arts activities. We offer modern, versatile spaces that can be tailored to your needs. Explore our rental offer and find the right setting for your event! Rooms can be rented at weekends and in the afternoons from Monday to Friday."
+        },
+        {
+          "element": "bkjumk",
+          "path": "settings.text",
+          "expected": "noclegi",
+          "english": "ACCOMMODATION"
+        },
+        {
+          "element": "ucwsai",
+          "path": "settings.text",
+          "expected": "Odświeżamy dom noclegowy mieszczący się w historycznym budynku Collegium Marianum, aby jeszcze lepiej móc Was ugościć w przytulnych i nowoczesnych wnętrzach.<br><br>Dostępność oferty: od października 2026 r. Obecnie trwa rezerwacja miejsc. <br>Docelowa liczba miejsc: 100",
+          "english": "We are refreshing the guest accommodation in the historic Collegium Marianum building so that we can welcome you even better in cosy, modern interiors.<br><br>Available from October 2026. Reservations are currently being accepted.<br>Target capacity: 100 guests."
+        },
+        {
+          "element": "ijlmll",
+          "path": "settings.text",
+          "expected": "Skontaktuj się",
+          "english": "Contact us"
+        },
+        {
+          "element": "eyanlj",
+          "path": "settings.text",
+          "expected": "galeria",
+          "english": "GALLERY"
+        },
+        {
+          "element": "pktasb",
+          "path": "settings.text",
+          "expected": "Chcesz skorzystać z naszych usług?&nbsp;",
+          "english": "Would you like to use our services?"
+        },
+        {
+          "element": "ljatof",
+          "path": "settings.text",
+          "expected": "Skontaktuj się",
+          "english": "Contact us"
+        },
+        {
+          "element": "pvoywb",
+          "path": "settings.submitButtonText",
+          "expected": "Wyślij",
+          "english": "Send"
+        },
+        {
+          "element": "pvoywb",
+          "path": "settings.fields.0.label",
+          "expected": "Wybierz temat:",
+          "english": "Choose a topic:"
+        },
+        {
+          "element": "pvoywb",
+          "path": "settings.fields.0.options",
+          "expected": "Wynajem powierzchni | Noclegi\nCatering\nEventy\nPrzyjęcia okolicznościowe\nOferta dla firm",
+          "english": "Space rental | Accommodation\nCatering\nEvents\nPrivate celebrations\nCorporate offer"
+        },
+        {
+          "element": "pvoywb",
+          "path": "settings.fields.1.label",
+          "expected": "Imię i nazwisko:",
+          "english": "Full name:"
+        },
+        {
+          "element": "pvoywb",
+          "path": "settings.fields.1.placeholder",
+          "expected": "Wpisz dane:",
+          "english": "Enter your name:"
+        },
+        {
+          "element": "pvoywb",
+          "path": "settings.fields.2.label",
+          "expected": "E-mail:",
+          "english": "Email:"
+        },
+        {
+          "element": "pvoywb",
+          "path": "settings.fields.2.placeholder",
+          "expected": "Wpisz adres e-mail:",
+          "english": "Enter your email address:"
+        },
+        {
+          "element": "pvoywb",
+          "path": "settings.fields.3.options",
+          "expected": "Wyrażam zgodę na przetwarzanie moich danych osobowych przez Fundację Campus Bemke, w celu otrzymania newslettera zawierającego informacje o działaniach Fundacji. Oświadczam, że zapoznałam/em się z <a href=\"/polityka-prywatnosci/\" target=\"_blank\" rel=\"noopener noreferrer\">Polityką prywatności</a>.",
+          "english": "I consent to the processing of my personal data by the Campus Bemke Foundation in order to receive a newsletter with information about the Foundation’s activities. I confirm that I have read the <a href=\"/polityka-prywatnosci/\" target=\"_blank\" rel=\"noopener noreferrer\" lang=\"pl\">Privacy Policy (in Polish)</a>."
+        },
+        {
+          "element": "wikeui",
+          "path": "settings.text",
+          "expected": "campus bemke",
+          "english": "CAMPUS BEMKE"
+        },
+        {
+          "element": "muqxro",
+          "path": "settings.text",
+          "expected": "Skontaktuj się",
+          "english": "Contact us"
+        }
+      ],
+      "yoast_edits": [
+        {
+          "key": "_yoast_wpseo_title",
+          "expected": "",
+          "english": "Campus Bemke Services – Spaces and Events"
+        },
+        {
+          "key": "_yoast_wpseo_metadesc",
+          "expected": "",
+          "english": "Discover event spaces, sports facilities and accommodation at Campus Bemke in Wadowice."
+        },
+        {
+          "key": "_yoast_wpseo_focuskw",
+          "expected": "",
+          "english": "Campus Bemke Services Bemke"
+        },
+        {
+          "key": "_yoast_wpseo_opengraph-title",
+          "expected": "",
+          "english": "Campus Bemke Services"
+        },
+        {
+          "key": "_yoast_wpseo_opengraph-description",
+          "expected": "",
+          "english": "Explore spaces for events, sport and stays at Campus Bemke."
+        },
+        {
+          "key": "_yoast_wpseo_twitter-title",
+          "expected": "",
+          "english": "Campus Bemke Services"
+        },
+        {
+          "key": "_yoast_wpseo_twitter-description",
+          "expected": "",
+          "english": "Explore spaces for events, sport and stays at Campus Bemke."
+        }
+      ]
+    },
+    {
+      "source_post_id": 3345,
+      "source_post_parent": 857,
+      "source_post_title": "Kampania założycielska",
+      "source_bricks_sha256": "906a229005f2b205ba7f9ed71eac861761d20358bb1e0cff85c21f66d791dd13",
+      "source_bricks_elements": 83,
+      "source_excerpt": "Poznaj nasz program fundraisingowy. Finansujemy rozwój infrastruktury edukacyjnej, renowację Collegium Marianum i kapitał żelazny na kolejne dekady. Sprawdź, jak zostać Darczyńcą Założycielem.",
+      "target_title": "Founding Campaign",
+      "target_slug": "founding-campaign",
+      "target_excerpt": "Support the Founding Campaign and help build the next stage of Campus Bemke for future generations.",
+      "bricks_edits": [
+        {
+          "element": "vdylkj",
+          "path": "settings.text",
+          "expected": "Kampania  \n<br><span class=\"font-f-season-mix\">Założycielska</span>",
+          "english": "Founding<br><span class=\"font-f-season-mix\">Campaign</span>"
+        },
+        {
+          "element": "hivrbe",
+          "path": "settings.text",
+          "expected": "Budujemy fundamenty<div>kolejnych pokoleń</div>",
+          "english": "Building foundations<div>for generations to come</div>"
+        },
+        {
+          "element": "sekcju",
+          "path": "settings.text",
+          "expected": "kampania założycielska",
+          "english": "FOUNDING CAMPAIGN"
+        },
+        {
+          "element": "kxhogd",
+          "path": "properties.tzpmgm",
+          "expected": "czym jest  \n<br><span class=\"font-f-season-mix\">kampania założycielska</span>",
+          "english": "what is the<br><span class=\"font-f-season-mix\">Founding Campaign?</span>"
+        },
+        {
+          "element": "kxhogd",
+          "path": "properties.trlmgi",
+          "expected": "Kampania założycielska Campusu Bemke to<b> program fundraisingowy, którego celem jest finansowanie infrastruktury niezbędnej do realizacji założeń edukacyjnych </b>na poziomie college’u oraz funkcjonujących: szkoły podstawowej i przedszkola. \n<br><br>Kampania została rozpoczęta w 2022 roku i obejmuje zarówno budowę nowych obiektów, modernizację historycznej infrastruktury, jak i rozwój przestrzeni sportowych, rekreacyjnych. Zakłada także stworzenie kapitału żelaznego, który zapewni stabilność finansową Bemke na kolejne dekady.",
+          "english": "The Campus Bemke Founding Campaign is a <b>fundraising programme aimed at financing the infrastructure required to deliver our educational vision</b> at college level and to support the existing primary school and preschool.<br><br>The Campaign began in 2022 and covers the construction of new facilities, modernisation of historic infrastructure, and development of sports and recreational spaces. It also includes the creation of an endowment fund to ensure Bemke’s financial stability for decades to come."
+        },
+        {
+          "element": "tlkmug",
+          "path": "settings.text",
+          "expected": "wspieraj bemke",
+          "english": "SUPPORT BEMKE"
+        },
+        {
+          "element": "bganvx",
+          "path": "properties.tzpmgm",
+          "expected": "od edukacji<br><span class=\"font-f-season-mix\">do działania</span>",
+          "english": "from education<br><span class=\"font-f-season-mix\">to action</span>"
+        },
+        {
+          "element": "bganvx",
+          "path": "properties.qgmtyk",
+          "expected": "Kształtujemy nowe standardy",
+          "english": "Shaping new standards"
+        },
+        {
+          "element": "bganvx",
+          "path": "properties.oekleb",
+          "expected": "FAZA",
+          "english": "PHASE"
+        },
+        {
+          "element": "bganvx",
+          "path": "properties.nulbcq",
+          "expected": "<span class=\"custom-font-style\">śladami zmysłów -</span> ścieżka sensoryczna",
+          "english": "<span class=\"custom-font-style\">following the senses –</span> a sensory path"
+        },
+        {
+          "element": "bganvx",
+          "path": "properties.wnvztn",
+          "expected": "Uczestnicy projektują i budują fragment prawdziwej ścieżki sensorycznej. Sprawdzają materiały, testują prototypy, badają bezpieczeństwo i funkcję. Uczą się, jak łączyć wiedzę o zmysłach, inżynierii i ekologii w praktycznym projekcie.\n<br><br>\n<b>Dla kogo: </b>dzieci i młodzież w wieku 10–12 lat ",
+          "english": "Participants design and build a section of a real sensory path. They examine materials, test prototypes, and assess safety and function. They learn to combine knowledge of the senses, engineering and ecology in a practical project.<br><br><b>For whom:</b> children and young people aged 10–12."
+        },
+        {
+          "element": "bganvx",
+          "path": "properties.gurdjg",
+          "expected": "Zobacz ofertę",
+          "english": "View offer"
+        },
+        {
+          "element": "mohreb",
+          "path": "properties.tzpmgm",
+          "expected": "kampania założycielska\n<br><span class=\"font-f-season-mix\">to proces</span>",
+          "english": "the Founding Campaign<br><span class=\"font-f-season-mix\">is a process</span>"
+        },
+        {
+          "element": "mohreb",
+          "path": "properties.trlmgi",
+          "expected": "Budowa kampusu została podzielona na kolejne fazy, których realizacja zależy od tempa pozyskiwania środków - zarówno prywatnych, jak i publicznych. Dzięki takiemu podejściu możemy sukcesywnie rozwijać infrastrukturę, jednocześnie zapewniając najwyższą jakość prowadzonych inwestycji. ",
+          "english": "The construction of the campus has been divided into successive phases, with implementation depending on the pace at which funds are raised — both private and public. This approach allows us to develop the infrastructure gradually while maintaining the highest quality of investment."
+        },
+        {
+          "element": "dpsgdu",
+          "path": "settings.text",
+          "expected": "FAZA I",
+          "english": "PHASE I"
+        },
+        {
+          "element": "rslwrr",
+          "path": "settings.text",
+          "expected": "W pierwszej fazie koncentrujemy się na stworzeniu podstaw nowoczesnego kampusu edukacyjnego.",
+          "english": "In the first phase, we are focusing on creating the foundations of a modern educational campus."
+        },
+        {
+          "element": "qlwhkx",
+          "path": "settings.text",
+          "expected": "W ramach tej fazy zrealizowaliśmy:",
+          "english": "As part of this phase, we have completed:"
+        },
+        {
+          "element": "iwzlnx",
+          "path": "settings.text",
+          "expected": "<ul><li>budowę Wioski Edukacyjnej,</li><li><span class=\"a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none\">zakup nowych gruntów pod dalszy rozwój infrastruktury kampusu</span>,</li><li>adaptację otoczenia Collegium Marianum,</li><li>rewitalizację zabytkowej alei parkowej,</li><li>budowę parkingu wraz z budynkami technicznymi,</li><li>przygotowanie budynku Collegium Marianum na potrzeby internatu dla licealistów (boardingu).</li></ul>",
+          "english": "<ul><li>construction of the Educational Village,</li><li><span class=\"a_GcMg font-feature-liga-off font-feature-clig-off font-feature-calt-off text-decoration-none text-strikethrough-none\">purchase of new land for further development of campus infrastructure</span>,</li><li>adaptation of the area around Collegium Marianum,</li><li>revitalisation of the historic park avenue,</li><li>construction of a car park and technical buildings,</li><li>preparation of the Collegium Marianum building to serve as boarding accommodation for high-school students.</li></ul>"
+        },
+        {
+          "element": "lsprrm",
+          "path": "settings.text",
+          "expected": "Ponadto planowana jest kompleksowa renowacja budynku Collegium Marianum, który będzie pełnił funkcje edukacyjne i boardingowe dla Bemke College. Powstanie również zewnętrzna infrastruktura sportowa.",
+          "english": "In addition, a comprehensive renovation of the Collegium Marianum building is planned. It will provide educational and boarding facilities for Bemke College. Outdoor sports infrastructure will also be created."
+        },
+        {
+          "element": "wahpgg",
+          "path": "properties.tzpmgm",
+          "expected": "od edukacji<br><span class=\"font-f-season-mix\">do działania</span>",
+          "english": "from education<br><span class=\"font-f-season-mix\">to action</span>"
+        },
+        {
+          "element": "wahpgg",
+          "path": "properties.qgmtyk",
+          "expected": "Kształtujemy nowe standardy",
+          "english": "Shaping new standards"
+        },
+        {
+          "element": "wahpgg",
+          "path": "properties.oekleb",
+          "expected": "FAZA",
+          "english": "PHASE"
+        },
+        {
+          "element": "wahpgg",
+          "path": "properties.nulbcq",
+          "expected": "<span class=\"custom-font-style\">śladami zmysłów -</span> ścieżka sensoryczna",
+          "english": "<span class=\"custom-font-style\">following the senses –</span> a sensory path"
+        },
+        {
+          "element": "wahpgg",
+          "path": "properties.wnvztn",
+          "expected": "Uczestnicy projektują i budują fragment prawdziwej ścieżki sensorycznej. Sprawdzają materiały, testują prototypy, badają bezpieczeństwo i funkcję. Uczą się, jak łączyć wiedzę o zmysłach, inżynierii i ekologii w praktycznym projekcie.\n<br><br>\n<b>Dla kogo: </b>dzieci i młodzież w wieku 10–12 lat ",
+          "english": "Participants design and build a section of a real sensory path. They examine materials, test prototypes, and assess safety and function. They learn to combine knowledge of the senses, engineering and ecology in a practical project.<br><br><b>For whom:</b> children and young people aged 10–12."
+        },
+        {
+          "element": "wahpgg",
+          "path": "properties.gurdjg",
+          "expected": "Zobacz ofertę",
+          "english": "View offer"
+        },
+        {
+          "element": "ffhstz",
+          "path": "settings.text",
+          "expected": "FAZA II",
+          "english": "PHASE II"
+        },
+        {
+          "element": "uaenjr",
+          "path": "settings.text",
+          "expected": "Rozwój infrastruktury - serce kampusu",
+          "english": "Infrastructure development — the heart of the campus"
+        },
+        {
+          "element": "atslqf",
+          "path": "settings.text",
+          "expected": "Po stworzeniu podstaw kampusu chcemy wybudować kolejny wielofunkcyjny, nowoczesny obiekt służący rozwojowi i edukacji – Budynek Centralny. To tam znajdzie się miejsce na aktywności sportowe i artystyczne, a nasi uczniowie będą mogli korzystać z dodatkowych przestrzeni edukacyjnych. ",
+          "english": "After establishing the foundations of the campus, we plan to build another modern, multifunctional facility dedicated to development and education — the Central Building. It will provide space for sports and arts activities, as well as additional educational spaces for our students."
+        },
+        {
+          "element": "lxvkxn",
+          "path": "settings.text",
+          "expected": "Zostań<br><font face=\"Season Mix\">współtwórcą bemke</font>",
+          "english": "Become<br><font face=\"Season Mix\">a co-creator of Bemke</font>"
+        },
+        {
+          "element": "biuuek",
+          "path": "settings.text",
+          "expected": "Każdy darczyńca wspierający Kampanię Założycielską może otrzymać tytuł Darczyńcy Założyciela Campusu Bemke. Jest to wyraz uznania dla osób i instytucji budujących tę wyjątkową społeczność od samego początku, niezależnie od momentu przekazania darowizny.",
+          "english": "Every donor supporting the Founding Campaign may receive the title of Founding Donor of Campus Bemke. It is a mark of recognition for individuals and institutions who have helped build this exceptional community from the very beginning, regardless of when their donation was made."
+        },
+        {
+          "element": "xgenza",
+          "path": "settings.text",
+          "expected": "Skontaktuj się",
+          "english": "Contact us"
+        },
+        {
+          "element": "thfciv",
+          "path": "settings.text",
+          "expected": "chcesz wesprzeć<br><font face=\"Season Mix\">kampanię założycielską?</font>",
+          "english": "would you like to support<br><font face=\"Season Mix\">the Founding Campaign?</font>"
+        },
+        {
+          "element": "blnptq",
+          "path": "settings.text",
+          "expected": "mail: katarzyna.ostrowska@bemke.pl",
+          "english": "email: katarzyna.ostrowska@bemke.pl"
+        },
+        {
+          "element": "yezjyh",
+          "path": "settings.text",
+          "expected": "telefon: +48 887 450 517",
+          "english": "phone: +48 887 450 517"
+        },
+        {
+          "element": "xjvijx",
+          "path": "settings.text",
+          "expected": "honorowanie<br>darczyńców",
+          "english": "recognising our donors"
+        },
+        {
+          "element": "bptxxh",
+          "path": "settings.text",
+          "expected": "Wspólnie z naszymi darczyńcami budujemy przyszłość kolejnych pokoleń. Chcąc wyrazić naszą głęboką wdzięczność i szacunek za tak ogromne zaangażowanie, <b>przygotowaliśmy specjalne formy podziękowań dla osób i instytucji, których wsparcie przekracza 1 milion złotych.</b><div><br></div><div>Najbardziej prestiżową z nich jest <font face=\"Season Mix\">Naming Opportunities</font>. To wyjątkowa szansa na trwałe wpisanie się w historię Bemke poprzez nadanie swojego imienia (lub imienia wybranej osoby) budynkom czy salom na terenie kampusu, a w przyszłości również kluczowym programom edukacyjnym. <br><br><font face=\"Season Mix\">Naming Opportunities</font> nie jest świadczeniem sponsorskim, lecz symbolem naszej głębokiej wdzięczności i trwałym śladem współtworzenia tego miejsca.</div>",
+          "english": "Together with our donors, we are building the future of generations to come. To express our deep gratitude and respect for such extraordinary commitment, <b>we have prepared special forms of recognition for individuals and institutions whose support exceeds PLN 1 million.</b><div><br></div><div>The most prestigious of these is <font face=\"Season Mix\">Naming Opportunities</font>. This is a unique opportunity to leave a lasting mark on Bemke’s history by giving your name (or the name of a chosen person) to buildings or rooms on the campus and, in the future, to key educational programmes.<br><br><font face=\"Season Mix\">Naming Opportunities</font> is not a sponsorship benefit, but a symbol of our deep gratitude and a lasting sign of co-creating this place.</div>"
+        },
+        {
+          "element": "wmlaux",
+          "path": "properties.zdlpxl",
+          "expected": "To oni budują <br><font face=\"Season Mix\">Campus Bemke</font>",
+          "english": "They are building<br><font face=\"Season Mix\">Campus Bemke</font>"
+        },
+        {
+          "element": "wmlaux",
+          "path": "properties.mjjmak",
+          "expected": "Poznaj darczyńców",
+          "english": "Meet our donors"
+        },
+        {
+          "element": "csgsdh",
+          "path": "settings.text",
+          "expected": "W RAMACH I FAZY KAMPANII<br><font face=\"Season Mix\">ZAŁOŻYCIELSKIEJ ZEBRALIŚMY</font><br>113 mPLN ",
+          "english": "IN PHASE I OF THE FOUNDING CAMPAIGN<br><font face=\"Season Mix\">WE RAISED</font><br>PLN 113m"
+        },
+        {
+          "element": "hrpmmj",
+          "path": "settings.text",
+          "expected": "0 pln",
+          "english": "PLN 0"
+        },
+        {
+          "element": "zoxrhv",
+          "path": "settings.text",
+          "expected": "200 mln PLN",
+          "english": "PLN 200 million"
+        }
+      ],
+      "yoast_edits": [
+        {
+          "key": "_yoast_wpseo_title",
+          "expected": "Kampania Założycielska – budujemy fundamenty Bemke",
+          "english": "Campus Bemke Founding Campaign"
+        },
+        {
+          "key": "_yoast_wpseo_metadesc",
+          "expected": "Poznaj Kampanię Założycielską Bemke. Zobacz, jak rozwijamy infrastrukturę kampusu, budujemy kapitał żelazny. Dołącz do Darczyńców Bemke.",
+          "english": "Support the Founding Campaign and help build the next stage of Campus Bemke for future generations."
+        },
+        {
+          "key": "_yoast_wpseo_focuskw",
+          "expected": "Kampania Założycielska Bemke",
+          "english": "Founding Campaign Bemke"
+        },
+        {
+          "key": "_yoast_wpseo_opengraph-title",
+          "expected": "Kampania Założycielska Bemke – budujemy fundamenty kolejnych pokoleń",
+          "english": "Founding Campaign for Campus Bemke"
+        },
+        {
+          "key": "_yoast_wpseo_opengraph-description",
+          "expected": "Poznaj nasz program fundraisingowy. Finansujemy rozwój infrastruktury edukacyjnej, renowację Collegium Marianum i kapitał żelazny na kolejne dekady. Sprawdź, jak zostać Darczyńcą Założycielem.",
+          "english": "Join the partners helping Campus Bemke grow for future generations."
+        },
+        {
+          "key": "_yoast_wpseo_twitter-title",
+          "expected": "Kampania Założycielska Bemke – budujemy fundamenty kolejnych pokoleń",
+          "english": "Founding Campaign for Campus Bemke"
+        },
+        {
+          "key": "_yoast_wpseo_twitter-description",
+          "expected": "Poznaj nasz program fundraisingowy. Finansujemy rozwój infrastruktury edukacyjnej, renowację Collegium Marianum i kapitał żelazny na kolejne dekady. Sprawdź, jak zostać Darczyńcą Założycielem.",
+          "english": "Join the partners helping Campus Bemke grow for future generations."
+        }
+      ]
+    }
+  ]
+}

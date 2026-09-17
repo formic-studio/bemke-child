@@ -23,6 +23,7 @@ if ( is_admin() ) {
 	require_once get_stylesheet_directory() . '/inc/main-pages-draft-translation.php';
 	require_once get_stylesheet_directory() . '/inc/child-pages-draft-translation.php';
 	require_once get_stylesheet_directory() . '/inc/chrome-draft-translation.php';
+	require_once get_stylesheet_directory() . '/inc/third-pages-draft-translation.php';
 }
 
 add_action( 'wp_head', 'bemke_child_print_theme_color', 0 );

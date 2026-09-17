@@ -223,6 +223,28 @@ PDF pozostają tymczasowo po polsku. Etykiety dostępności menu, przycisków
 kontrastu i wielkości tekstu oraz odnośników społecznościowych wybierają język
 na podstawie `lang` strony.
 
+### Trzecia partia stron EN
+
+Narzędzie **Narzędzia → Bemke EN — partia 3** czyta plan
+`data/third-pages-bemke-en.json`. Tworzy szkice Falcons Wadowice, Olympic
+Taekwondo, Bemke Explore, STEAM Workshops, Campus Bemke Services oraz Founding
+Campaign. Ich rodzicami są istniejące strony EN Rozwój, Campus Bemke i
+Wspieraj Bemke. Przed zapisem narzędzie porównuje każdą stronę PL z eksportem
+WXR; zapis jest blokowany, jeśli zmienił się układ Bricks, tytuł, opis lub
+metadane Yoast. Polskie strony pozostają bez zmian.
+
+Po utworzeniu szkiców narzędzie mapuje linki między już przetłumaczonymi
+stronami. Na stronie Usługi tłumaczy też pola formularza i jego zgodę;
+odnośnik do polityki prywatności nadal prowadzi do dokumentu PL i jest
+oznaczony jako taki. Opisy ALT EN obrazów z biblioteki mediów uzupełnimy w
+osobnym etapie, po treściach stron. Przed publikacją trzeba sprawdzić obrazy,
+działanie formularza i pobierane pliki PDF, które wciąż są po polsku.
+
+Po tej partii wróć do **Narzędzia → Bemke EN — nawigacja** i użyj synchronizacji
+menu. Doda ona cztery dostępne już pozycje EN i zaktualizuje odnośnik do
+Bemke Explore w szkicu stopki. Nagłówek, stopka i przełącznik języka nadal
+nie są publikowane ani przełączane automatycznie.
+
 ### Szkic Campus Bemke EN
 
 Tymczasowe narzędzie **Narzędzia → Campus Bemke EN** wczytuje plan z
