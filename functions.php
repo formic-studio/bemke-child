@@ -17,6 +17,10 @@ require_once get_stylesheet_directory() . '/inc/image-optimization.php';
 require_once get_stylesheet_directory() . '/inc/accessibility-images.php';
 require_once get_stylesheet_directory() . '/inc/accessibility-markup.php';
 
+if ( is_admin() ) {
+	require_once get_stylesheet_directory() . '/inc/campus-draft-translation.php';
+}
+
 add_action( 'wp_head', 'bemke_child_print_theme_color', 0 );
 add_action( 'wp_head', 'bemke_child_print_motion_preference', 1 );
 add_action( 'wp_head', 'bemke_child_preload_critical_fonts', 2 );
@@ -76,9 +80,13 @@ function bemke_child_print_skip_link() {
 	if ( bemke_child_is_bricks_builder_request() ) {
 		return;
 	}
+
+	$label = 'en' === bemke_child_get_image_alternative_language()
+		? 'Skip to main content'
+		: 'Przejdź do treści głównej';
 	?>
 	<a class="bemke-skip-link" href="#brx-content">
-		<?php esc_html_e( 'Przejdź do treści głównej', 'bemke-child' ); ?>
+		<?php echo esc_html( $label ); ?>
 	</a>
 	<?php
 }

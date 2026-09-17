@@ -160,6 +160,23 @@ uwzględnić selektor `html[data-bemke-reduced-motion="true"]`.
 
 ## WordPress (GitHub -> WP)
 
+### Szkic Campus Bemke EN
+
+Tymczasowe narzędzie **Narzędzia → Campus Bemke EN** wczytuje plan z
+`data/campus-bemke-en.php`. Przed zapisem sprawdza, czy strona 4600 nadal jest
+szkicem oznaczonym w Polylang jako EN, a treści Bricks, Yoast i polskie opisy
+obrazów odpowiadają eksportowi z 17.09.2026. Rozbieżność blokuje cały import.
+
+Po kliknięciu przycisku narzędzie zapisuje kopię danych w metadanych strony pod
+`_bemke_campus_en_import_backup`, tłumaczy instancje komponentów Bricks, pola
+Yoast i opisy ALT EN sześciu obrazów. Polskie opisy ALT pozostają bez zmian.
+Import można uruchomić ponownie bez dublowania zmian. Strona pozostaje szkicem.
+Przed publikacją należy sprawdzić podgląd strony i linki do pozostałych
+polskich podstron. Przełącznik języka w menu nadal kieruje do zaślepki EN.
+
+Po zakończeniu migracji narzędzie i plan należy usunąć z motywu; zapisane
+tłumaczenia pozostaną w WordPressie.
+
 ### Opcja A: WP Pusher
 
 1. W panelu WordPress zainstaluj WP Pusher.

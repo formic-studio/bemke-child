@@ -1,44 +1,57 @@
 const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
 const MAP_IMAGE_SELECTOR = ".map-desktop, .map-mobile";
 
+const isEnglish = () =>
+  document.documentElement.lang.toLowerCase().startsWith("en");
+
+const mapText = (polish, english) => (isEnglish() ? english : polish);
+
 const MAP_AREAS = [
   {
     label: "Wioska Edukacyjna",
+    labelEn: "Educational Village",
     points:
       "3228,1673 3340,1694 3398,1727 3499,1767 3607,1799 3654,1828 3636,1908 3579,2002 3463,2139 3387,2099 3340,2078 3286,2052 3242,2042 3195,2020 3098,1984 3036,1958 3112,1837 3148,1787",
   },
   {
     label: "Przedszkole",
+    labelEn: "Preschool",
     points:
       "3101,2065 3047,2105 2996,2148 2986,2188 3000,2213 3072,2249 3123,2217 3174,2159 3195,2108",
   },
   {
     label: "Collegium Marianum",
+    labelEn: "Collegium Marianum",
     points:
       "2049,1262 2234,1306 2346,1327 2360,1363 2328,1483 2273,1544 2219,1649 2158,1714 2071,1751 1973,1743 1894,1711 1847,1649 1908,1476 1973,1384",
   },
   {
     label: "FarmLab",
+    labelEn: "FarmLab",
     points:
       "2422,2334 2364,2446 2331,2511 2375,2551 2494,2606 2566,2645 2664,2595 2841,2396 2852,2356 2772,2291 2667,2251 2606,2240 2476,2215",
   },
   {
     label: "Hala sportowa",
+    labelEn: "Sports hall",
     points:
       "2982,1601 2899,1717 2921,1749 2996,1778 3072,1807 3105,1782 3152,1731 3166,1680 3170,1655 3130,1619 3069,1604",
   },
   {
     label: "Parking",
+    labelEn: "Parking",
     points:
       "2595,1459 2552,1556 2671,1589 2754,1625 2805,1647 2895,1672 2978,1567",
   },
   {
     label: "Park",
+    labelEn: "Park",
     points:
       "2089,1807 2259,1706 2339,1648 2469,1677 2584,1739 2642,1786 2696,1865 2754,1902 2830,1952 2899,2035 2863,2162 2783,2195 2602,2216 2433,2187 2263,2173 2165,2122 2057,2072 2035,1902",
   },
   {
     label: "Gospodarstwo",
+    labelEn: "Farm",
     points:
       "2107,1236 2169,1250 2288,1279 2451,1312 2512,1225 2577,1116 2592,1087 2490,1051 2523,939 2259,881 2179,1008 2151,1059 2129,1116",
   },
@@ -95,13 +108,13 @@ function createMapControls() {
   const controls = document.createElement("div");
   controls.className = "campus-map__controls";
   controls.setAttribute("role", "group");
-  controls.setAttribute("aria-label", "Sterowanie mapą");
+  controls.setAttribute("aria-label", mapText("Sterowanie mapą", "Map controls"));
 
   const directions = [
-    { direction: "up", label: "Przesuń widok mapy w górę" },
-    { direction: "left", label: "Przesuń widok mapy w lewo" },
-    { direction: "right", label: "Przesuń widok mapy w prawo" },
-    { direction: "down", label: "Przesuń widok mapy w dół" },
+    { direction: "up", label: mapText("Przesuń widok mapy w górę", "Move map view up") },
+    { direction: "left", label: mapText("Przesuń widok mapy w lewo", "Move map view left") },
+    { direction: "right", label: mapText("Przesuń widok mapy w prawo", "Move map view right") },
+    { direction: "down", label: mapText("Przesuń widok mapy w dół", "Move map view down") },
   ];
 
   directions.forEach(({ direction, label }) => {
@@ -250,7 +263,10 @@ function initCampusMapPan(viewport, map, images, hideTooltip) {
   viewport.setAttribute("role", "region");
   viewport.setAttribute(
     "aria-label",
-    "Interaktywna mapa Campus Bemke. Przeciągnij mapę lub użyj klawiszy strzałek.",
+    mapText(
+      "Interaktywna mapa Campus Bemke. Przeciągnij mapę lub użyj klawiszy strzałek.",
+      "Interactive Campus Bemke map. Drag the map or use the arrow keys.",
+    ),
   );
 
   const controls = createMapControls();
@@ -376,7 +392,7 @@ export function initCampusMap() {
     class: "campus-map__areas",
     viewBox: "0 0 4096 4092",
     preserveAspectRatio: "xMidYMid meet",
-    "aria-label": "Interaktywna mapa Campus Bemke",
+    "aria-label": mapText("Interaktywna mapa Campus Bemke", "Interactive Campus Bemke map"),
   });
 
   const tooltip = document.createElement("div");
@@ -399,7 +415,8 @@ export function initCampusMap() {
     setTooltipAtArea(wrapper, tooltip, area);
   };
 
-  MAP_AREAS.forEach(({ label, points }) => {
+  MAP_AREAS.forEach(({ label: labelPl, labelEn, points }) => {
+    const label = mapText(labelPl, labelEn);
     const area = createSvgElement("polygon", {
       class: "campus-map__area",
       points,
