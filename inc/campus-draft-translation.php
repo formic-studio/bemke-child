@@ -186,7 +186,7 @@ function bemke_child_render_campus_translation_page() {
 		<?php endif; ?>
 		<details>
 			<summary>Podgląd tekstów przed i po tłumaczeniu</summary>
-			<table class="widefat striped"><thead><tr><th>Pole</th><th>Obecnie</th><th>Po zmianie</th></tr></thead><tbody>
+			<table class="widefat striped"><thead><tr><th>Pole</th><th>Przed importem (PL)</th><th>Po imporcie (EN)</th></tr></thead><tbody>
 			<?php foreach ( $plan['bricks_edits'] as $edit ) : ?>
 				<tr><td><?php echo esc_html( $edit['element'] . '.' . $edit['container'] . '.' . $edit['key'] ); ?></td><td><?php echo esc_html( wp_strip_all_tags( $edit['expected'], true ) ); ?></td><td><?php echo esc_html( wp_strip_all_tags( $edit['english'], true ) ); ?></td></tr>
 			<?php endforeach; ?>
