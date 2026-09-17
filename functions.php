@@ -16,6 +16,7 @@ require_once get_stylesheet_directory() . '/inc/slider-galleries.php';
 require_once get_stylesheet_directory() . '/inc/english-draft-preview.php';
 require_once get_stylesheet_directory() . '/inc/image-optimization.php';
 require_once get_stylesheet_directory() . '/inc/accessibility-images.php';
+require_once get_stylesheet_directory() . '/inc/media-alt-import.php';
 require_once get_stylesheet_directory() . '/inc/accessibility-markup.php';
 
 if ( is_admin() ) {

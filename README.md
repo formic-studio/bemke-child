@@ -322,6 +322,22 @@ polskich podstron. Przełącznik języka w menu nadal kieruje do zaślepki EN.
 Po zakończeniu migracji narzędzie i plan należy usunąć z motywu; zapisane
 tłumaczenia pozostaną w WordPressie.
 
+### Opisy ALT obrazów PL i EN
+
+**Narzędzia → Bemke — ALT obrazów** pokazuje przed zapisem zdjęcia i 202
+proponowane pary opisów. Plan w `data/media-alt-bemke-pl-en.json` obejmuje
+istniejące polskie ALT z pliku tłumaczeń oraz obejrzane obrazy, których polski
+ALT był pusty. Import odbywa się w partiach po 40 obrazów. Po każdej partii
+można odświeżyć podgląd i sprawdzić liczniki.
+
+Narzędzie uzupełnia polskie ALT tam, gdzie ich brakowało, oraz puste pola EN.
+Zachowuje istniejące własne opisy EN, pomija obrazy oznaczone jako dekoracyjne
+i nie zapisuje wpisów, których plik lub ALT PL zmieniły się od przygotowania
+planu. Zmiany są idempotentne, a cache LiteSpeed jest odświeżany przez obsługę
+ALT w motywie. Puste ALT obrazów użytych wyłącznie jako tła należy pozostawić
+puste. Dalszy przegląd powinien objąć obrazy w nowych szkicach oraz ewentualne
+pliki dodane po sporządzeniu planu.
+
 ### Opcja A: WP Pusher
 
 1. W panelu WordPress zainstaluj WP Pusher.
