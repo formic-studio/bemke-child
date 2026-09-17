@@ -245,6 +245,21 @@ menu. Doda ona cztery dostępne już pozycje EN i zaktualizuje odnośnik do
 Bemke Explore w szkicu stopki. Nagłówek, stopka i przełącznik języka nadal
 nie są publikowane ani przełączane automatycznie.
 
+### Warsztaty STEAM EN
+
+W polskim menu pod „Rozwój → Warsztaty STEAM” są jeszcze trzy strony.
+**Narzędzia → Bemke EN — warsztaty STEAM** tworzy ich powiązane szkice EN:
+Recurring Workshops, Workshops for Teachers i Workshops for Schools.
+Plan jest w `data/steam-pages-bemke-en.json`. Narzędzie sprawdza niezmienność
+stron PL i zapisuje treści Bricks oraz pola Yoast wyłącznie w szkicach EN.
+Opisy ALT obrazów pozostają do osobnego etapu. Linki do polskich regulaminów
+PDF mają etykietę „in Polish”.
+
+Po utworzeniu trzech szkiców uruchom **Narzędzia → Bemke EN — nawigacja →
+Synchronizuj menu EN**. Menu będzie wtedy miało wszystkie 22 pozycje z
+polskiego odpowiednika, łącznie z trzema podstronami warsztatów. Synchronizacja
+nie publikuje szkiców ani nie zmienia przełącznika języka.
+
 ### Szkic Campus Bemke EN
 
 Tymczasowe narzędzie **Narzędzia → Campus Bemke EN** wczytuje plan z

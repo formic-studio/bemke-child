@@ -1,0 +1,1278 @@
+{
+  "batch": "steam-pages-4",
+  "source": "WordPress WXR 2026-09-17 + tlumaczenie_bemkepl_EN.csv",
+  "plans": [
+    {
+      "source_post_id": 1056,
+      "source_post_parent": 659,
+      "source_post_title": "Warsztaty cykliczne",
+      "source_bricks_sha256": "efba9cf1f57186d240868c7c3dc7098558d10c7347640a90b375161dd7644112",
+      "source_bricks_elements": 202,
+      "source_excerpt": "Odkryj bezpłatne warsztaty cykliczne STEAM LAB dla dzieci i młodzieży. Poznaj cykl 14 spotkań opartych na metodyce Design Thinking – od projektowania w VR i mody cyrkularnej po gry mechaniczne i komiks.",
+      "target_title": "Recurring Workshops",
+      "target_slug": "recurring-workshops",
+      "target_excerpt": "Explore free recurring STEAM LAB workshops for children and young people at Campus Bemke.",
+      "bricks_edits": [
+        {
+          "element": "gpehmq",
+          "path": "settings.text",
+          "expected": "steam lab",
+          "english": "STEAM LAB"
+        },
+        {
+          "element": "psvyjc",
+          "path": "settings.text",
+          "expected": "warsztaty cykliczne dla dzieci <br>i młodzieży",
+          "english": "recurring workshops for children<br>and young people"
+        },
+        {
+          "element": "cgghgd",
+          "path": "settings.text",
+          "expected": "Bemke ",
+          "english": "BEMKE"
+        },
+        {
+          "element": "blhttz",
+          "path": "settings.text",
+          "expected": "rozwój",
+          "english": "DEVELOPMENT"
+        },
+        {
+          "element": "ofkizp",
+          "path": "settings.text",
+          "expected": "warsztaty steam",
+          "english": "STEAM WORKSHOPS"
+        },
+        {
+          "element": "nxapau",
+          "path": "settings.text",
+          "expected": "Warsztaty cykliczne",
+          "english": "RECURRING WORKSHOPS"
+        },
+        {
+          "element": "pfbkcn",
+          "path": "settings.text",
+          "expected": "bezpłatne warsztaty,",
+          "english": "FREE WORKSHOPS,"
+        },
+        {
+          "element": "anshfg",
+          "path": "settings.text",
+          "expected": "które kształtują edukację",
+          "english": "THAT SHAPE EDUCATION"
+        },
+        {
+          "element": "uwxzjk",
+          "path": "settings.text",
+          "expected": "STEAM-owa <br><span class=\"font-f-season-mix\">Wioska Edukacyjna</span>",
+          "english": "STEAM <br><span class=\"font-f-season-mix\">Educational Village</span>"
+        },
+        {
+          "element": "tfcout",
+          "path": "settings.text",
+          "expected": "Projekt <b>„STEAM-owa Wioska Edukacyjna dla Małopolski Zachodniej w Campus Bemke”</b> realizowany jest przez Fundację Campus Bemke w ramach Osi priorytetowej: Fundusze europejskie dla rynku pracy, edukacji i włączenia społecznego, Działania: 6.28 Nauka i innowacja w małopolskich szkołach, FEMP.06.28-IP.01-1587/24.A",
+          "english": "The <b>“STEAM Educational Village for Western Małopolska at Campus Bemke”</b> project is implemented by the Campus Bemke Foundation under the Priority Axis: European Funds for the Labour Market, Education and Social Inclusion, Measure 6.28 Science and Innovation in Małopolska Schools, FEMP.06.28-IP.01-1587/24.A."
+        },
+        {
+          "element": "twrlga",
+          "path": "settings.text",
+          "expected": "<b>Cel projektu:</b> Zwiększenie dostępności i jakości oferty edukacyjnej dla dzieci i młodzieży, z terenów wiejskich i miejsko-wiejskich pow. wadowickiego, suskiego, myślenickiego i oświęcimskiego poprzez organizację zróżnicowanych zajęć warsztatowych wykorzystujących podejście STEAM oraz wsparcie nauczycieli w zakresie nowoczesnych metod nauczania.",
+          "english": "<b>Project objective:</b> To increase the accessibility and quality of educational opportunities for children and young people from rural and urban-rural areas of the Wadowice, Sucha, Myślenice and Oświęcim counties by organising a diverse range of workshops using the STEAM approach and supporting teachers in modern teaching methods."
+        },
+        {
+          "element": "zxnxxs",
+          "path": "settings.text",
+          "expected": "<b>Wartość projektu:</b> 1 767 896,07 zł.<br><b>Wysokość dofinansowania z UE:</b> 1 496 252,98 zł.<br>#FunduszeUE #FunduszeEuropejskie",
+          "english": "<b>Project value:</b> PLN 1,767,896.07.<br><b>EU funding:</b> PLN 1,496,252.98.<br>#FunduszeUE #FunduszeEuropejskie"
+        },
+        {
+          "element": "janoug",
+          "path": "settings.text",
+          "expected": "Program dla uczniów<br><font face=\"Season Mix\">z powiatu wadowickiego</font>",
+          "english": "Programme for pupils<br><font face=\"Season Mix\">from Wadowice County</font>"
+        },
+        {
+          "element": "oaxhga",
+          "path": "settings.text",
+          "expected": "Podczas 14 spotkań uczestnicy definiują problemy, projektują rozwiązania i tworzą sensowne, przemyślane projekty w oparciu o metody STEAM i design thinking.",
+          "english": "Over 14 sessions, participants define problems, design solutions and create meaningful, well-considered projects using STEAM and design thinking methods."
+        },
+        {
+          "element": "zlvnof",
+          "path": "settings.text",
+          "expected": "Zapisz grupę",
+          "english": "Register a group"
+        },
+        {
+          "element": "atxqxt",
+          "path": "settings.text",
+          "expected": "Dzieci i młodzieży w wieku 10–14 lat&nbsp;",
+          "english": "Children and young people aged 10–14"
+        },
+        {
+          "element": "vkohwe",
+          "path": "settings.text",
+          "expected": "Dziewcząt w wieku 12-15 lat (osobna grupa)",
+          "english": "Girls aged 12–15 (separate group)"
+        },
+        {
+          "element": "kolsyk",
+          "path": "settings.text",
+          "expected": "dla kogo",
+          "english": "FOR WHOM"
+        },
+        {
+          "element": "xulazv",
+          "path": "properties.zdlpxl",
+          "expected": "Zabierz całą klasę <br><font face=\"Season Mix\">na warsztaty</font>",
+          "english": "Bring your whole class<br><font face=\"Season Mix\">to a workshop</font>"
+        },
+        {
+          "element": "xulazv",
+          "path": "properties.ysdwcw",
+          "expected": "steam-owa wioska edukacyjna",
+          "english": "STEAM EDUCATIONAL VILLAGE"
+        },
+        {
+          "element": "upxtob",
+          "path": "settings.text",
+          "expected": "design thinking",
+          "english": "DESIGN THINKING"
+        },
+        {
+          "element": "mizyht",
+          "path": "settings.text",
+          "expected": "Badanie, analiza i rozumienie potrzeb użytkownika",
+          "english": "Researching, analysing and understanding user needs"
+        },
+        {
+          "element": "ilnwgp",
+          "path": "settings.text",
+          "expected": "Definiowanie problemów i tworzenie wielu pomysłów na rozwiązanie",
+          "english": "Defining problems and generating multiple solution ideas"
+        },
+        {
+          "element": "ofcsru",
+          "path": "settings.text",
+          "expected": "Szybkie prototypowanie, testowanie i ulepszanie działań",
+          "english": "Rapid prototyping, testing and improving solutions"
+        },
+        {
+          "element": "gtsdfe",
+          "path": "settings.text",
+          "expected": "steam",
+          "english": "STEAM"
+        },
+        {
+          "element": "xrrumt",
+          "path": "settings.text",
+          "expected": "Doskonalenie&nbsp;zaawansowanych technik, kombinacji i układów (poomsae)<br>",
+          "english": "Refining advanced techniques, combinations and forms (poomsae)<br>"
+        },
+        {
+          "element": "eurrni",
+          "path": "settings.text",
+          "expected": "Nauka&nbsp;strategii i taktyki walki",
+          "english": "Learning fight strategy and tactics"
+        },
+        {
+          "element": "plgarf",
+          "path": "settings.text",
+          "expected": "Rozwijanie&nbsp;odporności psychicznej i radzenia sobie z presją",
+          "english": "Developing mental resilience and coping with pressure"
+        },
+        {
+          "element": "iguuzu",
+          "path": "settings.text",
+          "expected": "Kształtowanie&nbsp;ducha zespołowego&nbsp;i postawy reprezentanta",
+          "english": "Building team spirit and the attitude of a representative athlete"
+        },
+        {
+          "element": "fjtqoy",
+          "path": "settings.text",
+          "expected": "Udział w&nbsp;turniejach, wyjazdach i wspólnych wydarzeniach klubowych",
+          "english": "Participation in tournaments, trips and shared club events"
+        },
+        {
+          "element": "zyvmhd",
+          "path": "settings.text",
+          "expected": "Metody",
+          "english": "METHODS"
+        },
+        {
+          "element": "kprfzx",
+          "path": "settings.text",
+          "expected": "dzięki warsztatom",
+          "english": "THANKS TO THE WORKSHOPS"
+        },
+        {
+          "element": "rxpfwa",
+          "path": "settings.text",
+          "expected": "nauczysz się, jak<br><font face=\"Season Mix\">skutecznie rozwiązywać <br>problemy</font>",
+          "english": "you will learn how<br><font face=\"Season Mix\">to solve problems<br>effectively</font>"
+        },
+        {
+          "element": "qpivzu",
+          "path": "settings.text",
+          "expected": "wybierz warsztat<br>dla siebie",
+          "english": "choose a workshop<br>for yourself"
+        },
+        {
+          "element": "ltttwk",
+          "path": "properties.tzpmgm",
+          "expected": "od edukacji<br><span class=\"font-f-season-mix\">do działania</span>",
+          "english": "from education<br><span class=\"font-f-season-mix\">to action</span>"
+        },
+        {
+          "element": "ltttwk",
+          "path": "properties.qgmtyk",
+          "expected": "Kształtujemy nowe standardy",
+          "english": "Shaping new standards"
+        },
+        {
+          "element": "ltttwk",
+          "path": "properties.nulbcq",
+          "expected": "<span class=\"custom-font-style\">Własnoręczna biżuteria </span> – forma i funkcja ",
+          "english": "<span class=\"custom-font-style\">Handmade jewellery</span> – form and function"
+        },
+        {
+          "element": "ltttwk",
+          "path": "properties.wnvztn",
+          "expected": "Uczestnicy projektują i budują fragment prawdziwej ścieżki sensorycznej. Sprawdzają materiały, testują prototypy, badają bezpieczeństwo i funkcję. Uczą się, jak łączyć wiedzę o zmysłach, inżynierii i ekologii w praktycznym projekcie.\n<br><br>\n<b>Dla kogo: </b> dziewczęta w przedziale wiekowym 12–15 lat",
+          "english": "Participants design and build a section of a real sensory path. They assess materials, test prototypes, examine safety and function. They learn how to combine knowledge about the senses, engineering and ecology in a practical project.<br><br><b>For whom:</b> girls aged 12–15."
+        },
+        {
+          "element": "ltttwk",
+          "path": "properties.gurdjg",
+          "expected": "Zobacz ofertę",
+          "english": "View offer"
+        },
+        {
+          "element": "kmmfvm",
+          "path": "properties.tzpmgm",
+          "expected": "od edukacji<br><span class=\"font-f-season-mix\">do działania</span>",
+          "english": "from education<br><span class=\"font-f-season-mix\">to action</span>"
+        },
+        {
+          "element": "kmmfvm",
+          "path": "properties.qgmtyk",
+          "expected": "Kształtujemy nowe standardy",
+          "english": "Shaping new standards"
+        },
+        {
+          "element": "kmmfvm",
+          "path": "properties.nulbcq",
+          "expected": "<span class=\"custom-font-style\">Recycling ubrań</span> – autorska kolekcja",
+          "english": "<span class=\"custom-font-style\">Clothing recycling</span> – your own collection"
+        },
+        {
+          "element": "kmmfvm",
+          "path": "properties.wnvztn",
+          "expected": "Uczestniczki tworzą elementy autorskiej kolekcji z ubrań z odzysku. Poznają system fast fashion, analizują materiały, tworzą prototypy i ulepszają projekty. Pracują jak młode projektantki mody cyrkularnej.\n<br><br>\n<b>Dla kogo: </b>dziewczęta w wieku 12–15 lat ",
+          "english": "Participants create pieces for their own collection from upcycled clothing. They explore the fast-fashion system, analyse materials, create prototypes and improve their designs. They work like young circular-fashion designers.<br><br><b>For whom:</b> girls aged 12–15."
+        },
+        {
+          "element": "kmmfvm",
+          "path": "properties.gurdjg",
+          "expected": "Zobacz ofertę",
+          "english": "View offer"
+        },
+        {
+          "element": "jxlguh",
+          "path": "properties.tzpmgm",
+          "expected": "od edukacji<br><span class=\"font-f-season-mix\">do działania</span>",
+          "english": "from education<br><span class=\"font-f-season-mix\">to action</span>"
+        },
+        {
+          "element": "jxlguh",
+          "path": "properties.qgmtyk",
+          "expected": "Kształtujemy nowe standardy",
+          "english": "Shaping new standards"
+        },
+        {
+          "element": "jxlguh",
+          "path": "properties.nulbcq",
+          "expected": "<span class=\"custom-font-style\">Projektowanie </span> i rysunek w VR",
+          "english": "<span class=\"custom-font-style\">Design</span> and drawing in VR"
+        },
+        {
+          "element": "jxlguh",
+          "path": "properties.wnvztn",
+          "expected": "Uczniowie przechodzą przez pełny proces projektowy: od orientacji w środowisku VR, pracy ze skalą i perspektywą, przez definiowanie koncepcji i budowę struktury, aż po iteracyjne testowanie, prezentację i refleksję nad procesem.\n<br><br>\n<b>Dla kogo:</b> dzieci i młodzież w wieku 13–14 lat ",
+          "english": "Students go through the full design process: from navigating the VR environment and working with scale and perspective, through defining a concept and building a structure, to iterative testing, presentation and reflection on the process.<br><br><b>For whom:</b> children and young people aged 13–14."
+        },
+        {
+          "element": "jxlguh",
+          "path": "properties.gurdjg",
+          "expected": "Zobacz ofertę",
+          "english": "View offer"
+        },
+        {
+          "element": "uwegit",
+          "path": "properties.tzpmgm",
+          "expected": "od edukacji<br><span class=\"font-f-season-mix\">do działania</span>",
+          "english": "from education<br><span class=\"font-f-season-mix\">to action</span>"
+        },
+        {
+          "element": "uwegit",
+          "path": "properties.qgmtyk",
+          "expected": "Kształtujemy nowe standardy",
+          "english": "Shaping new standards"
+        },
+        {
+          "element": "uwegit",
+          "path": "properties.nulbcq",
+          "expected": "<span class=\"custom-font-style\">Zróbmy Komiks! </span> – warsztaty artystyczno-storytellingowy",
+          "english": "<span class=\"custom-font-style\">Let’s Make a Comic!</span> – art and storytelling workshop"
+        },
+        {
+          "element": "uwegit",
+          "path": "properties.wnvztn",
+          "expected": "Uczestnicy przechodzą przez pełen proces wydawniczy: od planowania layoutu i pracy z profesjonalnymi narzędziami po skład komiksu. Kładziemy mocny nacisk na rozwój umiejętności projektowych, współpracę w grupie oraz budowanie narracji. To bezpieczna przestrzeń wolna od oceniania predyspozycji plastycznych – skupiamy się na twórczym rozwiązywaniu problemów i opowiadaniu historii.\n<br><br>\n<b>Dla kogo:</b> młodzież w wieku 13–14 lat",
+          "english": "Participants go through the full publishing process: from planning the layout and working with professional tools to assembling the comic. We place strong emphasis on developing design skills, group collaboration and storytelling. It is a safe, judgement-free space where artistic ability is not assessed — we focus on creative problem-solving and telling stories.<br><br><b>For whom:</b> young people aged 13–14."
+        },
+        {
+          "element": "uwegit",
+          "path": "properties.gurdjg",
+          "expected": "Zobacz ofertę",
+          "english": "View offer"
+        },
+        {
+          "element": "mykpza",
+          "path": "settings.text",
+          "expected": "rekrutacja<br><font face=\"Season Mix\">na warsztaty</font>",
+          "english": "recruitment<br><font face=\"Season Mix\">for workshops</font>"
+        },
+        {
+          "element": "jnbyaz",
+          "path": "settings.text",
+          "expected": "Zapoznaj się z regulaminem programu&nbsp;",
+          "english": "Read the programme regulations"
+        },
+        {
+          "element": "xhdfay",
+          "path": "settings.text",
+          "expected": "Czytaj",
+          "english": "Read the regulations (in Polish)"
+        },
+        {
+          "element": "bwcyzy",
+          "path": "settings.text",
+          "expected": "Uzupełnij wstępny formularz on-line&nbsp;",
+          "english": "Complete the initial online form"
+        },
+        {
+          "element": "mwherd",
+          "path": "settings.text",
+          "expected": "Formularz",
+          "english": "Form"
+        },
+        {
+          "element": "pbiqns",
+          "path": "settings.text",
+          "expected": "Pobierz, wydrukuj i uzupełnij dokumenty rekrutacyjne",
+          "english": "Download, print and complete the recruitment documents"
+        },
+        {
+          "element": "gdrimo",
+          "path": "settings.text",
+          "expected": "Pobierz",
+          "english": "Download application form (in Polish)"
+        },
+        {
+          "element": "tdgyri",
+          "path": "settings.text",
+          "expected": "Dostarcz oryginał formularza zgłoszeniowego uczestnika wraz z wymaganymi załącznikami osobiście lub pocztą na adres Fundacja Campus Bemke Krakowska 4, 34-124 Klecza Dolna z dopiskiem “STEAM LAB”.",
+          "english": "Deliver the original participant application form with all required attachments in person or by post to: Campus Bemke Foundation, Krakowska 4, 34-124 Klecza Dolna, marked “STEAM LAB”."
+        },
+        {
+          "element": "yexnzp",
+          "path": "settings.text",
+          "expected": "Tu mogą się rozwinąć jako twórcy, badacze i projektanci. W każdej grupie mamy max. 12 miejsc. Osoby zakwalifikowane do projektu mogą&nbsp;<span style=\"background-color: initial; letter-spacing: 0.435px;\">wziąć udział tylko w jednym rodzaju warsztatów.</span>",
+          "english": "Here they can develop as creators, researchers and designers. Each group has a maximum of 12 places. People accepted into the project may&nbsp;<span style=\"background-color: initial; letter-spacing: 0.435px;\">take part in only one type of workshop.</span>"
+        },
+        {
+          "element": "lzgzxq",
+          "path": "settings.text",
+          "expected": "będziesz ćwiczyć<br><font face=\"Season Mix\">kompetencje przyszłości</font>",
+          "english": "you will practise<br><font face=\"Season Mix\">future-ready skills</font>"
+        },
+        {
+          "element": "owwttn",
+          "path": "settings.text",
+          "expected": "zyskasz pewność siebie,<br><font face=\"Season Mix\">poczucie sprawczości i odwagę <br>do popełniania Błędów</font>",
+          "english": "you will gain confidence,<br><font face=\"Season Mix\">agency and the courage<br>to make mistakes</font>"
+        },
+        {
+          "element": "rvvcbv",
+          "path": "settings.text",
+          "expected": "rozwiniesz kreatywność<br><font face=\"Season Mix\">dzięki praktycznym<br>ćwiczeniom</font>",
+          "english": "you will develop creativity<br><font face=\"Season Mix\">through practical<br>exercises</font>"
+        },
+        {
+          "element": "sgvyjq",
+          "path": "settings.text",
+          "expected": "nauczysz się współpracy<br><font face=\"Season Mix\">i komunikacji</font>",
+          "english": "you will learn collaboration<br><font face=\"Season Mix\">and communication</font>"
+        },
+        {
+          "element": "umtomz",
+          "path": "settings.text",
+          "expected": "zaczniesz widzieć świat<br><font face=\"Season Mix\">jako system<br>połączonych elementów</font>",
+          "english": "you will see the world<br><font face=\"Season Mix\">as a system of<br>connected parts</font>"
+        },
+        {
+          "element": "qmpbih",
+          "path": "settings.text",
+          "expected": "kontakt",
+          "english": "CONTACT"
+        },
+        {
+          "element": "tvyfyf",
+          "path": "settings.text",
+          "expected": "Masz pytania? Chętnie pomożemy!",
+          "english": "Have questions? We’re happy to help!"
+        },
+        {
+          "element": "rxbuay",
+          "path": "settings.text",
+          "expected": "Kinga Rusinek&nbsp;<a class=\"link-underline\" href=\"tel:+48697003981\">697 003 981 </a><br>\nNatalia Maciejczyk&nbsp;&nbsp;<a class=\"link-underline\" href=\"tel:+48885502062\">885 502 062</a>\n",
+          "english": "Kinga Rusinek&nbsp;<a class=\"link-underline\" href=\"tel:+48697003981\">697 003 981</a><br>Natalia Maciejczyk&nbsp;<a class=\"link-underline\" href=\"tel:+48885502062\">885 502 062</a>"
+        },
+        {
+          "element": "kwspdh",
+          "path": "settings.text",
+          "expected": "Regulamin projektu",
+          "english": "Project regulations (in Polish)"
+        },
+        {
+          "element": "svpvll",
+          "path": "settings.text",
+          "expected": "Tu proces jest ważniejszy niż gotowy produkt",
+          "english": "Here, the process matters more than the finished product"
+        },
+        {
+          "element": "gyrygj",
+          "path": "properties.tzpmgm",
+          "expected": "od edukacji<br><span class=\"font-f-season-mix\">do działania</span>",
+          "english": "from education<br><span class=\"font-f-season-mix\">to action</span>"
+        },
+        {
+          "element": "gyrygj",
+          "path": "properties.qgmtyk",
+          "expected": "Kształtujemy nowe standardy",
+          "english": "Shaping new standards"
+        },
+        {
+          "element": "gyrygj",
+          "path": "properties.nulbcq",
+          "expected": "<span class=\"custom-font-style\"> Ścieżka sensoryczna </span> – STEAM w działaniu ",
+          "english": "<span class=\"custom-font-style\">Sensory path</span> – STEAM in action"
+        },
+        {
+          "element": "gyrygj",
+          "path": "properties.wnvztn",
+          "expected": "Uczestnicy tworzą działającą grę mechaniczną opartą na fizyce i inżynierii: ruch, tarcie, prędkość, stabilność. Od pierwszych testów aż po turniej końcowy — pełny proces projektowy i świetna zabawa.\n<br><br>\n<b>Dla kogo:</b> dzieci i młodzież w wieku 10–12 lat",
+          "english": "Participants create a working mechanical game based on physics and engineering: motion, friction, speed and stability. From the first tests to the final tournament — a complete design process and great fun.<br><br><b>For whom:</b> children and young people aged 10–12."
+        },
+        {
+          "element": "gyrygj",
+          "path": "properties.gurdjg",
+          "expected": "Zobacz ofertę",
+          "english": "View offer"
+        },
+        {
+          "element": "plytvs",
+          "path": "properties.tzpmgm",
+          "expected": "od edukacji<br><span class=\"font-f-season-mix\">do działania</span>",
+          "english": "from education<br><span class=\"font-f-season-mix\">to action</span>"
+        },
+        {
+          "element": "plytvs",
+          "path": "properties.qgmtyk",
+          "expected": "Kształtujemy nowe standardy",
+          "english": "Shaping new standards"
+        },
+        {
+          "element": "plytvs",
+          "path": "properties.nulbcq",
+          "expected": "<span class=\"custom-font-style\">gra mechaniczna -</span> pinball diy",
+          "english": "<span class=\"custom-font-style\">mechanical game –</span> DIY pinball"
+        },
+        {
+          "element": "plytvs",
+          "path": "properties.wnvztn",
+          "expected": "Uczestnicy tworzą działającą grę mechaniczną opartą na fizyce i inżynierii: ruch, tarcie, prędkość, stabilność. Od pierwszych testów aż po turniej końcowy — pełny proces projektowy i świetna zabawa.\n<br><br>\n<b>Dla kogo:</b> dzieci i młodzież w wieku 10–12 lat",
+          "english": "Participants create a working mechanical game based on physics and engineering: motion, friction, speed and stability. From the first tests to the final tournament — a complete design process and great fun.<br><br><b>For whom:</b> children and young people aged 10–12."
+        },
+        {
+          "element": "plytvs",
+          "path": "properties.gurdjg",
+          "expected": "Zobacz ofertę",
+          "english": "View offer"
+        }
+      ],
+      "yoast_edits": [
+        {
+          "key": "_yoast_wpseo_title",
+          "expected": "Warsztaty cykliczne STEAM LAB w Bemke",
+          "english": "Recurring STEAM Workshops at Bemke"
+        },
+        {
+          "key": "_yoast_wpseo_metadesc",
+          "expected": "Poznaj bezpłatne warsztaty cykliczne STEAM LAB w Campus Bemke. Odkryj zajęcia z VR, mody cyrkularnej i Design Thinking dla dzieci i młodzieży.",
+          "english": "Explore free recurring STEAM LAB workshops for children and young people at Campus Bemke."
+        },
+        {
+          "key": "_yoast_wpseo_focuskw",
+          "expected": "warsztaty cykliczne STEAM",
+          "english": "Recurring Workshops Bemke"
+        },
+        {
+          "key": "_yoast_wpseo_opengraph-title",
+          "expected": "STEAM LAB – Bezpłatne warsztaty cykliczne dla dzieci i młodzieży",
+          "english": "Recurring STEAM Workshops"
+        },
+        {
+          "key": "_yoast_wpseo_opengraph-description",
+          "expected": "Poznaj cykl 14 bezpłatnych warsztatów STEAM LAB w Campus Bemke. Tworzymy projekty w VR, modę cyrkularną, gry mechaniczne i komiksy w oparciu o metodykę Design Thinking.",
+          "english": "Hands-on STEAM LAB activities for children and young people at Bemke."
+        },
+        {
+          "key": "_yoast_wpseo_twitter-title",
+          "expected": "STEAM LAB – Bezpłatne warsztaty cykliczne dla dzieci i młodzieży",
+          "english": "Recurring STEAM Workshops"
+        },
+        {
+          "key": "_yoast_wpseo_twitter-description",
+          "expected": "Poznaj cykl 14 bezpłatnych warsztatów STEAM LAB w Campus Bemke. Tworzymy projekty w VR, modę cyrkularną, gry mechaniczne i komiksy w oparciu o metodykę Design Thinking.",
+          "english": "Hands-on STEAM LAB activities for children and young people at Bemke."
+        }
+      ]
+    },
+    {
+      "source_post_id": 1052,
+      "source_post_parent": 659,
+      "source_post_title": "Warsztaty dla nauczycieli",
+      "source_bricks_sha256": "e7bd1ce5e206cdc6ef071244edfcd50bcccac60df37a290493928b68501cc9bd",
+      "source_bricks_elements": 174,
+      "source_excerpt": "Poznaj program STEAM Academy. Zapraszamy nauczycieli na bezpłatny, 48-godzinny cykl szkoleniowy z zakresu metodyki STEAM oraz Design Thinking, ułatwiający projektowanie innowacyjnych zajęć.",
+      "target_title": "Workshops for Teachers",
+      "target_slug": "workshops-for-teachers",
+      "target_excerpt": "Discover STEAM Academy, a free training programme for teachers at Campus Bemke.",
+      "bricks_edits": [
+        {
+          "element": "jldhja",
+          "path": "settings.text",
+          "expected": "warsztaty dla nauczycieli",
+          "english": "WORKSHOPS FOR TEACHERS"
+        },
+        {
+          "element": "kvksqu",
+          "path": "settings.text",
+          "expected": "Bemke ",
+          "english": "BEMKE"
+        },
+        {
+          "element": "nsnurm",
+          "path": "settings.text",
+          "expected": "rozwój",
+          "english": "DEVELOPMENT"
+        },
+        {
+          "element": "gzpmfj",
+          "path": "settings.text",
+          "expected": "warsztaty dla nauczycieli",
+          "english": "WORKSHOPS FOR TEACHERS"
+        },
+        {
+          "element": "sbdvta",
+          "path": "settings.text",
+          "expected": "warsztaty steam",
+          "english": "STEAM WORKSHOPS"
+        },
+        {
+          "element": "thtkyz",
+          "path": "settings.text",
+          "expected": "STEAM-owa <br><span class=\"font-f-season-mix\">Wioska Edukacyjna</span>",
+          "english": "STEAM <br><span class=\"font-f-season-mix\">Educational Village</span>"
+        },
+        {
+          "element": "uuyhrf",
+          "path": "settings.text",
+          "expected": "Projekt <b>„STEAM-owa Wioska Edukacyjna dla Małopolski Zachodniej w Campus Bemke”</b> realizowany jest przez Fundację Campus Bemke w ramach Osi priorytetowej: Fundusze europejskie dla rynku pracy, edukacji i włączenia społecznego, Działania: 6.28 Nauka i innowacja w małopolskich szkołach, FEMP.06.28-IP.01-1587/24.A",
+          "english": "The <b>“STEAM Educational Village for Western Małopolska at Campus Bemke”</b> project is implemented by the Campus Bemke Foundation under the Priority Axis: European Funds for the Labour Market, Education and Social Inclusion, Measure 6.28 Science and Innovation in Małopolska Schools, FEMP.06.28-IP.01-1587/24.A."
+        },
+        {
+          "element": "vbyjai",
+          "path": "settings.text",
+          "expected": "<b>Cel projektu:</b> Zwiększenie dostępności i jakości oferty edukacyjnej dla dzieci i młodzieży, z terenów wiejskich i miejsko-wiejskich pow. wadowickiego, suskiego, myślenickiego i oświęcimskiego poprzez organizację zróżnicowanych zajęć warsztatowych wykorzystujących podejście STEAM oraz wsparcie nauczycieli w zakresie nowoczesnych metod nauczania.",
+          "english": "<b>Project objective:</b> To increase the accessibility and quality of educational opportunities for children and young people from rural and urban-rural areas of the Wadowice, Sucha, Myślenice and Oświęcim counties by organising a diverse range of workshops using the STEAM approach and supporting teachers in modern teaching methods."
+        },
+        {
+          "element": "luwvub",
+          "path": "settings.text",
+          "expected": "<b>Wartość projektu:</b> 1 767 896,07 zł.<br><b>Wysokość dofinansowania z UE:</b> 1 496 252,98 zł.<br>#FunduszeUE #FunduszeEuropejskie",
+          "english": "<b>Project value:</b> PLN 1,767,896.07.<br><b>EU funding:</b> PLN 1,496,252.98.<br>#FunduszeUE #FunduszeEuropejskie"
+        },
+        {
+          "element": "ptrzho",
+          "path": "settings.text",
+          "expected": "STEAM Academy to:",
+          "english": "STEAM ACADEMY INCLUDES:"
+        },
+        {
+          "element": "punajk",
+          "path": "settings.text",
+          "expected": "Podstawy i komponenty edukacji STEAM",
+          "english": "Foundations and components of STEAM education"
+        },
+        {
+          "element": "hljnqp",
+          "path": "settings.text",
+          "expected": "Metoda miniprojektu: diagnoza, cele, planowanie i ewaluacja",
+          "english": "The mini-project method: diagnosis, objectives, planning and evaluation"
+        },
+        {
+          "element": "askrkt",
+          "path": "settings.text",
+          "expected": "Wzmacnianie zasobów i udzielanie doceniającej informacji zwrotnej",
+          "english": "Strengths-based development and appreciative feedback"
+        },
+        {
+          "element": "bcwbtf",
+          "path": "settings.text",
+          "expected": "Design thinking w pracy z uczniami",
+          "english": "Design thinking in work with students"
+        },
+        {
+          "element": "hvlhhp",
+          "path": "settings.text",
+          "expected": "Projektowanie zajęć (cykle, struktury, proces grupowy)",
+          "english": "Designing classes (cycles, structures, group process)"
+        },
+        {
+          "element": "ygkasg",
+          "path": "settings.text",
+          "expected": "Ewaluacja zajęć i radzenie sobie z trudnymi sytuacjami",
+          "english": "Evaluating classes and handling difficult situations"
+        },
+        {
+          "element": "eqzpct",
+          "path": "settings.text",
+          "expected": "STEAM Academy to szkolenie z projektowania zajęć zgodnie z nowoczesną metodą STEAM dedykowane nauczycielom/kom OWP, szkół i placówek oświatowych prowadzących kształcenie ogólne i zawodowe (z wyłączeniem szkół dla dorosłych).",
+          "english": "STEAM Academy is training in designing classes using the modern STEAM method, dedicated to teachers from preschool education institutions, schools and educational institutions providing general and vocational education (excluding adult schools)."
+        },
+        {
+          "element": "jwqoxg",
+          "path": "settings.text",
+          "expected": "Celem szkolenia jest wzmocnienie umiejętności stosowania nowoczesnych metod edukacji STEAM oraz rozwijania zasobów wewnętrznych uczniów: kreatywności, krytycznego myślenia, elastyczności i pracy zespołowej. Program uwzględnia różnorodność uczniów oraz ich indywidualne style uczenia się (m.in. w oparciu o cykl Kolba).",
+          "english": "The training aims to strengthen teachers’ ability to use modern STEAM methods and develop pupils’ internal resources: creativity, critical thinking, flexibility and teamwork. The programme takes account of pupils’ diversity and individual learning styles, including the Kolb learning cycle."
+        },
+        {
+          "element": "qrypqg",
+          "path": "settings.text",
+          "expected": "wspieramy nauczycieli",
+          "english": "WE SUPPORT TEACHERS"
+        },
+        {
+          "element": "oskmwf",
+          "path": "settings.text",
+          "expected": "co daje szkolenie",
+          "english": "WHAT THE TRAINING PROVIDES"
+        },
+        {
+          "element": "fkpped",
+          "path": "settings.text",
+          "expected": "Po zakończeniu szkolenia uczestnicy nabiorą pewności w samodzielnym projektowaniu i prowadzeniu zajęć STEAM, skutecznie angażując uczniów i wspierając ich zróżnicowane potrzeby (wiek, płeć, różnorodność, OzN). Nauczą się też monitorować postępy uczniów i dostosowywać proces edukacyjny do ich indywidualnego stylu uczenia się.",
+          "english": "After completing the training, participants will gain confidence in independently designing and delivering STEAM classes, effectively engaging students and supporting their diverse needs (age, gender, diversity, persons with disabilities). They will also learn to monitor students’ progress and adapt the educational process to their individual learning styles."
+        },
+        {
+          "element": "fpdhsu",
+          "path": "settings.text",
+          "expected": "W ramach szkolenia<br><span class=\"font-f-season-mix\">zapewniamy</span>",
+          "english": "As part of the training<br><span class=\"font-f-season-mix\">we provide</span>"
+        },
+        {
+          "element": "nqeydx",
+          "path": "settings.text",
+          "expected": "Program dydaktyczny trwający łącznie 48 godzin szkoleniowych",
+          "english": "A teaching programme totalling 48 training hours"
+        },
+        {
+          "element": "zjvxhm",
+          "path": "settings.text",
+          "expected": "Podstawy i komponenty edukacji STEAM",
+          "english": "Foundations and components of STEAM education"
+        },
+        {
+          "element": "parrio",
+          "path": "settings.text",
+          "expected": "Zaświadczenie o ukończeniu szkolenia",
+          "english": "Certificate of completion"
+        },
+        {
+          "element": "rgjxlp",
+          "path": "settings.text",
+          "expected": "Obiad oraz przerwę kawową",
+          "english": "Lunch and a coffee break"
+        },
+        {
+          "element": "rboqbb",
+          "path": "settings.text",
+          "expected": "Celem szkolenia jest wzmocnienie umiejętności stosowania nowoczesnych metod edukacji STEAM oraz rozwijania zasobów wewnętrznych uczniów: kreatywności, krytycznego myślenia, elastyczności i pracy zespołowej. Program uwzględnia różnorodność uczniów oraz ich indywidualne style uczenia się (m.in. w oparciu o cykl Kolba).",
+          "english": "The training aims to strengthen teachers’ ability to use modern STEAM methods and develop pupils’ internal resources: creativity, critical thinking, flexibility and teamwork. The programme takes account of pupils’ diversity and individual learning styles, including the Kolb learning cycle."
+        },
+        {
+          "element": "acwtyy",
+          "path": "settings.text",
+          "expected": "Dostarcz formularz osobiście do Kierownika Projektu lub wyślij pocztą na adres – Fundacja Campus Bemke, Krakowska 4, 34-124 Klecza Dolna z dopiskiem „STEAM Academy” we wskazanym terminie.",
+          "english": "Deliver the form in person to the Project Manager or send it by post to: Campus Bemke Foundation, Krakowska 4, 34-124 Klecza Dolna, marked “STEAM Academy”, by the specified deadline."
+        },
+        {
+          "element": "clhkda",
+          "path": "settings.text",
+          "expected": "Wypełnij uważnie formularz wraz ze wszystkimi załącznikami, odpowiedz na pytania rekrutacyjne. ",
+          "english": "Carefully complete the form with all attachments and answer the recruitment questions."
+        },
+        {
+          "element": "qcqdci",
+          "path": "settings.text",
+          "expected": "Zapoznaj się z regulaminem projektu i rekrutacji STEAM Academy oraz kryteriami oceny zgłoszeń",
+          "english": "Read the STEAM Academy project and recruitment regulations and the application assessment criteria"
+        },
+        {
+          "element": "cbwnzh",
+          "path": "settings.text",
+          "expected": "Zgłoś swoją chęć udziału w rekrutacji w krótkim wstępnym formularzu on-line:",
+          "english": "Register your interest in recruitment using the short initial online form:"
+        },
+        {
+          "element": "iyyazr",
+          "path": "settings.text",
+          "expected": "Formularz",
+          "english": "Initial application form"
+        },
+        {
+          "element": "fwhyef",
+          "path": "settings.text",
+          "expected": "Dokumenty",
+          "english": "Application form (in Polish)"
+        },
+        {
+          "element": "anjrvs",
+          "path": "settings.text",
+          "expected": "Pobierz i wydrukuj",
+          "english": "Download and print"
+        },
+        {
+          "element": "ksezsy",
+          "path": "settings.text",
+          "expected": "rekrutacja&nbsp;<br><font face=\"Season Mix\">krok po kroku</font>",
+          "english": "recruitment&nbsp;<br><font face=\"Season Mix\">step by step</font>"
+        },
+        {
+          "element": "yxxmyi",
+          "path": "settings.text",
+          "expected": "Rekrutacja trwa do 08.01.2026.<div>Rekrutacja uzupełniająca trwa do 15.01.2026</div><div><br></div><div>Złożenie formularza zgłoszeniowego nie jest równoznaczne z przyjęciem kandydata do projektu. Udział jest bezpłatny.</div><div>Liczba miejsc na szkolenie jest ograniczona.</div>",
+          "english": "Recruitment is open until 8 January 2026.<div>Supplementary recruitment is open until 15 January 2026.</div><div><br></div><div>Submitting an application form does not mean the candidate has been accepted into the project. Participation is free of charge.</div><div>The number of training places is limited.</div>"
+        },
+        {
+          "element": "wusgfd",
+          "path": "settings.text",
+          "expected": "II tura szkoleń&nbsp;<br><font face=\"Season Mix\">STEAM Academy</font>",
+          "english": "Second round of training&nbsp;<br><font face=\"Season Mix\">STEAM Academy</font>"
+        },
+        {
+          "element": "titlio",
+          "path": "settings.text",
+          "expected": "<strong>Miejsce:</strong> <br>Wioska Edukacyjna Campusu Bemke – Krakowska 4, 34-124 Klecza Dolna<div><strong>Terminy I Grupa:</strong></div><div></div><div>10-11 października 2026</div><div>24-25 października 2026</div><div>14-15 listopada 2026<br><br><strong>Terminy II Grupa:</strong></div><div>17-18 października 2026</div><div>7-8 listopada 2026</div><div>21-22 listopada 2026<br><br></div><div>Szkolenia odbywają się w godz. 9:00-16:00.</div><br><div>Wymagany jest udział w całym cyklu szkoleniowym.</div>",
+          "english": "<strong>Location:</strong><br>Campus Bemke Educational Village – Krakowska 4, 34-124 Klecza Dolna<div><strong>Dates – Group I:</strong></div><div>10–11 October 2026</div><div>24–25 October 2026</div><div>14–15 November 2026<br><br><strong>Dates – Group II:</strong></div><div>17–18 October 2026</div><div>7–8 November 2026</div><div>21–22 November 2026<br><br></div><div>Training takes place from 9:00 a.m. to 4:00 p.m.</div><br><div>Attendance throughout the entire training cycle is required.</div>"
+        },
+        {
+          "element": "yzsvgu",
+          "path": "settings.text",
+          "expected": "Link",
+          "english": "Recruitment regulations (in Polish)"
+        },
+        {
+          "element": "puymer",
+          "path": "settings.text",
+          "expected": "bezpłatne warsztaty,",
+          "english": "FREE WORKSHOPS,"
+        },
+        {
+          "element": "xncmtr",
+          "path": "settings.text",
+          "expected": "które kształtują edukację",
+          "english": "THAT SHAPE EDUCATION"
+        },
+        {
+          "element": "xsjovp",
+          "path": "settings.text",
+          "expected": "Zapisz się na zajęcia",
+          "english": "Register for the training"
+        },
+        {
+          "element": "dfzjle",
+          "path": "settings.text",
+          "expected": "kontakt",
+          "english": "CONTACT"
+        },
+        {
+          "element": "gbtkse",
+          "path": "settings.text",
+          "expected": "Masz pytania? Chętnie pomożemy!",
+          "english": "Have questions? We’re happy to help!"
+        },
+        {
+          "element": "zszdpz",
+          "path": "settings.text",
+          "expected": "Kinga Rusinek&nbsp;<a class=\"link-underline\" href=\"tel:+48697003981\">697 003 981 </a><br>\nNatalia Maciejczyk&nbsp;&nbsp;<a class=\"link-underline\" href=\"tel:+48885502062\">885 502 062</a>\n",
+          "english": "Kinga Rusinek&nbsp;<a class=\"link-underline\" href=\"tel:+48697003981\">697 003 981</a><br>Natalia Maciejczyk&nbsp;<a class=\"link-underline\" href=\"tel:+48885502062\">885 502 062</a>"
+        },
+        {
+          "element": "nnyxmx",
+          "path": "settings.text",
+          "expected": "Regulamin projektu",
+          "english": "Project regulations (in Polish)"
+        }
+      ],
+      "yoast_edits": [
+        {
+          "key": "_yoast_wpseo_title",
+          "expected": "STEAM Academy – warsztaty dla nauczycieli w Bemke",
+          "english": "STEAM Academy for Teachers at Bemke"
+        },
+        {
+          "key": "_yoast_wpseo_metadesc",
+          "expected": "Poznaj STEAM Academy - bezpłatne szkolenie z metody STEAM i design thinking dla nauczycieli, rozwijające nowoczesne warsztaty w szkołach.",
+          "english": "Discover STEAM Academy, a free training programme for teachers at Campus Bemke."
+        },
+        {
+          "key": "_yoast_wpseo_focuskw",
+          "expected": "STEAM Academy warsztaty dla nauczycieli",
+          "english": "Workshops for Teachers Bemke"
+        },
+        {
+          "key": "_yoast_wpseo_opengraph-title",
+          "expected": "STEAM Academy – bezpłatne szkolenia dla nauczycieli",
+          "english": "STEAM Academy for Teachers"
+        },
+        {
+          "key": "_yoast_wpseo_opengraph-description",
+          "expected": "Poznaj STEAM Academy w Campus Bemke. Oferujemy bezpłatny, program szkoleniowy dla nauczycieli z zakresu metodologii STEAM, design thinking i projektowania nowoczesnych zajęć.",
+          "english": "Free training in STEAM education and design thinking for teachers."
+        },
+        {
+          "key": "_yoast_wpseo_twitter-title",
+          "expected": "STEAM Academy – bezpłatne szkolenia dla nauczycieli",
+          "english": "STEAM Academy for Teachers"
+        },
+        {
+          "key": "_yoast_wpseo_twitter-description",
+          "expected": "Poznaj STEAM Academy w Campus Bemke. Oferujemy bezpłatny, program szkoleniowy dla nauczycieli z zakresu metodologii STEAM, design thinking i projektowania nowoczesnych zajęć.",
+          "english": "Free training in STEAM education and design thinking for teachers."
+        }
+      ]
+    },
+    {
+      "source_post_id": 1054,
+      "source_post_parent": 659,
+      "source_post_title": "Warsztaty dla szkół",
+      "source_bricks_sha256": "a9cfd1a3b3c3b00ce1afafc6734010064ae70f6d1ff3a6b8c9b1fc3282ebf8be",
+      "source_bricks_elements": 188,
+      "source_excerpt": "Poznaj bezpłatne ekspedycje naukowe dla szkół i przedszkoli w Campus Bemke. Odkryj warsztaty STEAM z zapewnionym transportem autokarowym.",
+      "target_title": "Workshops for Schools",
+      "target_slug": "workshops-for-schools",
+      "target_excerpt": "Explore free STEAM science expeditions for school and preschool groups at Campus Bemke.",
+      "bricks_edits": [
+        {
+          "element": "nwbmye",
+          "path": "settings.text",
+          "expected": "ekspedycje <br>naukowe",
+          "english": "science <br>expeditions"
+        },
+        {
+          "element": "hromoy",
+          "path": "settings.text",
+          "expected": "warsztaty dla klas szkolnych i grup <br>przedszkolnych",
+          "english": "workshops for school classes<br>and preschool groups"
+        },
+        {
+          "element": "vlodfd",
+          "path": "settings.text",
+          "expected": "Bemke ",
+          "english": "BEMKE"
+        },
+        {
+          "element": "zuchth",
+          "path": "settings.text",
+          "expected": "rozwój",
+          "english": "DEVELOPMENT"
+        },
+        {
+          "element": "bnyhej",
+          "path": "settings.text",
+          "expected": "warsztaty steam",
+          "english": "STEAM WORKSHOPS"
+        },
+        {
+          "element": "gobbkb",
+          "path": "settings.text",
+          "expected": "ekspedycje naukowe",
+          "english": "SCIENTIFIC EXPEDITIONS"
+        },
+        {
+          "element": "bzgeqk",
+          "path": "settings.text",
+          "expected": "bezpłatne warsztaty,",
+          "english": "FREE WORKSHOPS,"
+        },
+        {
+          "element": "pituis",
+          "path": "settings.text",
+          "expected": "które kształtują edukację",
+          "english": "THAT SHAPE EDUCATION"
+        },
+        {
+          "element": "htxsse",
+          "path": "settings.text",
+          "expected": "STEAM-owa <br><span class=\"font-f-season-mix\">Wioska Edukacyjna</span>",
+          "english": "STEAM <br><span class=\"font-f-season-mix\">Educational Village</span>"
+        },
+        {
+          "element": "krwbpa",
+          "path": "settings.text",
+          "expected": "Projekt <b>„STEAM-owa Wioska Edukacyjna dla Małopolski Zachodniej w Campus Bemke”</b> realizowany jest przez Fundację Campus Bemke w ramach Osi priorytetowej: Fundusze europejskie dla rynku pracy, edukacji i włączenia społecznego, Działania: 6.28 Nauka i innowacja w małopolskich szkołach, FEMP.06.28-IP.01-1587/24.A",
+          "english": "The <b>“STEAM Educational Village for Western Małopolska at Campus Bemke”</b> project is implemented by the Campus Bemke Foundation under the Priority Axis: European Funds for the Labour Market, Education and Social Inclusion, Measure 6.28 Science and Innovation in Małopolska Schools, FEMP.06.28-IP.01-1587/24.A."
+        },
+        {
+          "element": "hunmuh",
+          "path": "settings.text",
+          "expected": "<b>Cel projektu:</b> Zwiększenie dostępności i jakości oferty edukacyjnej dla dzieci i młodzieży, z terenów wiejskich i miejsko-wiejskich pow. wadowickiego, suskiego, myślenickiego i oświęcimskiego poprzez organizację zróżnicowanych zajęć warsztatowych wykorzystujących podejście STEAM oraz wsparcie nauczycieli w zakresie nowoczesnych metod nauczania.",
+          "english": "<b>Project objective:</b> To increase the accessibility and quality of educational opportunities for children and young people from rural and urban-rural areas of the Wadowice, Sucha, Myślenice and Oświęcim counties by organising a diverse range of workshops using the STEAM approach and supporting teachers in modern teaching methods."
+        },
+        {
+          "element": "fcefwn",
+          "path": "settings.text",
+          "expected": "<b>Wartość projektu:</b> 1 767 896,07 zł.<br><b>Wysokość dofinansowania z UE:</b> 1 496 252,98 zł.<br>#FunduszeUE #FunduszeEuropejskie",
+          "english": "<b>Project value:</b> PLN 1,767,896.07.<br><b>EU funding:</b> PLN 1,496,252.98.<br>#FunduszeUE #FunduszeEuropejskie"
+        },
+        {
+          "element": "lnegax",
+          "path": "settings.text",
+          "expected": "o warsztatach",
+          "english": "ABOUT THE WORKSHOPS"
+        },
+        {
+          "element": "tcxthr",
+          "path": "settings.text",
+          "expected": "Ekspedycje naukowe to <b>trzygodzinne bezpłatne warsztaty edukacyjne </b>integrujące różne dziedziny – naukę, technologię, inżynierię, sztukę i matematykę. To warsztaty pełne doświadczeń, eksperymentów i odkryć, w których młodzi badacze zanurzają się w naukę poprzez działanie.",
+          "english": "Scientific Expeditions are <b>free three-hour educational workshops</b> integrating different fields — science, technology, engineering, art and mathematics. These experience-rich workshops are full of experiments and discoveries, immersing young researchers in learning by doing."
+        },
+        {
+          "element": "jcoaje",
+          "path": "settings.text",
+          "expected": "Ekspedycje opierają się na metodzie<b> STEAM i Design Thinking,</b> a warsztat prowadzimy w formie “wyprawy po odpowiedzi”<span style=\"background-color: initial; letter-spacing: 0.435px;\">&nbsp;w pracowniach Wioski Edukacyjnej Campusu Bemke. Zapewniamy bezpłatny transport autokarem, poczęstunek i dyplom dla każdego uczestnika.</span>",
+          "english": "The Expeditions are based on <b>STEAM and Design Thinking</b>, and we run each workshop as a “journey in search of answers” in the laboratories of the Campus Bemke Educational Village. We provide free coach transport, refreshments and a certificate for every participant."
+        },
+        {
+          "element": "dyqnah",
+          "path": "settings.text",
+          "expected": "<br><div><b>Projekt obejmuje aż 384 ekspedycje naukowe i zakłada udział ponad 4600 uczestników w latach 2026–2027.</b>&nbsp;</div>",
+          "english": "<br><div><b>The project includes 384 scientific expeditions and is expected to involve more than 4,600 participants in 2026–2027.</b></div>"
+        },
+        {
+          "element": "gnreux",
+          "path": "settings.text",
+          "expected": "Warsztaty dla grup z powiatów suskiego, wadowickiego, oświęcimskiego, myślenickiego",
+          "english": "Workshops for groups from the Sucha Beskidzka, Wadowice, Oświęcim and Myślenice counties"
+        },
+        {
+          "element": "gknsbo",
+          "path": "settings.text",
+          "expected": "Gościmy przedszkolaki, uczniów szkół podstawowych i szkół średnich w grupach max 15-osobowych",
+          "english": "We welcome preschool children, primary school pupils and secondary school students in groups of up to 15 people"
+        },
+        {
+          "element": "udgkda",
+          "path": "settings.text",
+          "expected": "Termin warsztatu ustalany jest indywidualnie",
+          "english": "Workshop dates are arranged individually"
+        },
+        {
+          "element": "ytjxwe",
+          "path": "settings.text",
+          "expected": "Ważne informacje",
+          "english": "IMPORTANT INFORMATION"
+        },
+        {
+          "element": "kuuvel",
+          "path": "settings.text",
+          "expected": "ważne informacje",
+          "english": "IMPORTANT INFORMATION"
+        },
+        {
+          "element": "gmoljv",
+          "path": "settings.text",
+          "expected": "Jedna grupa warsztatowa to maksymalnie 15 osób – małe grupy zapewniają lepsze doświadczenie edukacyjne dla uczestników. Jednocześnie z warsztatów mogą skorzystać jednego dnia max. 3 grupy do 45 osób każda.<div>Warsztaty przygotowane są tak, by odpowiadały etapowi rozwojowemu, możliwościom poznawczym oraz naturalnej ciekawości uczestników w danym wieku.</div><div><br></div><div>Termin przyjazdu grupy jest ustalany indywidualnie z placówką.</div><div><br></div><div>Tematyka warsztatów: Sztuka i kreatywność, Eksperymenty, Majsterkowanie, FarmLab</div>",
+          "english": "Each workshop group has a maximum of 15 people — small groups give participants a better learning experience. Up to three groups of 45 people each can take part on the same day.<div>Workshops are designed to match the participants’ stage of development, cognitive abilities and natural curiosity at each age.</div><div><br></div><div>The date of each group’s visit is agreed individually with the institution.</div><div><br></div><div>Workshop topics: art and creativity, experiments, making and FarmLab.</div>"
+        },
+        {
+          "element": "qihkea",
+          "path": "settings.text",
+          "expected": "zapewniamy",
+          "english": "we provide"
+        },
+        {
+          "element": "okvgdf",
+          "path": "settings.text",
+          "expected": "bezpłatny warsztat <br>STEAM prowadzony przez instruktora",
+          "english": "a free instructor-led<br>STEAM workshop"
+        },
+        {
+          "element": "kbdfqb",
+          "path": "settings.text",
+          "expected": "dyplom dla każdego <br>uczestnika",
+          "english": "a certificate for every<br>participant"
+        },
+        {
+          "element": "onobdv",
+          "path": "settings.text",
+          "expected": "napoje i poczęstunek  <div>w trakcie warsztatów</div>",
+          "english": "drinks and refreshments<div>during the workshop</div>"
+        },
+        {
+          "element": "wxjstq",
+          "path": "settings.text",
+          "expected": "bezpłatny transport autokarowy  <br>dla uczestników",
+          "english": "free coach transport<br>for participants"
+        },
+        {
+          "element": "ibvler",
+          "path": "settings.text",
+          "expected": "obsługę<br>organizacyjną",
+          "english": "organisational<br>support"
+        },
+        {
+          "element": "iwkgeq",
+          "path": "properties.zdlpxl",
+          "expected": "Zabierz całą klasę <br><font face=\"Season Mix\">na warsztaty</font>",
+          "english": "Bring your whole class<br><font face=\"Season Mix\">to a workshop</font>"
+        },
+        {
+          "element": "iwkgeq",
+          "path": "properties.ysdwcw",
+          "expected": "steam-owa wioska edukacyjna",
+          "english": "STEAM EDUCATIONAL VILLAGE"
+        },
+        {
+          "element": "qvildk",
+          "path": "settings.text",
+          "expected": "rekrutacja<br><span class=\"font-f-season-mix\">na warsztaty</span>",
+          "english": "recruitment<br><span class=\"font-f-season-mix\">for workshops</span>"
+        },
+        {
+          "element": "ktmdfw",
+          "path": "settings.text",
+          "expected": "Zapoznaj się z regulaminem Ekspedycji Naukowych&nbsp;",
+          "english": "Read the Scientific Expeditions regulations"
+        },
+        {
+          "element": "gjmvcq",
+          "path": "settings.text",
+          "expected": "Czytaj",
+          "english": "Read the regulations (in Polish)"
+        },
+        {
+          "element": "keubaa",
+          "path": "settings.text",
+          "expected": "Wypełnij formularz on-line, by zgłosić swoją szkołę do projektu – potrzebujemy informacji o liczbie uczestników i grupie wiekowej",
+          "english": "Complete the online form to register your school for the project — we need information about the number of participants and their age group"
+        },
+        {
+          "element": "khcikq",
+          "path": "settings.text",
+          "expected": "Formularz",
+          "english": "Form"
+        },
+        {
+          "element": "jkzlyb",
+          "path": "settings.text",
+          "expected": "Poczekaj na kontakt koordynatora, który przekaże Ci wszystkie niezbędne dokumenty rekrutacyjne.",
+          "english": "Wait for the coordinator to contact you and provide all the necessary recruitment documents."
+        },
+        {
+          "element": "onynlq",
+          "path": "settings.text",
+          "expected": "Dokumenty",
+          "english": "Application form (in Polish)"
+        },
+        {
+          "element": "krwdwk",
+          "path": "settings.text",
+          "expected": "Podpisz porozumienie o współpracy w ramach projektu, w którym znajdą się wszystkie ustalenia dotyczące przyjazdu grupy.",
+          "english": "Sign a project cooperation agreement containing all arrangements regarding your group’s visit."
+        },
+        {
+          "element": "jhqhwj",
+          "path": "settings.text",
+          "expected": "Dokumenty",
+          "english": "School agreement (in Polish)"
+        },
+        {
+          "element": "tcwvqj",
+          "path": "settings.text",
+          "expected": "Potwierdź termin warsztatów i skompletuj dokumenty swoich uczniów. Każdy uczestnik powinien dostarczyć dokumenty podpisane przez rodzica/opiekuna prawnego. Przekaż dokumenty koordynatorowi.",
+          "english": "Confirm the workshop date and complete your students’ documents. Each participant must provide documents signed by a parent/legal guardian. Submit the documents to the coordinator."
+        },
+        {
+          "element": "tkkbqs",
+          "path": "settings.text",
+          "expected": "Termin realizacji. Potwierdź z koordynatorem możliwy termin warsztatów, kwestie związane z transportem grupy oraz listy obecności.",
+          "english": "Delivery date. Confirm the available workshop date with the coordinator, as well as arrangements for group transport and attendance lists."
+        },
+        {
+          "element": "smxunr",
+          "path": "settings.text",
+          "expected": "Zapisz grupę",
+          "english": "Register a group"
+        },
+        {
+          "element": "ybdczp",
+          "path": "settings.text",
+          "expected": "Dziennie możemy przyjąć max 3 grupy warsztatowe (łącznie do 45 osób)",
+          "english": "We can host a maximum of 3 workshop groups per day (up to 45 people in total)"
+        },
+        {
+          "element": "bakffq",
+          "path": "settings.text",
+          "expected": "kontakt",
+          "english": "CONTACT"
+        },
+        {
+          "element": "tdpyir",
+          "path": "settings.text",
+          "expected": "Masz pytania? Chętnie pomożemy!",
+          "english": "Have questions? We’re happy to help!"
+        },
+        {
+          "element": "hbrois",
+          "path": "settings.text",
+          "expected": "Kinga Rusinek&nbsp;<a class=\"link-underline\" href=\"tel:+48697003981\">697 003 981 </a><br>\nNatalia Maciejczyk&nbsp;&nbsp;<a class=\"link-underline\" href=\"tel:+48885502062\">885 502 062</a>\n",
+          "english": "Kinga Rusinek&nbsp;<a class=\"link-underline\" href=\"tel:+48697003981\">697 003 981</a><br>Natalia Maciejczyk&nbsp;<a class=\"link-underline\" href=\"tel:+48885502062\">885 502 062</a>"
+        },
+        {
+          "element": "lypltp",
+          "path": "settings.text",
+          "expected": "Regulamin projektu",
+          "english": "Project regulations (in Polish)"
+        },
+        {
+          "element": "rdkcqj",
+          "path": "settings.text",
+          "expected": "Sztuka i kreatywność",
+          "english": "ART AND CREATIVITY"
+        },
+        {
+          "element": "bxrpeg",
+          "path": "settings.text",
+          "expected": "Eksperymenty",
+          "english": "EXPERIMENTS"
+        },
+        {
+          "element": "udgkxn",
+          "path": "settings.text",
+          "expected": "majsterkowanie",
+          "english": "MAKER ACTIVITIES"
+        },
+        {
+          "element": "msshjo",
+          "path": "settings.text",
+          "expected": "farmlab",
+          "english": "FARMLAB"
+        },
+        {
+          "element": "xwslrb",
+          "path": "settings.text",
+          "expected": "Tematyka warsztatów",
+          "english": "WORKSHOP TOPICS"
+        },
+        {
+          "element": "zsoopz",
+          "path": "settings.text",
+          "expected": "dzięki warsztatom",
+          "english": "THANKS TO THE WORKSHOPS"
+        },
+        {
+          "element": "nmrrlv",
+          "path": "settings.text",
+          "expected": "zmierzysz się z wyzwaniami<br><font face=\"Season Mix\">i przygotujesz na te</font><br>w swojej codzienności",
+          "english": "you will take on challenges<br><font face=\"Season Mix\">and prepare for those</font><br>you face every day"
+        },
+        {
+          "element": "hpubyb",
+          "path": "settings.text",
+          "expected": "poczujesz, że masz moc<br><font face=\"Season Mix\">będziemy pracować nad Twoją sprawczością</font>",
+          "english": "you will feel empowered<br><font face=\"Season Mix\">and build your sense of agency</font>"
+        },
+        {
+          "element": "bdrifp",
+          "path": "settings.text",
+          "expected": "nabierzesz odwagi<br><font face=\"Season Mix\">do zadawania pytań,<br>prób i popełniania błędów</font>",
+          "english": "you will find the courage<br><font face=\"Season Mix\">to ask questions,<br>try things and make mistakes</font>"
+        },
+        {
+          "element": "vtbcwr",
+          "path": "settings.text",
+          "expected": "dowiesz się, jak myśli naukowiec<br><font face=\"Season Mix\">jak działa inżynier<br> i jak tworzy projektant</font>",
+          "english": "you will learn how a scientist thinks<br><font face=\"Season Mix\">how an engineer works<br>and how a designer creates</font>"
+        },
+        {
+          "element": "iohksa",
+          "path": "settings.text",
+          "expected": "odkryjesz, że nauka<br><font face=\"Season Mix\">może być po prostu fajna</font>",
+          "english": "you will discover that learning<br><font face=\"Season Mix\">can simply be fun</font>"
+        }
+      ],
+      "yoast_edits": [
+        {
+          "key": "_yoast_wpseo_title",
+          "expected": "Ekspedycje naukowe – bezpłatne warsztaty dla szkół i przedszkoli",
+          "english": "STEAM Workshops for Schools at Bemke"
+        },
+        {
+          "key": "_yoast_wpseo_metadesc",
+          "expected": "Poznaj bezpłatne ekspedycje naukowe dla szkół i przedszkoli w Campus Bemke. Odkryj warsztaty STEAM z zapewnionym transportem autokarowym.",
+          "english": "Explore free STEAM science expeditions for school and preschool groups at Campus Bemke."
+        },
+        {
+          "key": "_yoast_wpseo_focuskw",
+          "expected": "Ekspedycje naukowe STEAM",
+          "english": "Workshops for Schools Bemke"
+        },
+        {
+          "key": "_yoast_wpseo_opengraph-title",
+          "expected": "Ekspedycje naukowe – bezpłatne warsztaty STEAM dla szkół i przedszkoli",
+          "english": "Science Expeditions for Schools"
+        },
+        {
+          "key": "_yoast_wpseo_opengraph-description",
+          "expected": "Odkryj bezpłatne 3-godzinne ekspedycje naukowe w Campus Bemke. Oferujemy warsztaty pełne eksperymentów, bezpłatny transport autokarowy i poczęstunek dla grup szkolnych i przedszkolnych.",
+          "english": "Practical STEAM workshops for schools and preschools at Campus Bemke."
+        },
+        {
+          "key": "_yoast_wpseo_twitter-title",
+          "expected": "Ekspedycje naukowe – bezpłatne warsztaty STEAM dla szkół i przedszkoli",
+          "english": "Science Expeditions for Schools"
+        },
+        {
+          "key": "_yoast_wpseo_twitter-description",
+          "expected": "Odkryj bezpłatne 3-godzinne ekspedycje naukowe w Campus Bemke. Oferujemy warsztaty pełne eksperymentów, bezpłatny transport autokarowy i poczęstunek dla grup szkolnych i przedszkolnych.",
+          "english": "Practical STEAM workshops for schools and preschools at Campus Bemke."
+        }
+      ]
+    }
+  ]
+}
