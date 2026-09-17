@@ -211,22 +211,6 @@
       "source": "translation-csv"
     },
     {
-      "id": 4004,
-      "file": "2026/07/urszula-1.webp",
-      "expected_pl": "",
-      "pl": "Urszula Szudarek, wiceprezes zarządu Fundacji Bemke",
-      "en": "Urszula Szudarek, Vice President of the Bemke Foundation",
-      "source": "reviewed-image"
-    },
-    {
-      "id": 4003,
-      "file": "2026/07/urszula.webp",
-      "expected_pl": "",
-      "pl": "Urszula Szudarek, wiceprezes zarządu Fundacji Bemke",
-      "en": "Urszula Szudarek, Vice President of the Bemke Foundation",
-      "source": "reviewed-image"
-    },
-    {
       "id": 3913,
       "file": "2026/07/Pallotyni_1.webp",
       "expected_pl": "",
@@ -745,30 +729,6 @@
       "pl": "Prowadząca podczas szkolenia dla nauczycieli",
       "en": "Trainer during a workshop for teachers",
       "source": "translation-csv"
-    },
-    {
-      "id": 3089,
-      "file": "2026/07/nowyportretprzemek.webp",
-      "expected_pl": "",
-      "pl": "Przemysław Powalacz, prezes zarządu Fundacji Bemke",
-      "en": "Przemysław Powalacz, President of the Bemke Foundation",
-      "source": "reviewed-image"
-    },
-    {
-      "id": 3088,
-      "file": "2026/07/nowyportretkasia.webp",
-      "expected_pl": "",
-      "pl": "Katarzyna Przybył-Tamowicz, wiceprezes zarządu Fundacji Bemke",
-      "en": "Katarzyna Przybył-Tamowicz, Vice President of the Bemke Foundation",
-      "source": "reviewed-image"
-    },
-    {
-      "id": 3087,
-      "file": "2026/07/nowyportretdaria.webp",
-      "expected_pl": "",
-      "pl": "Daria Rybińska, wiceprezes zarządu Fundacji Campus Bemke",
-      "en": "Daria Rybińska, Vice President of the Campus Bemke Foundation",
-      "source": "reviewed-image"
     },
     {
       "id": 3086,
