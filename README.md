@@ -160,6 +160,26 @@ uwzględnić selektor `html[data-bemke-reduced-motion="true"]`.
 
 ## WordPress (GitHub -> WP)
 
+### Szkic strony głównej EN
+
+Tymczasowe narzędzie **Narzędzia → Bemke Home EN** czyta plan
+`data/home-bemke-en.json`, przygotowany z eksportu WXR z 17.09.2026 i
+`tlumaczenie_bemkepl_EN.csv`. Sprawdza, czy polska strona główna (ID 7) nadal
+jest opublikowana, przypisana do PL i zgodna z eksportem. Przed zapisem pokazuje
+54 tłumaczenia pól Bricks, 7 pól Yoast i opis strony. Rozbieżność w źródle
+blokuje utworzenie szkicu.
+
+Po kliknięciu przycisku narzędzie tworzy **szkic** strony Home w EN, kopiuje
+układ Bricks i obrazy, zapisuje angielskie treści i łączy stronę z polskim
+oryginałem w Polylang. Ponowne uruchomienie nie tworzy kolejnej strony.
+Synchronizacja pól własnych w Polylang musi być wyłączona, aby angielskie pola
+Bricks i Yoast nie nadpisywały polskich.
+
+Przed publikacją wymagane są: mapowanie linków do innych szkiców EN, kontrola
+ALT i pozostałych etykiet dostępności, tłumaczenie szablonów Bricks nagłówka
+i stopki, kontrola formularza GetResponse oraz podgląd na desktopie i telefonie.
+Przełącznik języka w menu nadal prowadzi do obecnej zaślepki.
+
 ### Szkic Campus Bemke EN
 
 Tymczasowe narzędzie **Narzędzia → Campus Bemke EN** wczytuje plan z

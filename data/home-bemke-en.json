@@ -1,0 +1,379 @@
+{
+  "source_post_id": 7,
+  "source_post_title": "Strona główna",
+  "source_bricks_sha256": "d4fa086ec6052d40940970bd2d62b0f65781e187e7601648cfcc5ae0c5a59761",
+  "source_bricks_elements": 154,
+  "target_title": "Home",
+  "target_slug": "home",
+  "source_excerpt": "Kształtujemy ludzi odważnych, odpowiedzialnych za wspólne jutro. Poznaj innowacyjny hub edukacyjny Bemke oparty na najwyższych standardach edukacji, kształtowaniu charakteru i przedsiębiorczym sposobie myślenia na unikalnym 32-hektarowym kampusie.",
+  "target_excerpt": "We shape courageous young people who take responsibility for our shared future. Discover Bemke’s education hub, high standards of teaching, character development and entrepreneurial mindset on a 32-hectare campus.",
+  "bricks_edits": [
+    {
+      "element": "ejlymw",
+      "path": "settings.text",
+      "expected": "<span class=\"font-f-season-mix\">Bemke<br>hub edukacyjny</span>",
+      "english": "<span class=\"font-f-season-mix\">Bemke<br>education hub</span>"
+    },
+    {
+      "element": "timvoa",
+      "path": "properties.lltetj",
+      "expected": "Hub edukacyjny dla dzieci i młodzieży w wieku 3–19 lat — aby potrafili iść tą drogą świadomie, odważnie i odpowiedzialnie.<br><br>Łączymy wszystkie etapy edukacji, programy rozwojowe i przestrzeń inspirującego kampusu w spójny model kształtowania młodego człowieka. Opieramy go na wysokich standardach nauczania, przedsiębiorczym sposobie myślenia oraz charakterze budowanym w oparciu o wartości chrześcijańskie.",
+      "english": "An education hub for children and young people aged 3–19 — helping them follow this path consciously, courageously and responsibly.<br><br>We bring together every stage of education, development programmes and an inspiring campus in one coherent model for shaping young people. It rests on high teaching standards, an entrepreneurial mindset and character built on Christian values."
+    },
+    {
+      "element": "timvoa",
+      "path": "properties.hradxh",
+      "expected": "budujemy <br><span class=\"font-f-season-mix\">bemke</span>",
+      "english": "building <br><span class=\"font-f-season-mix\">bemke</span>"
+    },
+    {
+      "element": "timvoa",
+      "path": "properties.trlmgi",
+      "expected": "Wiele inicjatyw edukacyjnych rozwija pojedyncze obszary: wiedzę, kompetencje albo charakter. Siłą Bemke jest ich połączenie. Cztery fundamenty są obecne we wszystkim co robimy, od przedszkola po programy rozwojowe. Każdy z nich ma znaczenie, ale dopiero razem tworzą środowisko, które w pełni kształtuje młodego człowieka, czyli <span class=\"font-f-season-mix\"> Bemke Experience.</span>",
+      "english": "Many educational initiatives focus on just one area: knowledge, skills or character. Bemke brings these together. Four foundations are present in everything we do, from preschool to development programmes. Each matters, and together they create an environment that helps young people grow — the <span class=\"font-f-season-mix\">Bemke Experience.</span>"
+    },
+    {
+      "element": "timvoa",
+      "path": "properties.qgmtyk",
+      "expected": "Co nas wyróżnia",
+      "english": "What sets us apart"
+    },
+    {
+      "element": "bjrnrb",
+      "path": "settings.text",
+      "expected": "Najwyższe&nbsp;<div>standardy edukacji</div>",
+      "english": "Excellence in&nbsp;<div>education</div>"
+    },
+    {
+      "element": "hzvqsq",
+      "path": "settings.text",
+      "expected": "Uczymy tak, aby uczniowie osiągali więcej niż sami początkowo zakładają. Pracują na sprawdzonych strategiach uczenia się, otrzymują regularny feedback i wsparcie tutora,          a wiedza jest traktowana nie jako cel sam w sobie, ale jako narzędzie rozumienia świata.",
+      "english": "We teach in a way that enables students to achieve more than they initially believe possible. They use proven learning strategies, receive regular feedback and tutoring support, and view knowledge not as an end in itself but as a tool for understanding the world."
+    },
+    {
+      "element": "tqikrx",
+      "path": "settings.text",
+      "expected": "<b>WYJĄTKOWY kampus</b>",
+      "english": "<b>Exceptional campus</b>"
+    },
+    {
+      "element": "hxawwz",
+      "path": "settings.text",
+      "expected": "32-hektarowy Campus Bemke w Wadowicach jest integralną częścią naszego modelu. Historia miejsca, natura i nowoczesna infrastruktura współtworzą rytm pracy, sposób myślenia i jakość relacji. To przestrzeń, która wzmacnia edukację w praktyce i buduje społeczność.",
+      "english": "The 32-hectare Campus Bemke in Wadowice is an integral part of our model. The site's history, natural surroundings, and modern infrastructure jointly shape the rhythm of work, thinking, and relationships. It is a place that strengthens education in practice and builds community."
+    },
+    {
+      "element": "cdetrh",
+      "path": "settings.text",
+      "expected": "<b>KSZTAŁTOWANIE CHARAKTERU</b>",
+      "english": "<b>CHARACTER FORMATION</b>"
+    },
+    {
+      "element": "tdaxzy",
+      "path": "settings.text",
+      "expected": "Rozwój charakteru nie dzieje się w teorii. Kształtuje się w codziennych wyborach, relacjach        i zobowiązaniach. Wartości chrześcijańskie są dla nas fundamentem, który porządkuje sposób myślenia o człowieku, wspólnocie i odpowiedzialności.",
+      "english": "Character development does not happen in theory. It is shaped through everyday choices, relationships, and commitments. Christian values provide the foundation that guides our understanding of people, community, and responsibility."
+    },
+    {
+      "element": "qyzvks",
+      "path": "settings.text",
+      "expected": "<b>Przedsiębiorczy sposób myślenia</b>",
+      "english": "<b>Entrepreneurial mindset</b>"
+    },
+    {
+      "element": "idkrux",
+      "path": "settings.text",
+      "expected": "W Bemke przedsiębiorczość rozumiemy jako postawę opartą na inicjatywie, sprawczości       i odpowiedzialności. Uczniowie uczą się planować, podejmować decyzje i ponosić konsekwencje swoich wyborów.",
+      "english": "At Bemke, entrepreneurship is understood as a mindset based on initiative, agency, and responsibility. Students learn to plan, make decisions, and take responsibility for the consequences of their choices."
+    },
+    {
+      "element": "vpzwtc",
+      "path": "settings.text",
+      "expected": "Tak wygląda",
+      "english": "THIS IS"
+    },
+    {
+      "element": "zjsuun",
+      "path": "settings.text",
+      "expected": "ŚRODOWISKO, które kształtuje",
+      "english": "AN ENVIRONMENT THAT SHAPES"
+    },
+    {
+      "element": "qrbxbg",
+      "path": "properties.tzpmgm",
+      "expected": "od edukacji<br><span class=\"font-f-season-mix\">do działania</span>",
+      "english": "from education<br><span class=\"font-f-season-mix\">to action</span>"
+    },
+    {
+      "element": "qrbxbg",
+      "path": "properties.qgmtyk",
+      "expected": "Kształtujemy nowe standardy",
+      "english": "Shaping new standards"
+    },
+    {
+      "element": "zrqrnh",
+      "path": "properties.tzpmgm",
+      "expected": "od edukacji<br><span class=\"font-f-season-mix\">do działania</span>",
+      "english": "from education<br><span class=\"font-f-season-mix\">to action</span>"
+    },
+    {
+      "element": "zrqrnh",
+      "path": "properties.qgmtyk",
+      "expected": "Kształtujemy nowe standardy",
+      "english": "Shaping new standards"
+    },
+    {
+      "element": "zrqrnh",
+      "path": "properties.nulbcq",
+      "expected": "Edukacja",
+      "english": "Education"
+    },
+    {
+      "element": "zrqrnh",
+      "path": "properties.wnvztn",
+      "expected": "Tworzymy spójny model edukacji, który obejmuje Bemke College (planowany start w 2027) – liceum z brytyjskim programem A Level i boardingiem, szkołę podstawową oraz przedszkole. Wszystkie opierają się na Bemke Experience i profilu absolwenta, dostosowanych do wieku i potrzeb ucznia.\n<br><br>Poza kampusem model rozwija się poprzez przedszkole satelitarne w Katowicach oraz Instytut, który wspiera nauczycieli i liderów edukacji w rozwoju ich kompetencji.",
+      "english": "We are building a coherent education model that includes Bemke College (planned to open in 2027) — a secondary school offering British A Levels and boarding — alongside a primary school and preschool. Each is based on the Bemke Experience and our graduate profile, adapted to students’ ages and needs.<br><br>Beyond the campus, the model grows through a satellite preschool in Katowice and an Institute that helps teachers and education leaders develop their skills."
+    },
+    {
+      "element": "zrqrnh",
+      "path": "properties.gurdjg",
+      "expected": "Poznaj placówki Bemke",
+      "english": "Explore Bemke schools"
+    },
+    {
+      "element": "ahsbwz",
+      "path": "properties.tzpmgm",
+      "expected": "od edukacji<br><span class=\"font-f-season-mix\">do działania</span>",
+      "english": "from education<br><span class=\"font-f-season-mix\">to action</span>"
+    },
+    {
+      "element": "ahsbwz",
+      "path": "properties.qgmtyk",
+      "expected": "Kształtujemy nowe standardy",
+      "english": "Shaping new standards"
+    },
+    {
+      "element": "ahsbwz",
+      "path": "properties.nulbcq",
+      "expected": "ROZWÓJ",
+      "english": "DEVELOPMENT"
+    },
+    {
+      "element": "ahsbwz",
+      "path": "properties.wnvztn",
+      "expected": "Programy rozwojowe, sport, zajęcia dodatkowe czy warsztaty STEAM tworzą przestrzeń do odkrywania pasji, sprawdzania siebie i rozwijania kompetencji. Są otwarte dla dzieci i młodzieży z regionu i całej Polski.",
+      "english": "Development programmes, sport, extracurricular activities and STEAM workshops offer space to discover interests, test abilities and build skills. They are open to children and young people from the region and across Poland."
+    },
+    {
+      "element": "ahsbwz",
+      "path": "properties.gurdjg",
+      "expected": "Zobacz możliwości rozwoju",
+      "english": "Explore development opportunities"
+    },
+    {
+      "element": "ahsbwz",
+      "path": "properties.dtbsbb",
+      "expected": "testowy opis",
+      "english": "Test description"
+    },
+    {
+      "element": "gdkbwi",
+      "path": "settings.text",
+      "expected": "Linkedin News",
+      "english": "LinkedIn News"
+    },
+    {
+      "element": "ecmwmp",
+      "path": "settings.text",
+      "expected": "bądź na bieżąco",
+      "english": "stay up to date"
+    },
+    {
+      "element": "wihgsl",
+      "path": "settings.text",
+      "expected": "Nasi partnerzy",
+      "english": "Our Partners"
+    },
+    {
+      "element": "etocwn",
+      "path": "settings.text",
+      "expected": "Wspierają nas",
+      "english": "THEY SUPPORT US"
+    },
+    {
+      "element": "yebjar",
+      "path": "settings.text",
+      "expected": "projekty<br><span class=\"font-f-season-mix\">dofinansowane</span>",
+      "english": "co-funded<br><span class=\"font-f-season-mix\">projects</span>"
+    },
+    {
+      "element": "afpmhc",
+      "path": "settings.submitButtonText",
+      "expected": "Wyślij",
+      "english": "Send"
+    },
+    {
+      "element": "afpmhc",
+      "path": "settings.fields.0.label",
+      "expected": "IMIĘ I NAZWISKO",
+      "english": "FULL NAME"
+    },
+    {
+      "element": "afpmhc",
+      "path": "settings.fields.0.placeholder",
+      "expected": "Wpisz dane:",
+      "english": "Enter your name:"
+    },
+    {
+      "element": "afpmhc",
+      "path": "settings.fields.1.placeholder",
+      "expected": "Wpisz adres e-mail:",
+      "english": "Enter your email address:"
+    },
+    {
+      "element": "afpmhc",
+      "path": "settings.fields.2.options",
+      "expected": "Wyrażam zgodę na otrzymywanie wiadomości z aktualnościami oraz ofertą Fundacji Campus Bemke. Oświadczam, że zapoznałam/em się z polityką prywatności.",
+      "english": "I agree to receive news and information about the Campus Bemke Foundation. I confirm that I have read the privacy policy."
+    },
+    {
+      "element": "cuqego",
+      "path": "settings.text",
+      "expected": "Nie spamujemy i nie tracimy Twojego czasu.  Będziemy Cię informować tylko o najważniejszych postępach w rozwijaniu idei Bemke.",
+      "english": "We don’t spam or waste your time. We’ll only keep you informed about the most important progress in developing the Bemke idea."
+    },
+    {
+      "element": "mznbkr",
+      "path": "settings.text",
+      "expected": "Chcesz być na bieżąco?",
+      "english": "Want to stay up to date?"
+    },
+    {
+      "element": "bgkesf",
+      "path": "settings.text",
+      "expected": "<b>Zapisz się i otrzymaj newsletter!</b>",
+      "english": "Sign up for our newsletter!"
+    },
+    {
+      "element": "iicdqe",
+      "path": "properties.mjjmak",
+      "expected": "Poznaj Bemke",
+      "english": "Discover Bemke"
+    },
+    {
+      "element": "gbjzrk",
+      "path": "settings.text",
+      "expected": "<span class=\"font-f-season-mix\">KSZTAŁTUJEMY LUDZI<br>ODWAŻNYCH,<br></font>ODPOWIEDZIALNYCH<br>ZA WSPÓLNE JUTRO</span>",
+      "english": "<span class=\"font-f-season-mix\">WE SHAPE<br>COURAGEOUS PEOPLE,<br></span>RESPONSIBLE<br>FOR OUR SHARED TOMORROW"
+    },
+    {
+      "element": "mgfajy",
+      "path": "settings.text",
+      "expected": "strona główna",
+      "english": "home"
+    },
+    {
+      "element": "losnyi",
+      "path": "settings.text",
+      "expected": "Na drodze każdego człowieka pojawiają się momenty, w których trzeba podejmować decyzje, mierzyć się <br>ze zmianą, współpracować z innymi i ponosić konsekwencje własnych działań.",
+      "english": "Everyone encounters moments in life when they must make decisions, face change, work with others and take responsibility for the consequences of their actions."
+    },
+    {
+      "element": "jtsmnf",
+      "path": "settings.text",
+      "expected": "Fundacja Campus Bemke uzyskała dofinansowanie ze środków Unii\nEuropejskiej na realizację projektu pt. Rozwój infrastruktury terenów Campusu\nBemke w Kleczy Dolnej - miejsca edukacji społecznej i transformacji w\ndążeniu do neutralności klimatycznej.\n",
+      "english": "The Campus Bemke Foundation has received European Union funding to implement the project entitled “Development of the infrastructure of the Campus Bemke grounds in Klecza Dolna – a place for social education and transformation towards climate neutrality.”"
+    },
+    {
+      "element": "bawgfc",
+      "path": "settings.text",
+      "expected": "Zobacz szczegóły",
+      "english": "View details (PDF in Polish)"
+    },
+    {
+      "element": "dkpuox",
+      "path": "settings.text",
+      "expected": "ZOBACZ POST",
+      "english": "VIEW POST"
+    },
+    {
+      "element": "rvpben",
+      "path": "settings.text",
+      "expected": "Fundacja Campus Bemke uzyskała dofinansowanie ze środków Unii Europejskiej na realizację projektu pt. „STEAM-owa Wioska Edukacyjna dla Małopolski Zachodniej w Campus Bemke”.",
+      "english": "The Campus Bemke Foundation has received European Union funding to implement the project entitled “STEAM Educational Village for Western Małopolska at Campus Bemke.”"
+    },
+    {
+      "element": "iqbyrx",
+      "path": "settings.text",
+      "expected": "Zobacz szczegóły",
+      "english": "View details (PDF in Polish)"
+    },
+    {
+      "element": "swydob",
+      "path": "settings.text",
+      "expected": "Fundacja Campus Bemke realizuje zadanie pt.\n“Campus dla Młodych” dofinansowane ze środków Narodowego Instytutu Wolności - Centrum Rozwoju Społeczeństwa Obywatelskiego w ramach Rządowego Programu Fundusz\nMłodzieżowy na lata 2022-2033.",
+      "english": "The Campus Bemke Foundation is implementing the “Campus for Young People” initiative, co-funded by the National Freedom Institute – Centre for Civil Society Development under the Government Youth Fund Programme for 2022–2033."
+    },
+    {
+      "element": "mmwusi",
+      "path": "settings.text",
+      "expected": "Zobacz szczegóły",
+      "english": "View details (PDF in Polish)"
+    },
+    {
+      "element": "siaosk",
+      "path": "settings.text",
+      "expected": "Przejdź do strony",
+      "english": "Go to page"
+    },
+    {
+      "element": "fvewjs",
+      "path": "settings.text",
+      "expected": "Budujemy <b>Bemke — hub edukacyjny dla dzieci i młodzieży w wieku 3–19 lat </b>— aby potrafili iść tą drogą świadomie, odważnie i odpowiedzialnie. Łączymy wszystkie etapy edukacji, programy rozwojowe i przestrzeń inspirującego kampusu w spójny model kształtowania młodego człowieka.",
+      "english": "We are building <b>Bemke — an education hub for children and young people aged 3–19</b> — so they can follow this path consciously, courageously and responsibly. We bring together every stage of education, development programmes and the inspiring campus environment into one coherent model for shaping young people."
+    }
+  ],
+  "yoast_edits": [
+    {
+      "key": "_yoast_wpseo_focuskw",
+      "expected": "Bemke hub edukacyjny",
+      "english": "Bemke education hub"
+    },
+    {
+      "key": "_yoast_wpseo_title",
+      "expected": "Bemke - hub edukacyjny w Wadowicach",
+      "english": "Bemke – education hub in Wadowice"
+    },
+    {
+      "key": "_yoast_wpseo_metadesc",
+      "expected": "Kształtujemy ludzi odważnych, odpowiedzialnych za wspólne jutro. Odkryj innowacyjny hub edukacyjny i nasz unikalny 32-hektarowy kampus..",
+      "english": "We shape courageous young people who take responsibility for our shared future. Discover Bemke’s education hub and its 32-hectare campus in Wadowice."
+    },
+    {
+      "key": "_yoast_wpseo_opengraph-title",
+      "expected": "Bemke – innowacyjny hub edukacyjny",
+      "english": "Bemke – an education hub in Wadowice"
+    },
+    {
+      "key": "_yoast_wpseo_opengraph-description",
+      "expected": "Kształtujemy ludzi odważnych, odpowiedzialnych za wspólne jutro. Poznaj nasze fundamenty: najwyższe standardy edukacji, kształtowanie charakteru, przedsiębiorczy sposób myślenia i unikalny 32-hektarowy kampus.",
+      "english": "We shape courageous young people who take responsibility for our shared future. Discover our approach to education, character and entrepreneurship on the 32-hectare Campus Bemke."
+    },
+    {
+      "key": "_yoast_wpseo_twitter-title",
+      "expected": "Bemke – innowacyjny hub edukacyjny",
+      "english": "Bemke – an education hub in Wadowice"
+    },
+    {
+      "key": "_yoast_wpseo_twitter-description",
+      "expected": "Kształtujemy ludzi odważnych, odpowiedzialnych za wspólne jutro. Poznaj nasze fundamenty: najwyższe standardy edukacji, kształtowanie charakteru, przedsiębiorczy sposób myślenia i unikalny 32-hektarowy kampus.",
+      "english": "We shape courageous young people who take responsibility for our shared future. Discover our approach to education, character and entrepreneurship on the 32-hectare Campus Bemke."
+    }
+  ],
+  "review_notes": [
+    "Links inside Bricks components still point to Polish post IDs and must be mapped after all EN drafts exist.",
+    "GetResponse embeds its own form; verify its English version in the preview.",
+    "Home-page images need a separate ALT audit before publication.",
+    "English Bricks header/footer templates are required before publication."
+  ]
+}
