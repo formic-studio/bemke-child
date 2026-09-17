@@ -90,7 +90,10 @@ function bemke_child_validate_campus_translation( $plan ) {
 			? ( $elements[ $indexes[ $id ] ][ $container ][ $key ] ?? null )
 			: null;
 
-		if ( $edit['expected'] === $current ) {
+		if (
+			$edit['expected'] === $current ||
+			( isset( $edit['previous_english'] ) && $edit['previous_english'] === $current )
+		) {
 			++$pending['bricks'];
 		} elseif ( $edit['english'] !== $current ) {
 			$errors[] = "Bricks {$id}.{$container}.{$key}: treść szkicu różni się od eksportu.";
