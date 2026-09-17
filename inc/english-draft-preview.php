@@ -10,7 +10,6 @@ add_filter( 'bricks/posts/query_vars', 'bemke_child_preview_english_job_offers',
 add_filter( 'bricks/posts/query_vars', 'bemke_child_preview_english_press_releases', 10, 4 );
 add_filter( 'post_type_link', 'bemke_child_link_to_english_content_preview', 10, 2 );
 add_filter( 'bricks/active_templates', 'bemke_child_preview_english_content_template', 10, 3 );
-add_action( 'admin_menu', 'bemke_child_register_english_preview_diagnostics' );
 
 function bemke_child_preview_english_strategy_slides( $query_vars, $settings, $element_id, $element_name ) {
 	unset( $settings, $element_name );
@@ -131,46 +130,4 @@ function bemke_child_preview_english_content_template( $active_templates, $post_
 	}
 
 	return $active_templates;
-}
-
-/** Inspect the related drafts in wp-admin, without relying on a preview URL. */
-function bemke_child_register_english_preview_diagnostics() {
-	add_management_page( 'Bemke EN — diagnostyka', 'Bemke EN — diagnostyka', 'manage_options', 'bemke-en-preview-diagnostics', 'bemke_child_render_english_preview_diagnostics' );
-}
-
-function bemke_child_render_english_preview_diagnostics() {
-	if ( ! current_user_can( 'manage_options' ) ) {
-		wp_die( esc_html__( 'Brak dostępu.', 'bemke-child' ) );
-	}
-
-	echo '<div class="wrap"><h1>Bemke EN — diagnostyka szkiców</h1><p>Wersja 2026-09-17-c. Odczyt bez zmian w treściach.</p>';
-	if ( ! function_exists( 'pll_get_post' ) || ! function_exists( 'pll_get_post_language' ) ) {
-		echo '<p>Polylang nie jest dostępny.</p></div>';
-		return;
-	}
-
-	$source_ids = array( 2889, 2824, 2856, 1021, 1022, 3728, 2934, 3657 );
-	echo '<table class="widefat striped"><thead><tr><th>PL ID</th><th>Typ PL</th><th>EN ID</th><th>Status EN</th><th>Język EN</th><th>Elementy Bricks w meta</th><th>Elementy widziane przez Bricks</th><th>Wybrany szablon</th></tr></thead><tbody>';
-	foreach ( $source_ids as $source_id ) {
-		$english_id = (int) pll_get_post( $source_id, 'en' );
-		$elements   = $english_id ? get_post_meta( $english_id, '_bricks_page_content_2', true ) : null;
-		$bricks     = $english_id && class_exists( '\\Bricks\\Database' ) ? \Bricks\Database::get_data( $english_id, 'content' ) : null;
-		$selected   = $english_id && 'bricks_template' !== get_post_type( $english_id ) ? apply_filters( 'bricks/active_templates', array(), $english_id, 'content' ) : array();
-		$values     = array(
-			$source_id,
-			get_post_type( $source_id ) ?: 'brak',
-			$english_id ?: 'brak',
-			$english_id ? get_post_status( $english_id ) : 'brak',
-			$english_id ? pll_get_post_language( $english_id, 'slug' ) : 'brak',
-			is_array( $elements ) ? count( $elements ) : 0,
-			is_array( $bricks ) ? count( $bricks ) : 0,
-			$selected['content'] ?? 'brak',
-		);
-		echo '<tr>';
-		foreach ( $values as $value ) {
-			echo '<td>' . esc_html( (string) $value ) . '</td>';
-		}
-		echo '</tr>';
-	}
-	echo '</tbody></table></div>';
 }
