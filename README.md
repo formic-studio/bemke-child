@@ -196,6 +196,11 @@ zachowuje znaczniki dynamicznych danych ACF oraz kopiuje warunki wyświetlania
 z szablonów PL. Przed publikacją należy sprawdzić te warunki i działanie
 odnośników w wersji EN.
 
+Skrypty interfejsu wybierają komunikaty na podstawie języka `<html>`:
+przełączniki dostępności, menu mobilne, karuzele, formularze i komunikaty zgody
+na mapę/wideo pokazują angielskie etykiety na stronach EN. Po zmianach w
+`src/js/` trzeba wykonać `npm run build` i wdrożyć cały katalog `dist/`.
+
 ### Szkic strony głównej EN
 
 Tymczasowe narzędzie **Narzędzia → Bemke Home EN** czyta plan

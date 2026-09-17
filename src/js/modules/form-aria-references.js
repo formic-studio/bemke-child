@@ -1,3 +1,5 @@
+import { siteText } from './site-language.js';
+
 const FORM_SELECTOR = '.brxe-form';
 const ARIA_REFERENCE_ATTRS = ['aria-labelledby', 'aria-describedby'];
 const HIDDEN_LABEL_CLASS = 'bemke-sr-only';
@@ -105,12 +107,12 @@ function getControlLabel(control) {
     return 'E-mail';
   }
 
-  if (lowerLabel.includes('imię') && lowerLabel.includes('nazwisko')) {
-    return 'Imię i nazwisko';
+  if ((lowerLabel.includes('imię') && lowerLabel.includes('nazwisko')) || /full name|first and last name|name and surname/.test(lowerLabel)) {
+    return siteText('Imię i nazwisko', 'Full name');
   }
 
-  if (lowerLabel.includes('temat')) {
-    return 'Temat';
+  if (lowerLabel.includes('temat') || lowerLabel.includes('subject')) {
+    return siteText('Temat', 'Subject');
   }
 
   return normalized;
@@ -132,7 +134,7 @@ function applyAutocomplete(control) {
     return;
   }
 
-  if (label.includes('imię') && label.includes('nazwisko')) {
+  if ((label.includes('imię') && label.includes('nazwisko')) || /full name|first and last name|name and surname/.test(label)) {
     control.setAttribute('autocomplete', 'name');
   }
 }
@@ -163,37 +165,37 @@ function handleInvalidField(form, field) {
 }
 
 function getValidationMessage(field) {
-  const label = getAssociatedLabel(field) || 'To pole';
+  const label = getAssociatedLabel(field) || siteText('To pole', 'This field');
 
   if (field.validity.valueMissing) {
     if (field.type === 'checkbox' || field.type === 'radio') {
-      return 'Zaznacz wymaganą zgodę.';
+      return siteText('Zaznacz wymaganą zgodę.', 'Select the required consent checkbox.');
     }
 
     if (field.matches('select')) {
-      return `Wybierz wartość w polu „${label}”.`;
+      return siteText(`Wybierz wartość w polu „${label}”.`, `Select a value for “${label}”.`);
     }
 
-    return `Uzupełnij pole „${label}”.`;
+    return siteText(`Uzupełnij pole „${label}”.`, `Complete the “${label}” field.`);
   }
 
   if (field.validity.typeMismatch && field.type === 'email') {
-    return 'Wpisz poprawny adres e-mail, np. nazwa@domena.pl.';
+    return siteText('Wpisz poprawny adres e-mail, np. nazwa@domena.pl.', 'Enter a valid email address, such as name@example.com.');
   }
 
   if (field.validity.tooShort) {
-    return `Wpisz co najmniej ${field.minLength} znaków.`;
+    return siteText(`Wpisz co najmniej ${field.minLength} znaków.`, `Enter at least ${field.minLength} characters.`);
   }
 
   if (field.validity.tooLong) {
-    return `Wpisz nie więcej niż ${field.maxLength} znaków.`;
+    return siteText(`Wpisz nie więcej niż ${field.maxLength} znaków.`, `Enter no more than ${field.maxLength} characters.`);
   }
 
   if (field.validity.patternMismatch) {
-    return `Sprawdź format wartości w polu „${label}”.`;
+    return siteText(`Sprawdź format wartości w polu „${label}”.`, `Check the format of “${label}”.`);
   }
 
-  return `Sprawdź wartość w polu „${label}”.`;
+  return siteText(`Sprawdź wartość w polu „${label}”.`, `Check the value of “${label}”.`);
 }
 
 function getAssociatedLabel(field) {
@@ -269,8 +271,8 @@ function handleBricksFormResult(event, type) {
 
   const fallback =
     type === 'success'
-      ? 'Dziękujemy. Formularz został wysłany.'
-      : 'Nie udało się wysłać formularza. Sprawdź dane i spróbuj ponownie.';
+      ? siteText('Dziękujemy. Formularz został wysłany.', 'Thank you. Your form has been sent.')
+      : siteText('Nie udało się wysłać formularza. Sprawdź dane i spróbuj ponownie.', 'The form could not be sent. Check your details and try again.');
   const message = getResponseMessage(event.detail?.res) || fallback;
   announceFormResult(form, message, type);
 

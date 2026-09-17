@@ -1,3 +1,5 @@
+import { siteText } from './site-language.js';
+
 const BLOCK_SELECTOR =
   '.offer-block, .linkedin-block, .donors-block, #brxe-ejpmtj .brxe-aepfcc';
 const PRIMARY_LINK_SELECTOR = '.link-block';
@@ -21,7 +23,7 @@ function normalizeText(value) {
 
 function prepareJobOfferLinkLabels(scope = document) {
   scope.querySelectorAll(JOB_OFFER_LINK_SELECTOR).forEach((link) => {
-    if (!/^poznaj\s+szczegóły$/iu.test(normalizeText(link.textContent))) {
+    if (!/^(poznaj\s+szczegóły|learn\s+more)$/iu.test(normalizeText(link.textContent))) {
       return;
     }
 
@@ -31,7 +33,7 @@ function prepareJobOfferLinkLabels(scope = document) {
     );
 
     if (title) {
-      link.setAttribute('aria-label', `Poznaj szczegóły oferty: ${title}`);
+      link.setAttribute('aria-label', siteText(`Poznaj szczegóły oferty: ${title}`, `Learn more about the offer: ${title}`));
     }
   });
 }

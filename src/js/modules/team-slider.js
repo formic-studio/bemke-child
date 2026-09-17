@@ -5,6 +5,7 @@ import {
   hasSliderNavigationModifier,
 } from './slider-controls.js';
 import { bindTouchSwipeFallback } from './touch-swipe-fallback.js';
+import { siteText } from './site-language.js';
 import {
   MOTION_CHANGE_EVENT,
   isReducedMotion,
@@ -563,7 +564,7 @@ function decorateSlider(root, track, slides) {
     root.setAttribute('role', 'region');
   }
 
-  root.setAttribute('aria-roledescription', 'karuzela');
+  root.setAttribute('aria-roledescription', siteText('karuzela', 'carousel'));
 
   if (!root.hasAttribute('aria-label') && !root.hasAttribute('aria-labelledby')) {
     root.setAttribute('aria-label', getSliderLabel(root));
@@ -585,10 +586,10 @@ function decorateSlider(root, track, slides) {
       .trim();
 
     slide.setAttribute('role', 'group');
-    slide.setAttribute('aria-roledescription', 'slajd');
+    slide.setAttribute('aria-roledescription', siteText('slajd', 'slide'));
     slide.setAttribute(
       'aria-label',
-      `${name ? `${name}, ` : ''}osoba ${index + 1} z ${slides.length}`,
+      `${name ? `${name}, ` : ''}${siteText(`osoba ${index + 1} z ${slides.length}`, `person ${index + 1} of ${slides.length}`)}`,
     );
 
     hideVisualSlideNumber(slide);
@@ -673,10 +674,9 @@ function updateSliderStatus(root, currentPosition, total, track) {
   const visibleCount = getVisibleSlideCount(root, track);
   const first = Math.min(total, currentPosition + 1);
   const last = Math.min(total, currentPosition + visibleCount);
-  const message =
-    first === last
-      ? `Wyświetlana osoba ${first} z ${total}.`
-      : `Wyświetlane osoby ${first}–${last} z ${total}.`;
+  const message = first === last
+    ? siteText(`Wyświetlana osoba ${first} z ${total}.`, `Showing person ${first} of ${total}.`)
+    : siteText(`Wyświetlane osoby ${first}–${last} z ${total}.`, `Showing people ${first}–${last} of ${total}.`);
 
   if (status.textContent !== message) {
     status.textContent = message;
@@ -704,22 +704,22 @@ function restoreSlideInteractivity(slide) {
 
 function bindControls(controls, track, handlers) {
   bindSliderControl(controls.pause, {
-    label: 'Pauza autoplay',
+    label: siteText('Pauza autoplay', 'Pause autoplay'),
     controlsId: track.id,
     handler: handlers.onPause,
   });
   bindSliderControl(controls.play, {
-    label: 'Start autoplay',
+    label: siteText('Start autoplay', 'Start autoplay'),
     controlsId: track.id,
     handler: handlers.onPlay,
   });
   bindSliderControl(controls.prev, {
-    label: 'Poprzednia osoba',
+    label: siteText('Poprzednia osoba', 'Previous person'),
     controlsId: track.id,
     handler: handlers.onPrev,
   });
   bindSliderControl(controls.next, {
-    label: 'Następna osoba',
+    label: siteText('Następna osoba', 'Next person'),
     controlsId: track.id,
     handler: handlers.onNext,
   });
@@ -846,7 +846,7 @@ function getSliderLabel(root) {
   const heading = root.closest('section')?.querySelector('h1, h2, h3');
   const label = heading?.textContent?.replace(/\s+/g, ' ').trim();
 
-  return label ? `Slider: ${label}` : 'Slider zespołu';
+  return label ? `Slider: ${label}` : siteText('Slider zespołu', 'Team carousel');
 }
 
 function focusControl(control) {

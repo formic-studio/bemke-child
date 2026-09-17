@@ -1,3 +1,5 @@
+import { siteText } from './site-language.js';
+
 const HEADER_SELECTOR = '#brx-header';
 const MENU_SURFACE_SELECTOR = '#brxe-spklen';
 const NAV_MENU_SELECTOR =
@@ -281,7 +283,7 @@ function updateSubmenuButtonLabel(entry, isOpen) {
 
   entry.button.setAttribute(
     'aria-label',
-    `${isOpen ? 'Zamknij' : 'Otwórz'} podmenu: ${itemLabel}`,
+    `${isOpen ? siteText('Zamknij', 'Close') : siteText('Otwórz', 'Open')} ${siteText('podmenu', 'submenu')}: ${itemLabel}`,
   );
 }
 

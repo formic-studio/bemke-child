@@ -4,6 +4,7 @@ import {
   MOTION_CHANGE_EVENT,
   isReducedMotion,
 } from "./motion-preference.js";
+import { siteText } from "./site-language.js";
 
 const WRAPPER_SELECTOR = ".section_book-money .loading-wrapper";
 const CAMPAIGN_SECTION_SELECTOR = ".section_book-money";
@@ -46,7 +47,7 @@ function getCampaignAmounts() {
 }
 
 function formatAmount(amount) {
-  return new Intl.NumberFormat("pl-PL", {
+  return new Intl.NumberFormat(siteText("pl-PL", "en-GB"), {
     maximumFractionDigits: 0,
   }).format(amount);
 }
@@ -57,7 +58,7 @@ function formatScaleLabel(amount, useMillions = amount >= 1000000) {
   }
 
   if (useMillions) {
-    const millions = new Intl.NumberFormat("pl-PL", {
+    const millions = new Intl.NumberFormat(siteText("pl-PL", "en-GB"), {
       maximumFractionDigits: 0,
     }).format(amount / 1000000);
 
@@ -156,7 +157,7 @@ export function initFoundersCampaignProgress() {
     progressElement.setAttribute("role", "progressbar");
     progressElement.setAttribute(
       "aria-label",
-      "Postęp Kampanii Założycielskiej",
+      siteText("Postęp Kampanii Założycielskiej", "Founding Campaign progress"),
     );
     progressElement.setAttribute("aria-valuemin", "0");
     progressElement.setAttribute("aria-valuemax", String(goalAmount));
@@ -166,7 +167,7 @@ export function initFoundersCampaignProgress() {
     );
     progressElement.setAttribute(
       "aria-valuetext",
-      `Zebrano ${formatAmount(currentAmount)} PLN z ${formatAmount(goalAmount)} PLN (${roundedPercent}%)`,
+      siteText(`Zebrano ${formatAmount(currentAmount)} PLN z ${formatAmount(goalAmount)} PLN (${roundedPercent}%)`, `Raised PLN ${formatAmount(currentAmount)} of PLN ${formatAmount(goalAmount)} (${roundedPercent}%)`),
     );
 
     if (goalLabel) {
@@ -176,7 +177,7 @@ export function initFoundersCampaignProgress() {
     if (currentLabel) {
       currentLabel.setAttribute(
         "aria-label",
-        `Zebrano ${formatAmount(currentAmount)} PLN`,
+        siteText(`Zebrano ${formatAmount(currentAmount)} PLN`, `Raised PLN ${formatAmount(currentAmount)}`),
       );
     }
 

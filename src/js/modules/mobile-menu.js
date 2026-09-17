@@ -3,7 +3,7 @@ import {
   MOTION_CHANGE_EVENT,
   isReducedMotion,
 } from './motion-preference.js';
-import { isEnglishPage } from './site-language.js';
+import { isEnglishPage, siteText } from './site-language.js';
 
 const HEADER_SELECTOR = '#brx-header';
 const NAV_SELECTOR = '#brxe-vhhhdt';
@@ -326,14 +326,14 @@ function createMobileAccessibilityLayout(section) {
 
     heading.className = 'bemke-mobile-wcag__heading';
     title.className = 'bemke-mobile-wcag__title';
-    title.textContent = 'Dostępność';
+    title.textContent = siteText('Dostępność', 'Accessibility');
     toggle.classList.add('bemke-mobile-wcag__toggle');
     toggle.hidden = false;
     toggle.removeAttribute('id');
     toggle.type = 'button';
     toggle.setAttribute('aria-controls', panelId);
     toggle.setAttribute('aria-expanded', 'true');
-    toggle.setAttribute('aria-label', 'Zwiń dostępność');
+    toggle.setAttribute('aria-label', siteText('Zwiń dostępność', 'Collapse accessibility controls'));
     panel.className = 'bemke-mobile-wcag__panel';
     panel.id = panelId;
 
@@ -360,15 +360,15 @@ function createMobileAccessibilityLayout(section) {
       {
         control: fontSizeControls,
         key: 'font-size',
-        label: 'Wielkość treści',
+        label: siteText('Wielkość treści', 'Text size'),
       },
-      { control: contrastControls, key: 'contrast', label: 'Kontrast' },
-      { control: languageControls, key: 'language', label: 'Język' },
+      { control: contrastControls, key: 'contrast', label: siteText('Kontrast', 'Contrast') },
+      { control: languageControls, key: 'language', label: siteText('Język', 'Language') },
       animationControls
         ? {
             control: animationControls,
             key: 'motion',
-            label: 'Ogranicz animacje',
+            label: siteText('Ogranicz animacje', 'Reduce motion'),
             showLabel: false,
           }
         : null,
@@ -410,7 +410,7 @@ function setupAccessibilityDisclosure(section) {
     toggle.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
     toggle.setAttribute(
       'aria-label',
-      isExpanded ? 'Zwiń dostępność' : 'Rozwiń dostępność',
+      isExpanded ? siteText('Zwiń dostępność', 'Collapse accessibility controls') : siteText('Rozwiń dostępność', 'Expand accessibility controls'),
     );
     panel.setAttribute('aria-hidden', isExpanded ? 'false' : 'true');
 

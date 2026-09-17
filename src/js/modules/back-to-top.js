@@ -1,4 +1,5 @@
 import { isReducedMotion } from './motion-preference.js';
+import { siteText } from './site-language.js';
 
 const BUTTON_CLASS = 'bemke-back-to-top';
 const VISIBLE_CLASS = 'is-visible';
@@ -22,7 +23,7 @@ export function initBackToTop() {
   button.type = 'button';
   button.tabIndex = -1;
   button.setAttribute('aria-hidden', 'true');
-  button.setAttribute('aria-label', 'Wróć na górę strony');
+  button.setAttribute('aria-label', siteText('Wróć na górę strony', 'Back to top'));
   button.innerHTML = `
     <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
       <rect class="bemke-back-to-top__surface" x="0.250002" y="41.75" width="41.5" height="41.5" rx="20.75" transform="rotate(-90 0.250002 41.75)"/>

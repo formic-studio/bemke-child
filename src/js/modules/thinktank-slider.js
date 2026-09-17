@@ -10,6 +10,7 @@ import {
 } from "./motion-preference.js";
 import { FONT_SCALE_CHANGE_EVENT } from "./font-size-controls.js";
 import { bindTouchSwipeFallback } from "./touch-swipe-fallback.js";
+import { siteText } from "./site-language.js";
 
 const SELECTORS = {
   root: ".slider-thinktank",
@@ -317,10 +318,10 @@ function createSlider(root) {
   const queue = [];
 
   root.setAttribute("role", "region");
-  root.setAttribute("aria-roledescription", "karuzela");
+  root.setAttribute("aria-roledescription", siteText("karuzela", "carousel"));
 
   if (!root.hasAttribute("aria-label") && !root.hasAttribute("aria-labelledby")) {
-    root.setAttribute("aria-label", "Aktualności Think Tanku");
+    root.setAttribute("aria-label", siteText("Aktualności Think Tanku", "Think Tank news"));
   }
 
   slides.forEach((slide, index) => {
@@ -343,10 +344,10 @@ function createSlider(root) {
 
     slide.removeAttribute("tabindex");
     slide.setAttribute("role", "group");
-    slide.setAttribute("aria-roledescription", "slajd");
+    slide.setAttribute("aria-roledescription", siteText("slajd", "slide"));
     slide.setAttribute(
       "aria-label",
-      `${title ? `${title}, ` : ""}slajd ${index + 1} z ${slides.length}`,
+      `${title ? `${title}, ` : ""}${siteText(`slajd ${index + 1} z ${slides.length}`, `slide ${index + 1} of ${slides.length}`)}`,
     );
   });
 
@@ -780,10 +781,10 @@ function getControls(root) {
 }
 
 function bindControls(controls, handlers) {
-  bindControl(controls.pause, "Pauza autoplay", handlers.onPause);
-  bindControl(controls.play, "Start autoplay", handlers.onPlay);
-  bindControl(controls.prev, "Poprzedni slajd", handlers.onPrev);
-  bindControl(controls.next, "Następny slajd", handlers.onNext);
+  bindControl(controls.pause, siteText("Pauza autoplay", "Pause autoplay"), handlers.onPause);
+  bindControl(controls.play, siteText("Start autoplay", "Start autoplay"), handlers.onPlay);
+  bindControl(controls.prev, siteText("Poprzedni slajd", "Previous slide"), handlers.onPrev);
+  bindControl(controls.next, siteText("Następny slajd", "Next slide"), handlers.onNext);
 }
 
 function bindControl(control, label, handler) {

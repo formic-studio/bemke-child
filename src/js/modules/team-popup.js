@@ -1,4 +1,5 @@
 import { ensureButtonElement } from './semantic-button.js';
+import { siteText } from './site-language.js';
 
 const TEAM_POPUP_SELECTOR = '.popup-team[data-number]';
 const TEAM_LINK_SELECTOR = '[data-number]:not(.popup-team)';
@@ -30,6 +31,12 @@ const TEAM_TRIGGER_LABELS = new Map([
   ['02', 'Więcej o Katarzynie Przybył-Tamowicz'],
   ['03', 'Więcej o Darii Rybińskiej'],
   ['04', 'Więcej o Urszuli Szudarek'],
+]);
+const TEAM_TRIGGER_LABELS_EN = new Map([
+  ['01', 'More about Przemysław Powalacz'],
+  ['02', 'More about Katarzyna Przybył-Tamowicz'],
+  ['03', 'More about Daria Rybińska'],
+  ['04', 'More about Urszula Szudarek'],
 ]);
 
 let popupMap = new Map();
@@ -105,7 +112,7 @@ function setupPopupAccessibleName(popup, number) {
     return;
   }
 
-  popup.setAttribute('aria-label', `Zespół: ${number}`);
+  popup.setAttribute('aria-label', siteText(`Zespół: ${number}`, `Team member: ${number}`));
 }
 
 function setupScrollableDescription(popup) {
@@ -155,13 +162,13 @@ function updateScrollableDescription(description) {
     description.setAttribute('tabindex', '0');
     description.setAttribute(
       'aria-label',
-      'Opis członka zespołu, treść przewijana',
+      siteText('Opis członka zespołu, treść przewijana', 'Team member biography, scrollable content'),
     );
     return;
   }
 
   description.removeAttribute('tabindex');
-  description.setAttribute('aria-label', 'Opis członka zespołu');
+  description.setAttribute('aria-label', siteText('Opis członka zespołu', 'Team member biography'));
 }
 
 function setupTeamCards(scope) {
@@ -188,8 +195,8 @@ function setupTeamCards(scope) {
 
     trigger.setAttribute(
       'aria-label',
-      TEAM_TRIGGER_LABELS.get(number) ||
-        (name ? `Więcej o osobie: ${name}` : 'Więcej o członku zespołu'),
+      (siteText(TEAM_TRIGGER_LABELS.get(number), TEAM_TRIGGER_LABELS_EN.get(number))) ||
+        (name ? siteText(`Więcej o osobie: ${name}`, `More about ${name}`) : siteText('Więcej o członku zespołu', 'More about this team member')),
     );
     trigger.setAttribute('aria-haspopup', 'dialog');
     trigger.setAttribute(

@@ -4,6 +4,7 @@ import {
   isSystemReducedMotion,
   setUserReducedMotion,
 } from './motion-preference.js';
+import { siteText } from './site-language.js';
 
 const SWITCH_BLOCK_SELECTOR = '.lang-switcher-block';
 const SWITCH_TRACK_SELECTOR = '.animation-switcher, .lang-switcher';
@@ -40,8 +41,8 @@ export function initAccessibilitySwitches(root = document) {
       block.setAttribute(
         'aria-label',
         isSystemPreference
-          ? 'Ogranicz animacje — włączone w ustawieniach systemu'
-          : 'Ogranicz animacje',
+          ? siteText('Ogranicz animacje — włączone w ustawieniach systemu', 'Reduce motion — enabled in system settings')
+          : siteText('Ogranicz animacje', 'Reduce motion'),
       );
     };
     const toggle = () => {

@@ -10,6 +10,7 @@ import {
   isReducedMotion,
 } from './motion-preference.js';
 import { FONT_SCALE_CHANGE_EVENT } from './font-size-controls.js';
+import { siteText } from './site-language.js';
 
 const ROOT_SELECTOR = '.slider-block';
 const TRACK_SELECTOR = '.slide-wrapper';
@@ -478,7 +479,7 @@ function decorateSlider(root, track, slides) {
   }
 
   if (!root.hasAttribute('aria-roledescription')) {
-    root.setAttribute('aria-roledescription', 'karuzela');
+    root.setAttribute('aria-roledescription', siteText('karuzela', 'carousel'));
   }
 
   if (!root.hasAttribute('aria-label') && !root.hasAttribute('aria-labelledby')) {
@@ -494,16 +495,16 @@ function decorateSlider(root, track, slides) {
 
   slides.forEach((slide, index) => {
     slide.setAttribute('role', 'group');
-    slide.setAttribute('aria-roledescription', 'slajd');
-    slide.setAttribute('aria-label', `Slajd ${index + 1} z ${slides.length}`);
+    slide.setAttribute('aria-roledescription', siteText('slajd', 'slide'));
+    slide.setAttribute('aria-label', siteText(`Slajd ${index + 1} z ${slides.length}`, `Slide ${index + 1} of ${slides.length}`));
   });
 }
 
 function bindControls(controls, track, handlers) {
-  bindControl(controls.pause, 'Pauza autoplay', track.id, handlers.onPause);
-  bindControl(controls.play, 'Start autoplay', track.id, handlers.onPlay);
-  bindControl(controls.prev, 'Poprzedni projekt', track.id, handlers.onPrev);
-  bindControl(controls.next, 'Następny projekt', track.id, handlers.onNext);
+  bindControl(controls.pause, siteText('Pauza autoplay', 'Pause autoplay'), track.id, handlers.onPause);
+  bindControl(controls.play, siteText('Start autoplay', 'Start autoplay'), track.id, handlers.onPlay);
+  bindControl(controls.prev, siteText('Poprzedni projekt', 'Previous project'), track.id, handlers.onPrev);
+  bindControl(controls.next, siteText('Następny projekt', 'Next project'), track.id, handlers.onNext);
 }
 
 function bindControl(control, label, controlsId, handler) {
@@ -767,7 +768,7 @@ function getSliderLabel(root) {
   const heading = root.closest('section')?.querySelector('h1, h2, h3');
   const label = heading?.textContent?.replace(/\s+/g, ' ').trim();
 
-  return label ? `Slider: ${label}` : 'Slider projektów';
+  return label ? `Slider: ${label}` : siteText('Slider projektów', 'Project carousel');
 }
 
 function isFormControl(target) {

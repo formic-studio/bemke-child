@@ -3,6 +3,7 @@ import {
   isReducedMotion,
 } from './motion-preference.js';
 import { ensureButtonElement } from './semantic-button.js';
+import { siteText } from './site-language.js';
 
 const ROOT_SELECTOR = '.tabs-block';
 const TAB_SELECTOR = '.tab[tab-number], .tab[data-tab-number]';
@@ -425,7 +426,7 @@ function setupHistoryScrollbar(tablist, hasHorizontalOverflow) {
   scrollbar.hidden = true;
   scrollbar.tabIndex = 0;
   scrollbar.setAttribute('role', 'scrollbar');
-  scrollbar.setAttribute('aria-label', 'Przewiń daty historii');
+  scrollbar.setAttribute('aria-label', siteText('Przewiń daty historii', 'Scroll through history dates'));
   scrollbar.setAttribute('aria-controls', tablist.id);
   scrollbar.setAttribute('aria-orientation', 'horizontal');
   scrollbar.setAttribute('aria-valuemin', '0');
@@ -522,7 +523,7 @@ function setupHistoryScrollbar(tablist, hasHorizontalOverflow) {
     thumb.style.width = `${metrics.thumbWidth}px`;
     thumb.style.transform = `translate3d(${progress * metrics.maxThumbOffset}px, 0, 0)`;
     scrollbar.setAttribute('aria-valuenow', String(percentage));
-    scrollbar.setAttribute('aria-valuetext', `Przewinięto ${percentage}%`);
+    scrollbar.setAttribute('aria-valuetext', siteText(`Przewinięto ${percentage}%`, `Scrolled ${percentage}%`));
   };
 
   scrollbar.addEventListener('pointerdown', (event) => {

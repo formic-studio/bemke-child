@@ -1,3 +1,5 @@
+import { siteText } from './site-language.js';
+
 const COOKIEBOT_SCRIPT_SELECTOR =
   'script#Cookiebot, script[src*="consent.cookiebot.com/uc.js"]';
 const GOOGLE_MAP_SELECTOR = '.brxe-map[data-bricks-map-options]';
@@ -33,8 +35,10 @@ function openPrivacySettings(status) {
   }
 
   if (status) {
-    status.textContent =
-      'Ustawienia prywatności jeszcze się ładują. Spróbuj ponownie za chwilę.';
+    status.textContent = siteText(
+      'Ustawienia prywatności jeszcze się ładują. Spróbuj ponownie za chwilę.',
+      'Privacy settings are still loading. Please try again in a moment.',
+    );
   }
 }
 
@@ -54,13 +58,13 @@ function createConsentPanel(service) {
   copy.id = copyId;
   copy.textContent =
     service === 'google-maps'
-      ? 'Interaktywna mapa Google wymaga zgody na treści marketingowe.'
-      : 'Odtwarzacz YouTube wymaga zgody na treści marketingowe.';
+      ? siteText('Interaktywna mapa Google wymaga zgody na treści marketingowe.', 'The interactive Google Map requires consent for marketing content.')
+      : siteText('Odtwarzacz YouTube wymaga zgody na treści marketingowe.', 'The YouTube player requires consent for marketing content.');
 
   actions.className = 'bemke-consent-panel__actions';
   settingsButton.className = 'bemke-consent-panel__button';
   settingsButton.type = 'button';
-  settingsButton.textContent = 'Ustawienia prywatności';
+  settingsButton.textContent = siteText('Ustawienia prywatności', 'Privacy settings');
   settingsButton.setAttribute('aria-describedby', copyId);
 
   status.className = 'bemke-consent-panel__status bemke-sr-only';
@@ -78,7 +82,7 @@ function createConsentPanel(service) {
     mapLink.href = 'https://maps.app.goo.gl/ejUvGMftTiDrTMt26';
     mapLink.target = '_blank';
     mapLink.rel = 'noopener noreferrer';
-    mapLink.textContent = 'Otwórz trasę w Google Maps';
+    mapLink.textContent = siteText('Otwórz trasę w Google Maps', 'Open directions in Google Maps');
     actions.append(mapLink);
   }
 
