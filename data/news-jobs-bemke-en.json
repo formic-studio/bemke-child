@@ -4,6 +4,7 @@
     {
       "source_post_id": 1021,
       "source_post_type": "oferta-pracy",
+      "source_post_status": "publish",
       "source_post_title": "Ekspert / Ekspertka ds. Digital marketingu",
       "source_post_parent": 0,
       "target_title": "Digital Marketing Expert",
@@ -41,6 +42,7 @@
     {
       "source_post_id": 1022,
       "source_post_type": "oferta-pracy",
+      "source_post_status": "publish",
       "source_post_title": "Instruktor/ka zajęć dodatkowych dla dzieci i młodzieży",
       "source_post_parent": 0,
       "target_title": "Extracurricular Activities Instructor for Children and Young People",
@@ -78,6 +80,7 @@
     {
       "source_post_id": 3728,
       "source_post_type": "oferta-pracy",
+      "source_post_status": "publish",
       "source_post_title": "Młodszy Analityk Finansowy / Młodsza Analityczka Finansowa (Controlling &amp; Reporting)",
       "source_post_parent": 0,
       "target_title": "Junior Financial Analyst (Controlling & Reporting)",
@@ -105,6 +108,7 @@
     {
       "source_post_id": 2934,
       "source_post_type": "komunikat-prasowy",
+      "source_post_status": "publish",
       "source_post_title": "Uroczyste otwarcie Wioski Edukacyjnej",
       "source_post_parent": 0,
       "target_title": "Grand Opening of the Educational Village",
@@ -132,6 +136,7 @@
     {
       "source_post_id": 3657,
       "source_post_type": "komunikat-prasowy",
+      "source_post_status": "publish",
       "source_post_title": "Nowy Klub Sportowy w Wadowicac",
       "source_post_parent": 0,
       "target_title": "NEW SPORTS CLUB IN WADOWICE",

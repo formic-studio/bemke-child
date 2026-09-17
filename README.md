@@ -179,6 +179,10 @@ zachowuje układ tekstów HTML oraz łączy wpisy PL i EN w Polylang. Każda gru
 ma osobny przycisk. Gdy źródłowe teksty się zmienią albo szkic EN już istnieje,
 nie tworzy duplikatu. Synchronizacja pól własnych w Polylang musi być wyłączona.
 
+Slider „Bemke in 2050” na szkicu EN strony „O nas” wymaga siedmiu szkiców
+„Strategia 2050”. Podgląd strony pokazuje te szkice tylko zalogowanemu
+edytorowi; na opublikowanej stronie wyświetlą się dopiero opublikowane wpisy EN.
+
 Przed importem danej grupy włącz odpowiedni typ wpisu w **Języki → Ustawienia →
 Custom post types and Taxonomies** i upewnij się, że istniejące wpisy mają
 przypisany język PL. Dla tej partii potrzebne są: `strategia-2050`, `darczynca`,

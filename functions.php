@@ -13,6 +13,7 @@ require_once get_stylesheet_directory() . '/inc/foundation-documents.php';
 require_once get_stylesheet_directory() . '/inc/founders-campaign.php';
 require_once get_stylesheet_directory() . '/inc/admin-slider-menu.php';
 require_once get_stylesheet_directory() . '/inc/slider-galleries.php';
+require_once get_stylesheet_directory() . '/inc/english-draft-preview.php';
 require_once get_stylesheet_directory() . '/inc/image-optimization.php';
 require_once get_stylesheet_directory() . '/inc/accessibility-images.php';
 require_once get_stylesheet_directory() . '/inc/accessibility-markup.php';
