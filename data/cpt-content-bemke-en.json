@@ -1,0 +1,840 @@
+{
+  "batch": "cpt-content-1",
+  "source": "WordPress WXR 2026-09-17 + tlumaczenie_bemkepl_EN.csv",
+  "plans": [
+    {
+      "source_post_id": 1190,
+      "source_post_type": "strategia-2050",
+      "source_post_status": "publish",
+      "source_post_title": "WZORCOWE PLACÓWKI",
+      "source_post_parent": 0,
+      "target_title": "Model Schools",
+      "target_slug": "model-schools",
+      "target_excerpt": "By 2050, we will create model institutions — from preschool to high school — offering the highest standard of teaching at every stage of education, developing character and entrepreneurial attitudes, working according",
+      "meta_edits": [
+        {
+          "key": "nazwa",
+          "expected": "1. <br>WZORCOWE PLACÓWKI",
+          "english": "1. <br>MODEL SCHOOLS"
+        },
+        {
+          "key": "tytul",
+          "expected": "Campus Bemke jako wzorcowe środowisko edukacyjne.",
+          "english": "Campus Bemke as a model educational environment."
+        },
+        {
+          "key": "opis",
+          "expected": "Do 2050 roku stworzymy wzorcowe placówki – od przedszkola po liceum – które będą oferować najwyższy poziom nauczania na każdym etapie edukacji, kształtować charakter i przedsiębiorcze postawy, pracować według założeń edukacji spersonalizowanej i posiadać wysoką kulturę organizacyjną. Z tych placówek będą wychodzić liderzy jutra – ludzie, którzy staną się silnym pokoleniem świadomych, odpowiedzialnych i sprawczych obywateli.",
+          "english": "By 2050, we will create model institutions — from preschool to high school — offering the highest standard of teaching at every stage of education, developing character and entrepreneurial attitudes, working according to the principles of personalised education and maintaining a strong organisational culture. These institutions will produce the leaders of tomorrow — people who will form a strong generation of conscious, responsible and empowered citizens."
+        }
+      ]
+    },
+    {
+      "source_post_id": 1191,
+      "source_post_type": "strategia-2050",
+      "source_post_status": "publish",
+      "source_post_title": "THINK TANK",
+      "source_post_parent": 0,
+      "target_title": "Think Tank",
+      "target_slug": "think-tank",
+      "target_excerpt": "Bemke will become a place that decision-makers, entrepreneurs and academics turn to when seeking an answer to the question: how do we prepare young people for a world that does not yet exist? We will research, test,",
+      "meta_edits": [
+        {
+          "key": "nazwa",
+          "expected": "6. <br>THINK TANK",
+          "english": "6. <br>THINK TANK"
+        },
+        {
+          "key": "tytul",
+          "expected": "Będziemy punktem odniesienia dla transformacji edukacji w Polsce.",
+          "english": "We will become a reference point for the transformation of education in Poland."
+        },
+        {
+          "key": "opis",
+          "expected": "Bemke stanie się miejscem, do którego sięgną decydenci, przedsiębiorcy i naukowcy, gdy będą szukać odpowiedzi na pytanie: jak przygotować młodych ludzi do świata, który się jeszcze nie wydarzył. Będziemy badać, testować, dokumentować i przekładać wnioski na praktykę. Nasza ekspertyza nie zostanie w raportach. Trafi do szkół, firm i domów, zmieniając sposób, w jaki myślimy o edukacji.",
+          "english": "Bemke will become a place that decision-makers, entrepreneurs and academics turn to when seeking an answer to the question: how do we prepare young people for a world that does not yet exist? We will research, test, document and translate insights into practice. Our expertise will not remain in reports. It will reach schools, companies and homes, changing the way we think about education."
+        }
+      ]
+    },
+    {
+      "source_post_id": 1192,
+      "source_post_type": "strategia-2050",
+      "source_post_status": "publish",
+      "source_post_title": "ROZWÓJ DZIECI I MŁODZIEŻY",
+      "source_post_parent": 0,
+      "target_title": "Development of Children and Young People",
+      "target_slug": "development-of-children-and-young-people",
+      "target_excerpt": "Bemke’s development programmes — including courses, summer camps and work with tutors or mentors — will foster an attitude of lifelong learning. They will cover a wide range of areas, from entrepreneurship and art to",
+      "meta_edits": [
+        {
+          "key": "nazwa",
+          "expected": "2. <br> ROZWÓJ DZIECI I MŁODZIEŻY",
+          "english": "2. <br>DEVELOPMENT OF CHILDREN AND YOUNG PEOPLE"
+        },
+        {
+          "key": "tytul",
+          "expected": "Oferujemy spójny system programów, które dopełniają edukację.",
+          "english": "We offer a coherent system of programmes that complement formal education."
+        },
+        {
+          "key": "opis",
+          "expected": "Programy rozwojowe w Bemke w formie kursów, letnich obozów, pracy z tutorem czy mentorem będą kształtować postawę uczenia się przez całe życie. Obejmą różne obszary, od przedsiębiorczości i sztuki po sport i nowe technologie, rozwijając samodzielność i umiejętność praktycznego wykorzystania wiedzy. Programy będą otwarte dla uczestników z całej Polski, a dzięki systemowi stypendialnemu wezmą w nich udział osoby o wysokim potencjale niezależnie od sytuacji finansowej. Wszystkich połączą wysokie wymagania i środowisko, w którym będą spotykać się różne ambicje i doświadczenia.",
+          "english": "Bemke’s development programmes — including courses, summer camps and work with tutors or mentors — will foster an attitude of lifelong learning. They will cover a wide range of areas, from entrepreneurship and art to sport and new technologies, developing independence and the ability to apply knowledge in practice. The programmes will be open to participants from across Poland, and thanks to a scholarship system, high-potential individuals will be able to take part regardless of their financial circumstances. Everyone will be united by high expectations and an environment where different ambitions and experiences come together."
+        }
+      ]
+    },
+    {
+      "source_post_id": 1193,
+      "source_post_type": "strategia-2050",
+      "source_post_status": "publish",
+      "source_post_title": "ROZWÓJ NAUCZYCIELI I DYREKTORÓW",
+      "source_post_parent": 0,
+      "target_title": "Development of Teachers and School Leaders",
+      "target_slug": "development-of-teachers-and-school-leaders",
+      "target_excerpt": "Bemke already operates a training institution for education professionals, and by 2050 we will significantly increase its scale and reach, raising management standards in schools and strengthening teachers’ professional",
+      "meta_edits": [
+        {
+          "key": "nazwa",
+          "expected": "3. <br>ROZWÓJ NAUCZYCIELI I DYREKTORÓW",
+          "english": "3. <br>DEVELOPMENT OF TEACHERS AND SCHOOL LEADERS"
+        },
+        {
+          "key": "tytul",
+          "expected": "Podniesiemy standardy zarządzania szkołami w Polsce.",
+          "english": "We will raise the standards of school management in Poland."
+        },
+        {
+          "key": "opis",
+          "expected": "Bemke już teraz prowadzi placówkę szkoleniową dla kadry edukacyjnej, a do 2050 roku znacząco zwiększy jej skalę i zasięg, podnosząc poziom zarządczy w szkołach i warsztat nauczycielski. Wdrożymy metody sprawdzone globalnie, które przetestujemy i przełożymy na grunt polski w naszych placówkach. Stworzymy sieć certyfikowanych szkół pracujących na najwyższych standardach jakości edukacji.",
+          "english": "Bemke already operates a training institution for education professionals, and by 2050 we will significantly increase its scale and reach, raising management standards in schools and strengthening teachers’ professional practice. We will implement globally proven methods, test them in our institutions and adapt them to the Polish context. We will create a network of certified schools working to the highest standards of educational quality."
+        }
+      ]
+    },
+    {
+      "source_post_id": 1194,
+      "source_post_type": "strategia-2050",
+      "source_post_status": "publish",
+      "source_post_title": "WSPIERANIE RODZIN",
+      "source_post_parent": 0,
+      "target_title": "Supporting Families",
+      "target_slug": "supporting-families",
+      "target_excerpt": "Parents are a child’s first educators, and we will give them knowledge and tools: how to support a child’s full development, how to create an environment that encourages entrepreneurial attitudes at home, and how to",
+      "meta_edits": [
+        {
+          "key": "nazwa",
+          "expected": "4. <br>WSPIERANIE RODZIN",
+          "english": "4. <br>SUPPORTING FAMILIES"
+        },
+        {
+          "key": "tytul",
+          "expected": "Wyposażymy rodziców w narzędzia, których potrzebują.",
+          "english": "We will equip parents with the tools they need."
+        },
+        {
+          "key": "opis",
+          "expected": "Rodzice to pierwsi wychowawcy, a my damy im wiedzę i narzędzia: jak wspierać pełny rozwój dziecka, jak tworzyć środowisko przedsiębiorczych postaw w domu, jak współpracować ze szkołą, by wzmacniać proces wychowawczy. Nasza ambicja to skalowanie tego wsparcia, aby rodzice z całej Polski sięgali po rozwiązania, które wypracujemy..",
+          "english": "Parents are a child’s first educators, and we will give them knowledge and tools: how to support a child’s full development, how to create an environment that encourages entrepreneurial attitudes at home, and how to work with the school to strengthen the upbringing process. Our ambition is to scale this support so that parents across Poland can benefit from the solutions we develop."
+        }
+      ]
+    },
+    {
+      "source_post_id": 1195,
+      "source_post_type": "strategia-2050",
+      "source_post_status": "publish",
+      "source_post_title": "PARTNERSTWA Z BIZNESEM",
+      "source_post_parent": 0,
+      "target_title": "Business Partnerships",
+      "target_slug": "business-partnerships",
+      "target_excerpt": "Young people will learn from the best — through direct contact with entrepreneurs, managers and people who build organisations. The transfer of skills will work both ways: students will see what being a leader looks",
+      "meta_edits": [
+        {
+          "key": "nazwa",
+          "expected": "5. <br> PARTNERSTWA Z BIZNESEM",
+          "english": "5. <br>BUSINESS PARTNERSHIPS"
+        },
+        {
+          "key": "tytul",
+          "expected": "Przygotujemy następne pokolenia liderów.",
+          "english": "We will prepare the next generations of leaders."
+        },
+        {
+          "key": "opis",
+          "expected": "Młodzi ludzie będą uczyć się od najlepszych – w bezpośrednim kontakcie z przedsiębiorcami, menedżerami, ludźmi, którzy budują organizacje. Transfer kompetencji zadziała w obie strony: uczniowie zobaczą, jak wygląda bycie liderem na co dzień, przedsiębiorcy zrozumieją, czego potrzebują młodzi ludzi, by wejść w świat zawodowy przygotowani. Biznes zaangażuje się w kształtowanie edukacji, wiedząc, że to od niej zaczyna sią kultura zarządcza.",
+          "english": "Young people will learn from the best — through direct contact with entrepreneurs, managers and people who build organisations. The transfer of skills will work both ways: students will see what being a leader looks like in everyday life, while entrepreneurs will understand what young people need to enter the professional world well prepared. Business will become involved in shaping education, knowing that management culture begins there."
+        }
+      ]
+    },
+    {
+      "source_post_id": 1196,
+      "source_post_type": "strategia-2050",
+      "source_post_status": "publish",
+      "source_post_title": "Obietnica Bemke",
+      "source_post_parent": 0,
+      "target_title": "The Bemke Promise",
+      "target_slug": "the-bemke-promise",
+      "target_excerpt": "We translate this promise into a concrete strategy and a long-term vision for the development of Bemke as a whole. See how we plan to grow in six key dimensions by 2050. You can join our community by supporting our",
+      "meta_edits": [
+        {
+          "key": "nazwa",
+          "expected": "Obietnica Bemke",
+          "english": "The Bemke Promise"
+        },
+        {
+          "key": "tytul",
+          "expected": "Kształtujemy liderów. Wzmacniamy rodziny. Podnosimy jakość edukacji.",
+          "english": "We shape leaders. We strengthen families. We raise the quality of education."
+        },
+        {
+          "key": "opis",
+          "expected": "Tę obietnicę przekładamy na konkretną strategię i długofalową wizję rozwoju całego Bemke. Zobacz, jak planujemy rozwinąć się w sześciu kluczowych wymiarach do 2050 roku. Możesz dołączyć do naszej społeczności wspierając nasze działania, korzystając z programów rozwojowych i uczestnicząc w życiu kampusu.",
+          "english": "We translate this promise into a concrete strategy and a long-term vision for the development of Bemke as a whole. See how we plan to grow in six key dimensions by 2050. You can join our community by supporting our work, taking part in development programmes and participating in campus life."
+        }
+      ]
+    },
+    {
+      "source_post_id": 3164,
+      "source_post_type": "darczynca",
+      "source_post_status": "publish",
+      "source_post_title": "TDJ i spółkiportfelowe",
+      "source_post_parent": 0,
+      "target_title": "TDJ and Portfolio Companies",
+      "target_slug": "tdj-and-portfolio-companies",
+      "target_excerpt": "TDJ is a family-owned investment company with more than 45 years of experience and a track record of successfully completing over 40 acquisitions and integration processes. TDJ’s portfolio includes companies grouped",
+      "meta_edits": [
+        {
+          "key": "darczyncy_tytul",
+          "expected": "TDJ i spółki<br><span class=\"font-f-season-mix\">portfelowe</span>",
+          "english": "TDJ and portfolio companies"
+        },
+        {
+          "key": "darczyncy_opis",
+          "expected": "TDJ to rodzinna firma inwestycyjna z ponad 45-letnim doświadczeniem, która zrealizowała z sukcesem ponad 40 przejęć i procesów integracji.\nDo portfela TDJ należą skoncentrowane w Grenevii spółki z szeroko pojętej branży transformacji energetycznej – Impact Clean Power Technology, Projekt Solartechnik, Total Wind PL i Elgór+Hansen. TDJ posiada łącznie 21 spółek m.in. w sektorach przemysłowym, automatyzacji czy weterynarii. Aktywność TDJ obejmuje także branżę nieruchomości, venture capital, a także obszar filantropijny.",
+          "english": "TDJ is a family-owned investment company with more than 45 years of experience and a track record of successfully completing over 40 acquisitions and integration processes. TDJ’s portfolio includes companies grouped within Grenevia that operate broadly in the energy transition sector — Impact Clean Power Technology, Projekt Solartechnik, Total Wind PL and Elgór+Hansen. TDJ owns a total of 21 companies, including businesses in industry, automation and veterinary medicine. TDJ’s activities also cover real estate, venture capital and philanthropy."
+        },
+        {
+          "key": "darczyncy_-_caption_nad_nazwa",
+          "expected": "Darczyńcy Campusu Bemke",
+          "english": "Campus Bemke Donors"
+        }
+      ]
+    },
+    {
+      "source_post_id": 3558,
+      "source_post_type": "darczynca",
+      "source_post_status": "publish",
+      "source_post_title": "Stowarzyszenie Apostolstwa Katolickiego Pallotyni",
+      "source_post_parent": 0,
+      "target_title": "Society of the Catholic Apostolate – Pallottines",
+      "target_slug": "society-of-the-catholic-apostolate-pallottines",
+      "target_excerpt": "The Pallottines (Society of the Catholic Apostolate) are a community whose mission is to spread faith and education in the spirit of Catholic values. For more than 100 years in Poland, the Pallottines have been involved",
+      "meta_edits": [
+        {
+          "key": "darczyncy_tytul",
+          "expected": "Stowarzyszenie Apostolstwa <br>Katolickiego <span class=\"font-f-season-mix\">Pallotyni</span>",
+          "english": "Society of the Catholic Apostolate – Pallottines"
+        },
+        {
+          "key": "darczyncy_opis",
+          "expected": "Pallotyni (Stowarzyszenia Apostolstwa Katolickiego) to wspólnota, której misją jest szerzenie wiary i edukacji w duchu wartości katolickich. Od ponad 100 lat w Polsce Pallotyni angażują się formację intelektualną i duchową, zakładając szkoły, ośrodki duszpasterskie oraz prowadząc dzieła misyjne na całym świecie.\n\nPallotyński Dom Macierzysty Collegium Marianum w Wadowicach od początku swojego istnienia był przestrzenią edukacji, w której łączono naukę z wiarą. Campus Bemke stał się kontynuacją tego dziedzictwa, będąc odpowiedzią na współczesne wyzwania edukacyjne i duchowe. Przystępując do tego projektu, Pallotyni nie tylko odważnie otworzyli nowy rozdział swojej działalności, ale także wprowadzili swoją misję w nową erę, łącząc historię z przyszłością.",
+          "english": "The Pallottines (Society of the Catholic Apostolate) are a community whose mission is to spread faith and education in the spirit of Catholic values. For more than 100 years in Poland, the Pallottines have been involved in intellectual and spiritual formation, founding schools and pastoral centres and carrying out missionary work around the world. The Pallottine Mother House, Collegium Marianum in Wadowice, has from the beginning been a place of education where learning was combined with faith. Campus Bemke has become a continuation of this legacy, responding to contemporary educational and spiritual challenges. By joining this project, the Pallottines have not only boldly opened a new chapter in their work, but have also brought their mission into a new era, connecting history with the future."
+        },
+        {
+          "key": "darczyncy_-_caption_nad_nazwa",
+          "expected": "Fundator Campusu Bemke",
+          "english": "Founder of Campus Bemke"
+        }
+      ]
+    },
+    {
+      "source_post_id": 3560,
+      "source_post_type": "darczynca",
+      "source_post_status": "publish",
+      "source_post_title": "GRUPA MASPEX",
+      "source_post_parent": 0,
+      "target_title": "MASPEX Group",
+      "target_slug": "maspex-group",
+      "target_excerpt": "Maspex Group is one of the largest food and beverage producers in Central and Eastern Europe and the owner of more than 70 brands, including iconic names such as Tymbark, Kubuś, Lubella, Łowicz and Krakus. For years, it",
+      "meta_edits": [
+        {
+          "key": "darczyncy_tytul",
+          "expected": "GRUPA MASPEX",
+          "english": "MASPEX Group"
+        },
+        {
+          "key": "darczyncy_opis",
+          "expected": "Grupa Maspex to jeden z największych producentów żywności i napojów w Europie Środkowo-Wschodniej, właściciel ponad 70 marek, tak kultowych jak Tymbark, Kubuś, Lubella, Łowicz i Krakus. Od lat nie tylko dostarcza wysokiej jakości produkty, ale także aktywnie angażuje się w działania odpowiedzialne społecznie. \n<br><br>\nW ramach strategii zrównoważonego rozwoju i CSR firma wspiera projekty zachęcające dzieci i młodzież do sportu i aktywności fizycznej oraz jest organizatorem programów edukacyjnych na temat ekologii, bezpieczeństwa, odżywiania i niemarnowania żywności. Co roku bierze w nich udział ponad milion dzieci. Wspiera także produktowo ponad 1000 instytucji rocznie, angażując się pozytywnie w życie lokalnych społeczności. Jej rozwój opiera się na innowacjach, odwadze oraz odpowiedzialności za otoczenie i przyszłe pokolenia. <br><br>\n\nCentrala firmy znajduje się w Wadowicach, 18 zakładów produkcyjnych zlokalizowane jest w Polsce, Rumunii, Czechach, na Węgrzech i w Bułgarii, a produkty docierają do ponad 80 krajów na całym świecie.",
+          "english": "Maspex Group is one of the largest food and beverage producers in Central and Eastern Europe and the owner of more than 70 brands, including iconic names such as Tymbark, Kubuś, Lubella, Łowicz and Krakus. For years, it has not only supplied high-quality products but has also been actively involved in socially responsible initiatives. As part of its sustainability and CSR strategy, the company supports projects encouraging children and young people to take part in sport and physical activity and organises educational programmes on ecology, safety, nutrition and reducing food waste. More than one million children participate in them every year. It also provides product support to more than 1,000 institutions annually, making a positive contribution to local communities. Its development is based on innovation, courage and responsibility for its surroundings and future generations. The company is headquartered in Wadowice, operates 18 production plants in Poland, Romania, the Czech Republic, Hungary and Bulgaria, and its products reach more than 80 countries worldwide."
+        }
+      ]
+    },
+    {
+      "source_post_id": 3668,
+      "source_post_type": "darczynca",
+      "source_post_status": "publish",
+      "source_post_title": "KULCZYK INVESTMENTS",
+      "source_post_parent": 0,
+      "target_title": "Kulczyk Investments",
+      "target_slug": "kulczyk-investments",
+      "target_excerpt": "Kulczyk Investments is a private investment house with offices in Luxembourg, London and Warsaw. For more than 30 years, it has supported European companies in their global growth, investing for the long term in",
+      "meta_edits": [
+        {
+          "key": "darczyncy_tytul",
+          "expected": "KULCZYK INVESTMENTS",
+          "english": "Kulczyk Investments"
+        },
+        {
+          "key": "darczyncy_opis",
+          "expected": "Kulczyk Investments to prywatny dom inwestycyjny z biurami w Luksemburgu, Londynie i Warszawie. Od ponad 30 lat wspiera europejskie firmy w globalnym rozwoju, inwestując długoterminowo w innowacyjne przedsiębiorstwa i strategiczne sektory, takie jak nowe technologie, chemia, infrastruktura i nieruchomości.\n<br><br>\nFirma angażuje się także w projekty społeczne i edukacyjne, pomagając młodym ludziom rozwijać kompetencje przyszłości. Jej działalność opiera się na międzynarodowym know-how, najwyższej klasy doradcach i partnerstwach, które budują wartość firm i instytucji na całym świecie.",
+          "english": "Kulczyk Investments is a private investment house with offices in Luxembourg, London and Warsaw. For more than 30 years, it has supported European companies in their global growth, investing for the long term in innovative businesses and strategic sectors such as new technologies, chemicals, infrastructure and real estate. The company is also involved in social and educational projects, helping young people develop the skills of the future. Its activities are based on international know-how, top-class advisers and partnerships that build value for companies and institutions around the world."
+        },
+        {
+          "key": "darczyncy_-_caption_nad_nazwa",
+          "expected": "Darczyńca Campusu Bemke",
+          "english": "Campus Bemke Donor"
+        }
+      ]
+    },
+    {
+      "source_post_id": 3672,
+      "source_post_type": "darczynca",
+      "source_post_status": "publish",
+      "source_post_title": "MACIEJ MARCJANIK",
+      "source_post_parent": 0,
+      "target_title": "Maciej Marcjanik",
+      "target_slug": "maciej-marcjanik",
+      "target_excerpt": "Maciej Marcjanik is an entrepreneur and investor who has been involved in the modern energy market since the beginning of his career, delivering numerous pioneering projects on a European scale. He consistently develops",
+      "meta_edits": [
+        {
+          "key": "darczyncy_tytul",
+          "expected": "MACIEJ MARCJANIK",
+          "english": "Maciej Marcjanik"
+        },
+        {
+          "key": "darczyncy_opis",
+          "expected": "Maciej Marcjanik to przedsiębiorca i inwestor, od początku swojej kariery związany z rynkiem nowoczesnej energetyki, na którym zrealizował wiele pionierskich projektów w skali europejskiej. Konsekwentnie rozwija innowacyjne projekty, łącząc podejście biznesowe z odpowiedzialnością społeczną – aktywnie angażuje się w działania charytatywne, kierując się głębokim poczuciem odpowiedzialności za przyszłe pokolenia.",
+          "english": "Maciej Marcjanik is an entrepreneur and investor who has been involved in the modern energy market since the beginning of his career, delivering numerous pioneering projects on a European scale. He consistently develops innovative ventures, combining a business approach with social responsibility, and is actively involved in charitable initiatives, driven by a deep sense of responsibility for future generations."
+        },
+        {
+          "key": "darczyncy_-_caption_nad_nazwa",
+          "expected": "Darczyńcy Campusu Bemke",
+          "english": "Campus Bemke Donors"
+        }
+      ]
+    },
+    {
+      "source_post_id": 3678,
+      "source_post_type": "darczynca",
+      "source_post_status": "publish",
+      "source_post_title": "FORMIKA",
+      "source_post_parent": 0,
+      "target_title": "Formika",
+      "target_slug": "formika",
+      "target_excerpt": "Formika — a family-owned company — is a leader in flexible packaging for the food, cosmetics and pharmaceutical industries. Founded in 1978, it has grown into a global supplier of innovative solutions, delivering more",
+      "meta_edits": [
+        {
+          "key": "darczyncy_tytul",
+          "expected": "FORMIKA",
+          "english": "Formika"
+        },
+        {
+          "key": "darczyncy_opis",
+          "expected": "Formika – firma rodzinna – to lider w produkcji opakowań giętkich dla branży spożywczej, kosmetycznej i farmaceutycznej. Założona w 1978 roku, przez lata stała się globalnym dostawcą innowacyjnych rozwiązań, dostarczając ponad 5 miliardów opakowań do 40 krajów na 4 kontynentach. Dzięki nowoczesnym technologiom i rozwojowi łączy najwyższą jakość z troską o środowisko i odpowiedzialność społeczną.\n<br><br>\nJoanna i Piotr Dębiccy angażują się w działalność charytatywną i edukacyjną poprzez Fundację Formika Dzieciom. Wspierają młodzież w rozwijaniu kluczowych kompetencji, m.in. poprzez program Power4Future, pomagając im budować karierę i realizować ambitne cele.",
+          "english": "Formika — a family-owned company — is a leader in flexible packaging for the food, cosmetics and pharmaceutical industries. Founded in 1978, it has grown into a global supplier of innovative solutions, delivering more than 5 billion packages to 40 countries on 4 continents. Through modern technologies and continuous development, it combines the highest quality with care for the environment and social responsibility. Joanna and Piotr Dębicki are involved in charitable and educational activities through the Formika Dzieciom Foundation. They support young people in developing key skills, including through the Power4Future programme, helping them build careers and pursue ambitious goals."
+        },
+        {
+          "key": "darczyncy_-_caption_nad_nazwa",
+          "expected": "Darczyńcy Campusu Bemke",
+          "english": "Campus Bemke Donors"
+        }
+      ]
+    },
+    {
+      "source_post_id": 3684,
+      "source_post_type": "darczynca",
+      "source_post_status": "publish",
+      "source_post_title": "GRUPA LIPCO FOODS Fundacja Uskrzydlamy",
+      "source_post_parent": 0,
+      "target_title": "LIPCO FOODS GROUP Uskrzydlamy Foundation",
+      "target_slug": "lipco-foods-group-uskrzydlamy-foundation",
+      "target_excerpt": "LipCo Foods is a Polish multi-food group whose mission is to feed the world sustainably. For more than 32 years, it has supplied food to millions of consumers in many countries and engaged in social projects. The Group",
+      "meta_edits": [
+        {
+          "key": "darczyncy_tytul",
+          "expected": "GRUPA LIPCO FOODS <br><span class=\"font-f-season-mix\">Fundacja Uskrzydlamy</span>",
+          "english": "LIPCO FOODS GROUP Uskrzydlamy Foundation"
+        },
+        {
+          "key": "darczyncy_opis",
+          "expected": "LipCo Foods to polska multifoodowa grupa, której misją jest nakarmienie świata w sposób zrównoważony. Od ponad 32 lat dostarcza żywność milionom konsumentów w wielu krajach i angażuje się w projekty społeczne.\n<br><br>\nW ramach Grupy funkcjonuje 20 specjalistycznych segmentów, 17 lokalizacji produkcyjnych, w których pracuje ponad 4000 pracowników. Co roku przekazywane jest ponad 100 ton żywności potrzebującym.\n<br><br>\nW ramach grupy działa Fundacja Uskrzydlamy, która od 2017 roku wspiera edukację, rozwój talentów i pomoc osobom w trudnej sytuacji. Realizuje średnio 50 projektów rocznie, prowadzi programy stypendialne, finansuje wyjazdy edukacyjne i angażuje się w inicjatywy społeczne w Polsce i za granicą.",
+          "english": "LipCo Foods is a Polish multi-food group whose mission is to feed the world sustainably. For more than 32 years, it has supplied food to millions of consumers in many countries and engaged in social projects. The Group comprises 20 specialised segments and 17 production locations employing more than 4,000 people. Every year, more than 100 tonnes of food are donated to people in need. The Uskrzydlamy Foundation operates within the group and since 2017 has supported education, talent development and people in difficult situations. It carries out an average of 50 projects a year, runs scholarship programmes, funds educational trips and engages in social initiatives in Poland and abroad."
+        },
+        {
+          "key": "darczyncy_-_caption_nad_nazwa",
+          "expected": "Darczyńcy Campusu Bemke",
+          "english": "Campus Bemke Donors"
+        }
+      ]
+    },
+    {
+      "source_post_id": 3690,
+      "source_post_type": "darczynca",
+      "source_post_status": "publish",
+      "source_post_title": "Grupa Wielton Grupa Pamapol",
+      "source_post_parent": 0,
+      "target_title": "Wielton Group Pamapol Group",
+      "target_slug": "wielton-group-pamapol-group",
+      "target_excerpt": "Wielton Group is one of the three largest manufacturers of semi-trailers and trailers in Europe and one of the ten largest in the world. It employs more than 3,000 people and places strong emphasis on people, quality,",
+      "meta_edits": [
+        {
+          "key": "darczyncy_tytul",
+          "expected": "Grupa Wielton <br>Grupa Pamapol",
+          "english": "Wielton Group Pamapol Group"
+        },
+        {
+          "key": "darczyncy_opis",
+          "expected": "Grupa Wielton to jeden z trzech największych producentów naczep i przyczep w Europie oraz jeden z dziesięciu na świecie. Zatrudnia ponad 3 tysiące pracowników, stawiając na ludzi, jakość, bezpieczeństwo i inicjatywę. Kreatywność i otwartość to kluczowe elementy jej kultury, a bezpieczeństwo jest priorytetem.\n\nGrupa Pamapol to wicelider w produkcji dań gotowych w Polsce, oferujący ponad 80 produktów, m.in. konserwy, pasztety i zupy. Łączy tradycję z nowoczesnością, dostosowując ofertę do rynku. Wieloletnie doświadczenie i rozwój czynią ją zaufanym partnerem w kraju i za granicą.",
+          "english": "Wielton Group is one of the three largest manufacturers of semi-trailers and trailers in Europe and one of the ten largest in the world. It employs more than 3,000 people and places strong emphasis on people, quality, safety and initiative. Creativity and openness are key elements of its culture, while safety is a priority. Pamapol Group is Poland’s second-largest producer of ready meals, offering more than 80 products, including canned foods, pâtés and soups. It combines tradition with modernity, adapting its offer to the market. Many years of experience and continuous development make it a trusted partner in Poland and abroad."
+        },
+        {
+          "key": "darczyncy_-_caption_nad_nazwa",
+          "expected": "Darczyńcy Campusu Bemke",
+          "english": "Campus Bemke Donors"
+        }
+      ]
+    },
+    {
+      "source_post_id": 3691,
+      "source_post_type": "darczynca",
+      "source_post_status": "publish",
+      "source_post_title": "Bernadetta i Andrzej Bachleda-Curuś",
+      "source_post_parent": 0,
+      "target_title": "Bernadetta and Andrzej Bachleda-Curuś",
+      "target_slug": "bernadetta-and-andrzej-bachleda-curu",
+      "target_excerpt": "Bernadetta and Andrzej Bachleda-Curuś are a married couple who combine tradition with modernity and are active in both business and social initiatives. Connected with Zakopane, they bring Polish heritage and an",
+      "meta_edits": [
+        {
+          "key": "darczyncy_tytul",
+          "expected": "Bernadetta i Andrzej<br> Bachleda-Curuś",
+          "english": "Bernadetta and Andrzej Bachleda-Curuś"
+        },
+        {
+          "key": "darczyncy_opis",
+          "expected": "Bernadetta i Andrzej Bachleda-Curuś to małżeństwo łączące tradycję z nowoczesnością, aktywne zarówno w biznesie, jak i działalności społecznej. Związani z Zakopanem, wnoszą do swoich działań polskie dziedzictwo i międzynarodową perspektywę.\n<br><br>\nBernadetta, wychowana w Chicago w rodzinie polskich emigrantów, po powrocie do Polski rozwinęła działalność w branży modowej, wprowadzając prestiżową markę Carolina Herrera. Andrzej pochodzi z uznanego góralskiego rodu, który od 1600 roku jest nierozerwalnie związany z Podhalem, a jego przedsiębiorczość od pokoleń wpływa na rozwój regionu. Bernadetta i Andrzej angażują się w inicjatywy charytatywne i edukacyjne, wierząc, że kluczem do przyszłości jest rozwój młodych ludzi.",
+          "english": "Bernadetta and Andrzej Bachleda-Curuś are a married couple who combine tradition with modernity and are active in both business and social initiatives. Connected with Zakopane, they bring Polish heritage and an international perspective to their work. Bernadetta, raised in Chicago in a family of Polish emigrants, developed a career in the fashion industry after returning to Poland, introducing the prestigious Carolina Herrera brand. Andrzej comes from a respected highland family that has been inseparably connected with the Podhale region since 1600, with generations of entrepreneurship contributing to the region’s development. Bernadetta and Andrzej are involved in charitable and educational initiatives, believing that developing young people is the key to the future."
+        },
+        {
+          "key": "darczyncy_-_caption_nad_nazwa",
+          "expected": "Darczyńcy Campusu Bemke",
+          "english": "Campus Bemke Donors"
+        }
+      ]
+    },
+    {
+      "source_post_id": 3692,
+      "source_post_type": "darczynca",
+      "source_post_status": "publish",
+      "source_post_title": "DONE Deliveries",
+      "source_post_parent": 0,
+      "target_title": "DONE DELIVERIES",
+      "target_slug": "done-deliveries",
+      "target_excerpt": "DONE Deliveries combines innovative technology with traditional industry expertise to create one of Europe’s most flexible on-demand freight transport solutions. Since 2013, the company has completed more than 600,000",
+      "meta_edits": [
+        {
+          "key": "darczyncy_tytul",
+          "expected": "DONE Deliveries",
+          "english": "DONE DELIVERIES"
+        },
+        {
+          "key": "darczyncy_opis",
+          "expected": "DONE Deliveries łączy innowacyjną technologię z tradycyjną wiedzą branżową, tworząc jedno z najbardziej elastycznych rozwiązań transportu towarów on-demand w Europie. Od 2013 roku firma zrealizowała ponad 600 000 zleceń przewozu, jej zespół liczy 180 ekspertów, w tym 25 osobowy zespół R&D. Dzięki autorskim aplikacjom i zaawansowanym procesom, DONE Deliveries wyznacza nowe standardy w branży.<br><br>\n\nSpółka inwestuje w rozwój młodych talentów, m.in. w ramach Transpeed AGH, gdzie studenci rozwijają projekty z zakresu technologii Hyperloop, logistyki i Przemysłu 4.0.",
+          "english": "DONE Deliveries combines innovative technology with traditional industry expertise to create one of Europe’s most flexible on-demand freight transport solutions. Since 2013, the company has completed more than 600,000 transport orders. Its team includes 180 experts, including a 25-person R&D team. Thanks to proprietary applications and advanced processes, DONE Deliveries is setting new standards in the industry. The company invests in the development of young talent, including through Transpeed AGH, where students develop projects in Hyperloop technology, logistics and Industry 4.0."
+        },
+        {
+          "key": "darczyncy_-_caption_nad_nazwa",
+          "expected": "Darczyńcy Campusu Bemke",
+          "english": "Campus Bemke Donors"
+        }
+      ]
+    },
+    {
+      "source_post_id": 3693,
+      "source_post_type": "darczynca",
+      "source_post_status": "publish",
+      "source_post_title": "Fundacja 3WFoundation",
+      "source_post_parent": 0,
+      "target_title": "3WFoundation",
+      "target_slug": "3wfoundation",
+      "target_excerpt": "3WFoundation is an initiative of brothers Adam, Mariusz and Waldemar Wałach, who, guided by their faith and business experience, engage in social initiatives. The Foundation focuses on supporting Christian projects and",
+      "meta_edits": [
+        {
+          "key": "darczyncy_tytul",
+          "expected": "Fundacja 3WFoundation",
+          "english": "3WFoundation"
+        },
+        {
+          "key": "darczyncy_opis",
+          "expected": "3WFoundation to inicjatywa braci Adama, Mariusza i Waldemara Wałachów, którzy, kierując się swoją wiarą oraz doświadczeniem biznesowym, angażują się w działania o charakterze społecznym. Fundacja koncentruje się na wspieraniu projektów i inicjatyw chrześcijańskich w Europie Środkowej i Wschodniej, niosąc pomoc organizacjom charytatywnym i dobroczynnym działającym na rzecz dobra wspólnego. Szczególne miejsce w jej działalności zajmuje Zaolzie – mała ojczyzna braci – wraz z polską mniejszością narodową w Republice Czeskiej, do której należą razem ze swoimi rodzinami.\n<br><br>\nFundacja kieruje się strategiczną filantropią, nie tylko oferując wsparcie finansowe, ale także dzieląc się wiedzą i doświadczeniem. Jej misją jest pomaganie ludziom w osiągnięciu pełni życia – fizycznie, mentalnie i duchowo.",
+          "english": "3WFoundation is an initiative of brothers Adam, Mariusz and Waldemar Wałach, who, guided by their faith and business experience, engage in social initiatives. The Foundation focuses on supporting Christian projects and initiatives in Central and Eastern Europe, helping charitable and philanthropic organisations working for the common good. A special place in its activities is held by Zaolzie — the brothers’ home region — together with the Polish national minority in the Czech Republic, to which they and their families belong. The Foundation follows a strategic philanthropy approach, offering not only financial support but also sharing knowledge and experience. Its mission is to help people achieve fullness of life — physically, mentally and spiritually."
+        },
+        {
+          "key": "darczyncy_-_caption_nad_nazwa",
+          "expected": "Darczyńcy Campusu Bemke",
+          "english": "Campus Bemke Donors"
+        }
+      ]
+    },
+    {
+      "source_post_id": 3694,
+      "source_post_type": "darczynca",
+      "source_post_status": "publish",
+      "source_post_title": "Gerlach",
+      "source_post_parent": 0,
+      "target_title": "Gerlach",
+      "target_slug": "gerlach",
+      "target_excerpt": "For 265 years, Gerlach has been part of Polish homes, creating trends and innovations that make everyday life easier. A tradition built over more than two centuries combines timeless elegance with the highest quality",
+      "meta_edits": [
+        {
+          "key": "darczyncy_tytul",
+          "expected": "Gerlach",
+          "english": "Gerlach"
+        },
+        {
+          "key": "darczyncy_opis",
+          "expected": "Od 265 lat Gerlach towarzyszy Polakom w ich domach, kreując trendy i innowacje, które ułatwiają życie. Budowana przez ponad dwa wieki tradycja łączy ponadczasową elegancję z najwyższą jakością wytwarzanych produktów.<br><br>\n\nWspółcześnie Gerlach to dynamicznie rozwijające się przedsiębiorstwo, sukcesywnie wdrażające nowoczesne rozwiązania i czerpiące z wielowiekowego, bogatego doświadczenia. Każdego roku marka wprowadza na rynek liczne innowacje, w zakresie produktów, wykorzystywanych technologii oraz funkcjonalności, które ułatwiają życie na co dzień, nie tylko w kuchni. Marka od lat jest nagradzana licznymi tytułami m.in. Superbrands, a niezmiennie jakościowe produkty zdobywają uznanie najbardziej wymagających konsumentów.<br><br>\n\nGerlach to jednak coś więcej niż wysokiej jakości produkty – to ludzie, którzy od wieków stoją za wartościami marki, łącząc pasję i rozwój, przyczyniają się każdego dnia do umacniania jej pozycji, tak aby inspirowała w wielu obszarach – kulinariów, urządzania wnętrz, ale również zdrowego stylu życia.<br><br>\n\nZnana przez większość Polaków marka prowadzi również działania odpowiedzialne społecznie, poprzez zaangażowanie się w aktywności regionalne, współpracę z samorządami oraz współudział w projektach, które są bliskie strategii firmy i wartościom właściciela.",
+          "english": "For 265 years, Gerlach has been part of Polish homes, creating trends and innovations that make everyday life easier. A tradition built over more than two centuries combines timeless elegance with the highest quality products. Today, Gerlach is a dynamically growing company that steadily implements modern solutions while drawing on centuries of rich experience. Every year, the brand introduces numerous innovations in products, technologies and functionalities that make everyday life easier, not only in the kitchen. For years, the brand has received numerous distinctions, including Superbrands, while its consistently high-quality products have earned the trust of the most demanding consumers. Gerlach, however, is more than high-quality products — it is the people who have stood behind the brand’s values for generations, combining passion with development and strengthening its position every day so that it can inspire in many areas — from cooking and interior design to healthy living. Known to most Poles, the brand also undertakes socially responsible activities by engaging in regional initiatives, cooperating with local governments and participating in projects aligned with the company’s strategy and the owner’s values."
+        },
+        {
+          "key": "darczyncy_-_caption_nad_nazwa",
+          "expected": "Darczyńcy Campusu Bemke",
+          "english": "Campus Bemke Donors"
+        }
+      ]
+    },
+    {
+      "source_post_id": 3695,
+      "source_post_type": "darczynca",
+      "source_post_status": "publish",
+      "source_post_title": "Marek Górski i Tadeusz Nowicki Grupa Ergis",
+      "source_post_parent": 0,
+      "target_title": "Marek Górski and Tadeusz Nowicki, Ergis Group",
+      "target_slug": "marek-g-rski-and-tadeusz-nowicki-ergis-group",
+      "target_excerpt": "ERGIS GROUP is a leader in plastics processing in Central and Eastern Europe, with five production plants in Poland and Germany. It specialises in food packaging, industrial, waterproofing and pharmaceutical films.",
+      "meta_edits": [
+        {
+          "key": "darczyncy_tytul",
+          "expected": "Marek Górski i Tadeusz Nowicki <br><span class=\"font-f-season-mix\">Grupa Ergis</span>",
+          "english": "Marek Górski and Tadeusz Nowicki, Ergis Group"
+        },
+        {
+          "key": "darczyncy_opis",
+          "expected": "GRUPA ERGIS to lider przetwórstwa tworzyw sztucznych w Europie Środkowo-Wschodniej, posiadający pięć zakładów produkcyjnych w Polsce i Niemczech. Specjalizuje się w opakowaniach do żywności, foliach przemysłowych, hydroizolacyjnych i farmaceutycznych.<br><br>\n\nGRUPA ERGIS angażuje się w inicjatywy społeczne i charytatywne, wspierając lokalne społeczności, edukację i młodzież w trudniejszej sytuacji materialnej. Kładzie duży nacisk na zrównoważony rozwój, minimalizując wpływ produkcji na środowisko poprzez nowoczesne techniki recyklingu.",
+          "english": "ERGIS GROUP is a leader in plastics processing in Central and Eastern Europe, with five production plants in Poland and Germany. It specialises in food packaging, industrial, waterproofing and pharmaceutical films. ERGIS GROUP is involved in social and charitable initiatives, supporting local communities, education and young people in more difficult financial circumstances. It places strong emphasis on sustainable development, minimising the environmental impact of production through modern recycling techniques."
+        },
+        {
+          "key": "darczyncy_-_caption_nad_nazwa",
+          "expected": "Darczyńcy Campusu Bemke",
+          "english": "Campus Bemke Donors"
+        }
+      ]
+    },
+    {
+      "source_post_id": 3696,
+      "source_post_type": "darczynca",
+      "source_post_status": "publish",
+      "source_post_title": "Metchem",
+      "source_post_parent": 0,
+      "target_title": "Metchem",
+      "target_slug": "metchem",
+      "target_excerpt": "METCHEM is a leading Polish manufacturer of advanced, highly complex thermoplastic injection-moulded products. For more than 40 years, it has supported key industrial sectors, including automotive, home appliances and",
+      "meta_edits": [
+        {
+          "key": "darczyncy_tytul",
+          "expected": "Metchem",
+          "english": "Metchem"
+        },
+        {
+          "key": "darczyncy_opis",
+          "expected": "METCHEM to czołowy polski producent zaawansowanych wyrobów z tworzyw sztucznych termoplastycznych o wysokim stopniu skomplikowania metodą wtrysku. Od ponad 40 lat wspiera kluczowe sektory przemysłowe, w tym motoryzację, AGD oraz sektor rolniczy. Dostarcza precyzyjne i trwałe komponenty dla globalnych liderów. Oferuje pełną obsługę od projektowania, przez realizację aż po montaż gotowych komponentów. Dzięki zespołowi doświadczonych specjalistów zapewnia nie tylko najwyższą jakość wykonania, ale także terminowe uruchomienie projektów i dostawy w modelu just-in-time do 29 krajów na 5 kontynentach.<br><br>\n\nFirma aktywnie wspiera edukację, kulturę i działania charytatywne. Będąc głównym sponsorem Wadowickiego Centrum Kultury, co roku angażuje się w Małopolską Noc Naukowców, promując naukę wśród dzieci i młodzieży. METCHEM wspiera także Szlachetną Paczkę, a jego działania sięgają dalej – od pomocy w zakupie ambulansu dla OSP Wadowice po organizację zbiórek dla ofiar klęsk żywiołowych. Firma angażuje się również w edukację, a jej prezes, Maciej Grabowski, reprezentuje ją jako członek Rady Programowej Wadowickiego Uniwersytetu Dzieci.",
+          "english": "METCHEM is a leading Polish manufacturer of advanced, highly complex thermoplastic injection-moulded products. For more than 40 years, it has supported key industrial sectors, including automotive, home appliances and agriculture. It supplies precise and durable components to global leaders. The company offers comprehensive service from design and production through to assembly of finished components. Thanks to a team of experienced specialists, it provides not only the highest quality workmanship but also timely project launches and just-in-time deliveries to 29 countries across 5 continents. The company actively supports education, culture and charitable initiatives. As the main sponsor of the Wadowice Cultural Centre, it takes part every year in the Małopolska Researchers’ Night, promoting science among children and young people. METCHEM also supports the Noble Gift campaign, and its activities go further — from helping purchase an ambulance for the Wadowice Volunteer Fire Brigade to organising collections for victims of natural disasters. The company is also involved in education, and its president, Maciej Grabowski, represents it as a member of the Programme Council of the Wadowice Children’s University."
+        },
+        {
+          "key": "darczyncy_-_caption_nad_nazwa",
+          "expected": "Darczyńcy Campusu Bemke",
+          "english": "Campus Bemke Donors"
+        }
+      ]
+    },
+    {
+      "source_post_id": 3703,
+      "source_post_type": "darczynca",
+      "source_post_status": "publish",
+      "source_post_title": "PONAR WADOWICE",
+      "source_post_parent": 0,
+      "target_title": "PONAR WADOWICE",
+      "target_slug": "ponar-wadowice",
+      "target_excerpt": "PONAR Wadowice is Poland’s leading power hydraulics company with more than 60 years of history. The company employs 500 people, including more than 100 engineers, and supplies solutions for the aviation, shipbuilding,",
+      "meta_edits": [
+        {
+          "key": "darczyncy_tytul",
+          "expected": "PONAR WADOWICE",
+          "english": "PONAR WADOWICE"
+        },
+        {
+          "key": "darczyncy_opis",
+          "expected": "PONAR Wadowice to lider hydrauliki siłowej w Polsce z ponad 60-letnią historią. Firma zatrudnia 500 pracowników, w tym ponad 100 inżynierów, dostarczając rozwiązania dla przemysłu lotniczego, okrętowego, górniczego, energetycznego i obronnego. Dzięki nowoczesnym technologiom wspiera rozwój kluczowych sektorów przemysłowych.<br><br>\n\nPONAR Wadowice od lat angażuje się w edukację i rozwój młodych talentów. Organizuje staże i praktyki z lokalnymi szkołami i uczelniami oraz wspiera rozwój dzieci pracowników. Jest partnerem Wadowickiego Centrum Kultury, a także wspiera lokalne inicjatywy społeczne.",
+          "english": "PONAR Wadowice is Poland’s leading power hydraulics company with more than 60 years of history. The company employs 500 people, including more than 100 engineers, and supplies solutions for the aviation, shipbuilding, mining, energy and defence industries. Through modern technologies, it supports the development of key industrial sectors. PONAR Wadowice has long been involved in education and the development of young talent. It organises internships and work placements in cooperation with local schools and universities and supports the development of employees’ children. It is a partner of the Wadowice Cultural Centre and also supports local social initiatives."
+        },
+        {
+          "key": "darczyncy_-_caption_nad_nazwa",
+          "expected": "Darczyńcy Campusu Bemke",
+          "english": "Campus Bemke Donors"
+        }
+      ]
+    },
+    {
+      "source_post_id": 3706,
+      "source_post_type": "darczynca",
+      "source_post_status": "publish",
+      "source_post_title": "Firma Protech Rodzina Krupnik",
+      "source_post_parent": 0,
+      "target_title": "Protech Company, Krupnik Family",
+      "target_slug": "protech-company-krupnik-family",
+      "target_excerpt": "PROTECH is a family business with more than 30 years of experience in manufacturing steel components. It specialises in producing steel parts and modern industrial solutions, combining automation and robotics in its",
+      "meta_edits": [
+        {
+          "key": "darczyncy_tytul",
+          "expected": "Firma Protech <br><span class=\"font-f-season-mix\">Rodzina Krupnik</span>",
+          "english": "Protech Company, Krupnik Family"
+        },
+        {
+          "key": "darczyncy_opis",
+          "expected": "PROTECH to firma rodzinna z ponad 30-letnim doświadczeniem w produkcji elementów ze stali. Specjalizuje się w wytwarzaniu komponentów stalowych i nowoczesnych rozwiązań dla przemysłu, łącząc automatyzację oraz robotyzację w procesach produkcyjnych. Dysponując parkiem maszynowym o powierzchni 30 000 m², zatrudnia ponad 500 pracowników i dostarcza produkty do różnych sektorów przemysłowych.<br><br>\nPROTECH angażuje się także w lokalne inicjatywy edukacyjne, organizuje programy stażowe i praktyki oraz wspiera akcje charytatywne, promując edukację i innowacje.",
+          "english": "PROTECH is a family business with more than 30 years of experience in manufacturing steel components. It specialises in producing steel parts and modern industrial solutions, combining automation and robotics in its production processes. With 30,000 m² of production facilities, it employs more than 500 people and supplies products to a range of industrial sectors. PROTECH is also involved in local educational initiatives, runs internship and apprenticeship programmes, and supports charitable campaigns, promoting education and innovation."
+        },
+        {
+          "key": "darczyncy_-_caption_nad_nazwa",
+          "expected": "Darczyńcy Campusu Bemke",
+          "english": "Campus Bemke Donors"
+        }
+      ]
+    },
+    {
+      "source_post_id": 492,
+      "source_post_type": "pdf",
+      "source_post_status": "publish",
+      "source_post_title": "Statut Fundacji Campus Bemke",
+      "source_post_parent": 0,
+      "target_title": "Statute of the Campus Bemke Foundation (PDF in Polish)",
+      "target_slug": "statute-of-the-campus-bemke-foundation-pdf-in-polish",
+      "target_excerpt": "Download the original Polish-language document from Campus Bemke.",
+      "meta_edits": []
+    },
+    {
+      "source_post_id": 500,
+      "source_post_type": "pdf",
+      "source_post_status": "publish",
+      "source_post_title": "Rada Fundacji Campus Bemke",
+      "source_post_parent": 0,
+      "target_title": "Campus Bemke Foundation Council (PDF in Polish)",
+      "target_slug": "campus-bemke-foundation-council-pdf-in-polish",
+      "target_excerpt": "Download the original Polish-language document from Campus Bemke.",
+      "meta_edits": []
+    },
+    {
+      "source_post_id": 501,
+      "source_post_type": "pdf",
+      "source_post_status": "publish",
+      "source_post_title": "Regulamin korzystania z placu zabaw",
+      "source_post_parent": 0,
+      "target_title": "Playground Rules (PDF in Polish)",
+      "target_slug": "playground-rules-pdf-in-polish",
+      "target_excerpt": "Download the original Polish-language document from Campus Bemke.",
+      "meta_edits": []
+    },
+    {
+      "source_post_id": 502,
+      "source_post_type": "pdf",
+      "source_post_status": "publish",
+      "source_post_title": "Regulamin poruszania się po terenie Campusu Bemke",
+      "source_post_parent": 0,
+      "target_title": "Rules for Moving Around the Campus Bemke Grounds (PDF in Polish)",
+      "target_slug": "rules-for-moving-around-the-campus-bemke-grounds-pdf-in-polish",
+      "target_excerpt": "Download the original Polish-language document from Campus Bemke.",
+      "meta_edits": []
+    },
+    {
+      "source_post_id": 503,
+      "source_post_type": "pdf",
+      "source_post_status": "publish",
+      "source_post_title": "Regulamin ruchu pojazdów mechanicznych",
+      "source_post_parent": 0,
+      "target_title": "Motor Vehicle Traffic Rules (PDF in Polish)",
+      "target_slug": "motor-vehicle-traffic-rules-pdf-in-polish",
+      "target_excerpt": "Download the original Polish-language document from Campus Bemke.",
+      "meta_edits": []
+    },
+    {
+      "source_post_id": 504,
+      "source_post_type": "pdf",
+      "source_post_status": "publish",
+      "source_post_title": "Standardy ochrony małoletnich",
+      "source_post_parent": 0,
+      "target_title": "Child Safeguarding Standards (PDF in Polish)",
+      "target_slug": "child-safeguarding-standards-pdf-in-polish",
+      "target_excerpt": "Download the original Polish-language document from Campus Bemke.",
+      "meta_edits": []
+    },
+    {
+      "source_post_id": 3215,
+      "source_post_type": "dokumenty-fundacja",
+      "source_post_status": "publish",
+      "source_post_title": "Dokumenty Fundacja Bemke",
+      "source_post_parent": 0,
+      "target_title": "Bemke Foundation Documents",
+      "target_slug": "bemke-foundation-documents",
+      "target_excerpt": "Download the original Polish-language document from Campus Bemke.",
+      "meta_edits": [
+        {
+          "key": "_bemke_foundation_statute_documents|bemke_foundation_document_title|0|0|value",
+          "expected": "Zadanie publiczne PROO",
+          "english": "PROO Public Task (PDF in Polish)"
+        },
+        {
+          "key": "_bemke_foundation_statute_documents|bemke_foundation_document_title|1|0|value",
+          "expected": "Projekt \"Młodzi na rzecz młodych: Śląska Szkoła Tutorów - Wolonatariuszy\"",
+          "english": "Project “Young People for Young People: Silesian School of Volunteer Tutors” (PDF in Polish)"
+        },
+        {
+          "key": "_bemke_foundation_statute_documents|bemke_foundation_document_title|2|0|value",
+          "expected": "Statut Fundacji Bemke (wcześniej TDJ)",
+          "english": "Statute of the Bemke Foundation (formerly TDJ) (PDF in Polish)"
+        },
+        {
+          "key": "_bemke_foundation_substantive_reports|bemke_foundation_document_title|0|0|value",
+          "expected": "Sprawozdanie merytoryczne 2011-2019",
+          "english": "2011–2019 Activity Report (PDF in Polish)"
+        },
+        {
+          "key": "_bemke_foundation_substantive_reports|bemke_foundation_document_title|1|0|value",
+          "expected": "Sprawozdanie merytoryczne 2020",
+          "english": "2020 Activity Report (PDF in Polish)"
+        },
+        {
+          "key": "_bemke_foundation_substantive_reports|bemke_foundation_document_title|2|0|value",
+          "expected": "Sprawozdanie merytoryczne 2021",
+          "english": "2021 Activity Report (PDF in Polish)"
+        },
+        {
+          "key": "_bemke_foundation_substantive_reports|bemke_foundation_document_title|3|0|value",
+          "expected": "Sprawozdanie merytoryczne 2022",
+          "english": "2022 Activity Report (PDF in Polish)"
+        },
+        {
+          "key": "_bemke_foundation_substantive_reports|bemke_foundation_document_title|4|0|value",
+          "expected": "Sprawozdanie merytoryczne 2023",
+          "english": "2023 Activity Report (PDF in Polish)"
+        },
+        {
+          "key": "_bemke_foundation_substantive_reports|bemke_foundation_document_title|5|0|value",
+          "expected": "Sprawozdanie merytoryczne 2024",
+          "english": "2024 Activity Report (PDF in Polish)"
+        },
+        {
+          "key": "_bemke_foundation_financial_reports|bemke_foundation_document_title|0|0|value",
+          "expected": "Sprawozdanie finansowe 2015-2019",
+          "english": "2015–2019 Financial Statements (PDF in Polish)"
+        },
+        {
+          "key": "_bemke_foundation_financial_reports|bemke_foundation_document_title|1|0|value",
+          "expected": "Sprawozdanie finansowe 2020",
+          "english": "2020 Financial Statement (PDF in Polish)"
+        },
+        {
+          "key": "_bemke_foundation_financial_reports|bemke_foundation_document_title|2|0|value",
+          "expected": "Sprawozdanie finansowe 2021",
+          "english": "2021 Financial Statement (PDF in Polish)"
+        },
+        {
+          "key": "_bemke_foundation_financial_reports|bemke_foundation_document_title|3|0|value",
+          "expected": "Sprawozdanie finansowe 2022",
+          "english": "2022 Financial Statement (PDF in Polish)"
+        },
+        {
+          "key": "_bemke_foundation_financial_reports|bemke_foundation_document_title|4|0|value",
+          "expected": "Sprawozdanie finansowe 2023",
+          "english": "2023 Financial Statement (PDF in Polish)"
+        },
+        {
+          "key": "_bemke_foundation_financial_reports|bemke_foundation_document_title|5|0|value",
+          "expected": "Sprawozdanie finansowe 2024",
+          "english": "2024 Financial Statement (PDF in Polish)"
+        },
+        {
+          "key": "_bemke_foundation_donor_lists|bemke_foundation_document_title|0|0|value",
+          "expected": "Lista darczyńców 2012",
+          "english": "2012 Donor List (PDF in Polish)"
+        },
+        {
+          "key": "_bemke_foundation_donor_lists|bemke_foundation_document_title|1|0|value",
+          "expected": "Lista darczyńców 2013",
+          "english": "2013 Donor List (PDF in Polish)"
+        },
+        {
+          "key": "_bemke_foundation_donor_lists|bemke_foundation_document_title|2|0|value",
+          "expected": "Lista darczyńców 2014",
+          "english": "2014 Donor List (PDF in Polish)"
+        },
+        {
+          "key": "_bemke_foundation_donor_lists|bemke_foundation_document_title|3|0|value",
+          "expected": "Lista darczyńców 2015",
+          "english": "2015 Donor List (PDF in Polish)"
+        },
+        {
+          "key": "_bemke_foundation_donor_lists|bemke_foundation_document_title|4|0|value",
+          "expected": "Lista darczyńców 2016",
+          "english": "2016 Donor List (PDF in Polish)"
+        },
+        {
+          "key": "_bemke_foundation_donor_lists|bemke_foundation_document_title|5|0|value",
+          "expected": "Lista darczyńców 2017",
+          "english": "2017 Donor List (PDF in Polish)"
+        },
+        {
+          "key": "_bemke_foundation_donor_lists|bemke_foundation_document_title|6|0|value",
+          "expected": "Lista darczyńców 2018",
+          "english": "2018 Donor List (PDF in Polish)"
+        },
+        {
+          "key": "_bemke_foundation_donor_lists|bemke_foundation_document_title|7|0|value",
+          "expected": "Lista darczyńców 2019",
+          "english": "2019 Donor List (PDF in Polish)"
+        },
+        {
+          "key": "_bemke_foundation_donor_lists|bemke_foundation_document_title|8|0|value",
+          "expected": "Lista darczyńców 2020",
+          "english": "2020 Donor List (PDF in Polish)"
+        },
+        {
+          "key": "_bemke_foundation_donor_lists|bemke_foundation_document_title|9|0|value",
+          "expected": "Lista darczyńców 2021",
+          "english": "2021 Donor List (PDF in Polish)"
+        },
+        {
+          "key": "_bemke_foundation_donor_lists|bemke_foundation_document_title|10|0|value",
+          "expected": "Lista darczyńców 2022",
+          "english": "2022 Donor List (PDF in Polish)"
+        },
+        {
+          "key": "_bemke_foundation_donor_lists|bemke_foundation_document_title|11|0|value",
+          "expected": "Lista darczyńców 2023",
+          "english": "2023 Donor List (PDF in Polish)"
+        },
+        {
+          "key": "_bemke_foundation_donor_lists|bemke_foundation_document_title|12|0|value",
+          "expected": "Lista darczyńców 2024",
+          "english": "2024 Donor List (PDF in Polish)"
+        }
+      ]
+    }
+  ]
+}

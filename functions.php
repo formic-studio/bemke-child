@@ -25,6 +25,8 @@ if ( is_admin() ) {
 	require_once get_stylesheet_directory() . '/inc/chrome-draft-translation.php';
 	require_once get_stylesheet_directory() . '/inc/third-pages-draft-translation.php';
 	require_once get_stylesheet_directory() . '/inc/steam-pages-draft-translation.php';
+	require_once get_stylesheet_directory() . '/inc/privacy-draft-translation.php';
+	require_once get_stylesheet_directory() . '/inc/cpt-content-draft-translation.php';
 }
 
 add_action( 'wp_head', 'bemke_child_print_theme_color', 0 );

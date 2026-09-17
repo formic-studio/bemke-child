@@ -160,6 +160,35 @@ uwzględnić selektor `html[data-bemke-reduced-motion="true"]`.
 
 ## WordPress (GitHub -> WP)
 
+### Kolejna partia EN: polityka, strategia i treści dynamiczne
+
+**Narzędzia → Bemke EN — polityka prywatności** tworzy szkic EN strony PL 1475.
+Plan `data/privacy-bemke-en.json` obejmuje 233 bloki treści, nagłówki Bricks i
+dane Yoast. Import jest blokowany, gdy polski układ lub treść zmieniły się od
+eksportu. Przed publikacją wymagany jest przegląd merytoryczny i prawny,
+zwłaszcza adresów e-mail oraz opisu zewnętrznych usług. Narzędzie nie zmienia
+systemowego ustawienia strony prywatności WordPressa.
+
+**Narzędzia → Bemke EN — treści dodatkowe** pozwala osobno tworzyć szkice EN
+dla 7 wpisów „Strategia 2050”, 16 darczyńców, 6 nazw dokumentów Campus Bemke,
+1 zestawu dokumentów Fundacji Bemke (28 nazw), 3 ofert pracy i 2 komunikatów
+prasowych. Plan pochodzi z WXR z 17.09.2026 i `tlumaczenie_bemkepl_EN.csv`.
+Importer kopiuje pola ACF/Carbon Fields i obrazy, tłumaczy pola tekstowe,
+zachowuje układ tekstów HTML oraz łączy wpisy PL i EN w Polylang. Każda grupa
+ma osobny przycisk. Gdy źródłowe teksty się zmienią albo szkic EN już istnieje,
+nie tworzy duplikatu. Synchronizacja pól własnych w Polylang musi być wyłączona.
+
+Przed importem danej grupy włącz odpowiedni typ wpisu w **Języki → Ustawienia →
+Custom post types and Taxonomies** i upewnij się, że istniejące wpisy mają
+przypisany język PL. Dla tej partii potrzebne są: `strategia-2050`, `darczynca`,
+`pdf`, `dokumenty-fundacja`, `oferta-pracy` i `komunikat-prasowy`.
+Pobierane PDF-y pozostają po polsku; ich angielskie etykiety mają dopisek
+„PDF in Polish”. Dwie oferty pracy zawierają w polskim źródle przycisk
+prowadzący do `youtube.com`; adres należy sprawdzić przed publikacją.
+Angielskie ALT obrazów są osobnym etapem. Przełącznik języka pozostaje na
+zaślepce do czasu pełnej publikacji EN. Po utworzeniu polityki uruchom ponownie
+**Narzędzia → Bemke EN — nawigacja**, aby zaktualizować odnośnik w stopce EN.
+
 ### Szkic strony głównej EN
 
 Tymczasowe narzędzie **Narzędzia → Bemke Home EN** czyta plan
