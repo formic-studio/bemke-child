@@ -88,12 +88,13 @@ po zgodzie. Adres osadzenia YouTube jest automatycznie zmieniany na
 `data-cookieconsent="ignore"`, ponieważ nie zawiera trackerów i jest potrzebny
 do działania dostępności oraz placeholderów zgody.
 
-Sekcja newslettera korzysta z opublikowanego formularza GetResponse o ID
-`edb4255b-4abf-4da5-8ee1-dce33fad4220`. GetResponse odpowiada za pola,
-walidację, zapis do listy, zgodę oraz wygląd zawartości formularza. Child theme
-osadza formularz w miejscu formularza Bricks i dopasowuje wyłącznie jego
-zewnętrzny kontener. Formularza nie należy dodatkowo uzależniać od zgody
-Cookiebota.
+Sekcja newslettera korzysta z osobnych opublikowanych formularzy GetResponse:
+`edb4255b-4abf-4da5-8ee1-dce33fad4220` dla wersji PL oraz
+`7168ec01-3e54-4290-80ae-ec8a61708626` dla wersji EN. GetResponse odpowiada za
+pola, walidację, zapis do listy, zgodę oraz wygląd zawartości formularza. Child
+theme dobiera formularz według aktywnego języka, osadza go w miejscu formularza
+Bricks i dopasowuje wyłącznie jego zewnętrzny kontener. Formularza nie należy
+dodatkowo uzależniać od zgody Cookiebota.
 
 W trybach kontrastowych cała karta newslettera (nagłówek, opis, formularz
 i odstępy wewnętrzne) otrzymuje stałe białe tło oraz ciemny tekst, ponieważ

@@ -3,9 +3,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-const BEMKE_GETRESPONSE_SOURCE_FORM_ID  = 'afpmhc';
-const BEMKE_GETRESPONSE_EMBED_FORM_ID   = 'edb4255b-4abf-4da5-8ee1-dce33fad4220';
-const BEMKE_GETRESPONSE_EMBED_VARIANT   = '0';
+const BEMKE_GETRESPONSE_SOURCE_FORM_ID = 'afpmhc';
+const BEMKE_GETRESPONSE_EMBED_FORM_ID_PL = 'edb4255b-4abf-4da5-8ee1-dce33fad4220';
+const BEMKE_GETRESPONSE_EMBED_FORM_ID_EN = '7168ec01-3e54-4290-80ae-ec8a61708626';
+const BEMKE_GETRESPONSE_EMBED_VARIANT = '0';
 const BEMKE_GETRESPONSE_WEB_CONNECT_URL = 'https://an.gr-wcon.com/script/f28d4afb-4b5a-4a57-a407-10ffa90942ba/ga.js';
 const BEMKE_GETRESPONSE_CACHE_ID_OPTION = 'bemke_getresponse_embed_cache_id';
 
@@ -14,20 +15,38 @@ add_action( 'wp_head', 'bemke_getresponse_print_web_connect', 20 );
 add_filter( 'bricks/frontend/render_data', 'bemke_getresponse_render_native_form', 10, 3 );
 
 /**
- * Purge the cached homepage once whenever the embedded form ID changes.
+ * Purge the cached homepages once whenever either embedded form ID changes.
  */
 function bemke_getresponse_maybe_purge_cached_embed() {
-	$cached_embed_id = (string) get_option( BEMKE_GETRESPONSE_CACHE_ID_OPTION, '' );
+	$embed_signature = BEMKE_GETRESPONSE_EMBED_FORM_ID_PL . '|' . BEMKE_GETRESPONSE_EMBED_FORM_ID_EN;
+	$cached_signature = (string) get_option( BEMKE_GETRESPONSE_CACHE_ID_OPTION, '' );
 
-	if ( BEMKE_GETRESPONSE_EMBED_FORM_ID === $cached_embed_id ) {
+	if ( $embed_signature === $cached_signature ) {
 		return;
 	}
 
 	if ( has_action( 'litespeed_purge_url' ) ) {
 		do_action( 'litespeed_purge_url', home_url( '/' ) );
+
+		if ( function_exists( 'pll_home_url' ) ) {
+			do_action( 'litespeed_purge_url', pll_home_url( 'en' ) );
+		}
 	}
 
-	update_option( BEMKE_GETRESPONSE_CACHE_ID_OPTION, BEMKE_GETRESPONSE_EMBED_FORM_ID, false );
+	update_option( BEMKE_GETRESPONSE_CACHE_ID_OPTION, $embed_signature, false );
+}
+
+/**
+ * Return the published form assigned to the current homepage language.
+ */
+function bemke_getresponse_get_embed_form_id() {
+	$language = function_exists( 'bemke_child_get_image_alternative_language' )
+		? bemke_child_get_image_alternative_language()
+		: 'pl';
+
+	return 'en' === $language
+		? BEMKE_GETRESPONSE_EMBED_FORM_ID_EN
+		: BEMKE_GETRESPONSE_EMBED_FORM_ID_PL;
 }
 
 /**
@@ -91,7 +110,7 @@ function bemke_getresponse_render_native_form( $html, $post = null, $area = null
 	$native_form = sprintf(
 		'<div id="brxe-%1$s" class="bemke-getresponse-native-form"><getresponse-form form-id="%2$s" e="%3$s"></getresponse-form></div>',
 		esc_attr( BEMKE_GETRESPONSE_SOURCE_FORM_ID ),
-		esc_attr( BEMKE_GETRESPONSE_EMBED_FORM_ID ),
+		esc_attr( bemke_getresponse_get_embed_form_id() ),
 		esc_attr( BEMKE_GETRESPONSE_EMBED_VARIANT )
 	);
 	$form_pattern = '/<form\b(?=[^>]*\bid\s*=\s*(["\'])brxe-' . preg_quote( BEMKE_GETRESPONSE_SOURCE_FORM_ID, '/' ) . '\1)[^>]*>.*?<\/form>/is';
