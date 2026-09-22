@@ -169,10 +169,11 @@ Bricks, danych Yoast, menu ani opisów obrazów. Dalsze poprawki tych danych
 wykonuje się w panelu WordPress. Motyw nadal obsługuje wybór języka,
 podgląd szkiców EN i właściwy ALT dla obu języków.
 
-Przełącznik PL/EN w menu pozostaje skierowany na dotychczasową zaślepkę do
-czasu publikacji całej wersji EN. Pobierane pliki PDF są na razie po polsku.
-Przed publikacją sprawdź strony i szablony EN, menu, formularze, linki oraz
-widok mobilny.
+Przełącznik PL/EN zachowuje własny wygląd z Bricks, ale adres docelowy pobiera
+z generowanego przez Polylang elementu `link[rel="alternate"][hreflang]`.
+Dzięki temu na każdej stronie prowadzi do jej bezpośredniego odpowiednika,
+zamiast do jednej, wpisanej na sztywno podstrony. Pobierane pliki PDF są na
+razie po polsku.
 
 Skrypty interfejsu wybierają komunikaty na podstawie języka `<html>`:
 przełączniki dostępności, menu mobilne, karuzele, formularze i komunikaty zgody

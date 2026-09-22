@@ -80,6 +80,8 @@ function setupLanguageSwitcher(block, track) {
     return;
   }
 
+  applyPolylangAlternateUrls(languageLinks);
+
   const currentLink = getCurrentLanguageLink(languageLinks);
   const targetLink =
     languageLinks.find((link) => link !== currentLink) ?? languageLinks[1];
@@ -145,7 +147,46 @@ function setupLanguageSwitcher(block, track) {
   block.replaceWith(languageSwitch);
 }
 
+/**
+ * Bricks stores fallback URLs in the custom switcher, while Polylang prints
+ * the translated URL for the current page as a rel="alternate" link. Keep the
+ * Bricks markup and styling, but replace its stale URLs before the switcher is
+ * made interactive.
+ */
+function applyPolylangAlternateUrls(languageLinks) {
+  const alternateUrls = new Map();
+
+  document
+    .querySelectorAll('head link[rel~="alternate"][hreflang][href]')
+    .forEach((link) => {
+      const language = normalizeLanguageCode(link.getAttribute('hreflang'));
+
+      if (language === 'pl' || language === 'en') {
+        alternateUrls.set(language, link.href);
+      }
+    });
+
+  languageLinks.forEach((link) => {
+    const alternateUrl = alternateUrls.get(getLanguageCode(link));
+
+    if (alternateUrl) {
+      link.href = alternateUrl;
+    }
+  });
+}
+
 function getCurrentLanguageLink(languageLinks) {
+  const documentLanguage = normalizeLanguageCode(
+    document.documentElement.lang,
+  );
+  const languageMatch = languageLinks.find(
+    (link) => getLanguageCode(link) === documentLanguage,
+  );
+
+  if (languageMatch) {
+    return languageMatch;
+  }
+
   const explicitCurrent = languageLinks.find(
     (link) => link.getAttribute('aria-current') === 'page',
   );
@@ -173,4 +214,8 @@ function getLanguageCode(link) {
   const label = link.textContent.trim().toLowerCase();
 
   return /angiel|english/.test(label) ? 'en' : 'pl';
+}
+
+function normalizeLanguageCode(value = '') {
+  return value.trim().toLowerCase().split(/[-_]/)[0];
 }
