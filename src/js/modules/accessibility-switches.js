@@ -72,22 +72,27 @@ export function initAccessibilitySwitches(root = document) {
 }
 
 function setupLanguageSwitcher(block, track) {
-  const languageLinks = Array.from(block.children).filter((element) =>
-    element.matches('a[href]'),
+  const languageItems = Array.from(block.children).filter(
+    (element) => element !== track && isLanguageLabel(element),
   );
 
-  if (languageLinks.length < 2) {
+  if (languageItems.length < 2) {
     return;
   }
 
-  applyPolylangAlternateUrls(languageLinks);
+  const alternateUrls = getPolylangAlternateUrls();
+  const currentItem = getCurrentLanguageItem(languageItems, alternateUrls);
+  const targetItem =
+    languageItems.find((item) => item !== currentItem) ?? languageItems[1];
+  const targetUrl = getLanguageUrl(targetItem, alternateUrls);
 
-  const currentLink = getCurrentLanguageLink(languageLinks);
-  const targetLink =
-    languageLinks.find((link) => link !== currentLink) ?? languageLinks[1];
-  const currentIndex = Math.max(languageLinks.indexOf(currentLink), 0);
-  const currentLanguage = getLanguageCode(currentLink);
-  const targetLanguage = getLanguageCode(targetLink);
+  if (!targetUrl) {
+    return;
+  }
+
+  const currentIndex = Math.max(languageItems.indexOf(currentItem), 0);
+  const currentLanguage = getLanguageCode(currentItem);
+  const targetLanguage = getLanguageCode(targetItem);
   const languageSwitch = document.createElement('a');
 
   Array.from(block.attributes).forEach(({ name, value }) => {
@@ -104,22 +109,22 @@ function setupLanguageSwitcher(block, track) {
     }
   });
 
-  languageLinks.forEach((link) => {
+  languageItems.forEach((item) => {
     const label = document.createElement('span');
 
-    Array.from(link.attributes).forEach(({ name, value }) => {
+    Array.from(item.attributes).forEach(({ name, value }) => {
       if (!['aria-current', 'href', 'rel', 'target'].includes(name)) {
         label.setAttribute(name, value);
       }
     });
 
-    label.classList.toggle('in-active', link === targetLink);
+    label.classList.toggle('in-active', item === targetItem);
     label.setAttribute('aria-hidden', 'true');
-    label.replaceChildren(...link.childNodes);
-    link.replaceWith(label);
+    label.replaceChildren(...item.childNodes);
+    item.replaceWith(label);
   });
 
-  languageSwitch.href = targetLink.href;
+  languageSwitch.href = targetUrl;
   languageSwitch.setAttribute(READY_ATTR, '1');
   languageSwitch.setAttribute(
     'aria-label',
@@ -133,12 +138,12 @@ function setupLanguageSwitcher(block, track) {
     currentLanguage,
   );
 
-  if (targetLink.target) {
-    languageSwitch.target = targetLink.target;
+  if (targetItem.getAttribute('target')) {
+    languageSwitch.target = targetItem.getAttribute('target');
   }
 
-  if (targetLink.rel) {
-    languageSwitch.rel = targetLink.rel;
+  if (targetItem.getAttribute('rel')) {
+    languageSwitch.rel = targetItem.getAttribute('rel');
   }
 
   languageSwitch.classList.toggle(ACTIVE_CLASS, currentIndex > 0);
@@ -153,7 +158,7 @@ function setupLanguageSwitcher(block, track) {
  * Bricks markup and styling, but replace its stale URLs before the switcher is
  * made interactive.
  */
-function applyPolylangAlternateUrls(languageLinks) {
+function getPolylangAlternateUrls() {
   const alternateUrls = new Map();
 
   document
@@ -166,29 +171,23 @@ function applyPolylangAlternateUrls(languageLinks) {
       }
     });
 
-  languageLinks.forEach((link) => {
-    const alternateUrl = alternateUrls.get(getLanguageCode(link));
-
-    if (alternateUrl) {
-      link.href = alternateUrl;
-    }
-  });
+  return alternateUrls;
 }
 
-function getCurrentLanguageLink(languageLinks) {
+function getCurrentLanguageItem(languageItems, alternateUrls) {
   const documentLanguage = normalizeLanguageCode(
     document.documentElement.lang,
   );
-  const languageMatch = languageLinks.find(
-    (link) => getLanguageCode(link) === documentLanguage,
+  const languageMatch = languageItems.find(
+    (item) => getLanguageCode(item) === documentLanguage,
   );
 
   if (languageMatch) {
     return languageMatch;
   }
 
-  const explicitCurrent = languageLinks.find(
-    (link) => link.getAttribute('aria-current') === 'page',
+  const explicitCurrent = languageItems.find(
+    (item) => item.getAttribute('aria-current') === 'page',
   );
 
   if (explicitCurrent) {
@@ -196,11 +195,27 @@ function getCurrentLanguageLink(languageLinks) {
   }
 
   const currentUrl = normalizeUrl(window.location.href);
-  const matchingLink = languageLinks.find(
-    (link) => normalizeUrl(link.href) === currentUrl,
+  const matchingItem = languageItems.find(
+    (item) => {
+      const languageUrl = getLanguageUrl(item, alternateUrls);
+
+      return languageUrl && normalizeUrl(languageUrl) === currentUrl;
+    },
   );
 
-  return matchingLink ?? languageLinks[0];
+  return matchingItem ?? languageItems[0];
+}
+
+function getLanguageUrl(item, alternateUrls) {
+  const alternateUrl = alternateUrls.get(getLanguageCode(item));
+
+  if (alternateUrl) {
+    return alternateUrl;
+  }
+
+  const fallbackUrl = item.getAttribute('href');
+
+  return fallbackUrl ? new URL(fallbackUrl, window.location.href).href : '';
 }
 
 function normalizeUrl(value) {
@@ -210,8 +225,14 @@ function normalizeUrl(value) {
   return `${url.origin}${pathname}`;
 }
 
-function getLanguageCode(link) {
-  const label = link.textContent.trim().toLowerCase();
+function isLanguageLabel(element) {
+  return /^(polski|angielski|polish|english)$/i.test(
+    element.textContent.trim(),
+  );
+}
+
+function getLanguageCode(item) {
+  const label = item.textContent.trim().toLowerCase();
 
   return /angiel|english/.test(label) ? 'en' : 'pl';
 }
