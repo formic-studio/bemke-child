@@ -1,7 +1,8 @@
+import { siteText } from './site-language.js';
+
 const PDF_READY_ATTR = 'data-bemke-pdf-link-ready';
-const HIDDEN_LABEL_CLASS = 'bemke-sr-only';
+const FORMAT_LABEL_CLASS = 'bemke-pdf-link-format';
 const BOOTED_FLAG = '__bemkePdfLinkLabelsBooted';
-const PDF_LABEL = 'plik PDF';
 
 export function initPdfLinkLabels() {
   labelPdfLinks();
@@ -41,24 +42,22 @@ function labelPdfLinks(root = document) {
 }
 
 function ensurePdfAccessibleName(link) {
+  const accessibleLabel = siteText('plik PDF', 'PDF, document in Polish');
+  const visibleLabel = siteText(' (PDF)', ' (PDF, in Polish)');
   const ariaLabel = normalizeText(link.getAttribute('aria-label'));
 
-  if (ariaLabel) {
-    if (!hasPdfText(ariaLabel)) {
-      link.setAttribute('aria-label', `${ariaLabel}, ${PDF_LABEL}`);
-    }
-
-    return;
+  if (ariaLabel && !hasPdfText(ariaLabel)) {
+    link.setAttribute('aria-label', `${ariaLabel}, ${accessibleLabel}`);
   }
 
   if (hasPdfText(link.textContent)) {
     return;
   }
 
-  const hiddenLabel = document.createElement('span');
-  hiddenLabel.className = HIDDEN_LABEL_CLASS;
-  hiddenLabel.textContent = ` (${PDF_LABEL})`;
-  link.appendChild(hiddenLabel);
+  const formatLabel = document.createElement('span');
+  formatLabel.className = FORMAT_LABEL_CLASS;
+  formatLabel.textContent = visibleLabel;
+  link.appendChild(formatLabel);
 }
 
 function isPdfHref(href) {

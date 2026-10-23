@@ -28,6 +28,7 @@ function bemke_child_prepare_accessibility_markup( $html ) {
 	$html = bemke_child_prepare_form_accessibility_attributes( $html );
 	$html = bemke_child_repair_footer_social_links( $html );
 	$html = bemke_child_prepare_descriptive_resource_links( $html );
+	$html = bemke_child_prepare_pdf_link_format_labels( $html );
 	$html = bemke_child_prepare_youtube_story_links( $html );
 	$html = bemke_child_prepare_donor_youtube_iframes( $html );
 	$html = bemke_child_prepare_video_overlay_controls( $html );
@@ -773,6 +774,43 @@ function bemke_child_prepare_descriptive_resource_links( $html ) {
 		$is_english ? '$1Recruitment rules (PDF, in Polish)$3' : '$1Regulamin rekrutacji (PDF)$3',
 		$html,
 		1
+	);
+
+	return null === $updated_html ? $html : $updated_html;
+}
+
+/**
+ * Make the PDF format and document language visible in direct resource links.
+ *
+ * WAVE intentionally keeps an informational PDF alert even when a link is
+ * descriptive. The visible suffix lets every user know what will open before
+ * activating the link. Bemke's downloadable documents are currently in Polish.
+ *
+ * @param string $html Complete frontend response markup.
+ * @return string
+ */
+function bemke_child_prepare_pdf_link_format_labels( $html ) {
+	$is_english = 'en' === bemke_child_get_image_alternative_language();
+	$suffix     = $is_english ? '(PDF, in Polish)' : '(PDF)';
+	$pattern    = '/<a\b(?=[^>]*\bhref\s*=\s*(["\'])[^"\']+\.pdf(?:[?#][^"\']*)?\1)([^>]*)>(.*?)<\/a>/isu';
+
+	$updated_html = preg_replace_callback(
+		$pattern,
+		static function ( $matches ) use ( $suffix ) {
+			$content_text = wp_strip_all_tags(
+				html_entity_decode( $matches[3], ENT_QUOTES | ENT_HTML5, 'UTF-8' )
+			);
+
+			if ( preg_match( '/\bpdf\b/iu', $content_text ) ) {
+				return $matches[0];
+			}
+
+			$content = rtrim( $matches[3] );
+
+			return '<a' . $matches[2] . '>' . $content .
+				' <span class="bemke-pdf-link-format">' . esc_html( $suffix ) . '</span></a>';
+		},
+		$html
 	);
 
 	return null === $updated_html ? $html : $updated_html;
