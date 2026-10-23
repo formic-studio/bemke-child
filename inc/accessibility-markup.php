@@ -32,8 +32,78 @@ function bemke_child_prepare_accessibility_markup( $html ) {
 	$html = bemke_child_prepare_donor_youtube_iframes( $html );
 	$html = bemke_child_prepare_video_overlay_controls( $html );
 	$html = bemke_child_prepare_decorative_videos( $html );
+	$html = bemke_child_prepare_inline_svg_accessibility( $html );
 
 	return $html;
+}
+
+/**
+ * Keep decorative inline SVGs out of the accessibility tree.
+ *
+ * Bricks renders separators, bullets and icon artwork as inline SVG elements.
+ * Unlike img elements, SVGs do not use an alt attribute: decorative instances
+ * need aria-hidden, while meaningful instances need an accessible name. Any
+ * SVG already carrying an accessible name or a title is preserved as content.
+ *
+ * @param string $html Complete frontend response markup.
+ * @return string
+ */
+function bemke_child_prepare_inline_svg_accessibility( $html ) {
+	$pattern = '/<svg\b(?<attributes>[^>]*)>(?<content>.*?)<\/svg>/is';
+
+	$updated_html = preg_replace_callback(
+		$pattern,
+		static function ( $matches ) {
+			$attributes     = $matches['attributes'];
+			$content        = $matches['content'];
+			$is_footer_logo = (bool) preg_match(
+				'/\bid\s*=\s*(["\'])brxe-kzxmuj\1/i',
+				$attributes
+			);
+			$has_accessible_name = (bool) preg_match(
+				'/\baria-(?:label|labelledby)\s*=\s*(["\'])\s*[^"\']+\1/i',
+				$attributes
+			);
+			$has_image_role = (bool) preg_match(
+				'/\brole\s*=\s*(["\'])img\1/i',
+				$attributes
+			);
+			$has_title = (bool) preg_match( '/<title\b[^>]*>\s*[^<]+<\/title>/is', $content );
+
+			if ( $is_footer_logo ) {
+				$attributes = bemke_child_remove_html_attributes(
+					$attributes,
+					array( 'aria-hidden', 'aria-label', 'aria-labelledby', 'focusable', 'role' )
+				);
+
+				return '<svg' . $attributes . ' role="img" aria-label="Bemke" focusable="false">' . $content . '</svg>';
+			}
+
+			if ( $has_accessible_name || $has_title ) {
+				$attributes = bemke_child_remove_html_attributes(
+					$attributes,
+					array( 'aria-hidden', 'focusable' )
+				);
+
+				if ( ! $has_image_role ) {
+					$attributes = bemke_child_remove_html_attributes( $attributes, array( 'role' ) );
+					$attributes .= ' role="img"';
+				}
+
+				return '<svg' . $attributes . ' focusable="false">' . $content . '</svg>';
+			}
+
+			$attributes = bemke_child_remove_html_attributes(
+				$attributes,
+				array( 'aria-hidden', 'focusable', 'role' )
+			);
+
+			return '<svg' . $attributes . ' aria-hidden="true" focusable="false">' . $content . '</svg>';
+		},
+		$html
+	);
+
+	return null === $updated_html ? $html : $updated_html;
 }
 
 /**
