@@ -7,16 +7,16 @@ const BOOT_FLAG = '__bemkeContrastControlsBooted';
 const TRANSLUCENT_SURFACE_CLASS = 'bemke-a11y-translucent-surface';
 
 const CONTRAST_MODES = new Map([
-  ['default', 'Domyślny kontrast'],
-  ['white-black', 'Biały tekst na czarnym tle'],
-  ['black-yellow', 'Czarny tekst na żółtym tle'],
-  ['yellow-black', 'Żółty tekst na czarnym tle'],
+  ['default', 'A — domyślny kontrast'],
+  ['white-black', 'A — biały tekst na czarnym tle'],
+  ['black-yellow', 'A — czarny tekst na żółtym tle'],
+  ['yellow-black', 'A — żółty tekst na czarnym tle'],
 ]);
 const CONTRAST_MODES_EN = new Map([
-  ['default', 'Default contrast'],
-  ['white-black', 'White text on a black background'],
-  ['black-yellow', 'Black text on a yellow background'],
-  ['yellow-black', 'Yellow text on a black background'],
+  ['default', 'A — default contrast'],
+  ['white-black', 'A — white text on a black background'],
+  ['black-yellow', 'A — black text on a yellow background'],
+  ['yellow-black', 'A — yellow text on a black background'],
 ]);
 
 function getControlsContainer() {

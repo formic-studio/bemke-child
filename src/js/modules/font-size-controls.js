@@ -10,21 +10,25 @@ export const FONT_SCALE_CHANGE_EVENT = 'bemke:font-scale-change';
 const SCALE_CONTROLS = [
   {
     id: 'brxe-qmbqwm',
-    label: 'Normalny rozmiar tekstu',
+    label: 'a — normalny rozmiar tekstu',
     scale: 1,
   },
   {
     id: 'brxe-cqxcbv',
-    label: 'Duży rozmiar tekstu',
+    label: 'a — duży rozmiar tekstu',
     scale: 1.125,
   },
   {
     id: 'brxe-toalqu',
-    label: 'Bardzo duży rozmiar tekstu',
+    label: 'a — bardzo duży rozmiar tekstu',
     scale: 1.25,
   },
 ];
-const ENGLISH_LABELS = ['Normal text size', 'Large text size', 'Very large text size'];
+const ENGLISH_LABELS = [
+  'a — normal text size',
+  'a — large text size',
+  'a — very large text size',
+];
 
 function getControlsContainer() {
   return document.getElementById(CONTROLS_CONTAINER_ID);
