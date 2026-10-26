@@ -93,6 +93,10 @@ function setupLanguageSwitcher(block, track) {
   const currentIndex = Math.max(languageItems.indexOf(currentItem), 0);
   const currentLanguage = getLanguageCode(currentItem);
   const targetLanguage = getLanguageCode(targetItem);
+  const visibleLanguageLabel = languageItems
+    .map((item) => item.textContent.trim())
+    .filter(Boolean)
+    .join(' ');
   const languageSwitch = document.createElement('a');
 
   Array.from(block.attributes).forEach(({ name, value }) => {
@@ -129,8 +133,8 @@ function setupLanguageSwitcher(block, track) {
   languageSwitch.setAttribute(
     'aria-label',
     currentLanguage === 'en'
-      ? 'Switch to the Polish language version'
-      : 'Przejdź do angielskiej wersji językowej',
+      ? `${visibleLanguageLabel} — switch to the Polish language version`
+      : `${visibleLanguageLabel} — przejdź do angielskiej wersji językowej`,
   );
   languageSwitch.setAttribute('hreflang', targetLanguage);
   languageSwitch.setAttribute(
