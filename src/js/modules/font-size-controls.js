@@ -4,30 +4,31 @@ import { isEnglishPage } from './site-language.js';
 const STORAGE_KEY = 'bemke_a11y_font_scale';
 const CONTROLS_CONTAINER_ID = 'brxe-kecesp';
 const BOOT_FLAG = '__bemkeFontSizeControlsBooted';
+const DESCRIPTION_CLASS = 'bemke-font-size-control-description';
 
 export const FONT_SCALE_CHANGE_EVENT = 'bemke:font-scale-change';
 
 const SCALE_CONTROLS = [
   {
     id: 'brxe-qmbqwm',
-    label: 'a — normalny rozmiar tekstu',
+    label: 'normalny rozmiar tekstu',
     scale: 1,
   },
   {
     id: 'brxe-cqxcbv',
-    label: 'a — duży rozmiar tekstu',
+    label: 'duży rozmiar tekstu',
     scale: 1.125,
   },
   {
     id: 'brxe-toalqu',
-    label: 'a — bardzo duży rozmiar tekstu',
+    label: 'bardzo duży rozmiar tekstu',
     scale: 1.25,
   },
 ];
 const ENGLISH_LABELS = [
-  'a — normal text size',
-  'a — large text size',
-  'a — very large text size',
+  'normal text size',
+  'large text size',
+  'very large text size',
 ];
 
 function getControlsContainer() {
@@ -98,8 +99,18 @@ function decorateControls() {
     const button = ensureButtonElement(element);
 
     const label = isEnglishPage() ? ENGLISH_LABELS[index] : control.label;
-    button.setAttribute('aria-label', label);
-    button.setAttribute('title', label);
+    const accessibleLabel = `a — ${label}`;
+    let description = button.querySelector(`.${DESCRIPTION_CLASS}`);
+
+    if (!description) {
+      description = document.createElement('span');
+      description.className = `${DESCRIPTION_CLASS} bemke-sr-only`;
+      button.appendChild(description);
+    }
+
+    description.textContent = ` — ${label}`;
+    button.removeAttribute('aria-label');
+    button.setAttribute('title', accessibleLabel);
     button.setAttribute('data-a11y-scale', String(control.scale));
   });
 }

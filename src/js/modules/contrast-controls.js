@@ -5,18 +5,19 @@ const STORAGE_KEY = 'bemke_a11y_contrast_mode';
 const CONTROLS_CONTAINER_ID = 'brxe-qcwgax';
 const BOOT_FLAG = '__bemkeContrastControlsBooted';
 const TRANSLUCENT_SURFACE_CLASS = 'bemke-a11y-translucent-surface';
+const DESCRIPTION_CLASS = 'bemke-contrast-control-description';
 
 const CONTRAST_MODES = new Map([
-  ['default', 'A — domyślny kontrast'],
-  ['white-black', 'A — biały tekst na czarnym tle'],
-  ['black-yellow', 'A — czarny tekst na żółtym tle'],
-  ['yellow-black', 'A — żółty tekst na czarnym tle'],
+  ['default', 'domyślny kontrast'],
+  ['white-black', 'biały tekst na czarnym tle'],
+  ['black-yellow', 'czarny tekst na żółtym tle'],
+  ['yellow-black', 'żółty tekst na czarnym tle'],
 ]);
 const CONTRAST_MODES_EN = new Map([
-  ['default', 'A — default contrast'],
-  ['white-black', 'A — white text on a black background'],
-  ['black-yellow', 'A — black text on a yellow background'],
-  ['yellow-black', 'A — yellow text on a black background'],
+  ['default', 'default contrast'],
+  ['white-black', 'white text on a black background'],
+  ['black-yellow', 'black text on a yellow background'],
+  ['yellow-black', 'yellow text on a black background'],
 ]);
 
 function getControlsContainer() {
@@ -59,9 +60,18 @@ function decorateControls() {
 
     const labels = isEnglishPage() ? CONTRAST_MODES_EN : CONTRAST_MODES;
     const label = labels.get(mode) ?? (isEnglishPage() ? 'Contrast mode' : 'Tryb kontrastu');
+    const accessibleLabel = `A — ${label}`;
+    let description = button.querySelector(`.${DESCRIPTION_CLASS}`);
 
-    button.setAttribute('aria-label', label);
-    button.setAttribute('title', label);
+    if (!description) {
+      description = document.createElement('span');
+      description.className = `${DESCRIPTION_CLASS} bemke-sr-only`;
+      button.appendChild(description);
+    }
+
+    description.textContent = ` — ${label}`;
+    button.removeAttribute('aria-label');
+    button.setAttribute('title', accessibleLabel);
     button.setAttribute('data-a11y-contrast-fixed', 'true');
   });
 }
