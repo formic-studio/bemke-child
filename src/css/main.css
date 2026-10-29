@@ -5418,21 +5418,25 @@ html[data-contrast]:not([data-contrast="default"])
 }
 
 #brxe-pxhfen:focus {
+  --bemke-focus-control: 1;
   outline: 4px solid var(--brown, var(--theme-brown, #1b0508)) !important;
   outline-offset: 4px !important;
 }
 
 #brxe-wdrqee:focus {
+  --bemke-focus-control: 2;
   outline: 4px solid var(--brown, var(--theme-brown, #1b0508)) !important;
   outline-offset: 4px !important;
 }
 
 #brxe-jydvjv:focus {
+  --bemke-focus-control: 3;
   outline: 4px solid var(--brown, var(--theme-brown, #1b0508)) !important;
   outline-offset: 4px !important;
 }
 
 #brxe-pnbult:focus {
+  --bemke-focus-control: 4;
   outline: 4px solid var(--brown, var(--theme-brown, #1b0508)) !important;
   outline-offset: 4px !important;
 }
