@@ -1,11 +1,13 @@
 import '../css/main.css';
 import { initAccessibilitySwitches } from './modules/accessibility-switches.js';
+import { initAuditSolidSurfaces } from './modules/audit-solid-surfaces.js';
 import { initBackToTop } from './modules/back-to-top.js';
 import { initContrastControls } from './modules/contrast-controls.js';
 import { initFontSizeControls } from './modules/font-size-controls.js';
 import { initMotionPreference } from './modules/motion-preference.js';
 import { initNavigationAccessibility } from './modules/navigation-accessibility.js';
 import { initThirdPartyAccessibility } from './modules/third-party-accessibility.js';
+import { initSemanticCleanup } from './modules/semantic-cleanup.js';
 
 const featureModules = [
   {
@@ -348,6 +350,8 @@ function scanFeatureModules() {
 }
 
 function initApp() {
+  initSemanticCleanup();
+  initAuditSolidSurfaces();
   initMotionPreference();
   initAccessibilitySwitches();
   initContrastControls();

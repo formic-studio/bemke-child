@@ -175,10 +175,9 @@ export function initFoundersCampaignProgress() {
     }
 
     if (currentLabel) {
-      currentLabel.setAttribute(
-        "aria-label",
-        siteText(`Zebrano ${formatAmount(currentAmount)} PLN`, `Raised PLN ${formatAmount(currentAmount)}`),
-      );
+      // The progressbar immediately above already exposes the complete value
+      // through aria-valuetext. aria-label is prohibited on this plain div.
+      currentLabel.removeAttribute("aria-label");
     }
 
     entry.renderState();

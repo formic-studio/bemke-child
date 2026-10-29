@@ -6,7 +6,6 @@ import {
 } from './motion-preference.js';
 
 const ROOT_SELECTOR = '.section_hero';
-const HEADING_SELECTOR = 'h1';
 const SUPPLEMENTARY_SELECTOR = '.brxe-text-basic, .brxe-text, p';
 const READY_ATTR = 'data-bemke-hero-intro-ready';
 const COMPLETE_ATTR = 'data-bemke-hero-intro-complete';
@@ -61,7 +60,9 @@ function setupHeroIntro(hero) {
     return;
   }
 
-  const heading = hero.querySelector(HEADING_SELECTOR);
+  const heading =
+    hero.querySelector('[data-bemke-hero-intro-heading="1"]') ||
+    hero.querySelector('h1');
 
   if (!heading) {
     markHeroComplete(hero);
@@ -228,7 +229,11 @@ function addRevealGroups(
 
 function splitIntoLines(state, element) {
   const split = SplitText.create(element, {
-    aria: 'auto',
+    // SplitText's automatic accessibility mode adds aria-label to the source
+    // element. Most Bricks supplementary headings are divs, on which that
+    // attribute is prohibited. The generated lines already contain the real
+    // text in DOM order, so no replacement accessible name is needed.
+    aria: 'none',
     linesClass: 'bemke-hero-intro-line',
     type: 'lines',
   });

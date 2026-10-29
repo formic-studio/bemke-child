@@ -256,16 +256,12 @@ function initCampusMapPan(viewport, map, images, hideTooltip) {
   });
   viewport.dataset.bemkeCampusMapPan = "1";
 
-  if (!viewport.hasAttribute("tabindex")) {
-    viewport.tabIndex = 0;
-  }
-
   viewport.setAttribute("role", "region");
   viewport.setAttribute(
     "aria-label",
     mapText(
-      "Interaktywna mapa Campus Bemke. Przeciągnij mapę lub użyj klawiszy strzałek.",
-      "Interactive Campus Bemke map. Drag the map or use the arrow keys.",
+      "Interaktywna mapa Campus Bemke. Przeciągnij mapę lub użyj przycisków sterowania.",
+      "Interactive Campus Bemke map. Drag the map or use the map controls.",
     ),
   );
 

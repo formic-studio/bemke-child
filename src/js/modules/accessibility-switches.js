@@ -93,10 +93,6 @@ function setupLanguageSwitcher(block, track) {
   const currentIndex = Math.max(languageItems.indexOf(currentItem), 0);
   const currentLanguage = getLanguageCode(currentItem);
   const targetLanguage = getLanguageCode(targetItem);
-  const visibleLanguageLabel = languageItems
-    .map((item) => item.textContent.trim())
-    .filter(Boolean)
-    .join(' ');
   const languageSwitch = document.createElement('a');
 
   Array.from(block.attributes).forEach(({ name, value }) => {
@@ -123,19 +119,12 @@ function setupLanguageSwitcher(block, track) {
     });
 
     label.classList.toggle('in-active', item === targetItem);
-    label.setAttribute('aria-hidden', 'true');
     label.replaceChildren(...item.childNodes);
     item.replaceWith(label);
   });
 
   languageSwitch.href = targetUrl;
   languageSwitch.setAttribute(READY_ATTR, '1');
-  languageSwitch.setAttribute(
-    'aria-label',
-    currentLanguage === 'en'
-      ? `${visibleLanguageLabel} — switch to the Polish language version`
-      : `${visibleLanguageLabel} — przejdź do angielskiej wersji językowej`,
-  );
   languageSwitch.setAttribute('hreflang', targetLanguage);
   languageSwitch.setAttribute(
     'data-bemke-current-language',
@@ -153,6 +142,14 @@ function setupLanguageSwitcher(block, track) {
   languageSwitch.classList.toggle(ACTIVE_CLASS, currentIndex > 0);
   track.setAttribute('aria-hidden', 'true');
   languageSwitch.replaceChildren(...block.childNodes);
+
+  const actionLabel = document.createElement('span');
+  actionLabel.className = 'bemke-sr-only';
+  actionLabel.textContent =
+    currentLanguage === 'en'
+      ? '— switch to the Polish language version'
+      : '— przejdź do angielskiej wersji językowej';
+  languageSwitch.append(actionLabel);
   block.replaceWith(languageSwitch);
 }
 

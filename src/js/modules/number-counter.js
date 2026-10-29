@@ -66,6 +66,22 @@ function getCounterData(element) {
   };
 }
 
+function prepareAccessibleCounter(element, finalText) {
+  const accessibleText = document.createElement("span");
+  const visualText = document.createElement("span");
+
+  accessibleText.className = "bemke-sr-only";
+  accessibleText.textContent = finalText;
+  visualText.className = "bemke-number-counter__visual";
+  visualText.setAttribute("aria-hidden", "true");
+  visualText.textContent = finalText;
+
+  element.removeAttribute("aria-label");
+  element.replaceChildren(accessibleText, visualText);
+
+  return visualText;
+}
+
 export function initNumberCounters() {
   const counters = gsap.utils.toArray(COUNTER_SELECTOR);
   const counterEntries = [];
@@ -88,12 +104,13 @@ export function initNumberCounters() {
       target,
     } = counterData;
 
-    counter.setAttribute("aria-label", finalText);
+    const visualCounter = prepareAccessibleCounter(counter, finalText);
 
     const entry = {
       counter,
       finalText,
       tweenTarget: null,
+      visualCounter,
     };
     counterEntries.push(entry);
 
@@ -102,7 +119,7 @@ export function initNumberCounters() {
     const counterValue = { value: 0 };
     entry.tweenTarget = counterValue;
 
-    counter.textContent = `${prefix}${formatCounterValue(0, decimalPlaces, decimalSeparator)}${suffix}`;
+    visualCounter.textContent = `${prefix}${formatCounterValue(0, decimalPlaces, decimalSeparator)}${suffix}`;
 
     ScrollTrigger.create({
       trigger: counter,
@@ -110,7 +127,7 @@ export function initNumberCounters() {
       once: true,
       onEnter: () => {
         if (isReducedMotion()) {
-          counter.textContent = finalText;
+          visualCounter.textContent = finalText;
           return;
         }
 
@@ -121,10 +138,10 @@ export function initNumberCounters() {
           snap: { value: 1 / 10 ** decimalPlaces },
           overwrite: true,
           onUpdate: () => {
-            counter.textContent = `${prefix}${formatCounterValue(counterValue.value, decimalPlaces, decimalSeparator)}${suffix}`;
+            visualCounter.textContent = `${prefix}${formatCounterValue(counterValue.value, decimalPlaces, decimalSeparator)}${suffix}`;
           },
           onComplete: () => {
-            counter.textContent = finalText;
+            visualCounter.textContent = finalText;
           },
         });
       },
@@ -136,12 +153,12 @@ export function initNumberCounters() {
       return;
     }
 
-    counterEntries.forEach(({ counter, finalText, tweenTarget }) => {
+    counterEntries.forEach(({ finalText, tweenTarget, visualCounter }) => {
       if (tweenTarget) {
         gsap.killTweensOf(tweenTarget);
       }
 
-      counter.textContent = finalText;
+      visualCounter.textContent = finalText;
     });
   });
 }

@@ -501,6 +501,51 @@ body.bemke-solid-cta-surface
 
 }
 
+/* Whole-site WCAG audit fixes. */
+#brx-footer,
+#brx-footer :is(a, .brxe-text-basic, .brxe-heading),
+footer,
+footer :is(a, .brxe-text-basic, .brxe-heading) {
+  color: var(--brown, var(--theme-brown, #1b0508)) !important;
+}
+
+.bemke-consent-panel {
+  background: var(--darkcream, var(--theme-darkcream, #fff3e0)) !important;
+  color: var(--brown, var(--theme-brown, #1b0508)) !important;
+}
+
+.bemke-consent-panel :is(.bemke-consent-panel__copy, .bemke-consent-panel__link) {
+  color: var(--brown, var(--theme-brown, #1b0508)) !important;
+}
+
+:is(#brxe-whytgi, #brxe-yqyebh, #brxe-ndtfjx, #brxe-lxstph, #brxe-rhwnwo) {
+  color: var(--brown, var(--theme-brown, #1b0508)) !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+:is(
+    .bemke-consent-panel__button,
+    .bemke-consent-panel__link,
+    .offer-block,
+    .team-link button,
+    .history-tabs-scrollbar
+  ):focus-visible {
+  border-radius: 0.4rem;
+  box-shadow:
+    0 0 0 2px var(--yellow, var(--theme-yellow, #f9bb59)),
+    0 0 0 5px var(--brown, var(--theme-brown, #1b0508));
+  outline: 3px solid var(--cream, var(--theme-cream, #fff9f4)) !important;
+  outline-offset: 5px !important;
+}
+
+.campus-map__area:focus-visible {
+  filter: drop-shadow(0 0 8px var(--cream, var(--theme-cream, #fff9f4)));
+  outline: 4px solid var(--brown, var(--theme-brown, #1b0508)) !important;
+  outline-offset: 5px;
+  stroke: var(--cream, var(--theme-cream, #fff9f4)) !important;
+  stroke-width: 12px !important;
+}
+
 @media (max-width: 767px) {
   .map-block {
     --campus-map-height: min(62svh, 54rem);
@@ -1565,24 +1610,19 @@ body.home .card.brxe-block > .brxe-block:first-child {
   transform: scale(1.02);
 }
 
-/* One semantic link stretched across an otherwise non-interactive card. */
+/* A card with a single CTA becomes one semantic link containing its content. */
 .bemke-linked-card {
+  color: inherit;
   cursor: pointer;
   position: relative;
+  text-decoration: none;
 }
 
 .bemke-linked-card__visual-cta {
   pointer-events: none;
 }
 
-.bemke-linked-card__link {
-  border-radius: inherit;
-  inset: 0;
-  position: absolute;
-  z-index: 3;
-}
-
-.bemke-linked-card__link:focus-visible {
+.bemke-linked-card:focus-visible {
   outline: 2px solid var(--brown, var(--theme-brown, #1b0508));
   outline-offset: 4px;
 }
@@ -5791,4 +5831,105 @@ html[data-contrast]:not([data-contrast="default"])
   footer .social-link svg :is([fill="black"], [fill="#000"], [fill="#000000"]) {
     fill: Canvas !important;
   }
+}
+
+/* Reversible audit presentation for components whose artwork is supplied as
+   a CSS background. JavaScript selects the highest-contrast colour from the
+   existing Bemke palette and stores it in the custom property below. */
+body.bemke-solid-cta-surface .bemke-audit-solid-surface {
+  background-color: var(--bemke-audit-surface-color, var(--darkcream, #fff3e0)) !important;
+  background-image: none !important;
+}
+
+body.bemke-solid-cta-surface .section_hero .video {
+  display: none !important;
+}
+
+body.bemke-solid-cta-surface :is(#brxe-krwtck, #brxe-chtxkk) {
+  background-color: var(--yellow, var(--theme-yellow, #f9bb59)) !important;
+  isolation: isolate;
+  position: relative;
+  z-index: 2;
+}
+
+body.bemke-solid-cta-surface #brxe-ntnrkb {
+  display: none !important;
+}
+
+body.bemke-solid-cta-surface #brxe-oecuww {
+  background-color: var(--brown, var(--theme-brown, #1b0508)) !important;
+  position: relative;
+  z-index: 20;
+}
+
+body.bemke-solid-cta-surface #brxe-oecuww span {
+  background-color: var(--brown, var(--theme-brown, #1b0508)) !important;
+}
+
+body.bemke-solid-cta-surface #brxe-nkoiqb > img {
+  display: none !important;
+}
+
+body.bemke-solid-cta-surface .section_book-money #brxe-eetmeb {
+  background-color: var(--brown, var(--theme-brown, #1b0508)) !important;
+  position: relative;
+  z-index: 2;
+}
+
+body.bemke-solid-cta-surface
+  :is(#brxe-nqinyi, #brxe-oecuww, #brxe-hrpmmj, #brxe-zoxrhv) {
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  padding: 2px;
+  position: relative;
+  z-index: 20;
+}
+
+body.bemke-solid-cta-surface #brxe-nqinyi {
+  background-color: var(--yellow, var(--theme-yellow, #f9bb59)) !important;
+}
+
+body.bemke-solid-cta-surface
+  :is(#brxe-hrpmmj, #brxe-zoxrhv) {
+  background-color: var(--brown, var(--theme-brown, #1b0508)) !important;
+}
+
+body.bemke-solid-cta-surface
+  .section_book-money
+  .book-money-animation {
+  display: none !important;
+}
+
+.single-komunikat-prasowy .page-info a {
+  color: var(--brown, var(--theme-brown, #1b0508)) !important;
+}
+
+body.bemke-solid-cta-surface
+  [data-bemke-history-tabs-ready="1"]
+  .tab[role="tab"][aria-selected="false"]::before {
+  content: none !important;
+}
+
+body.bemke-solid-cta-surface
+  [data-bemke-history-tabs-ready="1"]
+  .tab[role="tab"][aria-selected="false"] {
+  transition: background-color 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body.bemke-solid-cta-surface
+  [data-bemke-history-tabs-ready="1"]
+  .tab[role="tab"][aria-selected="false"]:is(:hover, :focus-visible) {
+  background-color: var(--theme-red, rgba(116, 22, 24, 1)) !important;
+}
+
+.bemke-donor-heading__context {
+  order: -1;
+}
+
+h2.number-card {
+  margin-block: 0;
+}
+
+h2.number-card > span {
+  display: block;
 }

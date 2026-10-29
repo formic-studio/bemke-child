@@ -4,29 +4,7 @@ const INTERACTIVE_SELECTOR =
   'a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])';
 const LINKED_CARD_CLASS = "bemke-linked-card";
 const VISUAL_CTA_CLASS = "bemke-linked-card__visual-cta";
-const OVERLAY_LINK_CLASS = "bemke-linked-card__link";
 const READY_ATTR = "data-bemke-linked-card-ready";
-
-function normalizeText(value) {
-  return value?.replace?.(/\s+/g, " ").trim() ?? "";
-}
-
-function getAccessibleLinkLabel(card, link) {
-  const explicitLabel = normalizeText(link.getAttribute("aria-label"));
-
-  if (explicitLabel) return explicitLabel;
-
-  const linkLabel = normalizeText(link.textContent);
-  const headingLabel = normalizeText(
-    card.querySelector("h1, h2, h3, h4, h5, h6")?.textContent,
-  );
-
-  if (!headingLabel || linkLabel.toLowerCase().includes(headingLabel.toLowerCase())) {
-    return linkLabel;
-  }
-
-  return `${linkLabel}: ${headingLabel}`;
-}
 
 function createVisualCta(link) {
   const visualCta = document.createElement("span");
@@ -67,21 +45,26 @@ function enhanceLinkedCard(card) {
   }
 
   const link = ctas[0];
-  const linkLabel = getAccessibleLinkLabel(card, link);
   const visualCta = createVisualCta(link);
+  const linkedCard = document.createElement("a");
 
-  link.before(visualCta);
-  link.className = OVERLAY_LINK_CLASS;
-  link.removeAttribute("style");
-  link.replaceChildren();
+  Array.from(card.attributes).forEach(({ name, value }) => {
+    linkedCard.setAttribute(name, value);
+  });
 
-  if (linkLabel) {
-    link.setAttribute("aria-label", linkLabel);
-  }
+  ["href", "target", "rel", "download", "hreflang", "referrerpolicy"].forEach(
+    (name) => {
+      if (link.hasAttribute(name)) {
+        linkedCard.setAttribute(name, link.getAttribute(name));
+      }
+    },
+  );
 
-  card.appendChild(link);
-  card.classList.add(LINKED_CARD_CLASS);
-  card.setAttribute(READY_ATTR, "1");
+  link.replaceWith(visualCta);
+  linkedCard.replaceChildren(...card.childNodes);
+  linkedCard.classList.add(LINKED_CARD_CLASS);
+  linkedCard.setAttribute(READY_ATTR, "1");
+  card.replaceWith(linkedCard);
 }
 
 function enhanceLinkedCards(scope = document) {

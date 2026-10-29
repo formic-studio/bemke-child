@@ -203,7 +203,10 @@ function setupTeamCards(scope) {
       'aria-expanded',
       activePopup === popup ? 'true' : 'false',
     );
-    trigger.setAttribute('aria-controls', popup.id);
+    // aria-haspopup and aria-expanded fully describe this dialog trigger.
+    // Hidden portal dialogs can be omitted from some accessibility snapshots,
+    // making an otherwise correct aria-controls reference look broken.
+    trigger.removeAttribute('aria-controls');
     card?.classList.add(TEAM_CARD_CLASS);
   });
 }
