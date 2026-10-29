@@ -274,6 +274,10 @@ function addContrastTextSurfaces(scope = document) {
 
 function normalizeAnimatedLinkUnderlines(scope = document) {
   scope
+    .querySelectorAll('.donors-block > a[href]')
+    .forEach((link) => link.classList.add('bemke-gradient-underline-link'));
+
+  scope
     .querySelectorAll('a[href]:not(.brxe-button):not(.btn):not(:has(img, svg))')
     .forEach((link) => {
       const background = window.getComputedStyle(link).backgroundImage;
