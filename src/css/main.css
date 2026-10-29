@@ -216,6 +216,10 @@
   position: absolute !important;
 }
 
+html:has(#CybotCookiebotDialog.CybotCookiebotDialogActive) body {
+  padding-top: 100vh;
+}
+
 #CybotCookiebotDialogBodyContent .CybotCookiebotFader {
   display: none !important;
 }
@@ -327,11 +331,7 @@
   padding-inline: 0.08em;
 }
 
-.brxe-befjdw .brxe-lwosyb,
-.brxe-befjdw .brxe-lwosyb > .font-f-season-mix {
-  -webkit-box-decoration-break: clone;
-  background-color: var(--cream, var(--theme-cream, #fff9f4));
-  box-decoration-break: clone;
+.brxe-befjdw .brxe-lwosyb {
   isolation: isolate;
   position: relative;
   z-index: 1;
