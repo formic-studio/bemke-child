@@ -128,6 +128,25 @@ function repairCachedPageMarkup() {
     current.replaceWith(heading);
   });
 
+  // The shared press-release download card visually presents its title as a
+  // third-level heading beneath "Materiały do pobrania". Preserve all Bricks
+  // classes while exposing that existing hierarchy to assistive technology.
+  const photoPackHeading = document.getElementById('brxe-cecgzh');
+
+  if (photoPackHeading && photoPackHeading.tagName !== 'H3') {
+    const heading = document.createElement('h3');
+
+    Array.from(photoPackHeading.attributes).forEach(({ name, value }) => {
+      heading.setAttribute(name, value);
+    });
+
+    while (photoPackHeading.firstChild) {
+      heading.appendChild(photoPackHeading.firstChild);
+    }
+
+    photoPackHeading.replaceWith(heading);
+  }
+
   ['brxe-jrcfay', 'brxe-mmnynt'].forEach((id) => {
     const current = document.getElementById(id);
 
