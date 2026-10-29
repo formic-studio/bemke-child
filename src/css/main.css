@@ -6018,7 +6018,9 @@ body.bemke-solid-cta-surface
   -webkit-box-decoration-break: clone;
   background-color: var(--wine, var(--theme-wine, #501819)) !important;
   box-decoration-break: clone;
+  display: inline-block;
   padding: 0.04em 0.12em 0.08em;
+  vertical-align: top;
 }
 
 body.bemke-solid-cta-surface
