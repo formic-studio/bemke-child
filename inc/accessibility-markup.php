@@ -31,7 +31,9 @@ function bemke_child_prepare_accessibility_markup( $html ) {
 	$html = bemke_child_prepare_descriptive_resource_links( $html );
 	$html = bemke_child_prepare_pdf_link_format_labels( $html );
 	$html = bemke_child_prepare_pdf_document_links( $html );
+	$html = bemke_child_prepare_same_context_links( $html );
 	$html = bemke_child_prepare_presentational_figures( $html );
+	$html = bemke_child_prepare_newsletter_decorative_image( $html );
 	$html = bemke_child_prepare_youtube_story_links( $html );
 	$html = bemke_child_prepare_donor_youtube_iframes( $html );
 	$html = bemke_child_prepare_video_overlay_controls( $html );
@@ -408,16 +410,8 @@ function bemke_child_prepare_styled_heading_text( $html ) {
 
 			$updated_content = preg_replace_callback(
 				'/<br\b[^>]*>/i',
-				static function ( $line_break ) {
-					$tag = bemke_child_remove_html_attributes(
-						$line_break[0],
-						array( 'aria-hidden' )
-					);
-					$tag = preg_replace( '/\s*\/?>$/', '', $tag );
-
-					return null === $tag
-						? $line_break[0]
-						: ' ' . $tag . ' aria-hidden="true">';
+				static function () {
+					return ' <span class="bemke-heading-break" aria-hidden="true"></span> ';
 				},
 				$content
 			);
@@ -847,6 +841,34 @@ function bemke_child_prepare_pdf_document_links( $html ) {
 }
 
 /**
+ * Keep links in the current browsing context. This avoids unexpected new
+ * windows and makes the browser Back action reliable for every resource.
+ *
+ * @param string $html Complete frontend response markup.
+ * @return string
+ */
+function bemke_child_prepare_same_context_links( $html ) {
+	$updated_html = preg_replace_callback(
+		'/<a\b(?<attributes>[^>]*)>/i',
+		static function ( $matches ) {
+			if ( ! preg_match( '/\btarget\s*=\s*(["\'])_blank\1/i', $matches['attributes'] ) ) {
+				return $matches[0];
+			}
+
+			$attributes = bemke_child_remove_html_attributes(
+				$matches['attributes'],
+				array( 'target', 'aria-describedby' )
+			);
+
+			return '<a' . $attributes . '>';
+		},
+		$html
+	);
+
+	return null === $updated_html ? $html : $updated_html;
+}
+
+/**
  * A figure containing only one already-labelled image has no caption or
  * grouping relationship to expose. Flatten the wrapper and retain the img ALT.
  *
@@ -869,6 +891,33 @@ function bemke_child_prepare_presentational_figures( $html ) {
 			return '<div' . $attributes . '>' . $matches['content'] . '</div>';
 		},
 		$html
+	);
+
+	return null === $updated_html ? $html : $updated_html;
+}
+
+/**
+ * Render the newsletter photograph as a decorative image instead of a CSS
+ * background so its non-text semantics are explicit in every contrast mode.
+ *
+ * @param string $html Complete frontend response markup.
+ * @return string
+ */
+function bemke_child_prepare_newsletter_decorative_image( $html ) {
+	if ( false !== strpos( $html, 'bemke-newsletter-decorative-image' ) ) {
+		return $html;
+	}
+
+	$image_url = content_url( '/uploads/2026/06/cta-4-scaled.webp' );
+	$image     = '<img class="bemke-newsletter-decorative-image" src="' .
+		esc_url( $image_url ) .
+		'" alt="" aria-hidden="true" loading="lazy" decoding="async">';
+
+	$updated_html = preg_replace(
+		'/(<section\b(?=[^>]*\bid\s*=\s*(["\'])brxe-bphwlu\2)[^>]*>)/i',
+		'$1' . $image,
+		$html,
+		1
 	);
 
 	return null === $updated_html ? $html : $updated_html;

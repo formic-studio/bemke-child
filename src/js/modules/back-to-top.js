@@ -118,7 +118,8 @@ export function initBackToTop() {
     scrollToTopFrame = window.requestAnimationFrame(monitorScrollToTop);
   });
 
-  document.body.appendChild(button);
+  const utilityNavigation = document.querySelector('.bemke-skip-links');
+  (utilityNavigation || document.body).appendChild(button);
   updateVisibility();
 
   window.addEventListener('scroll', scheduleVisibilityUpdate, {

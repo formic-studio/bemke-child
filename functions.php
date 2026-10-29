@@ -101,6 +101,8 @@ function bemke_child_print_skip_link() {
 function bemke_child_remove_unused_core_styles() {
 	wp_dequeue_style( 'classic-theme-styles' );
 	wp_deregister_style( 'classic-theme-styles' );
+	wp_dequeue_style( 'global-styles' );
+	wp_deregister_style( 'global-styles' );
 }
 
 /**
