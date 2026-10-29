@@ -3,6 +3,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// Temporary audit-safe presentation for the shared CTA component.
+// Set to false to restore the component artwork without deleting any media.
+if ( ! defined( 'BEMKE_CHILD_USE_SOLID_CTA_SURFACE' ) ) {
+	define( 'BEMKE_CHILD_USE_SOLID_CTA_SURFACE', true );
+}
+
 require_once get_stylesheet_directory() . '/inc/linkedin-posts.php';
 require_once get_stylesheet_directory() . '/inc/instagram-feed.php';
 require_once get_stylesheet_directory() . '/inc/getresponse.php';
@@ -28,6 +34,7 @@ add_action( 'wp_enqueue_scripts', 'bemke_child_remove_unused_core_styles', 100 )
 add_action( 'template_redirect', 'bemke_child_redirect_accessible_document', -20 );
 add_action( 'template_redirect', 'bemke_child_start_frontend_optimization_buffer', 0 );
 add_filter( 'language_attributes', 'bemke_child_language_attributes', 10, 2 );
+add_filter( 'body_class', 'bemke_child_add_solid_cta_body_class' );
 add_filter( 'wp_get_attachment_image_attributes', 'bemke_child_optimize_below_fold_images', 100, 3 );
 add_filter( 'nav_menu_item_title', 'bemke_child_normalize_nav_menu_item_title' );
 
@@ -49,6 +56,17 @@ function bemke_child_language_attributes( $output, $doctype ) {
 	);
 
 	return null === $updated_output ? $output : $updated_output;
+}
+
+/**
+ * Apply the reversible solid-surface presentation to every shared CTA.
+ */
+function bemke_child_add_solid_cta_body_class( $classes ) {
+	if ( BEMKE_CHILD_USE_SOLID_CTA_SURFACE && ! bemke_child_is_bricks_builder_request() ) {
+		$classes[] = 'bemke-solid-cta-surface';
+	}
+
+	return $classes;
 }
 
 /**

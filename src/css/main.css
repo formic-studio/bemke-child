@@ -302,6 +302,56 @@ html:has(#CybotCookiebotDialog.CybotCookiebotDialogActive) body {
   display: block;
 }
 
+/*
+ * Reversible solid presentation for the shared CTA component. The body class
+ * is controlled by BEMKE_CHILD_USE_SOLID_CTA_SURFACE in functions.php.
+ */
+body.bemke-solid-cta-surface .brxe-befjdw {
+  background-image: none !important;
+}
+
+body.bemke-solid-cta-surface .brxe-befjdw > img.brxe-honyul {
+  display: none !important;
+}
+
+body.bemke-solid-cta-surface .brxe-befjdw:not([data-brx-variant]) {
+  background-color: var(--eggshell, var(--theme-eggshell, #ffe9c6)) !important;
+}
+
+body.bemke-solid-cta-surface .brxe-befjdw[data-brx-variant="ceyalh"] {
+  background-color: var(--wine, var(--theme-wine, #501819)) !important;
+}
+
+body.bemke-solid-cta-surface .brxe-befjdw[data-brx-variant="fpopfx"] {
+  background-color: var(--red, var(--theme-red, #741618)) !important;
+}
+
+body.bemke-solid-cta-surface .brxe-befjdw[data-brx-variant="axroxq"] {
+  background-color: var(--yellow, var(--theme-yellow, #f9bb59)) !important;
+}
+
+body.bemke-solid-cta-surface
+  .brxe-befjdw[data-brx-variant="axroxq"]:has(
+    > img.brxe-honyul[src*="CTA-beige"]
+  ) {
+  background-color: var(--eggshell, var(--theme-eggshell, #ffe9c6)) !important;
+}
+
+body.bemke-solid-cta-surface .brxe-befjdw .brxe-fqsenb {
+  -webkit-text-fill-color: currentColor !important;
+  animation: none !important;
+  background: var(--yellow, var(--theme-yellow, #f9bb59)) !important;
+  color: var(--brown, var(--theme-brown, #1b0508)) !important;
+  transition: none !important;
+}
+
+body.bemke-solid-cta-surface
+  .brxe-befjdw
+  .brxe-fqsenb:is(:hover, :focus-visible) {
+  background: var(--lightyellow, var(--theme-lightyellow, #f6cc8a)) !important;
+  color: var(--brown, var(--theme-brown, #1b0508)) !important;
+}
+
 #brxe-bphwlu {
   background-image: none !important;
   isolation: isolate;
