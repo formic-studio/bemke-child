@@ -8,6 +8,7 @@ const COOKIEBOT_TEXT_READY_ATTR = 'data-bemke-cookiebot-text-ready';
 
 export function initThirdPartyAccessibility() {
   repairCookiebotMarkup();
+  repairCachedPageMarkup();
 
   if (!window.MutationObserver || !document.documentElement) {
     return;
@@ -16,6 +17,7 @@ export function initThirdPartyAccessibility() {
   new MutationObserver((mutations) => {
     if (mutations.some((mutation) => mutation.addedNodes.length > 0)) {
       repairCookiebotMarkup();
+      repairCachedPageMarkup();
     }
   }).observe(document.documentElement, {
     childList: true,
@@ -43,7 +45,9 @@ function repairCookiebotMarkup() {
   }
 
   repairCookiebotDescription();
-  document.getElementById('CybotCookiebotDialog')?.removeAttribute('aria-modal');
+  const dialog = document.getElementById('CybotCookiebotDialog');
+  dialog?.removeAttribute('aria-modal');
+  dialog?.style.setProperty('position', 'absolute', 'important');
 
   const poweredBy = document.getElementById(COOKIEBOT_POWERED_BY_ID);
 
@@ -58,6 +62,39 @@ function repairCookiebotMarkup() {
     'aria-label',
     siteText('Cookiebot od Usercentrics', 'Cookiebot by Usercentrics'),
   );
+}
+
+function repairCachedPageMarkup() {
+  document.getElementById('global-styles-inline-css')?.remove();
+
+  document.querySelectorAll('h1 br, h2 br, h3 br, h4 br, h5 br, h6 br').forEach((lineBreak) => {
+    const replacement = document.createElement('span');
+    replacement.className = 'bemke-heading-break';
+    replacement.setAttribute('aria-hidden', 'true');
+    lineBreak.replaceWith(
+      document.createTextNode(' '),
+      replacement,
+      document.createTextNode(' '),
+    );
+  });
+
+  document.querySelectorAll('a[target="_blank"]').forEach((link) => {
+    link.removeAttribute('target');
+    link.removeAttribute('aria-describedby');
+  });
+
+  const newsletter = document.getElementById('brxe-bphwlu');
+
+  if (newsletter && !newsletter.querySelector('.bemke-newsletter-decorative-image')) {
+    const image = document.createElement('img');
+    image.className = 'bemke-newsletter-decorative-image';
+    image.src = `${window.location.origin}/wp-content/uploads/2026/06/cta-4-scaled.webp`;
+    image.alt = '';
+    image.loading = 'lazy';
+    image.decoding = 'async';
+    image.setAttribute('aria-hidden', 'true');
+    newsletter.prepend(image);
+  }
 }
 
 function repairCookiebotDescription() {
