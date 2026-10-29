@@ -110,6 +110,48 @@ function repairCachedPageMarkup() {
     current.replaceWith(heading);
   });
 
+  ['brxe-etocwn', 'brxe-pjsxxs', 'brxe-tzinat', 'brxe-ujmqif'].forEach((id) => {
+    const current = document.getElementById(id);
+
+    if (!current || current.tagName === 'H2') {
+      return;
+    }
+
+    const heading = document.createElement('h2');
+
+    Array.from(current.attributes).forEach(({ name, value }) => {
+      heading.setAttribute(name, value);
+    });
+
+    while (current.firstChild) {
+      heading.appendChild(current.firstChild);
+    }
+
+    current.replaceWith(heading);
+  });
+
+  ['brxe-jrcfay', 'brxe-mmnynt'].forEach((id) => {
+    const current = document.getElementById(id);
+
+    if (!current || current.tagName === 'SPAN') {
+      return;
+    }
+
+    const line = document.createElement('span');
+
+    Array.from(current.attributes).forEach(({ name, value }) => {
+      line.setAttribute(name, value);
+    });
+
+    line.classList.add('bemke-footer-address-line');
+
+    while (current.firstChild) {
+      line.appendChild(current.firstChild);
+    }
+
+    current.replaceWith(line);
+  });
+
   const newsletter = document.getElementById('brxe-bphwlu');
 
   if (newsletter && !newsletter.querySelector('.bemke-newsletter-decorative-image')) {

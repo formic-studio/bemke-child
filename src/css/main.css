@@ -286,9 +286,7 @@ html:has(#CybotCookiebotDialog.CybotCookiebotDialogActive) body {
   .page-info > a[href],
   .link-underline
 ):is(:hover, :focus-visible, [aria-current="page"]) {
-  text-decoration: underline;
-  text-decoration-thickness: 0.08em;
-  text-underline-offset: 0.14em;
+  text-decoration: none;
 }
 
 #brxe-fmdrdv {
@@ -3198,6 +3196,192 @@ footer #brxe-xbishl > .brxe-text-basic {
 #brx-footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic,
 footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
   background-size: 100% 0.08em;
+}
+
+/*
+ * Draw link underlines with a transform instead of a CSS background image.
+ * Equal Access treats a background image directly behind text as an unknown
+ * contrast surface, even when that image is only a decorative underline.
+ */
+:is(
+    #brx-header
+      #brxe-vhhhdt
+      > .bricks-nav-menu-wrapper
+      > .bricks-nav-menu
+      > li
+      > a,
+    #brx-header
+      #brxe-vhhhdt
+      > .bricks-nav-menu-wrapper
+      > .bricks-nav-menu
+      > li
+      > .brx-submenu-toggle
+      > a,
+    #brx-footer a[href]:not(:has(img, svg)):not(#brxe-xbishl),
+    footer a[href]:not(:has(img, svg)):not(#brxe-xbishl),
+    .page-info > a[href],
+    .link-underline
+  ):not(.brxe-button):not(.btn) {
+  background-image: none !important;
+  position: relative;
+  text-decoration: none !important;
+}
+
+:is(
+    #brx-header
+      #brxe-vhhhdt
+      > .bricks-nav-menu-wrapper
+      > .bricks-nav-menu
+      > li
+      > a,
+    #brx-header
+      #brxe-vhhhdt
+      > .bricks-nav-menu-wrapper
+      > .bricks-nav-menu
+      > li
+      > .brx-submenu-toggle
+      > a,
+    #brx-footer a[href]:not(:has(img, svg)):not(#brxe-xbishl),
+    footer a[href]:not(:has(img, svg)):not(#brxe-xbishl),
+    .page-info > a[href],
+    .link-underline
+  ):not(.brxe-button):not(.btn)::after,
+#brx-footer #brxe-xbishl > .bemke-footer-address-line::after,
+footer #brxe-xbishl > .bemke-footer-address-line::after {
+  background-color: transparent;
+  bottom: -0.08em;
+  border-top: max(1px, 0.08em) solid currentColor;
+  content: "";
+  height: 0;
+  left: 0;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:is(
+    #brx-header
+      #brxe-vhhhdt
+      > .bricks-nav-menu-wrapper
+      > .bricks-nav-menu
+      > li
+      > a,
+    #brx-header
+      #brxe-vhhhdt
+      > .bricks-nav-menu-wrapper
+      > .bricks-nav-menu
+      > li
+      > .brx-submenu-toggle
+      > a,
+    #brx-footer a[href]:not(:has(img, svg)):not(#brxe-xbishl),
+    footer a[href]:not(:has(img, svg)):not(#brxe-xbishl),
+    .page-info > a[href],
+    .link-underline
+  ):not(.brxe-button):not(.btn):is(:hover, :focus-visible, [aria-current="page"])::after,
+#brx-header
+  #brxe-vhhhdt
+  > .bricks-nav-menu-wrapper
+  > .bricks-nav-menu
+  > li.is-mega-menu-item-active
+  > .brx-submenu-toggle
+  > a::after,
+#brx-header
+  #brxe-vhhhdt
+  > .bricks-nav-menu-wrapper
+  > .bricks-nav-menu
+  > li
+  > .brx-submenu-toggle:is(:hover, :focus-within)
+  > a::after,
+#brx-footer #brxe-xbishl:is(:hover, :focus-visible) > .bemke-footer-address-line::after,
+footer #brxe-xbishl:is(:hover, :focus-visible) > .bemke-footer-address-line::after {
+  transform: scaleX(1);
+}
+
+#brx-footer #brxe-xbishl > .bemke-footer-address-line,
+footer #brxe-xbishl > .bemke-footer-address-line {
+  background-image: none !important;
+  display: block;
+  position: relative;
+  width: fit-content;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :is(
+      #brx-header
+        #brxe-vhhhdt
+        > .bricks-nav-menu-wrapper
+        > .bricks-nav-menu
+        > li
+        > a,
+      #brx-header
+        #brxe-vhhhdt
+        > .bricks-nav-menu-wrapper
+        > .bricks-nav-menu
+        > li
+        > .brx-submenu-toggle
+        > a,
+      #brx-footer a[href]:not(:has(img, svg)):not(#brxe-xbishl),
+      footer a[href]:not(:has(img, svg)):not(#brxe-xbishl),
+      .page-info > a[href],
+      .link-underline
+    ):not(.brxe-button):not(.btn)::after,
+  #brx-footer #brxe-xbishl > .bemke-footer-address-line::after,
+  footer #brxe-xbishl > .bemke-footer-address-line::after {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  :is(
+      #brx-header
+        #brxe-vhhhdt
+        > .bricks-nav-menu-wrapper
+        > .bricks-nav-menu
+        > li
+        > a,
+      #brx-header
+        #brxe-vhhhdt
+        > .bricks-nav-menu-wrapper
+        > .bricks-nav-menu
+        > li
+        > .brx-submenu-toggle
+        > a,
+      #brx-footer a[href]:not(:has(img, svg)):not(#brxe-xbishl),
+      footer a[href]:not(:has(img, svg)):not(#brxe-xbishl),
+      .page-info > a[href],
+      .link-underline
+    ):not(.brxe-button):not(.btn)::after,
+  #brx-footer #brxe-xbishl > .bemke-footer-address-line::after,
+  footer #brxe-xbishl > .bemke-footer-address-line::after {
+    display: none;
+  }
+
+  :is(
+      #brx-header
+        #brxe-vhhhdt
+        > .bricks-nav-menu-wrapper
+        > .bricks-nav-menu
+        > li
+        > a,
+      #brx-header
+        #brxe-vhhhdt
+        > .bricks-nav-menu-wrapper
+        > .bricks-nav-menu
+        > li
+        > .brx-submenu-toggle
+        > a,
+      #brx-footer a[href]:not(:has(img, svg)):not(#brxe-xbishl),
+      footer a[href]:not(:has(img, svg)):not(#brxe-xbishl),
+      .page-info > a[href],
+      .link-underline
+    ):not(.brxe-button):not(.btn):is(:hover, :focus-visible, [aria-current="page"]),
+  #brx-footer #brxe-xbishl:is(:hover, :focus-visible) > .bemke-footer-address-line,
+  footer #brxe-xbishl:is(:hover, :focus-visible) > .bemke-footer-address-line {
+    text-decoration: underline !important;
+  }
 }
 
 .social-link svg *:not([fill="none"]) {
