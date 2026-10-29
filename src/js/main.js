@@ -2,6 +2,7 @@ import '../css/main.css';
 import { initAccessibilitySwitches } from './modules/accessibility-switches.js';
 import { initBackToTop } from './modules/back-to-top.js';
 import { initContrastControls } from './modules/contrast-controls.js';
+import { initDecorativeBackgrounds } from './modules/decorative-backgrounds.js';
 import { initFontSizeControls } from './modules/font-size-controls.js';
 import { initMotionPreference } from './modules/motion-preference.js';
 import { initNavigationAccessibility } from './modules/navigation-accessibility.js';
@@ -350,6 +351,7 @@ function scanFeatureModules() {
 
 function initApp() {
   initSemanticCleanup();
+  initDecorativeBackgrounds();
   initMotionPreference();
   initAccessibilitySwitches();
   initContrastControls();

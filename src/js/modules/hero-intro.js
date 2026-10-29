@@ -239,6 +239,20 @@ function splitIntoLines(state, element) {
   });
   const lines = split.lines.filter((line) => line.textContent.trim());
 
+  lines.forEach((line) => {
+    const content = line.firstElementChild;
+
+    if (content) {
+      content.setAttribute('role', 'presentation');
+      return;
+    }
+
+    const wrapper = document.createElement('span');
+    wrapper.setAttribute('role', 'presentation');
+    wrapper.replaceChildren(...line.childNodes);
+    line.append(wrapper);
+  });
+
   state.splits.push(split);
 
   return lines;

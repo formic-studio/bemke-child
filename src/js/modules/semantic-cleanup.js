@@ -177,6 +177,113 @@ function structureDonorTitles(scope = document) {
   wrapper.prepend(title);
 }
 
+function wrapContentsWithRole(element, role, level) {
+  if (!element || element.querySelector(':scope > [data-bemke-text-role]')) {
+    return;
+  }
+
+  const wrapper = document.createElement('span');
+  wrapper.dataset.bemkeTextRole = role;
+  wrapper.setAttribute('role', role);
+
+  if (level) {
+    wrapper.setAttribute('aria-level', String(level));
+  }
+
+  wrapper.replaceChildren(...element.childNodes);
+  element.append(wrapper);
+}
+
+function structureVisualHeadings(scope = document) {
+  scope
+    .querySelectorAll(
+      [
+        '.brxe-daxhjb > .brxe-krqols',
+        '.contact-block > .font-size-h4',
+        '.contact-wrapper > .font-size-caption-italic:first-child',
+        '#brxe-fawham',
+        '#brxe-aeibpe',
+        '#brxe-dnxzhd',
+        '#brxe-fkwadu',
+        '#brxe-hmcnvc',
+        '#brxe-kxsvlg',
+        '#brxe-qcrjty',
+        '#brxe-tejrbc',
+        '#brxe-tfgojg',
+        '#brxe-yqzyif',
+      ].join(','),
+    )
+    .forEach((element) => wrapContentsWithRole(element, 'heading', 3));
+
+  scope
+    .querySelectorAll(
+      [
+        '#brxe-atxqxt',
+        '#brxe-enlpmr',
+        '#brxe-gnreux',
+        '#brxe-hljnqp',
+        '#brxe-leraon',
+        '#brxe-mymwic',
+        '#brxe-punajk',
+        '#brxe-tpxjgn',
+        '#brxe-udgkda',
+        '#brxe-vkohwe',
+        'h1 > div',
+        'h2 > div',
+        'h3 > div',
+        'h4 > div',
+        'h5 > div',
+        'h6 > div',
+      ].join(','),
+    )
+    .forEach((element) => wrapContentsWithRole(element, 'presentation'));
+
+  scope.querySelectorAll('main p').forEach((paragraph) => {
+    const text = paragraph.textContent.replace(/\s+/g, ' ').trim();
+
+    if (text.startsWith('Fundacja Campus Bemke') && text.includes('Nr konta:')) {
+      wrapContentsWithRole(paragraph, 'note');
+    }
+  });
+}
+
+function addContrastTextSurfaces(scope = document) {
+  scope
+    .querySelectorAll(
+      [
+        '.single-darczynca #brxe-hhqzeu',
+        '.single-darczynca #brxe-fawham',
+        '.single-darczynca #brxe-hcqahx',
+        '.single-darczynca #brxe-jgkmro',
+        '.single-oferta-pracy #brxe-ziflsk',
+        '.single-oferta-pracy #brxe-douozj',
+        '.single-oferta-pracy #brxe-etlyvi',
+      ].join(','),
+    )
+    .forEach((element) => {
+      if (element.querySelector(':scope > .bemke-contrast-text-surface')) {
+        return;
+      }
+
+      const surface = document.createElement('span');
+      surface.className = 'bemke-contrast-text-surface';
+      surface.replaceChildren(...element.childNodes);
+      element.append(surface);
+    });
+}
+
+function normalizeAnimatedLinkUnderlines(scope = document) {
+  scope
+    .querySelectorAll('a[href]:not(.brxe-button):not(.btn):not(:has(img, svg))')
+    .forEach((link) => {
+      const background = window.getComputedStyle(link).backgroundImage;
+
+      if (background.includes('linear-gradient')) {
+        link.classList.add('bemke-gradient-underline-link');
+      }
+    });
+}
+
 function structurePressContent(scope = document) {
   scope.querySelectorAll('div#brxe-okyfdw').forEach((date) => {
     const time = replaceTag(date, 'time');
@@ -335,6 +442,9 @@ function normalizePrivacyWhitespace(scope = document) {
 export function initSemanticCleanup() {
   structureHeroTitles();
   structureDonorTitles();
+  structureVisualHeadings();
+  addContrastTextSurfaces();
+  normalizeAnimatedLinkUnderlines();
   structurePressContent();
   structurePrivacyHeadings();
   removeEmptyHeadings();

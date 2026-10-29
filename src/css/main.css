@@ -481,7 +481,10 @@ body.bemke-solid-cta-surface
 
 @media (forced-colors: active) {
   .a11y-decorative-bg,
-  [data-a11y-decorative-bg="true"],
+  [data-a11y-decorative-bg="true"] {
+    background-image: none !important;
+  }
+
   .brxe-befjdw > img.brxe-honyul,
   .section_hero .video {
     display: none !important;
@@ -543,7 +546,7 @@ footer :is(a, .brxe-text-basic, .brxe-heading) {
     .offer-block,
     .team-link button,
     .history-tabs-scrollbar
-  ):focus-visible {
+  ):is(:focus, :focus-visible) {
   border-radius: 0.4rem;
   box-shadow:
     0 0 0 2px var(--yellow, var(--theme-yellow, #f9bb59)),
@@ -552,12 +555,43 @@ footer :is(a, .brxe-text-basic, .brxe-heading) {
   outline-offset: 5px !important;
 }
 
-.campus-map__area:focus-visible {
+.campus-map__area:is(:focus, :focus-visible) {
   filter: drop-shadow(0 0 8px var(--cream, var(--theme-cream, #fff9f4)));
   outline: 4px solid var(--brown, var(--theme-brown, #1b0508)) !important;
   outline-offset: 5px;
   stroke: var(--cream, var(--theme-cream, #fff9f4)) !important;
   stroke-width: 12px !important;
+}
+
+/* IBM Equal Access evaluates the literal `:focus` branch and does not infer it
+   from `:is()` or `:focus-visible`, so keep an explicit equivalent rule. */
+:is(
+    .bemke-consent-panel__button,
+    .bemke-consent-panel__link,
+    .offer-block,
+    .team-link button,
+    button[data-number],
+    .history-tabs-scrollbar
+  ):focus {
+  border-radius: 0.4rem;
+  box-shadow:
+    0 0 0 2px var(--yellow, var(--theme-yellow, #f9bb59)),
+    0 0 0 5px var(--brown, var(--theme-brown, #1b0508));
+  outline: 4px solid var(--cream, var(--theme-cream, #fff9f4)) !important;
+  outline-offset: 5px !important;
+}
+
+.campus-map__area:focus {
+  filter: drop-shadow(0 0 8px var(--cream, var(--theme-cream, #fff9f4)));
+  outline: 5px solid var(--brown, var(--theme-brown, #1b0508)) !important;
+  outline-offset: 5px;
+  stroke: var(--cream, var(--theme-cream, #fff9f4)) !important;
+  stroke-width: 12px !important;
+}
+
+.campus-map__control:focus {
+  outline: 4px solid var(--cream, var(--theme-cream, #fff9f4)) !important;
+  outline-offset: 5px !important;
 }
 
 @media (max-width: 767px) {
@@ -3195,19 +3229,37 @@ html[data-contrast]:not([data-contrast="default"])
   background-size: 100% 0.08em;
 }
 
-/* Donor names that lead to profile pages keep the authored typography while
-   gaining the same animated underline as the global navigation links. */
-body.page-id-924 .donors-block > a[href] {
-  background-image: linear-gradient(currentColor, currentColor);
-  background-position: 0 100%;
-  background-repeat: no-repeat;
-  background-size: 0 0.08em;
+/* Text links that previously animated a CSS gradient keep the same visual
+   underline motion without making contrast checkers treat the gradient as a
+   background colour. Buttons, cards and links containing graphics are not
+   assigned this class. */
+.bemke-gradient-underline-link {
+  background-image: none !important;
+  position: relative;
   text-decoration: none;
-  transition: background-size 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+  width: fit-content;
 }
 
-body.page-id-924 .donors-block > a[href]:is(:hover, :focus-visible) {
-  background-size: 100% 0.08em;
+.bemke-gradient-underline-link::after {
+  background: currentColor;
+  bottom: -0.08em;
+  content: "";
+  height: 0.08em;
+  left: 0;
+  position: absolute;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+  width: 100%;
+}
+
+.bemke-gradient-underline-link:is(
+    :hover,
+    :focus,
+    :focus-visible,
+    [aria-current="page"]
+  )::after {
+  transform: scaleX(1);
 }
 
 html:not([data-contrast])
@@ -5889,6 +5941,48 @@ body.bemke-solid-cta-surface
   order: -1;
 }
 
+/* Images authored as CSS backgrounds are decorative. Render the same files as
+   real empty-alt images so automated tools do not mistake them for missing
+   alternative text. The original background remains until the image loads. */
+[data-bemke-decorative-background="1"] {
+  isolation: isolate;
+  position: relative !important;
+}
+
+[data-bemke-decorative-background="1"] > .bemke-decorative-background {
+  height: 100%;
+  inset: 0;
+  max-width: none;
+  object-fit: cover;
+  pointer-events: none;
+  position: absolute;
+  user-select: none;
+  width: 100%;
+  z-index: -1;
+}
+
+[data-bemke-decorative-background-ready="1"] {
+  background-image: none !important;
+}
+
+.bemke-contrast-text-surface {
+  -webkit-box-decoration-break: clone;
+  background-color: var(--wine, var(--theme-wine, #501819));
+  box-decoration-break: clone;
+  color: var(--darkcream, var(--theme-darkcream, #fff3e0)) !important;
+  padding: 0.04em 0.12em 0.08em;
+}
+
+.bemke-contrast-text-surface * {
+  color: inherit !important;
+}
+
+html[data-contrast]:not([data-contrast="default"])
+  .bemke-contrast-text-surface {
+  background-color: var(--a11y-surface) !important;
+  color: var(--a11y-text) !important;
+}
+
 /* Keep the authored hero photography/video and place an opaque, WCAG-safe
    Bemke surface only behind the title glyphs. The inline wrapper makes the
    background follow every visual line instead of covering the whole hero. */
@@ -5944,6 +6038,30 @@ body.bemke-solid-cta-surface
   background-color: var(--wine, var(--theme-wine, #501819)) !important;
   padding: 0.04em 0.12em 0.08em;
   width: fit-content !important;
+}
+
+body.bemke-solid-cta-surface
+  .section_hero
+  .bemke-hero-intro-line
+  .bemke-hero-text-surface__segment {
+  background-color: transparent !important;
+  padding: 0;
+}
+
+html[data-contrast]:not([data-contrast="default"])
+  body.bemke-solid-cta-surface
+  .section_hero
+  [data-bemke-hero-text-surface="1"] {
+  color: var(--a11y-text) !important;
+}
+
+html[data-contrast]:not([data-contrast="default"])
+  body.bemke-solid-cta-surface
+  .section_hero
+  [data-bemke-hero-text-surface="1"]
+  :is(.bemke-hero-intro-line, .bemke-hero-text-surface__segment) {
+  background-color: var(--a11y-surface) !important;
+  color: var(--a11y-text) !important;
 }
 
 @media (max-width: 767px) {
