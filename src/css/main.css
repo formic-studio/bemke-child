@@ -477,6 +477,50 @@ body.bemke-solid-cta-surface
     outline: 2px solid CanvasText !important;
     outline-offset: 3px !important;
   }
+
+  /* Inline brand SVGs keep their authored burgundy fill in Windows High
+     Contrast. Use the user's system colour so the logo remains visible. */
+  #brx-header #brxe-rvxzbf [fill]:not([fill="none"]) {
+    fill: CanvasText !important;
+  }
+
+  #brx-header #brxe-rvxzbf [stroke]:not([stroke="none"]) {
+    stroke: CanvasText !important;
+  }
+
+  /* Funding marks contain lettering baked into transparent image files.
+     Preserve the files and give them a stable light surface in forced colours. */
+  #brxe-ktkgsk :is(img.img-project-home, #brxe-hkukzo img) {
+    background: #ffffff !important;
+    border-radius: 0.4rem;
+    filter: none !important;
+    forced-color-adjust: none;
+    mix-blend-mode: normal !important;
+    padding: 0.6rem;
+  }
+
+  /* Project-slider controls use hard-coded SVG colours in Bricks. */
+  #brxe-ktkgsk button:is(.arrow, .yellow-arrow) {
+    background-color: ButtonFace !important;
+    border-color: ButtonText !important;
+    color: ButtonText !important;
+    opacity: 1 !important;
+  }
+
+  #brxe-ktkgsk button:is(.arrow, .yellow-arrow).is-disabled {
+    border-color: GrayText !important;
+    color: GrayText !important;
+  }
+
+  #brxe-ktkgsk button:is(.arrow, .yellow-arrow)
+    [fill]:not([fill="none"]) {
+    fill: currentColor !important;
+  }
+
+  #brxe-ktkgsk button:is(.arrow, .yellow-arrow)
+    [stroke]:not([stroke="none"]) {
+    stroke: currentColor !important;
+  }
 }
 
 @media (max-width: 767px) {
