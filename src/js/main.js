@@ -1,6 +1,5 @@
 import '../css/main.css';
 import { initAccessibilitySwitches } from './modules/accessibility-switches.js';
-import { initAuditSolidSurfaces } from './modules/audit-solid-surfaces.js';
 import { initBackToTop } from './modules/back-to-top.js';
 import { initContrastControls } from './modules/contrast-controls.js';
 import { initFontSizeControls } from './modules/font-size-controls.js';
@@ -351,7 +350,6 @@ function scanFeatureModules() {
 
 function initApp() {
   initSemanticCleanup();
-  initAuditSolidSurfaces();
   initMotionPreference();
   initAccessibilitySwitches();
   initContrastControls();

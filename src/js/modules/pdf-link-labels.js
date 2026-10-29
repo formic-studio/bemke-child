@@ -55,7 +55,7 @@ function ensurePdfAccessibleName(link) {
   }
 
   const formatLabel = document.createElement('span');
-  formatLabel.className = FORMAT_LABEL_CLASS;
+  formatLabel.className = `${FORMAT_LABEL_CLASS} bemke-sr-only`;
   formatLabel.textContent = visibleLabel;
   link.appendChild(formatLabel);
 }

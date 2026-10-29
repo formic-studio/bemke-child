@@ -330,6 +330,20 @@ body.bemke-solid-cta-surface .brxe-befjdw[data-brx-variant="axroxq"] {
   background-color: var(--yellow, var(--theme-yellow, #f9bb59)) !important;
 }
 
+/* The Education and Development landing pages use the wine variant of this
+   shared CTA. */
+body:is(.page-id-341, .page-id-376).bemke-solid-cta-surface
+  .brxe-befjdw[data-brx-variant="axroxq"] {
+  background-color: var(--wine, var(--theme-wine, #501819)) !important;
+  color: var(--darkcream, var(--theme-darkcream, #fff3e0)) !important;
+}
+
+body:is(.page-id-341, .page-id-376).bemke-solid-cta-surface
+  .brxe-befjdw[data-brx-variant="axroxq"]
+  .brxe-lwosyb {
+  color: inherit !important;
+}
+
 body.bemke-solid-cta-surface
   .brxe-befjdw[data-brx-variant="axroxq"]:has(
     > img.brxe-honyul[src*="CTA-beige"]
@@ -973,7 +987,8 @@ html[data-bemke-reduced-motion="true"]
   text-decoration: underline;
 }
 
-.bemke-sr-only {
+.bemke-sr-only,
+.bemke-pdf-link-format {
   border: 0;
   clip: rect(0 0 0 0);
   clip-path: inset(50%);
@@ -3177,6 +3192,21 @@ html[data-contrast]:not([data-contrast="default"])
 }
 
 .page-info > a[href]:is(:hover, :focus-visible) {
+  background-size: 100% 0.08em;
+}
+
+/* Donor names that lead to profile pages keep the authored typography while
+   gaining the same animated underline as the global navigation links. */
+body.page-id-924 .donors-block > a[href] {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0 0.08em;
+  text-decoration: none;
+  transition: background-size 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body.page-id-924 .donors-block > a[href]:is(:hover, :focus-visible) {
   background-size: 100% 0.08em;
 }
 
@@ -5833,73 +5863,6 @@ html[data-contrast]:not([data-contrast="default"])
   }
 }
 
-/* Reversible audit presentation for components whose artwork is supplied as
-   a CSS background. JavaScript selects the highest-contrast colour from the
-   existing Bemke palette and stores it in the custom property below. */
-body.bemke-solid-cta-surface .bemke-audit-solid-surface {
-  background-color: var(--bemke-audit-surface-color, var(--darkcream, #fff3e0)) !important;
-  background-image: none !important;
-}
-
-body.bemke-solid-cta-surface .section_hero .video {
-  display: none !important;
-}
-
-body.bemke-solid-cta-surface :is(#brxe-krwtck, #brxe-chtxkk) {
-  background-color: var(--yellow, var(--theme-yellow, #f9bb59)) !important;
-  isolation: isolate;
-  position: relative;
-  z-index: 2;
-}
-
-body.bemke-solid-cta-surface #brxe-ntnrkb {
-  display: none !important;
-}
-
-body.bemke-solid-cta-surface #brxe-oecuww {
-  background-color: var(--brown, var(--theme-brown, #1b0508)) !important;
-  position: relative;
-  z-index: 20;
-}
-
-body.bemke-solid-cta-surface #brxe-oecuww span {
-  background-color: var(--brown, var(--theme-brown, #1b0508)) !important;
-}
-
-body.bemke-solid-cta-surface #brxe-nkoiqb > img {
-  display: none !important;
-}
-
-body.bemke-solid-cta-surface .section_book-money #brxe-eetmeb {
-  background-color: var(--brown, var(--theme-brown, #1b0508)) !important;
-  position: relative;
-  z-index: 2;
-}
-
-body.bemke-solid-cta-surface
-  :is(#brxe-nqinyi, #brxe-oecuww, #brxe-hrpmmj, #brxe-zoxrhv) {
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
-  padding: 2px;
-  position: relative;
-  z-index: 20;
-}
-
-body.bemke-solid-cta-surface #brxe-nqinyi {
-  background-color: var(--yellow, var(--theme-yellow, #f9bb59)) !important;
-}
-
-body.bemke-solid-cta-surface
-  :is(#brxe-hrpmmj, #brxe-zoxrhv) {
-  background-color: var(--brown, var(--theme-brown, #1b0508)) !important;
-}
-
-body.bemke-solid-cta-surface
-  .section_book-money
-  .book-money-animation {
-  display: none !important;
-}
-
 .single-komunikat-prasowy .page-info a {
   color: var(--brown, var(--theme-brown, #1b0508)) !important;
 }
@@ -5926,10 +5889,59 @@ body.bemke-solid-cta-surface
   order: -1;
 }
 
-h2.number-card {
-  margin-block: 0;
+/* Keep the authored hero photography/video and place an opaque, WCAG-safe
+   Bemke surface only behind the title glyphs. The inline wrapper makes the
+   background follow every visual line instead of covering the whole hero. */
+body.bemke-solid-cta-surface
+  .section_hero
+  [data-bemke-hero-text-surface="1"] {
+  align-self: flex-start !important;
+  background: none !important;
+  color: var(--darkcream, var(--theme-darkcream, #fff3e0)) !important;
+  max-width: calc(100% - 0.4em);
+  width: auto !important;
 }
 
-h2.number-card > span {
-  display: block;
+body.bemke-solid-cta-surface
+  .section_hero
+  [data-bemke-hero-text-surface="1"]
+  :is(.bemke-hero-text-surface__inline, .bemke-hero-text-surface__inline *) {
+  color: inherit !important;
+}
+
+body.bemke-solid-cta-surface
+  .section_hero
+  [data-bemke-hero-text-surface="1"]
+  > .bemke-hero-text-surface__inline {
+  -webkit-box-decoration-break: clone;
+  background-color: var(--wine, var(--theme-wine, #501819)) !important;
+  box-decoration-break: clone;
+  padding: 0.04em 0.12em 0.08em;
+}
+
+body.bemke-solid-cta-surface
+  .section_hero[data-bemke-hero-intro-ready="1"]:not(
+    [data-bemke-hero-intro-complete="1"]
+  )
+  [data-bemke-hero-text-surface="1"]
+  .bemke-hero-text-surface__inline {
+  background-color: transparent !important;
+  padding: 0;
+}
+
+body.bemke-solid-cta-surface
+  .section_hero
+  [data-bemke-hero-text-surface="1"]
+  .bemke-hero-intro-line {
+  background-color: var(--wine, var(--theme-wine, #501819)) !important;
+  padding: 0.04em 0.12em 0.08em;
+  width: fit-content !important;
+}
+
+@media (max-width: 767px) {
+  body.bemke-solid-cta-surface
+    .section_hero
+    [data-bemke-hero-text-surface="1"] {
+    max-width: calc(100% - 0.25em);
+  }
 }

@@ -759,11 +759,11 @@ function bemke_child_prepare_descriptive_resource_links( $html ) {
 }
 
 /**
- * Make the PDF format and document language visible in direct resource links.
+ * Add the PDF format and document language to the accessible link name.
  *
  * WAVE intentionally keeps an informational PDF alert even when a link is
- * descriptive. The visible suffix lets every user know what will open before
- * activating the link. Bemke's downloadable documents are currently in Polish.
+ * descriptive. The suffix informs assistive technology what will open without
+ * changing the authored download-list layout. Bemke's documents are in Polish.
  *
  * @param string $html Complete frontend response markup.
  * @return string
@@ -787,7 +787,7 @@ function bemke_child_prepare_pdf_link_format_labels( $html ) {
 			$content = rtrim( $matches[3] );
 
 			return '<a' . $matches[2] . '>' . $content .
-				' <span class="bemke-pdf-link-format">' . esc_html( $suffix ) . '</span></a>';
+				' <span class="bemke-pdf-link-format bemke-sr-only">' . esc_html( $suffix ) . '</span></a>';
 		},
 		$html
 	);
@@ -798,7 +798,7 @@ function bemke_child_prepare_pdf_link_format_labels( $html ) {
 /**
  * Replace direct PDF URLs with an attachment-ID route and keep documents in
  * the current browsing context. This avoids unexpected new windows while the
- * visible PDF suffix continues to identify the resource format.
+ * accessible PDF suffix continues to identify the resource format.
  *
  * @param string $html Complete frontend response markup.
  * @return string

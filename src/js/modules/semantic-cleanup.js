@@ -17,20 +17,52 @@ function structureHeroTitles(scope = document) {
       hero.querySelectorAll('.font-size-display'),
     ).find((element) => element.tagName === 'DIV');
 
-    if (!visualTitle) {
-      return;
+    if (visualTitle) {
+      const wrapper = visualTitle.parentElement;
+      const existingHeading = wrapper?.querySelector(':scope > h1');
+
+      replaceTag(visualTitle, 'h1');
+
+      if (existingHeading) {
+        const supportingHeading = replaceTag(existingHeading, 'h2');
+        supportingHeading.setAttribute('data-bemke-hero-intro-heading', '1');
+      }
     }
 
-    const wrapper = visualTitle.parentElement;
-    const existingHeading = wrapper?.querySelector(':scope > h1');
-
-    replaceTag(visualTitle, 'h1');
-
-    if (existingHeading) {
-      const supportingHeading = replaceTag(existingHeading, 'h2');
-      supportingHeading.setAttribute('data-bemke-hero-intro-heading', '1');
-    }
+    markHeroTextSurfaces(hero);
   });
+}
+
+function markHeroTextSurfaces(hero) {
+  const animationHeading =
+    hero.querySelector('[data-bemke-hero-intro-heading="1"]') ||
+    hero.querySelector('h1');
+  const wrapper = animationHeading?.parentElement;
+
+  if (!wrapper) {
+    return;
+  }
+
+  Array.from(wrapper.children)
+    .filter(
+      (element) =>
+        element.matches('h1, h2, h3, .brxe-text-basic, .brxe-text, p') &&
+        element.textContent.trim(),
+    )
+    .forEach(addHeroTextSurface);
+}
+
+function addHeroTextSurface(element) {
+  element.setAttribute('data-bemke-hero-text-surface', '1');
+
+  if (element.querySelector(':scope > .bemke-hero-text-surface__inline')) {
+    return;
+  }
+
+  const inline = document.createElement('span');
+  inline.className = 'bemke-hero-text-surface__inline';
+  inline.replaceChildren(...element.childNodes);
+  element.append(inline);
 }
 
 function structureDonorTitles(scope = document) {
@@ -52,16 +84,6 @@ function structureDonorTitles(scope = document) {
   // Keep the primary page title first in reading order. CSS restores the
   // authored visual order with the donor context above it.
   wrapper.prepend(title);
-}
-
-function structureStatisticHeadings(scope = document) {
-  scope.querySelectorAll('div.number-card').forEach((card) => {
-    card.querySelectorAll(':scope > div').forEach((child) => {
-      replaceTag(child, 'span');
-    });
-
-    replaceTag(card, 'h2');
-  });
 }
 
 function structurePressContent(scope = document) {
@@ -222,7 +244,6 @@ function normalizePrivacyWhitespace(scope = document) {
 export function initSemanticCleanup() {
   structureHeroTitles();
   structureDonorTitles();
-  structureStatisticHeadings();
   structurePressContent();
   structurePrivacyHeadings();
   removeEmptyHeadings();
