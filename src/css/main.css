@@ -216,50 +216,6 @@
   position: fixed !important;
 }
 
-/* Keep the consent panel away from the left-aligned hero copy. This avoids
-   visually covering live text while preserving every page control in the
-   normal keyboard tab order. */
-@media (min-width: 900px) {
-  #CybotCookiebotDialog.CybotCookiebotDialogActive {
-    left: auto !important;
-    right: 16px !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    width: min(600px, calc(100vw - 32px)) !important;
-  }
-}
-
-/* While the consent panel is open, use the hero's solid accessible fallback.
-   Once consent is handled, the decorative image and normal text surfaces
-   return automatically because the active Cookiebot class is removed. */
-html:has(#CybotCookiebotDialog.CybotCookiebotDialogActive)
-  body.bemke-solid-cta-surface
-  .section_hero[data-bemke-decorative-background="1"] {
-  background-color: var(--brown, var(--theme-brown, #1b0508)) !important;
-}
-
-html:has(#CybotCookiebotDialog.CybotCookiebotDialogActive)
-  body.bemke-solid-cta-surface
-  .section_hero[data-bemke-decorative-background="1"]
-  > .bemke-decorative-background {
-  display: none !important;
-}
-
-html:has(#CybotCookiebotDialog.CybotCookiebotDialogActive)
-  body.bemke-solid-cta-surface
-  .section_hero
-  [data-bemke-hero-text-surface="1"] {
-  color: var(--darkcream, var(--theme-darkcream, #fff3e0)) !important;
-}
-
-html:has(#CybotCookiebotDialog.CybotCookiebotDialogActive)
-  body.bemke-solid-cta-surface
-  .section_hero
-  :is(.bemke-hero-intro-line, .bemke-hero-text-surface__segment) {
-  background-color: transparent !important;
-  padding: 0 !important;
-}
-
 #CybotCookiebotDialogBodyContent .CybotCookiebotFader {
   display: none !important;
 }
