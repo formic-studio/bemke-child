@@ -6035,6 +6035,86 @@ html[data-contrast]:not([data-contrast="default"])
   color: var(--a11y-text) !important;
 }
 
+/* Press releases and job offers use a shared decorative hero template. These
+   post types intentionally use solid palette surfaces instead of either the
+   image or individual text underlays. The post-type body classes are shared
+   by the Polish and English routes. */
+body.single-komunikat-prasowy {
+  --bemke-entry-hero-bg: var(--eggshell, var(--theme-eggshell, #ffe9c6));
+  --bemke-entry-hero-text: var(--brown, var(--theme-brown, #1b0508));
+}
+
+body.single-oferta-pracy {
+  --bemke-entry-hero-bg: var(--wine, var(--theme-wine, #501819));
+  --bemke-entry-hero-text: var(
+    --darkcream,
+    var(--theme-darkcream, #fff3e0)
+  );
+}
+
+body:is(.single-komunikat-prasowy, .single-oferta-pracy)
+  main
+  > section:first-of-type {
+  background-color: var(--bemke-entry-hero-bg) !important;
+  background-image: none !important;
+  color: var(--bemke-entry-hero-text) !important;
+}
+
+body:is(.single-komunikat-prasowy, .single-oferta-pracy)
+  main
+  > section:first-of-type
+  > .bemke-decorative-background {
+  display: none !important;
+}
+
+body:is(.single-komunikat-prasowy, .single-oferta-pracy)
+  main
+  > section:first-of-type
+  :where(
+    .brxe-heading,
+    .brxe-text,
+    .brxe-text-basic,
+    .brxe-text-link,
+    a,
+    button
+  ) {
+  -webkit-text-fill-color: currentColor !important;
+  color: inherit !important;
+}
+
+body:is(.single-komunikat-prasowy, .single-oferta-pracy)
+  main
+  > section:first-of-type
+  .bemke-contrast-text-surface {
+  background: transparent !important;
+  color: inherit !important;
+  padding: 0 !important;
+}
+
+body:is(.single-komunikat-prasowy, .single-oferta-pracy)
+  main
+  > section:first-of-type
+  svg
+  [fill]:not([fill="none"]) {
+  fill: currentColor !important;
+}
+
+body:is(.single-komunikat-prasowy, .single-oferta-pracy)
+  main
+  > section:first-of-type
+  svg
+  [stroke]:not([stroke="none"]) {
+  stroke: currentColor !important;
+}
+
+html[data-contrast]:not([data-contrast="default"])
+  body:is(.single-komunikat-prasowy, .single-oferta-pracy)
+  main
+  > section:first-of-type {
+  background-color: var(--a11y-bg) !important;
+  color: var(--a11y-text) !important;
+}
+
 /* Keep the authored hero photography/video and place an opaque, WCAG-safe
    Bemke surface only behind the title glyphs. The inline wrapper makes the
    background follow every visual line instead of covering the whole hero. */

@@ -255,9 +255,6 @@ function addContrastTextSurfaces(scope = document) {
         '.single-darczynca #brxe-fawham',
         '.single-darczynca #brxe-hcqahx',
         '.single-darczynca #brxe-jgkmro',
-        '.single-oferta-pracy #brxe-ziflsk',
-        '.single-oferta-pracy #brxe-douozj',
-        '.single-oferta-pracy #brxe-etlyvi',
       ].join(','),
     )
     .forEach((element) => {
