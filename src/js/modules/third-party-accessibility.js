@@ -5,10 +5,24 @@ const COOKIEBOT_TEXT_ID = 'CybotCookiebotDialogBodyContentText';
 const COOKIEBOT_POWERED_BY_ID = 'CybotCookiebotDialogPoweredbyCybot';
 const COOKIEBOT_READY_ATTR = 'data-bemke-cookiebot-a11y-ready';
 const COOKIEBOT_TEXT_READY_ATTR = 'data-bemke-cookiebot-text-ready';
+const COOKIEBOT_COVERED_HEADING_ATTR = 'data-bemke-cookiebot-covered';
+
+let observedCookiebotDialog = null;
+let cookiebotDialogObserver = null;
+let coveredHeadingSyncFrame = 0;
 
 export function initThirdPartyAccessibility() {
   repairCookiebotMarkup();
   repairCachedPageMarkup();
+
+  [
+    'CookiebotOnConsentReady',
+    'CookiebotOnAccept',
+    'CookiebotOnDecline',
+    'CookiebotOnLoad',
+  ].forEach((eventName) => {
+    window.addEventListener(eventName, queueCoveredHeroHeadingSync);
+  });
 
   if (!window.MutationObserver || !document.documentElement) {
     return;
@@ -45,7 +59,11 @@ function repairCookiebotMarkup() {
   }
 
   repairCookiebotDescription();
-  document.getElementById('CybotCookiebotDialog')?.removeAttribute('aria-modal');
+  const dialog = document.getElementById('CybotCookiebotDialog');
+
+  dialog?.removeAttribute('aria-modal');
+  observeCookiebotDialog(dialog);
+  queueCoveredHeroHeadingSync();
 
   const poweredBy = document.getElementById(COOKIEBOT_POWERED_BY_ID);
 
@@ -60,6 +78,67 @@ function repairCookiebotMarkup() {
     'aria-label',
     siteText('Cookiebot od Usercentrics', 'Cookiebot by Usercentrics'),
   );
+}
+
+function observeCookiebotDialog(dialog) {
+  if (
+    !window.MutationObserver ||
+    !dialog ||
+    dialog === observedCookiebotDialog
+  ) {
+    return;
+  }
+
+  cookiebotDialogObserver?.disconnect();
+  observedCookiebotDialog = dialog;
+  cookiebotDialogObserver = new MutationObserver(queueCoveredHeroHeadingSync);
+  cookiebotDialogObserver.observe(dialog, {
+    attributes: true,
+    attributeFilter: ['aria-hidden', 'class', 'hidden', 'style'],
+  });
+}
+
+function queueCoveredHeroHeadingSync() {
+  window.cancelAnimationFrame(coveredHeadingSyncFrame);
+  coveredHeadingSyncFrame = window.requestAnimationFrame(
+    syncCookiebotCoveredHeroHeadings,
+  );
+}
+
+function syncCookiebotCoveredHeroHeadings() {
+  coveredHeadingSyncFrame = 0;
+
+  const dialog = document.getElementById('CybotCookiebotDialog');
+  const dialogIsOpen = Boolean(
+    dialog?.classList.contains('CybotCookiebotDialogActive') &&
+      dialog.getAttribute('aria-hidden') !== 'true' &&
+      !dialog.hidden,
+  );
+  const dialogRect = dialogIsOpen ? dialog.getBoundingClientRect() : null;
+
+  document.querySelectorAll('.section_hero h1').forEach((heading) => {
+    const headingRect = heading.getBoundingClientRect();
+    const isCovered = Boolean(
+      dialogRect &&
+        headingRect.width > 0 &&
+        headingRect.height > 0 &&
+        Math.max(headingRect.left, dialogRect.left) <
+          Math.min(headingRect.right, dialogRect.right) &&
+        Math.max(headingRect.top, dialogRect.top) <
+          Math.min(headingRect.bottom, dialogRect.bottom),
+    );
+
+    if (isCovered && !heading.hasAttribute('inert')) {
+      heading.setAttribute(COOKIEBOT_COVERED_HEADING_ATTR, '1');
+      heading.setAttribute('inert', '');
+      return;
+    }
+
+    if (!isCovered && heading.getAttribute(COOKIEBOT_COVERED_HEADING_ATTR) === '1') {
+      heading.removeAttribute('inert');
+      heading.removeAttribute(COOKIEBOT_COVERED_HEADING_ATTR);
+    }
+  });
 }
 
 function repairCachedPageMarkup() {
