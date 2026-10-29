@@ -24,11 +24,14 @@ function bemke_child_prepare_accessibility_markup( $html ) {
 	$html = bemke_child_prepare_menu_labels( $html );
 	$html = bemke_child_replace_legacy_season_mix_font_elements( $html );
 	$html = bemke_child_prepare_styled_heading_text( $html );
+	$html = bemke_child_prepare_homepage_heading_region( $html );
 	$html = bemke_child_repair_form_group_labels( $html );
 	$html = bemke_child_prepare_form_accessibility_attributes( $html );
 	$html = bemke_child_repair_footer_social_links( $html );
 	$html = bemke_child_prepare_descriptive_resource_links( $html );
 	$html = bemke_child_prepare_pdf_link_format_labels( $html );
+	$html = bemke_child_prepare_pdf_document_links( $html );
+	$html = bemke_child_prepare_presentational_figures( $html );
 	$html = bemke_child_prepare_youtube_story_links( $html );
 	$html = bemke_child_prepare_donor_youtube_iframes( $html );
 	$html = bemke_child_prepare_video_overlay_controls( $html );
@@ -423,27 +426,9 @@ function bemke_child_prepare_styled_heading_text( $html ) {
 				return $matches[0];
 			}
 
-			if ( ! preg_match( '/\baria-(?:label|labelledby)\s*=/i', $attributes ) ) {
-				$label_source = preg_replace(
-					'/<(?:br|\/?(?:div|p))\b[^>]*>/i',
-					' ',
-					$content
-				);
-
-				if ( is_string( $label_source ) ) {
-					$label = html_entity_decode(
-						wp_strip_all_tags( $label_source ),
-						ENT_QUOTES | ENT_HTML5,
-						'UTF-8'
-					);
-					$label = preg_replace( '/\s+/u', ' ', $label );
-					$label = is_string( $label ) ? trim( $label ) : '';
-
-					if ( '' !== $label ) {
-						$attributes .= ' aria-label="' . esc_attr( $label ) . '"';
-					}
-				}
-			}
+			// The inserted whitespace keeps the visible text continuous without
+			// replacing native heading content with an ARIA label.
+			$attributes = bemke_child_remove_html_attributes( $attributes, array( 'aria-label' ) );
 
 			return '<h' . $matches['level'] . $attributes . '>' .
 				$updated_content .
@@ -811,6 +796,99 @@ function bemke_child_prepare_pdf_link_format_labels( $html ) {
 				' <span class="bemke-pdf-link-format">' . esc_html( $suffix ) . '</span></a>';
 		},
 		$html
+	);
+
+	return null === $updated_html ? $html : $updated_html;
+}
+
+/**
+ * Replace direct PDF URLs with an attachment-ID route and keep documents in
+ * the current browsing context. This avoids unexpected new windows while the
+ * visible PDF suffix continues to identify the resource format.
+ *
+ * @param string $html Complete frontend response markup.
+ * @return string
+ */
+function bemke_child_prepare_pdf_document_links( $html ) {
+	$updated_html = preg_replace_callback(
+		'/<a\b(?<attributes>[^>]*)>/i',
+		static function ( $matches ) {
+			$attributes = $matches['attributes'];
+
+			if ( ! preg_match( '/\bhref\s*=\s*(["\'])(?<href>[^"\']+\.pdf(?:[?#][^"\']*)?)\1/i', $attributes, $href_match ) ) {
+				return $matches[0];
+			}
+
+			$document_url = html_entity_decode( $href_match['href'], ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+			$attachment_id = attachment_url_to_postid( strtok( $document_url, '?#' ) );
+
+			$attributes = bemke_child_remove_html_attributes(
+				$attributes,
+				array( 'href', 'target', 'rel', 'type', 'aria-describedby' )
+			);
+
+			$document_key = $attachment_id;
+
+			if ( ! $document_key ) {
+				$document_key = 'url-' . rtrim(
+					strtr( base64_encode( $document_url ), '+/', '-_' ),
+					'='
+				);
+			}
+
+			$proxy_url = add_query_arg( 'bemke_document', $document_key, home_url( '/' ) );
+
+			return '<a' . $attributes . ' href="' . esc_url( $proxy_url ) . '" data-bemke-document-link="pdf">';
+		},
+		$html
+	);
+
+	return null === $updated_html ? $html : $updated_html;
+}
+
+/**
+ * A figure containing only one already-labelled image has no caption or
+ * grouping relationship to expose. Flatten the wrapper and retain the img ALT.
+ *
+ * @param string $html Complete frontend response markup.
+ * @return string
+ */
+function bemke_child_prepare_presentational_figures( $html ) {
+	$updated_html = preg_replace_callback(
+		'/<figure\b(?<attributes>[^>]*)>(?<content>.*?)<\/figure>/is',
+		static function ( $matches ) {
+			if (
+				false !== stripos( $matches['content'], '<figcaption' ) ||
+				1 !== preg_match_all( '/<img\b/i', $matches['content'] )
+			) {
+				return $matches[0];
+			}
+
+			$attributes = bemke_child_remove_html_attributes( $matches['attributes'], array( 'role' ) );
+
+			return '<div' . $attributes . '>' . $matches['content'] . '</div>';
+		},
+		$html
+	);
+
+	return null === $updated_html ? $html : $updated_html;
+}
+
+/**
+ * Use a semantic region for the homepage introduction instead of a generic
+ * div containing the page's primary heading.
+ *
+ * @param string $html Complete frontend response markup.
+ * @return string
+ */
+function bemke_child_prepare_homepage_heading_region( $html ) {
+	$updated_html = preg_replace_callback(
+		'/<div\b(?=[^>]*\bid\s*=\s*(["\'])brxe-klcwht\1)(?<attributes>[^>]*)>(?<content>.*?)<\/div>/is',
+		static function ( $matches ) {
+			return '<header' . $matches['attributes'] . '>' . $matches['content'] . '</header>';
+		},
+		$html,
+		1
 	);
 
 	return null === $updated_html ? $html : $updated_html;

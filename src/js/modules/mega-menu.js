@@ -241,7 +241,10 @@ function setupEntries(entries) {
 
     entry.link.setAttribute('aria-haspopup', 'true');
     entry.link.setAttribute('aria-expanded', 'false');
-    entry.link.setAttribute('aria-controls', entry.submenu.id);
+    // aria-controls is optional on the link and some validators cannot resolve
+    // references to an inert, collapsed submenu. The adjacent disclosure
+    // button remains the explicit controller.
+    entry.link.removeAttribute('aria-controls');
 
     if (entry.button) {
       entry.button.setAttribute('aria-controls', entry.submenu.id);

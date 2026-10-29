@@ -318,7 +318,7 @@ function createSlider(root) {
   const queue = [];
 
   root.setAttribute("role", "region");
-  root.setAttribute("aria-roledescription", siteText("karuzela", "carousel"));
+  root.removeAttribute("aria-roledescription");
 
   if (!root.hasAttribute("aria-label") && !root.hasAttribute("aria-labelledby")) {
     root.setAttribute("aria-label", siteText("Aktualności Think Tanku", "Think Tank news"));
@@ -344,7 +344,7 @@ function createSlider(root) {
 
     slide.removeAttribute("tabindex");
     slide.setAttribute("role", "group");
-    slide.setAttribute("aria-roledescription", siteText("slajd", "slide"));
+    slide.removeAttribute("aria-roledescription");
     slide.setAttribute(
       "aria-label",
       `${title ? `${title}, ` : ""}${siteText(`slajd ${index + 1} z ${slides.length}`, `slide ${index + 1} of ${slides.length}`)}`,
@@ -373,9 +373,7 @@ function createSlider(root) {
     onNext: () => queueMove(1, 1, true),
   });
 
-  if (!root.hasAttribute("tabindex")) {
-    root.setAttribute("tabindex", "0");
-  }
+  root.removeAttribute("tabindex");
 
   root.addEventListener("keydown", (event) => {
     if (hasSliderNavigationModifier(event)) {

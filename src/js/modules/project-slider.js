@@ -478,24 +478,20 @@ function decorateSlider(root, track, slides) {
     root.setAttribute('role', 'region');
   }
 
-  if (!root.hasAttribute('aria-roledescription')) {
-    root.setAttribute('aria-roledescription', siteText('karuzela', 'carousel'));
-  }
+  root.removeAttribute('aria-roledescription');
 
   if (!root.hasAttribute('aria-label') && !root.hasAttribute('aria-labelledby')) {
     root.setAttribute('aria-label', getSliderLabel(root));
   }
 
-  if (!root.hasAttribute('tabindex')) {
-    root.setAttribute('tabindex', '0');
-  }
+  root.removeAttribute('tabindex');
 
   track.setAttribute('aria-live', 'polite');
   track.setAttribute('aria-atomic', 'false');
 
   slides.forEach((slide, index) => {
     slide.setAttribute('role', 'group');
-    slide.setAttribute('aria-roledescription', siteText('slajd', 'slide'));
+    slide.removeAttribute('aria-roledescription');
     slide.setAttribute('aria-label', siteText(`Slajd ${index + 1} z ${slides.length}`, `Slide ${index + 1} of ${slides.length}`));
   });
 }

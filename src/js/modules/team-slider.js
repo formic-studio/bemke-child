@@ -564,15 +564,13 @@ function decorateSlider(root, track, slides) {
     root.setAttribute('role', 'region');
   }
 
-  root.setAttribute('aria-roledescription', siteText('karuzela', 'carousel'));
+  root.removeAttribute('aria-roledescription');
 
   if (!root.hasAttribute('aria-label') && !root.hasAttribute('aria-labelledby')) {
     root.setAttribute('aria-label', getSliderLabel(root));
   }
 
-  if (!root.hasAttribute('tabindex')) {
-    root.setAttribute('tabindex', '0');
-  }
+  root.removeAttribute('tabindex');
 
   track.setAttribute('aria-live', 'off');
   track.setAttribute('aria-atomic', 'false');
@@ -586,7 +584,7 @@ function decorateSlider(root, track, slides) {
       .trim();
 
     slide.setAttribute('role', 'group');
-    slide.setAttribute('aria-roledescription', siteText('slajd', 'slide'));
+    slide.removeAttribute('aria-roledescription');
     slide.setAttribute(
       'aria-label',
       `${name ? `${name}, ` : ''}${siteText(`osoba ${index + 1} z ${slides.length}`, `person ${index + 1} of ${slides.length}`)}`,

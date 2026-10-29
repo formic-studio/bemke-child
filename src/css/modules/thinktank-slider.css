@@ -305,7 +305,7 @@
   .slider-thinktank .slide-thinktank .slide-tittle {
     top: 50%;
     bottom: auto;
-    font-size: clamp(2.8rem, 2.6vw, 4rem) !important;
+    font-size: 3.4rem !important;
     line-height: 0.98;
     max-width: 88%;
   }
@@ -332,7 +332,7 @@
   .slider-thinktank .slide-thinktank .slide-tittle {
     top: 50%;
     bottom: auto;
-    font-size: clamp(2.4rem, 2.6vw, 3.8rem) !important;
+    font-size: 3rem !important;
     line-height: 0.98;
     max-width: 88%;
   }
@@ -359,7 +359,7 @@
   }
 
   .slider-thinktank .slide-thinktank .slide-tittle {
-    font-size: clamp(2.1rem, 2.3vw, 3.2rem) !important;
+    font-size: 2.6rem !important;
   }
 
   .slider-thinktank .slider-paggination .arrow {

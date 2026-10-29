@@ -5,6 +5,7 @@ import { initContrastControls } from './modules/contrast-controls.js';
 import { initFontSizeControls } from './modules/font-size-controls.js';
 import { initMotionPreference } from './modules/motion-preference.js';
 import { initNavigationAccessibility } from './modules/navigation-accessibility.js';
+import { initThirdPartyAccessibility } from './modules/third-party-accessibility.js';
 
 const featureModules = [
   {
@@ -352,6 +353,7 @@ function initApp() {
   initContrastControls();
   initFontSizeControls();
   initNavigationAccessibility();
+  initThirdPartyAccessibility();
   initBackToTop();
   scanFeatureModules();
 

@@ -179,6 +179,219 @@
   }
 }
 
+/* Keep audit-critical foreground/background pairs machine-verifiable. */
+.bemke-skip-link {
+  box-shadow: inset 0 0 0 2px var(--brown, var(--theme-brown, #1b0508));
+  transform: none;
+}
+
+.bemke-skip-link:is(:focus, :focus-visible, :active) {
+  box-shadow:
+    inset 0 0 0 2px var(--brown, var(--theme-brown, #1b0508)),
+    0 0 0 3px var(--yellow, var(--theme-yellow, #f9bb59)),
+    0 0 0 6px var(--brown, var(--theme-brown, #1b0508));
+  outline: revert;
+  outline-offset: 3px;
+}
+
+#brxe-kecesp :is(a, button):focus-visible {
+  border-radius: 999px;
+  box-shadow:
+    0 0 0 2px var(--yellow, var(--theme-yellow, #f9bb59)),
+    0 0 0 4px var(--brown, var(--theme-brown, #1b0508));
+  outline: 3px solid var(--brown, var(--theme-brown, #1b0508));
+  outline-offset: 3px;
+}
+
+#CybotCookiebotDialogBodyContentText,
+#CybotCookiebotDialogBodyContentTitle {
+  background-color: #ffffff !important;
+  color: #141414 !important;
+  isolation: isolate;
+  position: relative;
+  z-index: 1;
+}
+
+#CybotCookiebotDialogBodyContent .CybotCookiebotFader {
+  display: none !important;
+}
+
+#CybotCookiebotDialogBodyContentText > .bemke-cookiebot-description-line {
+  background-color: #ffffff !important;
+  color: #141414 !important;
+  display: block;
+}
+
+:is(
+  #brx-header #brxe-vhhhdt > .bricks-nav-menu-wrapper > .bricks-nav-menu > li > a,
+  #brx-header #brxe-vhhhdt > .bricks-nav-menu-wrapper > .bricks-nav-menu > li > .brx-submenu-toggle > a,
+  #brx-footer #brxe-xbishl > .brxe-text-basic,
+  footer #brxe-xbishl > .brxe-text-basic,
+  .page-info > a[href],
+  .link-underline
+) {
+  background-image: none !important;
+  text-decoration: none;
+}
+
+:is(
+  #bemke-menu-link-1,
+  #bemke-menu-link-2,
+  #bemke-menu-link-3,
+  #bemke-menu-link-5,
+  #bemke-menu-link-6,
+  #brx-header a[href="https://bemke.pl/campus-bemke/"]
+) {
+  background-color: var(--yellow, var(--theme-yellow, #f9bb59)) !important;
+  background-image: none !important;
+}
+
+#brx-footer a,
+#brx-footer a * {
+  background-image: none !important;
+}
+
+:is(
+  #brx-footer #brxe-xbishl,
+  #brx-footer #brxe-jrcfay,
+  #brx-footer #brxe-mmnynt,
+  #brx-footer #brxe-jcaify,
+  #brx-footer #brxe-pmznhf
+) {
+  background-color: var(--yellow, var(--theme-yellow, #f9bb59)) !important;
+  background-image: none !important;
+  isolation: isolate;
+  position: relative;
+  z-index: 1;
+}
+
+:is(
+  #brx-header #brxe-vhhhdt > .bricks-nav-menu-wrapper > .bricks-nav-menu > li > a,
+  #brx-header #brxe-vhhhdt > .bricks-nav-menu-wrapper > .bricks-nav-menu > li > .brx-submenu-toggle > a,
+  #brx-footer #brxe-xbishl > .brxe-text-basic,
+  footer #brxe-xbishl > .brxe-text-basic,
+  .page-info > a[href],
+  .link-underline
+):is(:hover, :focus-visible, [aria-current="page"]) {
+  text-decoration: underline;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.14em;
+}
+
+#brxe-fmdrdv {
+  background-color: var(--wine, var(--theme-wine, #501819)) !important;
+  background-image: none !important;
+}
+
+#brxe-gbjzrk > .font-f-season-mix {
+  -webkit-box-decoration-break: clone;
+  background-color: var(--wine, var(--theme-wine, #501819));
+  box-decoration-break: clone;
+  padding-inline: 0.08em;
+}
+
+.bemke-hero-intro-line > .font-f-season-mix {
+  -webkit-box-decoration-break: clone;
+  background-color: var(--wine, var(--theme-wine, #501819));
+  box-decoration-break: clone;
+  padding-inline: 0.08em;
+}
+
+.brxe-befjdw .brxe-lwosyb,
+.brxe-befjdw .brxe-lwosyb > .font-f-season-mix {
+  -webkit-box-decoration-break: clone;
+  background-color: var(--cream, var(--theme-cream, #fff9f4));
+  box-decoration-break: clone;
+  isolation: isolate;
+  position: relative;
+  z-index: 1;
+}
+
+.bemke-a11y-translucent-surface {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  background-color: var(--eggshell, var(--theme-eggshell, #ffe9c6)) !important;
+  background-image: none !important;
+}
+
+.btn-yellow-hover {
+  --bemke-audit-button-bg-hover: var(--btn-yellow-bg-hover);
+  --bemke-audit-button-text: var(--btn-yellow-text);
+  --bemke-audit-button-text-hover: var(--btn-yellow-text-hover);
+}
+
+.btn-yellow-light-hover {
+  --bemke-audit-button-bg-hover: var(--btn-yellow-light-bg-hover);
+  --bemke-audit-button-text: var(--btn-yellow-light-text);
+  --bemke-audit-button-text-hover: var(--btn-yellow-light-text-hover);
+}
+
+.btn-egg-hover {
+  --bemke-audit-button-bg-hover: var(--btn-egg-bg-hover);
+  --bemke-audit-button-text: var(--btn-egg-text);
+  --bemke-audit-button-text-hover: var(--btn-egg-text-hover);
+}
+
+.btn-red-hover {
+  --bemke-audit-button-bg-hover: var(--btn-red-bg-hover);
+  --bemke-audit-button-text: var(--btn-red-text);
+  --bemke-audit-button-text-hover: var(--btn-red-text-hover);
+}
+
+.btn-mustard-hover {
+  --bemke-audit-button-bg-hover: var(--btn-mustard-bg-hover);
+  --bemke-audit-button-text: var(--btn-mustard-text);
+  --bemke-audit-button-text-hover: var(--btn-mustard-text-hover);
+}
+
+.btn-red-yellow-hover {
+  --bemke-audit-button-bg-hover: var(--btn-red-yellow-bg-hover);
+  --bemke-audit-button-text: var(--btn-red-yellow-text);
+  --bemke-audit-button-text-hover: var(--btn-red-yellow-text-hover);
+}
+
+.btn-wine {
+  --bemke-audit-button-bg-hover: var(--btn-wine-bg-hover);
+  --bemke-audit-button-text: var(--btn-wine-text);
+  --bemke-audit-button-text-hover: var(--btn-wine-text-hover);
+}
+
+:is(.btn-yellow-hover, .btn-yellow-light-hover, .btn-egg-hover, .btn-red-hover, .btn-mustard-hover, .btn-red-yellow-hover, .btn-wine)::before {
+  content: none !important;
+  display: none !important;
+}
+
+:is(.btn-yellow-hover, .btn-yellow-light-hover, .btn-egg-hover, .btn-red-hover, .btn-mustard-hover, .btn-red-yellow-hover, .btn-wine)
+  :is(.brxe-text, span, div) {
+  background-image: none !important;
+  color: var(--bemke-audit-button-text) !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+:is(.btn-yellow-hover, .btn-yellow-light-hover, .btn-egg-hover, .btn-red-hover, .btn-mustard-hover, .btn-red-yellow-hover, .btn-wine):is(:hover, :focus-visible) {
+  background: var(--bemke-audit-button-bg-hover) !important;
+  color: var(--bemke-audit-button-text-hover) !important;
+}
+
+:is(.btn-yellow-hover, .btn-yellow-light-hover, .btn-egg-hover, .btn-red-hover, .btn-mustard-hover, .btn-red-yellow-hover, .btn-wine):is(:hover, :focus-visible)
+  :is(.brxe-text, span, div) {
+  color: var(--bemke-audit-button-text-hover) !important;
+}
+
+@media (forced-colors: active) {
+  .a11y-decorative-bg,
+  [data-a11y-decorative-bg="true"],
+  .brxe-befjdw > img.brxe-honyul,
+  .section_hero .video {
+    display: none !important;
+  }
+
+  :is(a, button, input, select, textarea):focus-visible {
+    outline: 2px solid CanvasText !important;
+    outline-offset: 3px !important;
+  }
+}
+
 @media (max-width: 767px) {
   .map-block {
     --campus-map-height: min(62svh, 54rem);
@@ -386,9 +599,7 @@ html[data-contrast]:not([data-contrast="default"])
 }
 
 html {
-  font-size: calc(
-    (var(--base) * 1rem + var(--coefficient) * 1vw) * var(--a11y-font-scale)
-  );
+  font-size: calc(0.625rem * var(--a11y-font-scale));
   overscroll-behavior-y: none;
 }
 
@@ -623,7 +834,6 @@ html[data-bemke-reduced-motion="true"]
 
 .bemke-skip-link {
   background: var(--yellow, var(--theme-yellow, #f9bb59));
-  border: 2px solid var(--brown, var(--theme-brown, #1b0508));
   border-radius: 0.4rem;
   color: var(--brown, var(--theme-brown, #1b0508));
   font-family: "Season Sans", sans-serif;
@@ -641,7 +851,7 @@ html[data-bemke-reduced-motion="true"]
 }
 
 .bemke-skip-link:is(:focus, :focus-visible, :active) {
-  outline: 3px solid var(--brown, var(--theme-brown, #1b0508));
+  outline: revert;
   outline-offset: 3px;
   transform: translateY(0);
 }
@@ -700,7 +910,6 @@ html[data-bemke-reduced-motion="true"]
   align-items: center;
   appearance: none;
   background: transparent;
-  border: 0;
   color: inherit;
   cursor: pointer;
   display: inline-flex;
@@ -3648,7 +3857,7 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .brxe-text-basic {
     color: var(--brown, var(--theme-brown, #1b0508));
     flex: 1 1 auto;
     font-family: "Season Mix", serif;
-    font-size: clamp(1.8rem, 2.2vw, 2.1rem);
+    font-size: 2.1rem;
     font-style: italic;
     font-weight: 400;
     line-height: 1.15 !important;
@@ -5115,4 +5324,59 @@ html[data-contrast]:not([data-contrast="default"])
   .btn-wine > div {
     transition: none;
   }
+}
+
+/* Final-state overrides are last so component animation declarations cannot
+   reintroduce ambiguous pseudo-element or gradient contrast states. */
+.bemke-skip-link {
+  box-shadow: inset 0 0 0 2px var(--brown, var(--theme-brown, #1b0508));
+  opacity: 0;
+  pointer-events: none;
+  top: 1.6rem;
+  transform: none !important;
+}
+
+.bemke-skip-link:focus,
+.bemke-skip-link:focus-visible,
+.bemke-skip-link:active {
+  box-shadow:
+    inset 0 0 0 2px var(--brown, var(--theme-brown, #1b0508)),
+    0 0 0 3px var(--yellow, var(--theme-yellow, #f9bb59)),
+    0 0 0 6px var(--brown, var(--theme-brown, #1b0508));
+  outline: revert !important;
+  outline-offset: 3px;
+  opacity: 1;
+  pointer-events: auto;
+  top: 1.6rem;
+}
+
+#brxe-kecesp :is(a, button):focus,
+#brxe-kecesp :is(a, button):focus-visible {
+  box-shadow:
+    0 0 0 2px var(--yellow, var(--theme-yellow, #f9bb59)),
+    0 0 0 4px var(--brown, var(--theme-brown, #1b0508));
+  outline: 3px solid var(--brown, var(--theme-brown, #1b0508)) !important;
+  outline-offset: 3px;
+}
+
+:is(.btn-yellow-hover, .btn-yellow-light-hover, .btn-egg-hover, .btn-red-hover, .btn-mustard-hover, .btn-red-yellow-hover, .btn-wine)::before {
+  content: none !important;
+  display: none !important;
+}
+
+:is(.btn-yellow-hover, .btn-yellow-light-hover, .btn-egg-hover, .btn-red-hover, .btn-mustard-hover, .btn-red-yellow-hover, .btn-wine)
+  :is(.brxe-text, span, div) {
+  background-image: none !important;
+  color: var(--bemke-audit-button-text) !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+:is(.btn-yellow-hover, .btn-yellow-light-hover, .btn-egg-hover, .btn-red-hover, .btn-mustard-hover, .btn-red-yellow-hover, .btn-wine):is(:hover, :focus-visible) {
+  background: var(--bemke-audit-button-bg-hover) !important;
+  color: var(--bemke-audit-button-text-hover) !important;
+}
+
+:is(.btn-yellow-hover, .btn-yellow-light-hover, .btn-egg-hover, .btn-red-hover, .btn-mustard-hover, .btn-red-yellow-hover, .btn-wine):is(:hover, :focus-visible)
+  :is(.brxe-text, span, div) {
+  color: var(--bemke-audit-button-text-hover) !important;
 }

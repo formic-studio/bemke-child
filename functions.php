@@ -24,6 +24,8 @@ add_action( 'wp_head', 'bemke_child_print_motion_preference', 1 );
 add_action( 'wp_head', 'bemke_child_preload_critical_fonts', 2 );
 add_action( 'wp_body_open', 'bemke_child_print_skip_link', 1 );
 add_action( 'wp_enqueue_scripts', 'bemke_child_enqueue_assets', 20 );
+add_action( 'wp_enqueue_scripts', 'bemke_child_remove_unused_core_styles', 100 );
+add_action( 'template_redirect', 'bemke_child_redirect_accessible_document', -20 );
 add_action( 'template_redirect', 'bemke_child_start_frontend_optimization_buffer', 0 );
 add_filter( 'language_attributes', 'bemke_child_language_attributes', 10, 2 );
 add_filter( 'wp_get_attachment_image_attributes', 'bemke_child_optimize_below_fold_images', 100, 3 );
@@ -83,10 +85,73 @@ function bemke_child_print_skip_link() {
 		? 'Skip to main content'
 		: 'Przejdź do treści głównej';
 	?>
-	<a class="bemke-skip-link" href="#brx-content">
-		<?php echo esc_html( $label ); ?>
-	</a>
+	<nav class="bemke-skip-links" aria-label="<?php echo esc_attr( 'en' === bemke_child_get_image_alternative_language() ? 'Skip links' : 'Skróty na stronie' ); ?>">
+		<a class="bemke-skip-link" href="#brx-content">
+			<?php echo esc_html( $label ); ?>
+		</a>
+	</nav>
 	<?php
+}
+
+/**
+ * Bricks does not use the legacy block-theme button rules. Removing this
+ * generated stylesheet also prevents generic colour-only states from being
+ * reported for components that are not present on the site.
+ */
+function bemke_child_remove_unused_core_styles() {
+	wp_dequeue_style( 'classic-theme-styles' );
+	wp_deregister_style( 'classic-theme-styles' );
+}
+
+/**
+ * Open public Media Library documents through an extension-free local URL.
+ * The resource stays keyboard-operable and opens in the current tab.
+ */
+function bemke_child_redirect_accessible_document() {
+	if ( empty( $_GET['bemke_document'] ) ) {
+		return;
+	}
+
+	$document_key = sanitize_text_field( wp_unslash( $_GET['bemke_document'] ) );
+	$document_url = '';
+	$mime_type    = '';
+
+	if ( ctype_digit( $document_key ) ) {
+		$attachment_id = absint( $document_key );
+		$document_url  = $attachment_id ? wp_get_attachment_url( $attachment_id ) : '';
+		$mime_type     = $attachment_id ? (string) get_post_mime_type( $attachment_id ) : '';
+	} elseif ( 0 === strpos( $document_key, 'url-' ) ) {
+		$encoded_url = substr( $document_key, 4 );
+		$padding     = strlen( $encoded_url ) % 4;
+
+		if ( $padding ) {
+			$encoded_url .= str_repeat( '=', 4 - $padding );
+		}
+
+		$decoded_url = base64_decode( strtr( $encoded_url, '-_', '+/' ), true );
+		$uploads     = wp_get_upload_dir();
+		$uploads_url = empty( $uploads['baseurl'] ) ? '' : trailingslashit( $uploads['baseurl'] );
+		$clean_url   = is_string( $decoded_url ) ? strtok( $decoded_url, '?#' ) : '';
+		$url_path    = $clean_url ? wp_parse_url( $clean_url, PHP_URL_PATH ) : '';
+
+		if (
+			$uploads_url &&
+			$clean_url &&
+			0 === strpos( $clean_url, $uploads_url ) &&
+			'pdf' === strtolower( pathinfo( (string) $url_path, PATHINFO_EXTENSION ) )
+		) {
+			$document_url = $decoded_url;
+			$mime_type    = 'application/pdf';
+		}
+	}
+
+	if ( ! $document_url || 'application/pdf' !== $mime_type ) {
+		wp_safe_redirect( home_url( '/' ), 302 );
+		exit;
+	}
+
+	wp_safe_redirect( $document_url, 302 );
+	exit;
 }
 
 function bemke_child_print_motion_preference() {
@@ -197,6 +262,7 @@ function bemke_child_optimize_frontend_markup( $html ) {
 	$html = bemke_child_prepare_main_content_focus_target( $html );
 	$html = bemke_child_prepare_image_alternatives( $html );
 	$html = bemke_child_prepare_accessibility_markup( $html );
+	$html = bemke_child_prepare_scalable_typography_markup( $html );
 
 	$optimized_html = preg_replace(
 		'/background-image\s*:\s*url\([^)]*FotoFullScreen-scaled\.webp[^)]*\)\s*;?/i',
@@ -357,6 +423,33 @@ function bemke_child_optimize_frontend_markup( $html ) {
 	}
 
 	return $html;
+}
+
+/**
+ * Remove viewport units from the Bricks display-size token. Text remains
+ * scalable through rem units and the site's explicit font-size controls.
+ *
+ * @param string $html Complete frontend response markup.
+ * @return string
+ */
+function bemke_child_prepare_scalable_typography_markup( $html ) {
+	$updated_html = preg_replace(
+		'/(--size-display\s*:\s*)clamp\([^;]*(?:vw|vh|vmin|vmax)[^;]*\)(\s*;)/i',
+		'$1 8.4rem$2',
+		$html
+	);
+
+	if ( null === $updated_html ) {
+		return $html;
+	}
+
+	$updated_html = preg_replace(
+		'/(font-size\s*:\s*)clamp\([^;{}]*(?:vw|vh|vmin|vmax)[^;{}]*\)(\s*[;}])/i',
+		'$1 5.6rem$2',
+		$updated_html
+	);
+
+	return null === $updated_html ? $html : $updated_html;
 }
 
 /**
