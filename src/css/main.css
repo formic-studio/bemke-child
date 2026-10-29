@@ -507,7 +507,7 @@ body.bemke-solid-cta-surface
 
   /* Funding marks contain lettering baked into transparent image files.
      Preserve the files and give them a stable light surface in forced colours. */
-  #brxe-ktkgsk :is(img.img-project-home, #brxe-hkukzo img) {
+  :is(img.img-project-home, img.img-logo-eu, #brxe-hkukzo img) {
     background: #ffffff !important;
     border-radius: 0.4rem;
     filter: none !important;
@@ -1786,6 +1786,28 @@ html[data-contrast]:not([data-contrast="default"])
   svg
   * {
   stroke: currentColor !important;
+}
+
+html[data-contrast]:not([data-contrast="default"])
+  :is(.arrow, .yellow-arrow, .play-btn, .arrow-right)
+  svg
+  [fill]:not([fill="none"]) {
+  fill: currentColor !important;
+}
+
+html[data-contrast]:not([data-contrast="default"])
+  .section_book-money
+  .loading-progress
+  :is(.progress-bar, .progress-dot) {
+  background-color: var(--a11y-text) !important;
+}
+
+html[data-contrast]:not([data-contrast="default"])
+  .section_book-money
+  .loading-progress
+  .bar
+  .line {
+  background-color: var(--a11y-border) !important;
 }
 
 html[data-contrast]:not([data-contrast="default"])
@@ -5830,30 +5852,60 @@ html[data-contrast]:not([data-contrast="default"])
 /* Keep authored SVG colours and custom accessibility controls legible when
    Windows/Chromium replaces the page palette with forced system colours. */
 @media (forced-colors: active) {
-  /* Both homepage sliders use separate Bricks IDs but the same controls. */
-  :is(#brxe-ehhiwx, #brxe-ktkgsk) button:is(.arrow, .yellow-arrow) {
+  /* Every slider module uses the same control classes. Some controls are
+     converted from Bricks divs to buttons only after its JS initializes, so
+     the rule deliberately targets the shared classes instead of a tag or a
+     page-specific ID. */
+  :is(.arrow, .yellow-arrow, .play-btn, .arrow-right) {
     background-color: ButtonFace !important;
     border-color: ButtonText !important;
     color: ButtonText !important;
     opacity: 1 !important;
   }
 
-  :is(#brxe-ehhiwx, #brxe-ktkgsk)
-    button:is(.arrow, .yellow-arrow).is-disabled {
+  :is(.arrow, .yellow-arrow, .play-btn, .arrow-right):is(
+      .is-disabled,
+      [aria-disabled="true"],
+      :disabled
+    ) {
     border-color: GrayText !important;
     color: GrayText !important;
+    opacity: 1 !important;
   }
 
-  :is(#brxe-ehhiwx, #brxe-ktkgsk)
-    button:is(.arrow, .yellow-arrow)
+  :is(.arrow, .yellow-arrow, .play-btn, .arrow-right)
+    svg
     [fill]:not([fill="none"]) {
     fill: currentColor !important;
   }
 
-  :is(#brxe-ehhiwx, #brxe-ktkgsk)
-    button:is(.arrow, .yellow-arrow)
+  :is(.arrow, .yellow-arrow, .play-btn, .arrow-right)
+    svg
     [stroke]:not([stroke="none"]) {
     stroke: currentColor !important;
+  }
+
+  :is(.arrow, .yellow-arrow, .play-btn, .arrow-right):focus-visible {
+    outline: 3px solid Highlight !important;
+    outline-offset: 3px !important;
+  }
+
+  /* The campaign's filled portion and marker otherwise collapse into the
+     forced Canvas colour on dark high-contrast themes. */
+  .section_book-money .loading-progress .bar .line {
+    background-color: GrayText !important;
+  }
+
+  .section_book-money
+    .loading-progress
+    :is(.progress-bar, .progress-dot) {
+    background-color: Highlight !important;
+    forced-color-adjust: none;
+  }
+
+  .section_book-money .loading-progress .progress-dot {
+    border: 2px solid Canvas !important;
+    box-shadow: 0 0 0 2px Highlight !important;
   }
 
   /* The motion and language toggles are custom switches, not native inputs. */
