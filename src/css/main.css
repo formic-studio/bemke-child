@@ -499,28 +499,6 @@ body.bemke-solid-cta-surface
     padding: 0.6rem;
   }
 
-  /* Project-slider controls use hard-coded SVG colours in Bricks. */
-  #brxe-ktkgsk button:is(.arrow, .yellow-arrow) {
-    background-color: ButtonFace !important;
-    border-color: ButtonText !important;
-    color: ButtonText !important;
-    opacity: 1 !important;
-  }
-
-  #brxe-ktkgsk button:is(.arrow, .yellow-arrow).is-disabled {
-    border-color: GrayText !important;
-    color: GrayText !important;
-  }
-
-  #brxe-ktkgsk button:is(.arrow, .yellow-arrow)
-    [fill]:not([fill="none"]) {
-    fill: currentColor !important;
-  }
-
-  #brxe-ktkgsk button:is(.arrow, .yellow-arrow)
-    [stroke]:not([stroke="none"]) {
-    stroke: currentColor !important;
-  }
 }
 
 @media (max-width: 767px) {
@@ -5725,4 +5703,92 @@ html[data-contrast]:not([data-contrast="default"])
 :is(.btn-yellow-hover, .btn-yellow-light-hover, .btn-egg-hover, .btn-red-hover, .btn-mustard-hover, .btn-red-yellow-hover, .btn-wine):is(:hover, :focus-visible)
   :is(.brxe-text, span, div) {
   color: var(--bemke-audit-button-text-hover) !important;
+}
+
+/* Keep authored SVG colours and custom accessibility controls legible when
+   Windows/Chromium replaces the page palette with forced system colours. */
+@media (forced-colors: active) {
+  /* Both homepage sliders use separate Bricks IDs but the same controls. */
+  :is(#brxe-ehhiwx, #brxe-ktkgsk) button:is(.arrow, .yellow-arrow) {
+    background-color: ButtonFace !important;
+    border-color: ButtonText !important;
+    color: ButtonText !important;
+    opacity: 1 !important;
+  }
+
+  :is(#brxe-ehhiwx, #brxe-ktkgsk)
+    button:is(.arrow, .yellow-arrow).is-disabled {
+    border-color: GrayText !important;
+    color: GrayText !important;
+  }
+
+  :is(#brxe-ehhiwx, #brxe-ktkgsk)
+    button:is(.arrow, .yellow-arrow)
+    [fill]:not([fill="none"]) {
+    fill: currentColor !important;
+  }
+
+  :is(#brxe-ehhiwx, #brxe-ktkgsk)
+    button:is(.arrow, .yellow-arrow)
+    [stroke]:not([stroke="none"]) {
+    stroke: currentColor !important;
+  }
+
+  /* The motion and language toggles are custom switches, not native inputs. */
+  #brx-header .lang-switcher-block[data-bemke-switch-ready="1"] {
+    color: CanvasText !important;
+  }
+
+  #brx-header #brxe-muarpj.lang-switcher-block {
+    color: LinkText !important;
+  }
+
+  #brx-header :is(.animation-switcher, .lang-switcher) {
+    background: Canvas !important;
+    border: 2px solid CanvasText !important;
+  }
+
+  #brx-header :is(.animation-switcher, .lang-switcher) .switch-block {
+    background: CanvasText !important;
+    border: 1px solid Canvas !important;
+  }
+
+  #brx-header
+    .lang-switcher-block[data-bemke-switch-ready="1"]:focus-visible {
+    outline: 2px solid Highlight !important;
+    outline-offset: 4px !important;
+  }
+
+  /* These four buttons are colour-scheme samples. Preserve their intentional,
+     accessible swatches so the available modes remain distinguishable. */
+  #brxe-qcwgax [data-contrast] {
+    forced-color-adjust: none;
+  }
+
+  #brxe-qcwgax [data-contrast][aria-pressed="true"],
+  #brxe-qcwgax [data-contrast]:focus-visible {
+    outline: 3px solid Highlight !important;
+    outline-offset: 3px !important;
+  }
+
+  #brxe-qcwgax svg [stroke]:not([stroke="none"]) {
+    stroke: CanvasText !important;
+  }
+
+  /* Footer social marks and the central Bemke logo are inline SVGs with a
+     hard-coded burgundy fill. */
+  #brx-footer svg [fill]:not([fill="none"]),
+  footer svg [fill]:not([fill="none"]) {
+    fill: CanvasText !important;
+  }
+
+  #brx-footer svg [stroke]:not([stroke="none"]),
+  footer svg [stroke]:not([stroke="none"]) {
+    stroke: CanvasText !important;
+  }
+
+  #brx-footer .social-link svg :is([fill="black"], [fill="#000"], [fill="#000000"]),
+  footer .social-link svg :is([fill="black"], [fill="#000"], [fill="#000000"]) {
+    fill: Canvas !important;
+  }
 }
