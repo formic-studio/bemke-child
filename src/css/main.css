@@ -213,11 +213,7 @@
 }
 
 #CybotCookiebotDialog {
-  position: absolute !important;
-}
-
-html:has(#CybotCookiebotDialog.CybotCookiebotDialogActive) body {
-  padding-top: 100vh;
+  position: fixed !important;
 }
 
 #CybotCookiebotDialogBodyContent .CybotCookiebotFader {
@@ -5995,7 +5991,7 @@ body.bemke-solid-cta-surface
 
 /* Images authored as CSS backgrounds are decorative. Render the same files as
    real empty-alt images so automated tools do not mistake them for missing
-   alternative text. The original background remains until the image loads. */
+   alternative text. */
 [data-bemke-decorative-background="1"] {
   isolation: isolate;
   position: relative !important;

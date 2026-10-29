@@ -72,15 +72,9 @@ export function initDecorativeBackgrounds(scope = document) {
 
     surface.dataset.bemkeDecorativeBackground = '1';
     surface.prepend(image);
-
-    const revealImage = () => {
-      surface.dataset.bemkeDecorativeBackgroundReady = '1';
-    };
-
-    if (image.complete) {
-      revealImage();
-    } else {
-      image.addEventListener('load', revealImage, { once: true });
-    }
+    // Remove the authored CSS background in the same task in which the real
+    // decorative image is inserted. Waiting for `load` exposed a short state
+    // in which validators still saw a CSS background without an alt text.
+    surface.dataset.bemkeDecorativeBackgroundReady = '1';
   });
 }

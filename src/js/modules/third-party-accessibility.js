@@ -4,7 +4,11 @@ const COOKIEBOT_TITLE_ID = 'CybotCookiebotDialogBodyContentTitle';
 const COOKIEBOT_TEXT_ID = 'CybotCookiebotDialogBodyContentText';
 const COOKIEBOT_POWERED_BY_ID = 'CybotCookiebotDialogPoweredbyCybot';
 const COOKIEBOT_READY_ATTR = 'data-bemke-cookiebot-a11y-ready';
+const COOKIEBOT_INERT_ATTR = 'data-bemke-cookiebot-inert';
 const COOKIEBOT_TEXT_READY_ATTR = 'data-bemke-cookiebot-text-ready';
+
+let cookieDialogObserver = null;
+let observedCookieDialog = null;
 
 export function initThirdPartyAccessibility() {
   repairCookiebotMarkup();
@@ -45,9 +49,8 @@ function repairCookiebotMarkup() {
   }
 
   repairCookiebotDescription();
-  const dialog = document.getElementById('CybotCookiebotDialog');
-  dialog?.removeAttribute('aria-modal');
-  dialog?.style.setProperty('position', 'absolute', 'important');
+  syncCookiebotModalState();
+  observeCookiebotDialog();
 
   const poweredBy = document.getElementById(COOKIEBOT_POWERED_BY_ID);
 
@@ -201,4 +204,54 @@ function repairCookiebotDescription() {
     }),
   );
   text.setAttribute(COOKIEBOT_TEXT_READY_ATTR, '1');
+}
+
+function observeCookiebotDialog() {
+  const dialog = document.getElementById('CybotCookiebotDialog');
+
+  if (!dialog || dialog === observedCookieDialog) {
+    return;
+  }
+
+  cookieDialogObserver?.disconnect();
+  observedCookieDialog = dialog;
+  cookieDialogObserver = new MutationObserver(syncCookiebotModalState);
+  cookieDialogObserver.observe(dialog, {
+    attributeFilter: ['aria-hidden', 'class'],
+    attributes: true,
+  });
+}
+
+function syncCookiebotModalState() {
+  const dialog = document.getElementById('CybotCookiebotDialog');
+  const pageRegions = document.querySelectorAll(
+    'body > header, body > main, body > footer, body > .bemke-skip-links',
+  );
+  const isActive = Boolean(
+    dialog &&
+    dialog.classList.contains('CybotCookiebotDialogActive') &&
+    dialog.getAttribute('aria-hidden') !== 'true',
+  );
+
+  if (dialog) {
+    if (isActive) {
+      dialog.setAttribute('role', 'dialog');
+      dialog.setAttribute('aria-modal', 'true');
+    } else {
+      dialog.removeAttribute('aria-modal');
+    }
+  }
+
+  pageRegions.forEach((region) => {
+    if (isActive && !region.hasAttribute('inert')) {
+      region.setAttribute('inert', '');
+      region.setAttribute(COOKIEBOT_INERT_ATTR, '1');
+      return;
+    }
+
+    if (!isActive && region.getAttribute(COOKIEBOT_INERT_ATTR) === '1') {
+      region.removeAttribute('inert');
+      region.removeAttribute(COOKIEBOT_INERT_ATTR);
+    }
+  });
 }
