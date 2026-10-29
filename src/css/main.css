@@ -5913,6 +5913,14 @@ body.bemke-solid-cta-surface
   .section_hero
   [data-bemke-hero-text-surface="1"]
   > .bemke-hero-text-surface__inline {
+  background: none !important;
+  padding: 0;
+}
+
+body.bemke-solid-cta-surface
+  .section_hero
+  [data-bemke-hero-text-surface="1"]
+  .bemke-hero-text-surface__segment {
   -webkit-box-decoration-break: clone;
   background-color: var(--wine, var(--theme-wine, #501819)) !important;
   box-decoration-break: clone;
@@ -5924,7 +5932,7 @@ body.bemke-solid-cta-surface
     [data-bemke-hero-intro-complete="1"]
   )
   [data-bemke-hero-text-surface="1"]
-  .bemke-hero-text-surface__inline {
+  .bemke-hero-text-surface__segment {
   background-color: transparent !important;
   padding: 0;
 }

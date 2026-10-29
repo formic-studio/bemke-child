@@ -59,10 +59,101 @@ function addHeroTextSurface(element) {
     return;
   }
 
+  normalizeHeroTextLineBlocks(element);
+
   const inline = document.createElement('span');
   inline.className = 'bemke-hero-text-surface__inline';
-  inline.replaceChildren(...element.childNodes);
-  element.append(inline);
+  appendHeroTextSurfaceSegments(inline, Array.from(element.childNodes));
+  element.replaceChildren(inline);
+}
+
+function appendHeroTextSurfaceSegments(wrapper, nodes) {
+  let segment = createHeroTextSurfaceSegment();
+
+  const flushSegment = () => {
+    if (!segment.childNodes.length) {
+      return;
+    }
+
+    if (segment.textContent.trim()) {
+      wrapper.append(segment);
+    } else {
+      wrapper.append(...segment.childNodes);
+    }
+
+    segment = createHeroTextSurfaceSegment();
+  };
+
+  nodes.forEach((node) => {
+    if (isHeroTextLineBreak(node)) {
+      flushSegment();
+      wrapper.append(node);
+      return;
+    }
+
+    segment.append(node);
+  });
+
+  flushSegment();
+}
+
+function createHeroTextSurfaceSegment() {
+  const segment = document.createElement('span');
+  segment.className = 'bemke-hero-text-surface__segment';
+  return segment;
+}
+
+function isHeroTextLineBreak(node) {
+  return (
+    node.nodeType === Node.ELEMENT_NODE &&
+    (node.tagName === 'BR' || node.classList.contains('bemke-heading-break'))
+  );
+}
+
+function normalizeHeroTextLineBlocks(element) {
+  Array.from(element.children)
+    .filter((child) => child.tagName === 'DIV')
+    .forEach((block) => {
+      const line = document.createElement('span');
+
+      Array.from(block.attributes).forEach(({ name, value }) => {
+        line.setAttribute(name, value);
+      });
+
+      line.classList.add('bemke-hero-text-surface__line');
+      line.replaceChildren(...block.childNodes);
+
+      if (hasLineContentBefore(block)) {
+        const lineBreak = document.createElement('br');
+        lineBreak.className = 'bemke-hero-text-surface__break';
+        lineBreak.setAttribute('aria-hidden', 'true');
+        block.replaceWith(lineBreak, line);
+        return;
+      }
+
+      block.replaceWith(line);
+    });
+}
+
+function hasLineContentBefore(element) {
+  let sibling = element.previousSibling;
+
+  while (sibling) {
+    if (sibling.nodeType === Node.TEXT_NODE) {
+      if (sibling.textContent.trim()) {
+        return true;
+      }
+    } else if (sibling.nodeType === Node.ELEMENT_NODE) {
+      return (
+        sibling.tagName !== 'BR' &&
+        !sibling.classList.contains('bemke-heading-break')
+      );
+    }
+
+    sibling = sibling.previousSibling;
+  }
+
+  return false;
 }
 
 function structureDonorTitles(scope = document) {
