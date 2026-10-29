@@ -266,11 +266,16 @@ html:has(#CybotCookiebotDialog.CybotCookiebotDialogActive) body {
   #brx-footer #brxe-jcaify,
   #brx-footer #brxe-pmznhf
 ) {
-  background-color: var(--yellow, var(--theme-yellow, #f9bb59)) !important;
+  background-color: transparent !important;
   background-image: none !important;
-  isolation: isolate;
-  position: relative;
-  z-index: 1;
+  isolation: auto !important;
+  position: static !important;
+  z-index: auto !important;
+}
+
+#brx-footer,
+#brxe-yzewhv {
+  background-color: var(--yellow, var(--theme-yellow, #f9bb59)) !important;
 }
 
 :is(
@@ -293,6 +298,29 @@ html:has(#CybotCookiebotDialog.CybotCookiebotDialogActive) body {
 
 .bemke-heading-break {
   display: block;
+}
+
+.bemke-feature-card-heading-line {
+  display: block;
+}
+
+.brxe-befjdw {
+  background-color: var(--eggshell, var(--theme-eggshell, #ffe9c6)) !important;
+  isolation: isolate;
+  overflow: hidden;
+  position: relative;
+}
+
+.brxe-befjdw > img.brxe-honyul {
+  display: block !important;
+  height: 100% !important;
+  left: auto !important;
+  object-fit: cover;
+  object-position: right center;
+  position: absolute !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 30% !important;
 }
 
 #brxe-bphwlu {
@@ -5387,6 +5415,26 @@ html[data-contrast]:not([data-contrast="default"])
     0 0 0 4px var(--brown, var(--theme-brown, #1b0508));
   outline: 3px solid var(--brown, var(--theme-brown, #1b0508)) !important;
   outline-offset: 3px;
+}
+
+#brxe-pxhfen:focus {
+  outline: 4px solid var(--brown, var(--theme-brown, #1b0508)) !important;
+  outline-offset: 4px !important;
+}
+
+#brxe-wdrqee:focus {
+  outline: 4px solid var(--brown, var(--theme-brown, #1b0508)) !important;
+  outline-offset: 4px !important;
+}
+
+#brxe-jydvjv:focus {
+  outline: 4px solid var(--brown, var(--theme-brown, #1b0508)) !important;
+  outline-offset: 4px !important;
+}
+
+#brxe-pnbult:focus {
+  outline: 4px solid var(--brown, var(--theme-brown, #1b0508)) !important;
+  outline-offset: 4px !important;
 }
 
 :is(.btn-yellow-hover, .btn-yellow-light-hover, .btn-egg-hover, .btn-red-hover, .btn-mustard-hover, .btn-red-yellow-hover, .btn-wine)::before {

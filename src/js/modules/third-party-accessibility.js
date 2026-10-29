@@ -83,6 +83,33 @@ function repairCachedPageMarkup() {
     link.removeAttribute('aria-describedby');
   });
 
+  ['brxe-bjrnrb', 'brxe-qyzvks', 'brxe-cdetrh', 'brxe-tqikrx'].forEach((id) => {
+    const current = document.getElementById(id);
+
+    if (!current || current.tagName === 'H3') {
+      return;
+    }
+
+    const heading = document.createElement('h3');
+
+    Array.from(current.attributes).forEach(({ name, value }) => {
+      heading.setAttribute(name, value);
+    });
+
+    while (current.firstChild) {
+      heading.appendChild(current.firstChild);
+    }
+
+    heading.querySelectorAll(':scope > div').forEach((line) => {
+      const span = document.createElement('span');
+      span.className = 'bemke-feature-card-heading-line';
+      span.innerHTML = line.innerHTML;
+      line.replaceWith(span);
+    });
+
+    current.replaceWith(heading);
+  });
+
   const newsletter = document.getElementById('brxe-bphwlu');
 
   if (newsletter && !newsletter.querySelector('.bemke-newsletter-decorative-image')) {
