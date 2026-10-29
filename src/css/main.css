@@ -302,25 +302,6 @@ html:has(#CybotCookiebotDialog.CybotCookiebotDialogActive) body {
   display: block;
 }
 
-.brxe-befjdw {
-  background-color: var(--eggshell, var(--theme-eggshell, #ffe9c6)) !important;
-  isolation: isolate;
-  overflow: hidden;
-  position: relative;
-}
-
-.brxe-befjdw > img.brxe-honyul {
-  display: block !important;
-  height: 100% !important;
-  left: auto !important;
-  object-fit: cover;
-  object-position: right center;
-  position: absolute !important;
-  right: 0 !important;
-  top: 0 !important;
-  width: 30% !important;
-}
-
 #brxe-bphwlu {
   background-image: none !important;
   isolation: isolate;
@@ -3304,8 +3285,13 @@ footer #brxe-xbishl:is(:hover, :focus-visible) > .bemke-footer-address-line::aft
 footer #brxe-xbishl > .bemke-footer-address-line {
   background-image: none !important;
   display: block;
-  position: relative;
+  position: relative !important;
   width: fit-content;
+}
+
+#brx-footer :is(#brxe-jcaify, #brxe-pmznhf),
+footer :is(#brxe-jcaify, #brxe-pmznhf) {
+  position: relative !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
